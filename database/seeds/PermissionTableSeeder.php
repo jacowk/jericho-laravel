@@ -32,6 +32,7 @@ class PermissionTableSeeder extends Seeder
     			'TITLE',
     			'TRANSACTION_TYPE',
     			'MILESTONE',
+    			'MILESTONE_TYPE',
     			'NOTE',
     			'PERMISSION',
     			'PROPERTY',
@@ -47,12 +48,13 @@ class PermissionTableSeeder extends Seeder
     	{
     		foreach($permission_prefix_array as $permission_prefix)
     		{
-    			$permission_name = $permission_prefix . '_' . $permission_value; 
+    			$permission_name = $permission_prefix . '_' . $permission_value;
+    			$formatted_name = $this->formatName($permission_name);
     			$permission = new Permission();
-    			$permission->name = $permission_name;
+    			$permission->name = $formatted_name;
     			$permission->created_by_id = 1;
     			$permission->save();
-    			$this->writeToFile($permission_name);
+    			$this->writeToFile($permission_name, $formatted_name);
     		}
     	}
     	
@@ -72,16 +74,25 @@ class PermissionTableSeeder extends Seeder
     	);
     	foreach($add_permissions_array as $permission_name)
     	{
+    		$formatted_name = $this->formatName($permission_name);
     		$permission = new Permission();
-    		$permission->name = $permission_name;
+    		$permission->name = $formatted_name;
     		$permission->created_by_id = 1;
     		$permission->save();
-    		$this->writeToFile($permission_name);
+    		$this->writeToFile($permission_name, $formatted_name);
     	}
     }
     
-    private function writeToFile($permission_name)
+    private function formatName($permission_name)
     {
-    	Util::writeToFile('const ' . $permission_name . ' = ' . '\'' . $permission_name . '\';');
+    	$formatted_name = str_replace('_', ' ', $permission_name);
+    	$formatted_name = strtolower($formatted_name);
+    	$formatted_name = ucwords($formatted_name);
+    	return $formatted_name;
+    }
+    
+    private function writeToFile($permission_name, $formatted_name)
+    {
+    	Util::writeToFile('const ' . $permission_name . ' = ' . '\'' . $formatted_name . '\';');
     }
 }

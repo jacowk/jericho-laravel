@@ -15,22 +15,23 @@ class PermissionRoleTableSeeder extends Seeder
     public function run()
     {
     	$superUserRole = Role::where('name', 'like', 'Super User')->first();
+		$permissions = Permission::all();
+    	
+// 		$permissions = array(
+// 				PermissionConstants::VIEW_USER,
+// 				PermissionConstants::ADD_USER,
+// 				PermissionConstants::UPDATE_USER,
+// 				PermissionConstants::VIEW_ROLE,
+// 				PermissionConstants::ADD_ROLE,
+// 				PermissionConstants::UPDATE_ROLE,
+// 				PermissionConstants::VIEW_PERMISSION,
+// 				PermissionConstants::ADD_PERMISSION,
+// 				PermissionConstants::UPDATE_PERMISSION
+// 		);
 		
-		$permissions = array(
-				PermissionConstants::VIEW_USER,
-				PermissionConstants::ADD_USER,
-				PermissionConstants::UPDATE_USER,
-				PermissionConstants::VIEW_ROLE,
-				PermissionConstants::ADD_ROLE,
-				PermissionConstants::UPDATE_ROLE,
-				PermissionConstants::VIEW_PERMISSION,
-				PermissionConstants::ADD_PERMISSION,
-				PermissionConstants::UPDATE_PERMISSION
-		);
-		
-		foreach($permissions as $permission_name)
+		foreach($permissions as $permission)
 		{
-			$permission = Permission::where('name', 'like', $permission_name)->first();
+// 			$permission = Permission::where('name', 'like', $permission_name)->first();
 			$superUserRole->permissions()->attach($permission);
 		}
     }

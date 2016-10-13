@@ -52,5 +52,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionRoleTableSeeder::class);
         $this->call(RoleUserTableSeeder::class);
         $this->call(LookupPropertyTypeTableSeeder::class);
+        $this->call(LookupMilestoneTypeTableSeeder::class);
     }
 }

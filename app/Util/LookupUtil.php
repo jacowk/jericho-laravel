@@ -27,6 +27,18 @@ use DB;
 
 class LookupUtil
 {
+	public static function retrieveLookupMilestoneTypes()
+	{
+		$lookup_milestone_types = LookupMilestoneType::all();
+		$milestone_types = array();
+		$milestone_types[-1] = "Select Milestone Type";
+		foreach($lookup_milestone_types as $milestone_type)
+		{
+			$milestone_types[$milestone_type->id] = $milestone_type->description;
+		}
+		return $milestone_types;
+	}
+	
 	public static function retrieveLookupEstateAgentTypes()
 	{
 		$lookup_estate_agent_types = LookupEstateAgentType::all();

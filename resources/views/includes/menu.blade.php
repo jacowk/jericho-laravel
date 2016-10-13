@@ -80,6 +80,10 @@
 									<li><a href="{{ url('/search-property-type') }}">Property Types</a></li>
 								@endif
 								
+								@if (MenuDisplayValidator::canDisplayMilestoneTypesMenu())
+									<li><a href="{{ url('/search-milestone-type') }}">Milestone Types</a></li>
+								@endif
+								
 								@if (MenuDisplayValidator::canDisplayTitlesMenu())
 									<li><a href="{{ url('/search-title') }}">Titles</a></li>
 								@endif

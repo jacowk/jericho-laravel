@@ -32,6 +32,7 @@ class MenuDisplayValidator
 			MenuDisplayValidator::canDisplayEstateAgentTypesMenu() ||
 			MenuDisplayValidator::canDisplayMaritalStatusesMenu() ||
 			MenuDisplayValidator::canDisplayPropertyTypesMenu() ||
+			MenuDisplayValidator::canDisplayMilestoneTypesMenu() ||
 			MenuDisplayValidator::canDisplayTitlesMenu() ||
 			MenuDisplayValidator::canDisplayTransactionTypesMenu();
 	}
@@ -88,6 +89,12 @@ class MenuDisplayValidator
 	public static function canDisplayPropertyTypesMenu()
 	{
 		return PermissionValidator::hasPermission(PermissionConstants::VIEW_PROPERTY_TYPE);
+	}
+	
+	/* Submenu of Setup menu */
+	public static function canDisplayMilestoneTypesMenu()
+	{
+		return PermissionValidator::hasPermission(PermissionConstants::VIEW_MILESTONE_TYPE);
 	}
 	
 	/* Submenu of Setup menu */

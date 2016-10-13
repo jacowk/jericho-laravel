@@ -43,6 +43,7 @@ include 'followup-routes.php';
 include 'greater-area-routes.php';
 include 'marital-status-routes.php';
 include 'milestone-routes.php';
+include 'milestone-type-routes.php';
 include 'note-routes.php';
 include 'property-flip-routes.php';
 include 'property-routes.php';
