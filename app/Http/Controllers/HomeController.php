@@ -25,16 +25,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-    	/*
-    	select p.address_line_1, di.comments
-			from diary_items di, users u, property_flips pf, properties p
-				where di.allocated_user_id = u.id
-				and di.property_flip_id = pf.id
-				and pf.property_id = p.id
-				and di.allocated_user_id = 1
-				and di.followup_date = curdate()
-				and di.status_id = 1;
-    	*/
     	$user = Auth::user();
     	$todays_diary_items = DB::table('diary_items')
 						->join('users', 'diary_items.allocated_user_id', '=', 'users.id')
