@@ -1,0 +1,231 @@
+<?php
+
+namespace jericho\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Input;
+
+use jericho\Http\Requests;
+use jericho\User;
+use jericho\Util\Util;
+use jericho\Role;
+use jericho\Util\LookupUtil;
+use DB;
+
+/**
+ * This class is a controller for performing CRUD operations on users
+ *
+ * @author Jaco Koekemoer
+ * Date: 2016-09-29
+ *
+ */
+class UserController extends Controller
+{
+	/**
+	 * Load search page
+	 *
+	 * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+	 */
+	public function getSearchUser()
+	{
+		return view('user.search-user');
+	}
+	
+	/**
+	 * Search for users
+	 *
+	 * @param Request $request
+	 * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+	 */
+	public function postDoSearchUser(Request $request)
+	{
+		if (isset($request->firstname) && !is_null($request->firstname) && strlen($request->firstname) > 0)
+		{
+			$firstname = $request->firstname;
+			$surname = $request->surname;
+			$users = User::where('firstname', 'like', '%' . $firstname . '%')
+							->where('surname', 'like', '%' . $surname . '%')
+							->orderBy('firstname', 'asc')
+							->orderBy('surname', 'asc')
+							->get();
+		}
+		else
+		{
+			$users = User::orderBy('firstname', 'asc')
+						->orderBy('surname', 'asc')
+						->get();
+		}
+		return view('user.search-user', ['users' => $users]);
+	}
+	
+	/**
+	 * Load page to add an user
+	 *
+	 * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+	 */
+	public function getAddUser()
+	{
+		$roles = LookupUtil::retrieveRolesForCheckboxes();
+		return view('user.add-user', [ 'roles' => $roles ]);
+	}
+	
+	/**
+	 * Add an user
+	 *
+	 * @param Request $request
+	 * @return \Illuminate\Http\RedirectResponse
+	 */
+	public function postDoAddUser(Request $request)
+	{
+// 		$this->validate($request, [
+// 			'firstname' => 'required',
+// 			'surname' => 'required',
+// 			'email' => 'required|email|unique:users',
+// 			'password' => 'required'
+// 		]);
+		$validator = Validator::make($request->all(), [
+			'firstname' => 'required',
+			'surname' => 'required',
+			'email' => 'required|email|unique:users',
+			'password' => 'required'
+		]);
+		
+		if ($validator->fails()) {
+			return redirect()
+				->route('add-user')
+				->withErrors($validator)
+				->withInput(Input::except('password'));
+		}
+		$user = Auth::user();
+		$new_user = new User();
+		$new_user->firstname = Util::getQueryParameter($request->firstname);
+		$new_user->surname = Util::getQueryParameter($request->surname);
+		$new_user->email = Util::getQueryParameter($request->email);
+		$new_user->password = bcrypt(Util::getQueryParameter($request->password));
+		$new_user->created_by_id = $user->id;
+		$new_user->save();
+		$this->processRoles($request, $new_user);
+		return redirect()->action('UserController@getViewUser', ['user_Id' => $new_user->id])
+		->with(['message' => 'User saved']);
+	}
+	
+	/**
+	 * Load page to update an user
+	 *
+	 * @param Request $request
+	 * @param unknown $user_id
+	 * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+	 */
+	public function getUpdateUser(Request $request, $user_id)
+	{
+		$user = User::find($user_id);
+		$roles = LookupUtil::retrieveRolesForCheckboxes($user->roles);
+		return view('user.update-user', ['user' => $user, 'roles' => $roles]);
+	}
+	
+	/**
+	 * Update an user
+	 *
+	 * @param Request $request
+	 * @param unknown $user_id
+	 * @return \Illuminate\Http\RedirectResponse
+	 */
+	public function postDoUpdateUser(Request $request, $user_id)
+	{
+// 		$this->validate($request, [
+// 			'firstname' => 'required',
+// 			'surname' => 'required',
+// 			'email' => 'required|email',
+// 		]);
+		
+		$validator = Validator::make($request->all(), [
+			'firstname' => 'required',
+			'surname' => 'required',
+			'email' => 'required|email'
+		]);
+		
+		if ($validator->fails()) {
+			return redirect()
+				->route('update-user', ['user_id' => $user_id])
+				->withErrors($validator)
+				->withInput(Input::except('password'));
+		}
+		
+		/* TODO: Validate that the email is unique excluding the current user id */
+		$current_emails = DB::table('users')
+							->where('email', '=', $request->email)
+							->where('id', '<>', $user_id)
+							->get();
+		
+// 		echo count($current_emails);
+// 		echo '<br>' . $request->email;
+// 		echo '<br>' . $user_id;
+// 		return;
+		
+		if (count($current_emails) == 0)
+		{
+			$user = Auth::user();
+			$update_user = User::find($user_id);
+			$update_user->firstname = Util::getQueryParameter($request->firstname);
+			$update_user->surname = Util::getQueryParameter($request->surname);
+			$update_user->email = Util::getQueryParameter($request->email);
+			$update_user->updated_by_id = $user->id;
+			$update_user->save();
+			$this->processRolesForUpdate($request, $update_user);
+			return redirect()->action('UserController@getViewUser', ['user_Id' => $update_user->id])
+				->with(['message' => 'User updated']);
+		}
+		//TODO: Handle if email is duplicate
+	}
+	
+	/**
+	 * Load the page to view an user
+	 *
+	 * @param Request $request
+	 * @param unknown $user_id
+	 * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+	 */
+	public function getViewUser(Request $request, $user_id)
+	{
+		$user = User::find($user_id);
+		return view('user.view-user', [
+				'user' => $user
+		]);
+	}
+	
+	/**
+	 * Attach roles to the new user
+	 *
+	 * @param Request $request
+	 * @param unknown $new_user
+	 */
+	private function processRoles(Request $request, $user)
+	{
+		$roles = Role::all();
+		foreach ($roles as $role)
+		{
+			$role_name = Util::convertNameForForm($role->name);
+			if ($request->$role_name)
+			{
+				$user->roles()->attach($role);
+			}
+		}
+	}
+	
+	/**
+	 * Attach roles to the new user for update
+	 *
+	 * @param Request $request
+	 * @param unknown $new_user
+	 */
+	private function processRolesForUpdate(Request $request, $user)
+	{
+		/* Detach all existing roles */
+		$user->roles()->detach();
+	
+		/* Add new roles */
+		$this->processRoles($request, $user);
+	}
+}

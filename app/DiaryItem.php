@@ -1,0 +1,36 @@
+<?php
+
+namespace jericho;
+
+use OwenIt\Auditing\Auditable;
+use Illuminate\Database\Eloquent\Model;
+
+class DiaryItem extends Model
+{
+	use Auditable;
+	
+	public function property_flip()
+    {
+    	return $this->belongsTo('jericho\PropertyFlip');
+    }
+    
+    public function followup_items()
+    {
+    	return $this->hasMany('jericho\FollowupItem');
+    }
+    
+    public function allocated_user()
+    {
+    	return $this->belongsTo('jericho\User');
+    }
+    
+    public function followup_user()
+    {
+    	return $this->belongsTo('jericho\User');
+    }
+    
+    public function status()
+    {
+    	return $this->belongsTo('jericho\DiaryItemStatus');
+    }
+}

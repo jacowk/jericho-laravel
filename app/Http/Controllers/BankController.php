@@ -1,0 +1,155 @@
+<?php
+
+namespace jericho\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+
+use jericho\Http\Requests;
+use jericho\Bank;
+use jericho\Util\ModelConstants;
+use jericho\Util\Util;
+
+/**
+ * This class is a controller for performing CRUD operations on banks
+ * 
+ * @author Jaco Koekemoer
+ * Date: 2016-09-12
+ *
+ */
+class BankController extends Controller
+{
+	/**
+	 * Load search page
+	 * 
+	 * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+	 */
+    public function getSearchBank()
+    {
+    	return view('bank.search-bank');
+    }
+    
+    /**
+     * Search for banks
+     * 
+     * @param Request $request
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function postDoSearchBank(Request $request)
+    {
+    	if (isset($request->name) && !is_null($request->name) && strlen($request->name) > 0)
+    	{
+    		$name = $request->name;
+    		$banks = Bank::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->get();
+    	}
+    	else 
+    	{
+    		$banks = Bank::orderBy('name', 'asc')->get();
+    	}
+    	return view('bank.search-bank', ['banks' => $banks]);
+    }
+    
+    /**
+     * Load page to add an bank
+     * 
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function getAddBank()
+    {
+    	return view('bank.add-bank');
+    }
+    
+    /**
+     * Add an bank
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postDoAddBank(Request $request)
+    {
+//     	$this->validate($request, [
+//     	 	'name' => 'required|unique:banks'
+//     	]);
+    	$validator = Validator::make($request->all(), [
+    			'name' => 'required|unique:banks'
+    	]);
+    	
+    	if ($validator->fails()) {
+    		return redirect()
+	    		->route('add-bank')
+	    		->withErrors($validator)
+	    		->withInput();
+    	}
+    	$user = Auth::user();
+    	$bank = new Bank();
+    	$bank->name = Util::getQueryParameter($request->name);
+    	$bank->created_by_id = $user->id;
+    	$bank->save();
+    	return redirect()->action('BankController@getViewBank', ['bank_Id' => $bank->id])
+    	 		->with(['message' => 'Bank saved']);
+    }
+    
+    /**
+     * Load page to update an bank
+     * 
+     * @param Request $request
+     * @param unknown $bank_id
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function getUpdateBank(Request $request, $bank_id)
+    {
+    	$bank = Bank::find($bank_id);
+    	return view('bank.update-bank', ['bank' => $bank]);
+    }
+    
+    /**
+     * Update an bank
+     * 
+     * @param Request $request
+     * @param unknown $bank_id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postDoUpdateBank(Request $request, $bank_id)
+    {
+//     	$this->validate($request, [
+//     			'name' => 'required'
+//     	]);
+    	$validator = Validator::make($request->all(), [
+    			'name' => 'required'
+    	]);
+    	
+    	if ($validator->fails()) {
+    		return redirect()
+	    		->route('update-bank', ['bank_id' => $bank_id])
+	    		->withErrors($validator)
+	    		->withInput();
+    	}
+    	$user = Auth::user();
+    	$bank = Bank::find($bank_id);
+    	$bank->name = Util::getQueryParameter($request->name);
+    	$bank->updated_by_id = $user->id;
+    	$bank->save();
+    	return redirect()->action('BankController@getViewBank', ['bank_Id' => $bank->id])
+    	->with(['message' => 'Bank updated']);
+    }
+    
+    /**
+     * Load the page to view an bank
+     * 
+     * @param Request $request
+     * @param unknown $bank_id
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function getViewBank(Request $request, $bank_id)
+    {
+    	$bank = Bank::find($bank_id);
+    	$contacts = $bank->contacts()->get();
+    	return view('bank.view-bank', [
+    			'bank' => $bank,
+    			'contacts' => $contacts,
+    			'model_name' => ModelConstants::BANK_MODEL_NAME,
+    			'model_id'=> $bank_id
+    	]);
+    }
+}

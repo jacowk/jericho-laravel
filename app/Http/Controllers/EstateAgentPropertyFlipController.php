@@ -1,0 +1,155 @@
+<?php
+
+namespace jericho\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+
+use jericho\Http\Requests;
+use jericho\PropertyFlip;
+use jericho\Contact;
+use jericho\Util\Util;
+use jericho\Util\LookupUtil;
+use jericho\EstateAgent;
+use Carbon\Carbon;
+use jericho\LookupEstateAgentType;
+use DB;
+use jericho\Util\TabConstants;
+
+/**
+ * This class is a controller for linking the contacts of estate agents to property flips
+ *
+ * @author Jaco Koekemoer
+ * Date: 2016-09-27
+ *
+ */
+class EstateAgentPropertyFlipController extends Controller
+{
+	/**
+	 * Post link estate agent
+	 *
+	 * @param Request $request
+	 * @param unknown $property_flip_id
+	 */
+	public function postLinkContactEstateAgent(Request $request)
+	{
+		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::ESTATE_AGENTS_TAB);
+		$property_flip_id = Util::getQueryParameter($request->property_flip_id);
+		$estate_agents = LookupUtil::retrieveEstateAgents();
+		$lookup_estate_agent_types = LookupUtil::retrieveLookupEstateAgentTypes();
+		$contacts = array();
+		$contacts['-1'] = "Select Estate Agent Contact";
+		return view ('property-flip.link-contact-estate-agent', [
+				'estate_agents' => $estate_agents,
+				'property_flip_id' => $property_flip_id,
+				'contacts' => $contacts,
+				'lookup_estate_agent_types' => $lookup_estate_agent_types
+		]);
+	}
+	
+	/**
+	 * Do the actual linking of the estate agent contact to the property flip
+	 *
+	 * @param Request $request
+	 */
+	public function postDoLinkContactEstateAgent(Request $request)
+	{
+		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::ESTATE_AGENTS_TAB);
+		$validator = Validator::make($request->all(), [
+				'property_flip_id' => 'required',
+				'estate_agent_id' => 'required|not_in:-1',
+				'contact_id' => 'required|not_in:-1',
+				'lookup_estate_agent_type_id' => 'required|not_in:-1'
+		]);
+		
+		if ($validator->fails()) {
+			return redirect()
+				->route('link-contact-estate-agent')
+				->withErrors($validator)
+				->withInput();
+		}
+		$user = Auth::user();
+		$property_flip_id = Util::getQueryParameter($request->property_flip_id);
+		$estate_agent_id = Util::getQueryParameter($request->estate_agent_id);
+		$contact_id = Util::getQueryParameter($request->contact_id);
+		$lookup_estate_agent_type_id = Util::getQueryParameter($request->lookup_estate_agent_type_id);
+		$property_flip = PropertyFlip::find($property_flip_id);
+		$estate_agent = EstateAgent::find($estate_agent_id);
+		$contact = Contact::find($contact_id);
+		if (!$this->isDuplicate($property_flip_id, $contact_id, $lookup_estate_agent_type_id))
+		{
+			$property_flip->estate_agents()->attach($contact, [
+					'lookup_estate_agent_type_id' => $lookup_estate_agent_type_id,
+					'created_by_id' => $user->id,
+					'created_at'=> new Carbon
+			]);
+			return redirect()->action('PropertyFlipController@getViewPropertyFlip', ['property_flip_Id' => $property_flip->id])
+				->with(['message' => 'Estate Agent Contact linked']);
+		}
+		return redirect()->action('PropertyFlipController@getViewPropertyFlip', ['property_flip_Id' => $property_flip->id]);
+		
+// 		return redirect()->action('EstateAgentPropertyFlipController@postLinkContactEstateAgent', ['property_flip_Id' => $property_flip->id])
+// 			->with(['message' => 'Estate Agent Contact already added to the property flip']);
+	}
+	
+	/**
+	 * Validate if the estate agent contact was not already added for the property flip
+	 * 
+	 * @param unknown $property_flip
+	 * @param unknown $contact_id
+	 * @return boolean
+	 */
+	private function isDuplicate($property_flip_id, $contact_id, $lookup_estate_agent_type_id)
+	{
+		$estate_agent_contacts = DB::table('estate_agent_property_flip')
+			->where('contact_id', '=', $contact_id)
+			->where('property_flip_id', '=', $property_flip_id)
+			->where('lookup_estate_agent_type_id', '=', $lookup_estate_agent_type_id)
+			->select('estate_agent_property_flip.contact_id')
+			->get();
+		if (count($estate_agent_contacts) >= 1)
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Get the contacts for the selected estate agents via ajax
+	 *
+	 * @param Request $request
+	 * @return string
+	 */
+	public function postAjaxContactEstateAgents(Request $request)
+	{
+		$estate_agent_id = Util::getQueryParameter($request->estate_agent_id);
+		$estate_agent_contacts = LookupUtil::retrieveContactEstateAgentsAjax($estate_agent_id);
+		Util::writeToFile(json_encode($estate_agent_contacts));
+		return json_encode($estate_agent_contacts);
+	}
+	
+	/**
+	 * Do the actual linking of the estate agent contact to the property flip
+	 *
+	 * @param Request $request
+	 */
+	public function postDoLinkContactEstateAgentDelete(Request $request)
+	{
+		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::ESTATE_AGENTS_TAB);
+		$user = Auth::user();
+		$property_flip_id = Util::getQueryParameter($request->property_flip_id);
+		$contact_id = Util::getQueryParameter($request->contact_id);
+		$lookup_estate_agent_type_id = Util::getQueryParameter($request->lookup_estate_agent_type_id);
+		$property_flip = PropertyFlip::find($property_flip_id);
+		$contact = Contact::find($contact_id);
+		DB::table('estate_agent_property_flip')
+			->where('contact_id', '=', $contact_id)
+			->where('property_flip_id', '=', $property_flip_id)
+			->where('lookup_estate_agent_type_id', '=', $lookup_estate_agent_type_id)
+			->limit(1)
+			->delete();
+		return redirect()->action('PropertyFlipController@getViewPropertyFlip', ['property_flip_Id' => $property_flip->id])
+			->with(['message' => 'Estate Agent Contact removed from Property Flip']);
+	}
+}
