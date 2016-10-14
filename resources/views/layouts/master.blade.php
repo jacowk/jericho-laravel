@@ -17,6 +17,7 @@
 	    <script type="text/javascript" src="{{ URL::asset('js/run_prettify.js') }}"></script>
 	    <script type="text/javascript" src="{{ URL::asset('js/jquery.bootstrap-duallistbox.js') }}"></script>
 	    <script type="text/javascript" src="{{ URL::asset('js/jquery.inputmask.bundle.js') }}"></script>
+	    <script type="text/javascript" src="{{ URL::asset('js/jquery.datetimepicker.full.js') }}"></script>
 	    
 	    <!-- Styles -->
 	    <link href="{{ URL::asset('css/font-awesome.min.css') }}" rel="stylesheet">
@@ -26,6 +27,7 @@
 	    <link href="{{ URL::asset('css/app.css') }}" rel="stylesheet">
 	    <link href="{{ URL::asset('css/prettify.min.css') }}" rel="stylesheet">
 	    <link href="{{ URL::asset('css/bootstrap-duallistbox.css') }}" rel="stylesheet">
+	    <link href="{{ URL::asset('css/jquery.datetimepicker.min.css') }}" rel="stylesheet">
 	    
 	    <script>
 	        window.Laravel = <?php echo json_encode([

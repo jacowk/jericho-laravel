@@ -50,10 +50,16 @@
 			</div>
 		{{  Form::close() }}
 	</div>
-	<script text="text/javascript" language="javascript">
+	<script type="text/javascript">
 		$( function() {
-		    $( "#followup_date" ).datepicker({
-		    	dateFormat: "yy-mm-dd"
+// 		    $( "#followup_date" ).datepicker({
+// 		    	dateFormat: "yy-mm-dd"
+// 			});
+
+			$('#followup_date').datetimepicker({
+				formatTime:'H:i',
+				formatDate:'Y-m-d',
+				step:5
 			});
 		});
 	</script>

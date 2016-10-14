@@ -3,6 +3,7 @@ namespace jericho\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 use jericho\Http\Requests;
 use jericho\PropertyFlip;
@@ -66,9 +67,11 @@ class PropertyFlipController extends Controller
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::GENERAL_TAB);
 		$property = Property::find($property_id);
 		$contacts = LookupUtil::retrieveContactsLookup();
+		$finance_statuses = LookupUtil::retrieveFinanceStatusLookup();
 		return view('property-flip.add-property-flip', [
 			'property' => $property,
-			'contacts' => $contacts
+			'contacts' => $contacts,
+			'finance_statuses' => $finance_statuses
 		]);
 	}
 	
@@ -104,15 +107,10 @@ class PropertyFlipController extends Controller
 		$property_flip->selling_price = Util::processCurrencyValue($request->selling_price);
 		$property_flip->purchaser_id = Util::getQueryParameter($request->purchaser_id);
 		$property_flip->purchase_price = Util::processCurrencyValue($request->purchase_price);
+		$property_flip->finance_status_id = Util::getQueryParameter($request->finance_status_id);
 		$property_flip->property_id = Util::getQueryParameter($request->property_id);
 		$property_flip->created_by_id = $user->id;
 		$property_flip->save();
-		
-		/* Store a new instance of milesone */
-		$milestone = new Milestone();
-		$milestone->created_by_id = $user->id;
-		$property_flip->milestone()->save($milestone);
-		
 		return redirect()->action('PropertyFlipController@getViewPropertyFlip', ['property_flip_Id' => $property_flip->id])
 			->with(['message' => 'PropertyFlip saved']);
 	}
@@ -129,9 +127,11 @@ class PropertyFlipController extends Controller
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::GENERAL_TAB);
 		$property_flip = PropertyFlip::find($property_flip_id);
 		$contacts = LookupUtil::retrieveContactsLookup();
+		$finance_statuses = LookupUtil::retrieveFinanceStatusLookup();
 		return view('property-flip.update-property-flip', [
 			'property_flip' => $property_flip,
-			'contacts' => $contacts
+			'contacts' => $contacts,
+			'finance_statuses' => $finance_statuses
 		]);
 	}
 	
@@ -169,6 +169,7 @@ class PropertyFlipController extends Controller
 		$property_flip->selling_price = Util::processCurrencyValue($request->selling_price);
 		$property_flip->purchaser_id = Util::getQueryParameter($request->purchaser_id);
 		$property_flip->purchase_price = Util::processCurrencyValue($request->purchase_price);
+		$property_flip->finance_status_id = Util::getQueryParameter($request->finance_status_id);
 		$property_flip->property_id = Util::getQueryParameter($request->property_id);
 		$property_flip->updated_by_id = $user->id;
 		$property_flip->save();

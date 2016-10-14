@@ -18,7 +18,7 @@
 			</div>
 			
 			<div role="tabpanel" class="tab-pane" id="open">
-				@include('diary.list-open-diary-items')
+				@include('diary.list-historic-diary-items')
 			</div>
 		</div>
 	@else

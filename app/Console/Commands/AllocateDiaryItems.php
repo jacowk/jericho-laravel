@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use jericho\DiaryItem;
 use DB;
+use DateTime;
 
 /**
  * An artisan that is to be scheduled to allocate diary items to users for followup, for the current date.
@@ -48,7 +49,22 @@ class AllocateDiaryItems extends Command
     public function handle()
     {
     	Log::info("Allocating diary items: " . date('Y-m-d H:i:s'));
-    	$diary_items_to_allocate = DiaryItem::where('followup_date', date('Y-m-d')) /* Current date */
+//     	$diary_items_to_allocate = DiaryItem::where('followup_date', date('Y-m-d')) /* Current date */
+// 	    								->where('status_id', 1) /* Open status */
+// 	    								->whereRaw('(allocated_user_id is null or followup_user_id <> allocated_user_id)')
+//     									->get();
+    	
+//     	$now = new DateTime();
+// Log::info("Now: " . date_format($now, 'Y-m-d H:i:s'));
+    	
+    	$this_morning = new DateTime('today');
+// Log::info("Today: " . date_format($today, 'Y-m-d H:i:s'));
+
+    	$tomorrow_morning = new DateTime('tomorrow');
+// Log::info("Tomorrow: " . date_format($tomorrow, 'Y-m-d H:i:s'));
+
+
+    	$diary_items_to_allocate = DiaryItem::whereBetween('followup_date', [$this_morning, $tomorrow_morning]) /* Current date */
 	    								->where('status_id', 1) /* Open status */
 	    								->whereRaw('(allocated_user_id is null or followup_user_id <> allocated_user_id)')
     									->get();

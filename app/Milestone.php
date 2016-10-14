@@ -14,8 +14,8 @@ class Milestone extends Model
     	return $this->belongsTo('jericho\PropertyFlip');
     }
     
-    public function finance_status()
+    public function lookup_milestone_type()
     {
-    	return $this->belongsTo('jericho\FinanceStatus');
+    	return $this->belongsTo('jericho\LookupMilestoneType', 'milestone_type_id');
     }
 }

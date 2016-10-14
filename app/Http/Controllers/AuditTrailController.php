@@ -3,6 +3,7 @@
 namespace jericho\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use jericho\Http\Requests;
 use OwenIt\Auditing\Facades\Auditing;
 use jericho\Util\LookupUtil;
@@ -46,6 +47,17 @@ class AuditTrailController extends Controller
 	 */
 	public function postDoSearchAuditTrail(Request $request)
 	{
+		$validator = Validator::make($request->all(), [
+				'user_id' => 'required'
+		]);
+		
+		if ($validator->fails()) {
+			return redirect()
+				->route('search-audit-trail')
+				->withErrors($validator)
+				->withInput();
+		}
+		$user_id = -1;
 		$from_date = null;
 		$to_date = null;
 		if (Util::isValidRequestVariable($request->user_id) && $request->user_id > 0)
@@ -91,7 +103,18 @@ class AuditTrailController extends Controller
 		}
 		else
 		{
-			$audits = Auditing::all();
+			$audits = DB::table('audits')
+				->join('users', 'audits.user_id', '=', 'users.id')
+				->select('audits.created_at', 
+						'users.firstname', 
+						'users.surname',
+						'audits.ip_address',
+						'audits.type',
+						'audits.auditable_type',
+						'audits.auditable_id',
+						'audits.old',
+						'audits.new')
+				->get();
 		}
 		$users = LookupUtil::retrieveUsersLookup();
 		return view('audit-trail.search-audit-trail', [

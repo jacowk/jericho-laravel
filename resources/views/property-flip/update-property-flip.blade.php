@@ -66,6 +66,13 @@
 			</div>
 			
 			<div class="form-group">
+				{{ Form::label('finance_status_id', 'Finance Status', array('class' => 'col-sm-2 control-label')) }}
+				<div class="col-sm-10">
+					{{  Form::select('finance_status_id', $finance_statuses, $property_flip->finance_status_id, ['class' => 'form-control']) }}
+				</div>
+			</div>
+			
+			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<button type="submit" class="btn btn-default">Update Property Flip</button>
 				</div>

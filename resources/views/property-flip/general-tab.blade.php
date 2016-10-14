@@ -41,6 +41,16 @@
 				<th class="col-sm-3 text-right">Purchase Price</th>
 				<td>{{ $property_flip->purchase_price }}</td>
 			</tr>
+			<tr>
+				<th class="col-sm-3 text-right">Finance Status</th>
+				<td>
+					@if ($property_flip->finance_status)
+						{{ $property_flip->finance_status->description }}
+					@else
+						No status
+					@endif
+				</td>
+			</tr>
 		</table>
 	</div>
 	

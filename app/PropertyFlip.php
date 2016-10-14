@@ -14,6 +14,11 @@ class PropertyFlip extends Model
     	return $this->belongsTo('jericho\Property');
     }
     
+    public function finance_status()
+    {
+    	return $this->belongsTo('jericho\FinanceStatus');
+    }
+    
     public function seller()
     {
     	return $this->belongsTo('jericho\Contact', 'seller_id');
@@ -71,9 +76,9 @@ class PropertyFlip extends Model
     			'deleted_at');
     }
     
-    public function milestone()
+    public function milestones()
     {
-    	return $this->hasOne('jericho\Milestone');
+    	return $this->hasMany('jericho\Milestone');
     }
     
     public function notes()

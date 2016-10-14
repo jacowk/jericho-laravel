@@ -91,7 +91,7 @@
 								@if (MenuDisplayValidator::canDisplayTransactionTypesMenu())
 									<li><a href="{{ url('/search-transaction-type') }}">Transaction Types</a></li>
 								@endif
-								<!-- <li><a href="{{ url('/test') }}">Test</a></li> -->
+								<li><a href="{{ url('/test') }}">Test</a></li>
 							</ul>
 						</li>
 					@endif

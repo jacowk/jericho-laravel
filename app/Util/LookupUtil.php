@@ -1,6 +1,7 @@
 <?php
 namespace jericho\Util;
 
+use jericho\LookupMilestoneType;
 use jericho\LookupEstateAgentType;
 use jericho\LookupAttorneyType;
 use jericho\LookupContractorType;

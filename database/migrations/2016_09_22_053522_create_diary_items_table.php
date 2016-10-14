@@ -15,7 +15,7 @@ class CreateDiaryItemsTable extends Migration
     {
         Schema::create('diary_items', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->date('followup_date');
+            $table->dateTime('followup_date');
             $table->bigInteger('followup_user_id');
             $table->longText('comments');
             $table->integer('status_id');

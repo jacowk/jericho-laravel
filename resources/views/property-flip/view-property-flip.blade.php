@@ -165,7 +165,7 @@
 				@else
 					<div role="tabpanel" class="tab-pane" id="milestones">
 				@endif
-					@include('milestone.view-milestones')
+					@include('milestone.list-milestones')
 				</div>
 			@endif
 			
@@ -294,7 +294,7 @@
 			<!-- Milestones Tab -->
 			@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_MILESTONE))
 				<div role="tabpanel" class="tab-pane" id="milestones">
-					@include('milestone.view-milestones')
+					@include('milestone.list-milestones')
 				</div>
 			@endif
 			
