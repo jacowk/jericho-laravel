@@ -6,6 +6,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserTest extends TestCase
 {
+	use DatabaseMigrations;
+	
     /**
      * Test logging in, and navigating to the Search User page
      *

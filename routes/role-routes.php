@@ -1,61 +1,71 @@
 <?php
 /* ****************************** Role Routes ****************************** */
 
-/* Search Roles */
-Route::get('/search-role', [
-		'uses' => 'RoleController@getSearchRole',
-		'as' => 'search-role'
-])->middleware('auth', 'permission:VIEW_ROLE');
+Route::group(['middleware' => 'auth'], function() {
 
-Route::post('/search-role', [
-		'uses' => 'RoleController@getSearchRole',
-		'as' => 'search-role'
-])->middleware('auth', 'permission:VIEW_ROLE');
+	Route::group(['middleware' => 'permission:' . PermissionConstants::VIEW_ROLE], function() {
+		/* Search Roles */
+		Route::get('/search-role', [
+				'uses' => 'RoleController@getSearchRole',
+				'as' => 'search-role'
+		]);
+		
+		Route::post('/search-role', [
+				'uses' => 'RoleController@getSearchRole',
+				'as' => 'search-role'
+		]);
+		
+		Route::post('/do-search-role', [
+				'uses' => 'RoleController@postDoSearchRole',
+				'as' => 'do-search-role'
+		]);
+		
+		/* View Role */
+		Route::get('/view-role/{role_id}', [
+				'uses' => 'RoleController@getViewRole',
+				'as' => 'view-role'
+		]);
+		
+		Route::post('/view-role/{role_id}', [
+				'uses' => 'RoleController@getViewRole',
+				'as' => 'view-role'
+		]);
+	});
 
-Route::post('/do-search-role', [
-		'uses' => 'RoleController@postDoSearchRole',
-		'as' => 'do-search-role'
-])->middleware('auth', 'permission:VIEW_ROLE');
+	Route::group(['middleware' => 'permission:' . PermissionConstants::ADD_ROLE], function() {
+		/* Add an Role */
+		Route::post('/add-role', [
+				'uses' => 'RoleController@getAddRole',
+				'as' => 'add-role'
+		]);
+		
+		Route::get('/add-role', [
+				'uses' => 'RoleController@getAddRole',
+				'as' => 'add-role'
+		]);
+		
+		Route::post('/do-add-role', [
+				'uses' => 'RoleController@postDoAddRole',
+				'as' => 'do-add-role'
+		]);
+	});
 
-/* Add an Role */
-Route::post('/add-role', [
-		'uses' => 'RoleController@getAddRole',
-		'as' => 'add-role'
-])->middleware('auth', 'permission:ADD_ROLE');
+	Route::group(['middleware' => 'permission:' . PermissionConstants::UPDATE_ROLE], function() {
+		/* Update an Role */
+		Route::get('/update-role/{role_id}', [
+				'uses' => 'RoleController@getUpdateRole',
+				'as' => 'update-role'
+		]);
+		
+		Route::post('/update-role/{role_id}', [
+				'uses' => 'RoleController@getUpdateRole',
+				'as' => 'update-role'
+		]);
+		
+		Route::post('/do-update-role/{role_id}', [
+				'uses' => 'RoleController@postDoUpdateRole',
+				'as' => 'do-update-role'
+		]);
+	});
 
-Route::get('/add-role', [
-		'uses' => 'RoleController@getAddRole',
-		'as' => 'add-role'
-])->middleware('auth', 'permission:ADD_ROLE');
-
-Route::post('/do-add-role', [
-		'uses' => 'RoleController@postDoAddRole',
-		'as' => 'do-add-role'
-])->middleware('auth', 'permission:ADD_ROLE');
-
-/* Update an Role */
-Route::get('/update-role/{role_id}', [
-		'uses' => 'RoleController@getUpdateRole',
-		'as' => 'update-role'
-])->middleware('auth', 'permission:UPDATE_ROLE');
-
-Route::post('/update-role/{role_id}', [
-		'uses' => 'RoleController@getUpdateRole',
-		'as' => 'update-role'
-])->middleware('auth', 'permission:UPDATE_ROLE');
-
-Route::post('/do-update-role/{role_id}', [
-		'uses' => 'RoleController@postDoUpdateRole',
-		'as' => 'do-update-role'
-])->middleware('auth', 'permission:UPDATE_ROLE');
-
-/* View Role */
-Route::get('/view-role/{role_id}', [
-		'uses' => 'RoleController@getViewRole',
-		'as' => 'view-role'
-])->middleware('auth', 'permission:VIEW_ROLE');
-
-Route::post('/view-role/{role_id}', [
-		'uses' => 'RoleController@getViewRole',
-		'as' => 'view-role'
-])->middleware('auth', 'permission:VIEW_ROLE');
+});

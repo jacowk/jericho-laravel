@@ -1,61 +1,73 @@
 <?php
 /* ****************************** Permission Routes ****************************** */
 
-/* Search Permissions */
-Route::get('/search-permission', [
-		'uses' => 'PermissionController@getSearchPermission',
-		'as' => 'search-permission'
-])->middleware('auth', 'permission:VIEW_PERMISSION');
+Route::group(['middleware' => 'auth'], function() {
 
-Route::post('/search-permission', [
-		'uses' => 'PermissionController@getSearchPermission',
-		'as' => 'search-permission'
-])->middleware('auth', 'permission:VIEW_PERMISSION');
+	Route::group(['middleware' => 'permission:' . PermissionConstants::VIEW_PERMISSION], function() {
 
-Route::post('/do-search-permission', [
-		'uses' => 'PermissionController@postDoSearchPermission',
-		'as' => 'do-search-permission'
-])->middleware('auth', 'permission:VIEW_PERMISSION');
+		/* Search Permissions */
+		Route::get('/search-permission', [
+				'uses' => 'PermissionController@getSearchPermission',
+				'as' => 'search-permission'
+		]);
+		
+		Route::post('/search-permission', [
+				'uses' => 'PermissionController@getSearchPermission',
+				'as' => 'search-permission'
+		]);
+		
+		Route::post('/do-search-permission', [
+				'uses' => 'PermissionController@postDoSearchPermission',
+				'as' => 'do-search-permission'
+		]);
+		
+		/* View Permission */
+		Route::get('/view-permission/{permission_id}', [
+				'uses' => 'PermissionController@getViewPermission',
+				'as' => 'view-permission'
+		]);
+		
+		Route::post('/view-permission/{permission_id}', [
+				'uses' => 'PermissionController@getViewPermission',
+				'as' => 'view-permission'
+		]);
+		
+	});
 
-/* Add an Permission */
-Route::post('/add-permission', [
-		'uses' => 'PermissionController@getAddPermission',
-		'as' => 'add-permission'
-])->middleware('auth', 'permission:ADD_PERMISSION');
+	Route::group(['middleware' => 'permission:' . PermissionConstants::ADD_PERMISSION], function() {
+		/* Add an Permission */
+		Route::post('/add-permission', [
+				'uses' => 'PermissionController@getAddPermission',
+				'as' => 'add-permission'
+		]);
+		
+		Route::get('/add-permission', [
+				'uses' => 'PermissionController@getAddPermission',
+				'as' => 'add-permission'
+		]);
+		
+		Route::post('/do-add-permission', [
+				'uses' => 'PermissionController@postDoAddPermission',
+				'as' => 'do-add-permission'
+		]);
+	});
 
-Route::get('/add-permission', [
-		'uses' => 'PermissionController@getAddPermission',
-		'as' => 'add-permission'
-])->middleware('auth', 'permission:ADD_PERMISSION');
+	Route::group(['middleware' => 'permission:' . PermissionConstants::UPDATE_PERMISSION], function() {
+		/* Update an Permission */
+		Route::get('/update-permission/{permission_id}', [
+				'uses' => 'PermissionController@getUpdatePermission',
+				'as' => 'update-permission'
+		]);
+		
+		Route::post('/update-permission/{permission_id}', [
+				'uses' => 'PermissionController@getUpdatePermission',
+				'as' => 'update-permission'
+		]);
+		
+		Route::post('/do-update-permission/{permission_id}', [
+				'uses' => 'PermissionController@postDoUpdatePermission',
+				'as' => 'do-update-permission'
+		]);
+	});
 
-Route::post('/do-add-permission', [
-		'uses' => 'PermissionController@postDoAddPermission',
-		'as' => 'do-add-permission'
-])->middleware('auth', 'permission:ADD_PERMISSION');
-
-/* Update an Permission */
-Route::get('/update-permission/{permission_id}', [
-		'uses' => 'PermissionController@getUpdatePermission',
-		'as' => 'update-permission'
-])->middleware('auth', 'permission:UPDATE_PERMISSION');
-
-Route::post('/update-permission/{permission_id}', [
-		'uses' => 'PermissionController@getUpdatePermission',
-		'as' => 'update-permission'
-])->middleware('auth', 'permission:UPDATE_PERMISSION');
-
-Route::post('/do-update-permission/{permission_id}', [
-		'uses' => 'PermissionController@postDoUpdatePermission',
-		'as' => 'do-update-permission'
-])->middleware('auth', 'permission:UPDATE_PERMISSION');
-
-/* View Permission */
-Route::get('/view-permission/{permission_id}', [
-		'uses' => 'PermissionController@getViewPermission',
-		'as' => 'view-permission'
-])->middleware('auth', 'permission:VIEW_PERMISSION');
-
-Route::post('/view-permission/{permission_id}', [
-		'uses' => 'PermissionController@getViewPermission',
-		'as' => 'view-permission'
-])->middleware('auth', 'permission:VIEW_PERMISSION');
+});

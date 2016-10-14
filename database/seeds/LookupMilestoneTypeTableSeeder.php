@@ -27,7 +27,25 @@ class LookupMilestoneTypeTableSeeder extends Seeder
 		    	'Renovation Start Date',
 		    	'Renovation End Date',
 		    	'For Sale Date',
-		    	'Sell Date');
+		    	'Sell Date',
+    			/* Additional Milestones */
+    			'Received Offer To Purchase And Opened File',
+    			'Rates Clearance Completed',
+    			'Levy Clearance Completed',
+    			'Received Confirmation Of Bond Approval',
+    			'Bond Attorneys Appointed',
+    			'Bond Documents Signed By Purchaser',
+    			'Received Guarantees',
+    			'Deposit Paid By Purchaser',
+    			'Transfer Costs Paid By Purchaser',
+    			'Received Proceed From Bank To Lodge',
+    			'Purchaser Signed Transfer Documents',
+    			'Transfer Duty Completed',
+    			'Electrical Compliance Certificate Completed',
+    			'Lodged In Deeds Office',
+    			'On Preparation',
+    			'Registered'
+    	);
     	foreach($milestone_type_array as $milestone_type)
     	{
     		$lookup_milestone_type = new LookupMilestoneType();

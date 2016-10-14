@@ -3,7 +3,7 @@
 
 Route::group(['middleware' => 'auth'], function() {
 
-	Route::group(['middleware' => 'permission:VIEW_AUDIT_TRAIL'], function() {
+	Route::group(['middleware' => 'permission:' . PermissionConstants::VIEW_AUDIT_TRAIL], function() {
 		/* Search Audit Trails */
 		Route::get('/search-audit-trail', [
 				'uses' => 'AuditTrailController@getSearchAuditTrail',

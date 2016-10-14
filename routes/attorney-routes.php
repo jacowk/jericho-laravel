@@ -3,7 +3,7 @@
 
 Route::group(['middleware' => 'auth'], function() {
 	
-	Route::group(['middleware' => 'permission:VIEW_ATTORNEY'], function() {
+	Route::group(['middleware' => 'permission:' . PermissionConstants::VIEW_ATTORNEY], function() {
 		/* Search Attorneys */
 		Route::get('/search-attorney', [
 				'uses' => 'AttorneyController@getSearchAttorney',
@@ -32,7 +32,7 @@ Route::group(['middleware' => 'auth'], function() {
 		]);
 	});
 	
-	Route::group(['middleware' => 'permission:ADD_ATTORNEY'], function() {
+	Route::group(['middleware' => 'permission:' . PermissionConstants::ADD_ATTORNEY], function() {
 		/* Add an Attorney */
 		Route::post('/add-attorney', [
 				'uses' => 'AttorneyController@getAddAttorney',
@@ -50,7 +50,7 @@ Route::group(['middleware' => 'auth'], function() {
 		]);
 	});
 	
-	Route::group(['middleware' => 'permission:UPDATE_ATTORNEY'], function() {
+	Route::group(['middleware' => 'permission:' . PermissionConstants::UPDATE_ATTORNEY], function() {
 		/* Update an Attorney */
 		Route::get('/update-attorney/{attorney_id}', [
 				'uses' => 'AttorneyController@getUpdateAttorney',

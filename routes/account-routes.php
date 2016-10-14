@@ -1,7 +1,6 @@
 <?php
-include jericho\Permissions\PermissionConstants;
-
 /* ****************************** Account Routes ****************************** */
+
 Route::group(['middleware' => 'auth'], function() {
 
 	Route::group(['middleware' => 'permission:' . PermissionConstants::VIEW_ACCOUNT], function() {

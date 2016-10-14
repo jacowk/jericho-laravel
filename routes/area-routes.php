@@ -1,61 +1,71 @@
 <?php
 /* ****************************** Area Routes ****************************** */
 
-/* Search Areas */
-Route::get('/search-area', [
-		'uses' => 'AreaController@getSearchArea',
-		'as' => 'search-area'
-])->middleware('auth', 'permission:VIEW_AREA');
+Route::group(['middleware' => 'auth'], function() {
 
-Route::post('/search-area', [
-		'uses' => 'AreaController@getSearchArea',
-		'as' => 'search-area'
-])->middleware('auth', 'permission:VIEW_AREA');
-
-Route::post('/do-search-area', [
-		'uses' => 'AreaController@postDoSearchArea',
-		'as' => 'do-search-area'
-])->middleware('auth', 'permission:VIEW_AREA');
-
-/* Add an Area */
-Route::post('/add-area', [
-		'uses' => 'AreaController@getAddArea',
-		'as' => 'add-area'
-])->middleware('auth', 'permission:ADD_AREA');
-
-Route::get('/add-area', [
-		'uses' => 'AreaController@getAddArea',
-		'as' => 'add-area'
-])->middleware('auth', 'permission:ADD_AREA');
-
-Route::post('/do-add-area', [
-		'uses' => 'AreaController@postDoAddArea',
-		'as' => 'do-add-area'
-])->middleware('auth', 'permission:ADD_AREA');
-
-/* Update an Area */
-Route::get('/update-area/{area_id}', [
-		'uses' => 'AreaController@getUpdateArea',
-		'as' => 'update-area'
-])->middleware('auth', 'permission:UPDATE_AREA');
-
-Route::post('/update-area/{area_id}', [
-		'uses' => 'AreaController@getUpdateArea',
-		'as' => 'update-area'
-])->middleware('auth', 'permission:UPDATE_AREA');
-
-Route::post('/do-update-area/{area_id}', [
-		'uses' => 'AreaController@postDoUpdateArea',
-		'as' => 'do-update-area'
-])->middleware('auth', 'permission:UPDATE_AREA');
-
-/* View Area */
-Route::get('/view-area/{area_id}', [
-		'uses' => 'AreaController@getViewArea',
-		'as' => 'view-area'
-])->middleware('auth', 'permission:VIEW_AREA');
-
-Route::post('/view-area/{area_id}', [
-		'uses' => 'AreaController@getViewArea',
-		'as' => 'view-area'
-])->middleware('auth', 'permission:VIEW_AREA');
+	Route::group(['middleware' => 'permission:' . PermissionConstants::VIEW_AREA], function() {
+		/* Search Areas */
+		Route::get('/search-area', [
+				'uses' => 'AreaController@getSearchArea',
+				'as' => 'search-area'
+		]);
+		
+		Route::post('/search-area', [
+				'uses' => 'AreaController@getSearchArea',
+				'as' => 'search-area'
+		]);
+		
+		Route::post('/do-search-area', [
+				'uses' => 'AreaController@postDoSearchArea',
+				'as' => 'do-search-area'
+		]);
+		
+		/* View Area */
+		Route::get('/view-area/{area_id}', [
+				'uses' => 'AreaController@getViewArea',
+				'as' => 'view-area'
+		]);
+		
+		Route::post('/view-area/{area_id}', [
+				'uses' => 'AreaController@getViewArea',
+				'as' => 'view-area'
+		]);
+	});
+	
+	Route::group(['middleware' => 'permission:' . PermissionConstants::ADD_AREA], function() {
+		/* Add an Area */
+		Route::post('/add-area', [
+				'uses' => 'AreaController@getAddArea',
+				'as' => 'add-area'
+		]);
+		
+		Route::get('/add-area', [
+				'uses' => 'AreaController@getAddArea',
+				'as' => 'add-area'
+		]);
+		
+		Route::post('/do-add-area', [
+				'uses' => 'AreaController@postDoAddArea',
+				'as' => 'do-add-area'
+		]);
+	});
+	
+	Route::group(['middleware' => 'permission:' . PermissionConstants::UPDATE_AREA], function() {
+		/* Update an Area */
+		Route::get('/update-area/{area_id}', [
+				'uses' => 'AreaController@getUpdateArea',
+				'as' => 'update-area'
+		]);
+		
+		Route::post('/update-area/{area_id}', [
+				'uses' => 'AreaController@getUpdateArea',
+				'as' => 'update-area'
+		]);
+		
+		Route::post('/do-update-area/{area_id}', [
+				'uses' => 'AreaController@postDoUpdateArea',
+				'as' => 'do-update-area'
+		]);
+	});
+	
+});
