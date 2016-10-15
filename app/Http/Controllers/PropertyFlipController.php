@@ -68,10 +68,12 @@ class PropertyFlipController extends Controller
 		$property = Property::find($property_id);
 		$contacts = LookupUtil::retrieveContactsLookup();
 		$finance_statuses = LookupUtil::retrieveFinanceStatusLookup();
+		$seller_statuses = LookupUtil::retrieveSellerStatusLookup();
 		return view('property-flip.add-property-flip', [
 			'property' => $property,
 			'contacts' => $contacts,
-			'finance_statuses' => $finance_statuses
+			'finance_statuses' => $finance_statuses,
+			'seller_statuses' => $seller_statuses
 		]);
 	}
 	
@@ -108,6 +110,7 @@ class PropertyFlipController extends Controller
 		$property_flip->purchaser_id = Util::getQueryParameter($request->purchaser_id);
 		$property_flip->purchase_price = Util::processCurrencyValue($request->purchase_price);
 		$property_flip->finance_status_id = Util::getQueryParameter($request->finance_status_id);
+		$property_flip->seller_status_id = Util::getQueryParameter($request->seller_status_id);
 		$property_flip->property_id = Util::getQueryParameter($request->property_id);
 		$property_flip->created_by_id = $user->id;
 		$property_flip->save();
@@ -128,10 +131,12 @@ class PropertyFlipController extends Controller
 		$property_flip = PropertyFlip::find($property_flip_id);
 		$contacts = LookupUtil::retrieveContactsLookup();
 		$finance_statuses = LookupUtil::retrieveFinanceStatusLookup();
+		$seller_statuses = LookupUtil::retrieveSellerStatusLookup();
 		return view('property-flip.update-property-flip', [
 			'property_flip' => $property_flip,
 			'contacts' => $contacts,
-			'finance_statuses' => $finance_statuses
+			'finance_statuses' => $finance_statuses,
+			'seller_statuses' => $seller_statuses
 		]);
 	}
 	
@@ -170,6 +175,7 @@ class PropertyFlipController extends Controller
 		$property_flip->purchaser_id = Util::getQueryParameter($request->purchaser_id);
 		$property_flip->purchase_price = Util::processCurrencyValue($request->purchase_price);
 		$property_flip->finance_status_id = Util::getQueryParameter($request->finance_status_id);
+		$property_flip->seller_status_id = Util::getQueryParameter($request->seller_status_id);
 		$property_flip->property_id = Util::getQueryParameter($request->property_id);
 		$property_flip->updated_by_id = $user->id;
 		$property_flip->save();

@@ -19,6 +19,11 @@ class PropertyFlip extends Model
     	return $this->belongsTo('jericho\FinanceStatus');
     }
     
+    public function seller_status()
+    {
+    	return $this->belongsTo('jericho\SellerStatus');
+    }
+    
     public function seller()
     {
     	return $this->belongsTo('jericho\Contact', 'seller_id');

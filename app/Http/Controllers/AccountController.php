@@ -26,7 +26,9 @@ class AccountController extends Controller
 	 */
 	public function getSearchAccount()
 	{
-		return view('account.search-account');
+		return view('account.search-account', [
+			'name' => null
+		]);
 	}
 	
 	/**
@@ -37,6 +39,7 @@ class AccountController extends Controller
 	 */
 	public function postDoSearchAccount(Request $request)
 	{
+		$name = null;
 		if (isset($request->name) && !is_null($request->name) && strlen($request->name) > 0)
 		{
 			$name = $request->name;
@@ -46,7 +49,10 @@ class AccountController extends Controller
 		{
 			$accounts = Account::orderBy('name', 'asc')->get();
 		}
-		return view('account.search-account', ['accounts' => $accounts]);
+		return view('account.search-account', [
+				'accounts' => $accounts,
+				'name' => $name
+		]);
 	}
 	
 	/**

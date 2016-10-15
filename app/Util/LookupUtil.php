@@ -13,6 +13,7 @@ use jericho\Area;
 use jericho\Suburb;
 use jericho\Contact;
 use jericho\FinanceStatus;
+use jericho\SellerStatus;
 use jericho\User;
 use jericho\DiaryItemStatus;
 use jericho\Account;

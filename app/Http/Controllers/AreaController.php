@@ -26,7 +26,9 @@ class AreaController extends Controller
 	 */
 	public function getSearchArea()
 	{
-		return view('area.search-area');
+		return view('area.search-area', [
+			'name' => null
+		]);
 	}
 	
 	/**
@@ -37,6 +39,7 @@ class AreaController extends Controller
 	 */
 	public function postDoSearchArea(Request $request)
 	{
+		$name = null;
 		if (isset($request->name) && !is_null($request->name) && strlen($request->name) > 0)
 		{
 			$name = $request->name;
@@ -46,7 +49,10 @@ class AreaController extends Controller
 		{
 			$areas = Area::orderBy('name', 'asc')->get();
 		}
-		return view('area.search-area', ['areas' => $areas]);
+		return view('area.search-area', [
+			'areas' => $areas,
+			'name' => $name
+		]);
 	}
 	
 	/**

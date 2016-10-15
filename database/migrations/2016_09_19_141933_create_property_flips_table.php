@@ -20,6 +20,7 @@ class CreatePropertyFlipsTable extends Migration
             $table->string('case_number')->nullable();
             $table->bigInteger('seller_id')->nullable(); //Contact ID
             $table->bigInteger('selling_price')->nullable();
+            $table->integer('seller_status_id')->nullable();
             $table->bigInteger('purchaser_id')->nullable(); //Contact ID
             $table->bigInteger('purchase_price')->nullable();
             $table->integer('finance_status_id')->nullable();

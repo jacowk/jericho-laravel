@@ -52,6 +52,13 @@
 			</div>
 			
 			<div class="form-group">
+				{{ Form::label('seller_status_id', 'Seller Status', array('class' => 'col-sm-2 control-label')) }}
+				<div class="col-sm-10">
+					{{  Form::select('seller_status_id', $seller_statuses, '', ['class' => 'form-control']) }}
+				</div>
+			</div>
+			
+			<div class="form-group">
 				{{  Form::label('purchaser_id', 'Purchaser', array('class' => 'col-sm-2 control-label')) }}
 				<div class="col-sm-10">
 					{{ Form::select('purchaser_id', $contacts, null, ['class' => 'form-control']) }}

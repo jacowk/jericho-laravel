@@ -30,6 +30,16 @@
 				<td>{{ $property_flip->selling_price }}</td>
 			</tr>
 			<tr>
+				<th class="col-sm-3 text-right">Seller Status</th>
+				<td>
+					@if ($property_flip->seller_status)
+						{{ $property_flip->seller_status->description }}
+					@else
+						No seller status
+					@endif
+				</td>
+			</tr>
+			<tr>
 				<th class="col-sm-3 text-right">Purchaser</th>
 				<td>
 					@if ($property_flip->purchaser)
@@ -47,7 +57,7 @@
 					@if ($property_flip->finance_status)
 						{{ $property_flip->finance_status->description }}
 					@else
-						No status
+						No finance status
 					@endif
 				</td>
 			</tr>
