@@ -19,7 +19,7 @@ class CreateDiaryItemsTable extends Migration
             $table->bigInteger('followup_user_id');
             $table->longText('comments');
             $table->integer('status_id');
-            $table->bigInteger('allocated_user_id')->nullable();
+//             $table->bigInteger('allocated_user_id')->nullable();
             $table->bigInteger('property_flip_id');
             $table->bigInteger('created_by_id');
             $table->bigInteger('updated_by_id')->nullable();

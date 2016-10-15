@@ -9,7 +9,8 @@
 	@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_DIARY_ITEM))
 		<ul class="nav nav-tabs" role="tablist">
 			<li role="presentation" class="active"><a href="#today" aria-controls="today" role="tab" data-toggle="tab">Today's Diary Items</a></li>
-			<li role="presentation"><a href="#open" aria-controls="open" role="tab" data-toggle="tab">Your Open Diary Items</a></li>
+			<li role="presentation"><a href="#past" aria-controls="open" role="tab" data-toggle="tab">Past Open Diary Items</a></li>
+			<li role="presentation"><a href="#future" aria-controls="open" role="tab" data-toggle="tab">Future Open Diary Items</a></li>
 		</ul>
 	
 		<div class="tab-content">
@@ -17,8 +18,12 @@
 				@include('diary.list-todays-diary-items')
 			</div>
 			
-			<div role="tabpanel" class="tab-pane" id="open">
-				@include('diary.list-historic-diary-items')
+			<div role="tabpanel" class="tab-pane" id="past">
+				@include('diary.list-past-diary-items')
+			</div>
+			
+			<div role="tabpanel" class="tab-pane" id="future">
+				@include('diary.list-future-diary-items')
 			</div>
 		</div>
 	@else

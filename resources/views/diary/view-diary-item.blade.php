@@ -33,14 +33,14 @@
 				<th class="col-sm-2 text-right">Status</th>
 				<td>{{ $diary_item->status->description }}</td>						
 			</tr>
-			<tr>
-				<th class="col-sm-2 text-right">Allocated User</th>
-				<td>
-					@if ($diary_item->allocated_user)
-						{{ $diary_item->allocated_user->firstname }} {{ $diary_item->allocated_user->surname  }}
-					@endif
-				</td>						
-			</tr>
+<!-- 			<tr> -->
+<!-- 				<th class="col-sm-2 text-right">Allocated User</th> -->
+<!-- 				<td> -->
+<!-- 					@if ($diary_item->allocated_user) -->
+<!-- 						{{ $diary_item->allocated_user->firstname }} {{ $diary_item->allocated_user->surname  }} -->
+<!-- 					@endif -->
+<!-- 				</td>						 -->
+<!-- 			</tr> -->
 			<tr>
 				<th class="col-sm-2 text-right">Created By</th>
 				<td>{{ $diary_item->created_by_id }}</td>						
@@ -68,14 +68,12 @@
 					</div>
 				@endif
 				
-				@if (PermissionValidator::hasPermission(PermissionConstants::SELF_ALLOCATE_DIARY_ITEM))
-					<div class="form-group">
-						{{ Form::open(array('route' => array('self-allocate-diary-item', $diary_item->id), 'class' => 'form-horizontal')) }}
-							{{ Form::token() }}
-							<button type="submit" class="btn btn-default">Self Allocate</button>
-						{{ Form::close() }}
-					</div>
-				@endif
+<!-- 					<div class="form-group"> -->
+<!-- 						{{ Form::open(array('route' => array('self-allocate-diary-item', $diary_item->id), 'class' => 'form-horizontal')) }} -->
+<!-- 							{{ Form::token() }} -->
+<!-- 							<button type="submit" class="btn btn-default">Self Allocate</button> -->
+<!-- 						{{ Form::close() }} -->
+<!-- 					</div> -->
 			</div>
 		</div>
 	</div>

@@ -111,7 +111,7 @@ class PermissionConstants
 	const DELETE_BANK_CONTACT_LINK = 'Delete Bank Contact Link';
 	const VIEW_PROPERTY_FLIP_BANKS = 'View Property Flip Banks';
 	const DOWNLOAD_DOCUMENT = 'Download Document';
-	const SELF_ALLOCATE_DIARY_ITEM = 'Self Allocate Diary Item';
+// 	const SELF_ALLOCATE_DIARY_ITEM = 'Self Allocate Diary Item';
 	const VIEW_LEADS_TO_SALES_REPORT = 'View Leads To Sales Report';
 	const VIEW_AMOUNT_OF_LEADS_ACTIONED_REPORT = 'View Amount Of Leads Actioned Report';
 	const VIEW_LEADS_PER_AREA_REPORT = 'View Leads Per Area Report';

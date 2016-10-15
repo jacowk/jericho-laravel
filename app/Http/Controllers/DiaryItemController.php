@@ -154,20 +154,20 @@ class DiaryItemController extends Controller
 		]);
 	}
 	
-	/**
-	 * Function to allocate a diary item to the current user
-	 * 
-	 * @param Request $request
-	 * @param unknown $diary_item_id
-	 * @return \Illuminate\Http\RedirectResponse
-	 */
-	public function selfAllocateDiaryItem(Request $request, $diary_item_id)
-	{
-		$diary_item = DiaryItem::find($diary_item_id);
-		$user = Auth::user();
-		$diary_item->allocated_user_id = $user->id;
-		$diary_item->save();
-		return redirect()->action('DiaryItemController@getViewDiaryItem', ['diary_item_Id' => $diary_item->id])
-			->with(['message' => 'Diary Item allocated to yourself']);
-	}
+// 	/**
+// 	 * Function to allocate a diary item to the current user
+// 	 * 
+// 	 * @param Request $request
+// 	 * @param unknown $diary_item_id
+// 	 * @return \Illuminate\Http\RedirectResponse
+// 	 */
+// 	public function selfAllocateDiaryItem(Request $request, $diary_item_id)
+// 	{
+// 		$diary_item = DiaryItem::find($diary_item_id);
+// 		$user = Auth::user();
+// 		$diary_item->allocated_user_id = $user->id;
+// 		$diary_item->save();
+// 		return redirect()->action('DiaryItemController@getViewDiaryItem', ['diary_item_Id' => $diary_item->id])
+// 			->with(['message' => 'Diary Item allocated to yourself']);
+// 	}
 }
