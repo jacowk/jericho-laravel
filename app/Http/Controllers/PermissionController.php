@@ -28,7 +28,9 @@ class PermissionController extends Controller
 	 */
 	public function getSearchPermission()
 	{
-		return view('permission.search-permission');
+		return view('permission.search-permission', [
+			'name' => null
+		]);
 	}
 	
 	/**
@@ -39,7 +41,8 @@ class PermissionController extends Controller
 	 */
 	public function postDoSearchPermission(Request $request)
 	{
-		if (isset($request->name) && !is_null($request->name) && strlen($request->name) > 0)
+		$name = null;
+		if (Util::isValidRequestVariable($request->name))
 		{
 			$name = $request->name;
 			$permissions = Permission::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->get();
@@ -48,7 +51,10 @@ class PermissionController extends Controller
 		{
 			$permissions = Permission::orderBy('name', 'asc')->get();
 		}
-		return view('permission.search-permission', ['permissions' => $permissions]);
+		return view('permission.search-permission', [
+			'permissions' => $permissions,
+			'name' => $name
+		]);
 	}
 	
 	/**

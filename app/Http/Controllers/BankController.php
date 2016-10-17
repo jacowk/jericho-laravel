@@ -27,7 +27,9 @@ class BankController extends Controller
 	 */
     public function getSearchBank()
     {
-    	return view('bank.search-bank');
+    	return view('bank.search-bank', [
+			'name' => null
+		]);
     }
     
     /**
@@ -38,7 +40,8 @@ class BankController extends Controller
      */
     public function postDoSearchBank(Request $request)
     {
-    	if (isset($request->name) && !is_null($request->name) && strlen($request->name) > 0)
+    	$name = null;
+    	if (Util::isValidRequestVariable($request->name))
     	{
     		$name = $request->name;
     		$banks = Bank::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->get();
@@ -47,7 +50,10 @@ class BankController extends Controller
     	{
     		$banks = Bank::orderBy('name', 'asc')->get();
     	}
-    	return view('bank.search-bank', ['banks' => $banks]);
+    	return view('bank.search-bank', [
+    		'banks' => $banks,
+    		'name' => $name
+    	]);
     }
     
     /**

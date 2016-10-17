@@ -26,7 +26,9 @@ class TransactionTypeController extends Controller
 	 */
 	public function getSearchTransactionType()
 	{
-		return view('transaction-type.search-transaction-type');
+		return view('transaction-type.search-transaction-type', [
+			'description' => null
+		]);
 	}
 	
 	/**
@@ -37,16 +39,20 @@ class TransactionTypeController extends Controller
 	 */
 	public function postDoSearchTransactionType(Request $request)
 	{
-		if (isset($request->description) && !is_null($request->description) && strlen($request->description) > 0)
+		$description = null;
+		if (Util::isValidRequestVariable($request->description))
 		{
-			$name = $request->description;
-			$transaction_types = LookupTransactionType::where('description', 'like', '%' . $name . '%')->orderBy('description', 'asc')->get();
+			$description = $request->description;
+			$transaction_types = LookupTransactionType::where('description', 'like', '%' . $description . '%')->orderBy('description', 'asc')->get();
 		}
 		else
 		{
 			$transaction_types = LookupTransactionType::orderBy('description', 'asc')->get();
 		}
-		return view('transaction-type.search-transaction-type', ['transaction_types' => $transaction_types]);
+		return view('transaction-type.search-transaction-type', [
+			'transaction_types' => $transaction_types,
+			'description' => $description
+		]);
 	}
 	
 	/**

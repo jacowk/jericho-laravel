@@ -40,7 +40,7 @@ class AreaController extends Controller
 	public function postDoSearchArea(Request $request)
 	{
 		$name = null;
-		if (isset($request->name) && !is_null($request->name) && strlen($request->name) > 0)
+		if (Util::isValidRequestVariable($request->name))
 		{
 			$name = $request->name;
 			$areas = Area::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->get();

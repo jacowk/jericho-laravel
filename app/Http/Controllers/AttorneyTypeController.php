@@ -26,7 +26,9 @@ class AttorneyTypeController extends Controller
 	 */
 	public function getSearchAttorneyType()
 	{
-		return view('attorney-type.search-attorney-type');
+		return view('attorney-type.search-attorney-type', [
+				'description' => null
+		]);
 	}
 	
 	/**
@@ -37,16 +39,20 @@ class AttorneyTypeController extends Controller
 	 */
 	public function postDoSearchAttorneyType(Request $request)
 	{
-		if (isset($request->description) && !is_null($request->description) && strlen($request->description) > 0)
+		$description = null;
+		if (Util::isValidRequestVariable($request->description))
 		{
-			$name = $request->description;
-			$attorney_types = LookupAttorneyType::where('description', 'like', '%' . $name . '%')->orderBy('description', 'asc')->get();
+			$description = $request->description;
+			$attorney_types = LookupAttorneyType::where('description', 'like', '%' . $description . '%')->orderBy('description', 'asc')->get();
 		}
 		else
 		{
 			$attorney_types = LookupAttorneyType::orderBy('description', 'asc')->get();
 		}
-		return view('attorney-type.search-attorney-type', ['attorney_types' => $attorney_types]);
+		return view('attorney-type.search-attorney-type', [
+			'attorney_types' => $attorney_types,
+			'description' => $description
+		]);
 	}
 	
 	/**

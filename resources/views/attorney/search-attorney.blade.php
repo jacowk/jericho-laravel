@@ -12,7 +12,7 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="name">Name:</label>
 					<div class="col-sm-10"> 
-						{{ Form::text('name', '', array('class' => 'form-control', 'placeholder' => 'Name')) }}
+						{{ Form::text('name', $name, array('class' => 'form-control', 'placeholder' => 'Name')) }}
 					</div>
 				</div>
 				<div class="form-group">

@@ -30,7 +30,10 @@ class UserController extends Controller
 	 */
 	public function getSearchUser()
 	{
-		return view('user.search-user');
+		return view('user.search-user', [
+				'firstname' => null,
+				'surname' => null
+		]);
 	}
 	
 	/**
@@ -41,23 +44,20 @@ class UserController extends Controller
 	 */
 	public function postDoSearchUser(Request $request)
 	{
-		if (isset($request->firstname) && !is_null($request->firstname) && strlen($request->firstname) > 0)
-		{
-			$firstname = $request->firstname;
-			$surname = $request->surname;
-			$users = User::where('firstname', 'like', '%' . $firstname . '%')
-							->where('surname', 'like', '%' . $surname . '%')
-							->orderBy('firstname', 'asc')
-							->orderBy('surname', 'asc')
-							->get();
-		}
-		else
-		{
-			$users = User::orderBy('firstname', 'asc')
+		$firstname = Util::getQueryParameter($request->firstname);
+		$surname = Util::getQueryParameter($request->surname);
+		$users = User::where([
+	    					['firstname', 'like', '%' . $firstname . '%'],
+	    					['surname', 'like', '%' . $surname . '%']
+	    				])
+						->orderBy('firstname', 'asc')
 						->orderBy('surname', 'asc')
 						->get();
-		}
-		return view('user.search-user', ['users' => $users]);
+		return view('user.search-user', [
+				'users' => $users,
+				'firstname' => $firstname,
+				'surname' => $surname
+		]);
 	}
 	
 	/**

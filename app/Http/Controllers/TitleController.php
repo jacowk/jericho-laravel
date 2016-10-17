@@ -26,7 +26,9 @@ class TitleController extends Controller
 	 */
 	public function getSearchTitle()
 	{
-		return view('title.search-title');
+		return view('title.search-title', [
+				'description' => null
+		]);
 	}
 	
 	/**
@@ -37,16 +39,20 @@ class TitleController extends Controller
 	 */
 	public function postDoSearchTitle(Request $request)
 	{
-		if (isset($request->description) && !is_null($request->description) && strlen($request->description) > 0)
+		$description = null;
+		if (Util::isValidRequestVariable($request->description))
 		{
-			$name = $request->description;
-			$titles = LookupTitle::where('description', 'like', '%' . $name . '%')->orderBy('description', 'asc')->get();
+			$description = $request->description;
+			$titles = LookupTitle::where('description', 'like', '%' . $description . '%')->orderBy('description', 'asc')->get();
 		}
 		else
 		{
 			$titles = LookupTitle::orderBy('description', 'asc')->get();
 		}
-		return view('title.search-title', ['titles' => $titles]);
+		return view('title.search-title', [
+				'titles' => $titles,
+				'description' => $description
+		]);
 	}
 	
 	/**

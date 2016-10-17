@@ -40,7 +40,7 @@ class AccountController extends Controller
 	public function postDoSearchAccount(Request $request)
 	{
 		$name = null;
-		if (isset($request->name) && !is_null($request->name) && strlen($request->name) > 0)
+		if (Util::isValidRequestVariable($request->name))
 		{
 			$name = $request->name;
 			$accounts = Account::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->get();

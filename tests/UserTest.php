@@ -13,6 +13,12 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
  */
 class UserTest extends TestCase
 {
+	
+	public function testDummyTest()
+	{
+		$this->assertTrue(true);
+	}
+	
 // 	public function setUp()
 // 	{
 // 		parent::setUp();

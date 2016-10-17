@@ -23,7 +23,9 @@ class SuburbController extends Controller
 	 */
 	public function getSearchSuburb()
 	{
-		return view('suburb.search-suburb');
+		return view('suburb.search-suburb', [
+			'name' => null
+		]);
 	}
 	
 	/**
@@ -35,12 +37,13 @@ class SuburbController extends Controller
 	 */
 	public function postDoSearchSuburb(Request $request)
 	{
-		if (isset($request->name) && !is_null($request->name) && strlen($request->name) > 0)
+		$name = null;
+		if (Util::isValidRequestVariable($request->name))
 		{
 			$name = $request->name;
 			$suburbs = DB::table('suburbs')
 							->join('areas', 'suburbs.area_id', '=', 'areas.id')
-							->where('name', 'like', '%' . $name . '%')
+							->where('suburbs.name', 'like', '%' . $name . '%')
 							->select('suburbs.*', 'areas.name as area_name')
 							->orderBy('name', 'asc')
 							->get();
@@ -54,7 +57,10 @@ class SuburbController extends Controller
 							->orderBy('name', 'asc')
 							->get();
 		}
-		return view('suburb.search-suburb', ['suburbs' => $suburbs]);
+		return view('suburb.search-suburb', [
+			'suburbs' => $suburbs,
+			'name' => $name
+		]);
 	}
 	
 	/**

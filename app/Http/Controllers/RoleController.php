@@ -28,7 +28,9 @@ class RoleController extends Controller
 	 */
 	public function getSearchRole()
 	{
-		return view('role.search-role');
+		return view('role.search-role', [
+			'name' => null
+		]);
 	}
 	
 	/**
@@ -39,7 +41,8 @@ class RoleController extends Controller
 	 */
 	public function postDoSearchRole(Request $request)
 	{
-		if (isset($request->name) && !is_null($request->name) && strlen($request->name) > 0)
+		$name = null;
+		if (Util::isValidRequestVariable($request->name))
 		{
 			$name = $request->name;
 			$roles = Role::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->get();
@@ -48,7 +51,10 @@ class RoleController extends Controller
 		{
 			$roles = Role::orderBy('name', 'asc')->get();
 		}
-		return view('role.search-role', ['roles' => $roles]);
+		return view('role.search-role', [
+			'roles' => $roles,
+			'name' => $name
+		]);
 	}
 	
 	/**

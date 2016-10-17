@@ -32,7 +32,9 @@ class PropertyController extends Controller
 	 */
 	public function getSearchProperty()
 	{
-		return view('property.search-property');
+		return view('property.search-property', [
+			'address' => null
+		]);
 	}
 	
 	/**
@@ -43,16 +45,17 @@ class PropertyController extends Controller
 	 */
 	public function postDoSearchProperty(Request $request)
 	{
+		$address = null;
 		if (Util::isValidRequestVariable($request->address))
 		{
-			$address_line = $request->address;
+			$address = $request->address;
 // 			$properties = Property::where('address_line_1', 'like', '%' . $address_line . '%')->get();
 			
 			$properties = DB::table('properties')
 							->join('suburbs', 'properties.suburb_id', '=', 'suburbs.id')
 							->join('areas', 'properties.area_id', '=', 'areas.id')
 							->join('greater_areas', 'properties.greater_area_id', '=', 'greater_areas.id')
-							->where('name', 'like', '%' . $name . '%')
+							->where('address_line_1', 'like', '%' . $address . '%')
 							->select('properties.*', 
 										'suburbs.name as suburb_name', 
 										'areas.name as area_name',
@@ -73,7 +76,10 @@ class PropertyController extends Controller
 									'greater_areas.name as greater_area_name')
 									->get();
 		}
-		return view('property.search-property', ['properties' => $properties]);
+		return view('property.search-property', [
+			'properties' => $properties,
+			'address' => $address
+		]);
 	}
 	
 	/**

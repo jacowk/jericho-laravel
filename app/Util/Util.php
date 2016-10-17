@@ -49,11 +49,6 @@ class Util
 		}
 	}
 	
-	public static function getContactTypes()
-	{
-		$contact_types = array('Attorney', 'Contractor', 'Estate Agent');
-	}
-	
 	public static function writeToFile($value)
 	{
 		$filename = "C:\laravel_output.txt";
@@ -68,12 +63,34 @@ class Util
 		fclose( $file );
 	}
 	
+	/**
+	 * Generate a filename for the storing of documents that are uploaded. The filename is similar to this:
+	 * 20161017071456_12.pdf
+	 * 
+	 * @param unknown $user_id
+	 * @param unknown $extension
+	 * @return string
+	 */
 	public static function generateFilename($user_id, $extension)
 	{
+		if (!Util::isValidRequestVariable($user_id))
+		{
+			$user_id = rand(1, 100);
+		}
 		$filename = date('YmdHis') . "_" . $user_id;
+		if (!Util::isValidRequestVariable($extension))
+		{
+			return $filename;
+		}
 		return $filename . "." . $extension;
 	}
 	
+	/**
+	 * Convert a name, such as Add Bank to add_bank, which are then used on forms
+	 * 
+	 * @param unknown $name
+	 * @return mixed
+	 */
 	public static function convertNameForForm($name)
 	{
 		$name = strtolower($name);

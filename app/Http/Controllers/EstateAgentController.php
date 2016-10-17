@@ -28,7 +28,9 @@ class EstateAgentController extends Controller
 	 */
     public function getSearchEstateAgent()
     {
-    	return view('estate-agent.search-estate-agent');
+    	return view('estate-agent.search-estate-agent', [
+    		'name' => null
+    	]);
     }
     
     /**
@@ -39,7 +41,8 @@ class EstateAgentController extends Controller
      */
     public function postDoSearchEstateAgent(Request $request)
     {
-    	if (isset($request->name) && !is_null($request->name) && strlen($request->name) > 0)
+    	$name = null;
+    	if (Util::isValidRequestVariable($request->name))
     	{
     		$name = $request->name;
     		$estate_agents = EstateAgent::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->get();
@@ -48,7 +51,10 @@ class EstateAgentController extends Controller
     	{
     		$estate_agents = EstateAgent::orderBy('name', 'asc')->get();
     	}
-    	return view('estate-agent.search-estate-agent', ['estate_agents' => $estate_agents]);
+    	return view('estate-agent.search-estate-agent', [
+    		'estate_agents' => $estate_agents,
+    		'name' => $name
+    	]);
     }
     
     /**

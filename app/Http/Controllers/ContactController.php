@@ -35,7 +35,10 @@ class ContactController extends Controller
 	 */
     public function getSearchContact()
     {
-    	return view('contact.search-contact');
+    	return view('contact.search-contact', [
+    		'firstname' => null,
+    		'surname' => null
+    	]);
     }
     
     /**
@@ -50,8 +53,7 @@ class ContactController extends Controller
     	$model_id = 0;
     	$firstname = Util::getQueryParameter($request->firstname);
     	$surname = Util::getQueryParameter($request->surname);
-    	$contacts = DB::table('contacts')
-    				->where([
+    	$contacts = Contact::where([
     					['firstname', 'like', '%' . $firstname . '%'],
     					['surname', 'like', '%' . $surname . '%']
     				])
@@ -60,7 +62,9 @@ class ContactController extends Controller
     	return view('contact.search-contact', [
     		'contacts' => $contacts, 
     		'model_name' => $model_name,
-    		'model_id' => $model_id
+    		'model_id' => $model_id,
+    		'firstname' => $firstname,
+    		'surname' => $surname
     	]);
     }
     

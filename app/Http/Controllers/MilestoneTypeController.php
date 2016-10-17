@@ -26,7 +26,9 @@ class MilestoneTypeController extends Controller
 	 */
 	public function getSearchMilestoneType()
 	{
-		return view('milestone-type.search-milestone-type');
+		return view('milestone-type.search-milestone-type', [
+			'description' => null
+		]);
 	}
 	
 	/**
@@ -37,16 +39,20 @@ class MilestoneTypeController extends Controller
 	 */
 	public function postDoSearchMilestoneType(Request $request)
 	{
-		if (isset($request->description) && !is_null($request->description) && strlen($request->description) > 0)
+		$description = null;
+		if (Util::isValidRequestVariable($request->description))
 		{
-			$name = $request->description;
-			$milestone_types = LookupMilestoneType::where('description', 'like', '%' . $name . '%')->orderBy('description', 'asc')->get();
+			$description = $request->description;
+			$milestone_types = LookupMilestoneType::where('description', 'like', '%' . $description . '%')->orderBy('description', 'asc')->get();
 		}
 		else
 		{
 			$milestone_types = LookupMilestoneType::orderBy('description', 'asc')->get();
 		}
-		return view('milestone-type.search-milestone-type', ['milestone_types' => $milestone_types]);
+		return view('milestone-type.search-milestone-type', [
+				'milestone_types' => $milestone_types,
+				'description' => $description
+		]);
 	}
 	
 	/**

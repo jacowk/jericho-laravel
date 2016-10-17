@@ -19,7 +19,9 @@ class GreaterAreaController extends Controller
 	 */
 	public function getSearchGreaterArea()
 	{
-		return view('greater-area.search-greater-area');
+		return view('greater-area.search-greater-area', [
+			'name' => null
+		]);
 	}
 	
 	/**
@@ -30,7 +32,8 @@ class GreaterAreaController extends Controller
 	 */
 	public function postDoSearchGreaterArea(Request $request)
 	{
-		if (isset($request->name) && !is_null($request->name) && strlen($request->name) > 0)
+		$name = null;
+		if (Util::isValidRequestVariable($request->name))
 		{
 			$name = $request->name;
 			$greater_areas = GreaterArea::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->get();
@@ -39,7 +42,10 @@ class GreaterAreaController extends Controller
 		{
 			$greater_areas = GreaterArea::orderBy('name', 'asc')->get();
 		}
-		return view('greater-area.search-greater-area', ['greater_areas' => $greater_areas]);
+		return view('greater-area.search-greater-area', [
+			'greater_areas' => $greater_areas,
+			'name' => $name
+		]);
 	}
 	
 	/**

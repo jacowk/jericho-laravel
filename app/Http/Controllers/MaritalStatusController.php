@@ -26,7 +26,9 @@ class MaritalStatusController extends Controller
 	 */
 	public function getSearchMaritalStatus()
 	{
-		return view('marital-status.search-marital-status');
+		return view('marital-status.search-marital-status', [
+			'description' => null
+		]);
 	}
 	
 	/**
@@ -37,16 +39,20 @@ class MaritalStatusController extends Controller
 	 */
 	public function postDoSearchMaritalStatus(Request $request)
 	{
-		if (isset($request->description) && !is_null($request->description) && strlen($request->description) > 0)
+		$description = null;
+		if (Util::isValidRequestVariable($request->description))
 		{
-			$name = $request->description;
-			$marital_statuses = LookupMaritalStatus::where('description', 'like', '%' . $name . '%')->orderBy('description', 'asc')->get();
+			$description = $request->description;
+			$marital_statuses = LookupMaritalStatus::where('description', 'like', '%' . $description . '%')->orderBy('description', 'asc')->get();
 		}
 		else
 		{
 			$marital_statuses = LookupMaritalStatus::orderBy('description', 'asc')->get();
 		}
-		return view('marital-status.search-marital-status', ['marital_statuses' => $marital_statuses]);
+		return view('marital-status.search-marital-status', [
+			'marital_statuses' => $marital_statuses,
+			'description' => $description
+		]);
 	}
 	
 	/**

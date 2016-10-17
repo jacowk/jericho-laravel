@@ -26,7 +26,9 @@ class EstateAgentTypeController extends Controller
 	 */
 	public function getSearchEstateAgentType()
 	{
-		return view('estate-agent-type.search-estate-agent-type');
+		return view('estate-agent-type.search-estate-agent-type', [
+			'description' => null
+		]);
 	}
 	
 	/**
@@ -37,16 +39,20 @@ class EstateAgentTypeController extends Controller
 	 */
 	public function postDoSearchEstateAgentType(Request $request)
 	{
-		if (isset($request->description) && !is_null($request->description) && strlen($request->description) > 0)
+		$description = null;
+		if (Util::isValidRequestVariable($request->description))
 		{
-			$name = $request->description;
+			$description = $request->description;
 			$estate_agent_types = LookupEstateAgentType::where('description', 'like', '%' . $name . '%')->orderBy('description', 'asc')->get();
 		}
 		else
 		{
 			$estate_agent_types = LookupEstateAgentType::orderBy('description', 'asc')->get();
 		}
-		return view('estate-agent-type.search-estate-agent-type', ['estate_agent_types' => $estate_agent_types]);
+		return view('estate-agent-type.search-estate-agent-type', [
+			'estate_agent_types' => $estate_agent_types,
+			'description' => $description
+		]);
 	}
 	
 	/**

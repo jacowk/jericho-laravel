@@ -28,7 +28,9 @@ class ContractorController extends Controller
 	 */
     public function getSearchContractor()
     {
-    	return view('contractor.search-contractor');
+    	return view('contractor.search-contractor', [
+    			'name' => null
+    	]);
     }
     
     /**
@@ -39,7 +41,8 @@ class ContractorController extends Controller
      */
     public function postDoSearchContractor(Request $request)
     {
-    	if (isset($request->name) && !is_null($request->name) && strlen($request->name) > 0)
+    	$name = null;
+    	if (Util::isValidRequestVariable($request->name))
     	{
     		$name = $request->name;
     		$contractors = Contractor::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->get();
@@ -48,7 +51,10 @@ class ContractorController extends Controller
     	{
     		$contractors = Contractor::orderBy('name', 'asc')->get();
     	}
-    	return view('contractor.search-contractor', ['contractors' => $contractors]);
+    	return view('contractor.search-contractor', [
+    		'contractors' => $contractors,
+    		'name' => $name
+    	]);
     }
     
     /**

@@ -28,7 +28,9 @@ class AttorneyController extends Controller
 	 */
     public function getSearchAttorney()
     {
-    	return view('attorney.search-attorney');
+    	return view('attorney.search-attorney', [
+			'name' => null
+		]);
     }
     
     /**
@@ -39,7 +41,8 @@ class AttorneyController extends Controller
      */
     public function postDoSearchAttorney(Request $request)
     {
-    	if (isset($request->name) && !is_null($request->name) && strlen($request->name) > 0)
+    	$name = null;
+    	if (Util::isValidRequestVariable($request->name))
     	{
     		$name = $request->name;
     		$attorneys = Attorney::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->get();
@@ -48,7 +51,10 @@ class AttorneyController extends Controller
     	{
     		$attorneys = Attorney::orderBy('name', 'asc')->get();
     	}
-    	return view('attorney.search-attorney', ['attorneys' => $attorneys]);
+    	return view('attorney.search-attorney', [
+    			'attorneys' => $attorneys,
+				'name' => $name
+    	]);
     }
     
     /**

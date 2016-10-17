@@ -26,7 +26,9 @@ class PropertyTypeController extends Controller
 	 */
 	public function getSearchPropertyType()
 	{
-		return view('property-type.search-property-type');
+		return view('property-type.search-property-type', [
+			'description' => null
+		]);
 	}
 	
 	/**
@@ -37,16 +39,20 @@ class PropertyTypeController extends Controller
 	 */
 	public function postDoSearchPropertyType(Request $request)
 	{
-		if (isset($request->description) && !is_null($request->description) && strlen($request->description) > 0)
+		$description = null;
+		if (Util::isValidRequestVariable($request->description))
 		{
-			$name = $request->description;
-			$property_types = LookupPropertyType::where('description', 'like', '%' . $name . '%')->orderBy('description', 'asc')->get();
+			$description = $request->description;
+			$property_types = LookupPropertyType::where('description', 'like', '%' . $description . '%')->orderBy('description', 'asc')->get();
 		}
 		else
 		{
 			$property_types = LookupPropertyType::orderBy('description', 'asc')->get();
 		}
-		return view('property-type.search-property-type', ['property_types' => $property_types]);
+		return view('property-type.search-property-type', [
+				'property_types' => $property_types,
+				'description' => $description
+		]);
 	}
 	
 	/**

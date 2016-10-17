@@ -26,7 +26,9 @@ class ContractorTypeController extends Controller
 	 */
 	public function getSearchContractorType()
 	{
-		return view('contractor-type.search-contractor-type');
+		return view('contractor-type.search-contractor-type', [
+			'description' => null
+		]);
 	}
 	
 	/**
@@ -37,16 +39,20 @@ class ContractorTypeController extends Controller
 	 */
 	public function postDoSearchContractorType(Request $request)
 	{
-		if (isset($request->description) && !is_null($request->description) && strlen($request->description) > 0)
+		$description = null;
+		if (Util::isValidRequestVariable($request->description))
 		{
-			$name = $request->description;
-			$contractor_types = LookupContractorType::where('description', 'like', '%' . $name . '%')->orderBy('description', 'asc')->get();
+			$description = $request->description;
+			$contractor_types = LookupContractorType::where('description', 'like', '%' . $description . '%')->orderBy('description', 'asc')->get();
 		}
 		else
 		{
 			$contractor_types = LookupContractorType::orderBy('description', 'asc')->get();
 		}
-		return view('contractor-type.search-contractor-type', ['contractor_types' => $contractor_types]);
+		return view('contractor-type.search-contractor-type', [
+			'contractor_types' => $contractor_types,
+			'description' => $description
+		]);
 	}
 	
 	/**
