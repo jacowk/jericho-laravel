@@ -46,7 +46,7 @@ class MilestoneController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::MILESTONES_TAB);
 		$validator = Validator::make($request->all(), [
-				'effective_date' => 'required',
+				'effective_date' => 'required|date',
 				'milestone_type_id' => 'required|not_in:-1',
 				'property_flip_id' => 'required|not_in:-1'
 		]);

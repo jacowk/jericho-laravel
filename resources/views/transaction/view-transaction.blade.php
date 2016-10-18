@@ -32,8 +32,8 @@
 			<tr>
 				<th class="col-sm-2 text-right">Account</th>
 				<td>
-					@if ($transaction->account)
-						{{ $transaction->account->name }}
+					@if ($transaction->transaction)
+						{{ $transaction->transaction->name }}
 					@endif
 				</td>
 			</tr>
@@ -47,8 +47,34 @@
 			</tr>
 			<tr>
 				<th class="col-sm-2 text-right">Amount</th>
-				<td>{{ $transaction->amount }}</td>
+				<td>{{ MoneyUtil::toRandsAndFormat($transaction->amount) }}</td>
 			</tr>
+			@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_AUDIT_FIELDS))
+				<tr>
+					<th class="col-sm-3 text-right">Created By</th>
+					<td>
+						@if ($transaction->created_by)
+							{{ $transaction->created_by->firstname }} {{ $transaction->created_by->surname }}
+						@endif
+					</td>						
+				</tr>
+				<tr>
+					<th class="col-sm-3 text-right">Created At</th>
+					<td>{{ $transaction->created_at }}</td>						
+				</tr>
+				<tr>
+					<th class="col-sm-3 text-right">Updated By</th>
+					<td>
+						@if ($transaction->updated_by)
+							{{ $transaction->updated_by->firstname }} {{ $transaction->updated_by->surname }}
+						@endif
+					</td>						
+				</tr>
+				<tr>
+					<th class="col-sm-3 text-right">Updated At</th>
+					<td>{{ $transaction->updated_at }}</td>						
+				</tr>
+			@endif
 		</table>
 		<div class="form-inline">
 			<div class="form-group">

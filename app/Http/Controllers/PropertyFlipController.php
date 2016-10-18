@@ -45,7 +45,7 @@ class PropertyFlipController extends Controller
 	 */
 	public function postDoSearchPropertyFlip(Request $request)
 	{
-		if (isset($request->name) && !is_null($request->name) && strlen($request->name) > 0)
+		if (Util::isValidRequestVariable($request->name))
 		{
 			$name = $request->name;
 			$property_flips = PropertyFlip::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->get();
@@ -193,16 +193,20 @@ class PropertyFlipController extends Controller
 	public function getViewPropertyFlip(Request $request, $property_flip_id)
 	{
 		$property_flip = PropertyFlip::find($property_flip_id);
+		$property = Property::find($property_flip->property_id);
 		$attorney_contacts = $this->populateAttorneys($property_flip);
 		$contact_estate_agents = $this->populateEstateAgents($property_flip);
 		$contact_contractors = $this->populateContractors($property_flip);
 		$bank_contacts = $this->populateBanks($property_flip);
+		$contact_investors = $this->populateInvestors($property_flip);
 		return view('property-flip.view-property-flip', [
 			'property_flip' => $property_flip,
 			'attorney_contacts' => $attorney_contacts,
 			'contact_estate_agents' => $contact_estate_agents,
 			'contact_contractors' => $contact_contractors,
-			'bank_contacts' => $bank_contacts
+			'bank_contacts' => $bank_contacts,
+			'contact_investors' => $contact_investors,
+			'property' => $property
 		]);
 	}
 	
@@ -289,5 +293,22 @@ class PropertyFlipController extends Controller
 								'contacts.id as contact_id')
 								->get();
 		return $contact_banks;
+	}
+	
+	private function populateInvestors($property_flip)
+	{
+		$contact_investors = DB::table('investor_property_flip')
+						->join('contacts', 'contacts.id', '=' ,'investor_property_flip.contact_id')
+						->join('property_flips', 'property_flips.id', '=', 'investor_property_flip.property_flip_id')
+						->where('investor_property_flip.property_flip_id', '=', $property_flip->id)
+						->select('contacts.firstname as contact_firstname',
+								'contacts.surname as contact_surname',
+								'contacts.work_email as contact_work_email',
+								'contacts.work_tel_no as contact_work_tel_no',
+								'contacts.cell_no as contact_cell_no',
+								'contacts.id as contact_id',
+								'investor_property_flip.investment_amount')
+								->get();
+		return $contact_investors;
 	}
 }

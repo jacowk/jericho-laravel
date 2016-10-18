@@ -91,7 +91,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('/do-link-attorney-contact-delete', [
 			'uses' => 'AttorneyPropertyFlipController@postDoLinkAttorneyContactDelete',
 			'as' => 'do-link-attorney-contact-delete'
-	])->middleware('auth', 'permission:DELETE_ATTORNEY_CONTACT_LINK');
+	])->middleware('auth', 'permission:' . PermissionConstants::DELETE_ATTORNEY_CONTACT_LINK);
 
 	/* Link Estate Agents */
 	Route::group(['middleware' => 'permission:' . PermissionConstants::LINK_ESTATE_AGENT_CONTACT], function() {
@@ -119,7 +119,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('/do-link-contact-estate-agent-delete', [
 			'uses' => 'EstateAgentPropertyFlipController@postDoLinkContactEstateAgentDelete',
 			'as' => 'do-link-contact-estate-agent-delete'
-	])->middleware('auth', 'permission:DELETE_ESTATE_AGENT_CONTACT_LINK');
+	])->middleware('auth', 'permission:' . PermissionConstants::DELETE_ESTATE_AGENT_CONTACT_LINK);
 
 	/* Link Contractors */
 	Route::group(['middleware' => 'permission:' . PermissionConstants::LINK_CONTRACTOR_CONTACT], function() {
@@ -152,7 +152,7 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('/do-link-contact-contractor-delete', [
 			'uses' => 'ContractorPropertyFlipController@postDoLinkContactContractorDelete',
 			'as' => 'do-link-contact-contractor-delete'
-	])->middleware('auth', 'permission:DELETE_CONTRACTOR_CONTACT_LINK');
+	])->middleware('auth', 'permission:' . PermissionConstants::DELETE_CONTRACTOR_CONTACT_LINK);
 
 	/* Link Banks */
 	Route::group(['middleware' => 'permission:' . PermissionConstants::LINK_BANK_CONTACT], function() {
@@ -180,6 +180,29 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::post('/do-link-bank-contact-delete', [
 			'uses' => 'BankPropertyFlipController@postDoLinkBankContactDelete',
 			'as' => 'do-link-bank-contact-delete'
-	])->middleware('auth', 'permission:DELETE_BANK_CONTACT_LINK');
+	])->middleware('auth', 'permission:' . PermissionConstants::DELETE_BANK_CONTACT_LINK);
+	
+	/* Link Investors */
+	Route::group(['middleware' => 'permission:' . PermissionConstants::LINK_INVESTOR_CONTACT], function() {
+		Route::get('/link-contact-investor', [
+				'uses' => 'InvestorPropertyFlipController@postLinkContactInvestor',
+				'as' => 'link-contact-investor'
+		]);
+	
+		Route::post('/link-contact-investor', [
+				'uses' => 'InvestorPropertyFlipController@postLinkContactInvestor',
+				'as' => 'link-contact-investor'
+		]);
+	
+		Route::post('/do-link-contact-investor', [
+				'uses' => 'InvestorPropertyFlipController@postDoLinkContactInvestor',
+				'as' => 'do-link-contact-investor'
+		]);
+	});
+	
+	Route::post('/do-link-contact-investor-delete', [
+			'uses' => 'InvestorPropertyFlipController@postDoLinkContactInvestorDelete',
+			'as' => 'do-link-contact-investor-delete'
+	])->middleware('auth', 'permission:' . PermissionConstants::DELETE_INVESTOR_CONTACT_LINK);
 
 });

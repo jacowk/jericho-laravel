@@ -46,6 +46,32 @@
 					<th class="col-sm-3 text-right">Download File</th>
 					<td><a href="{{ route('download-document-direct', $document->id) }}">Click to download</a></td>						
 				</tr>
+				@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_AUDIT_FIELDS))
+					<tr>
+						<th class="col-sm-3 text-right">Created By</th>
+						<td>
+							@if ($document->created_by)
+								{{ $document->created_by->firstname }} {{ $document->created_by->surname }}
+							@endif
+						</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-3 text-right">Created At</th>
+						<td>{{ $document->created_at }}</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-3 text-right">Updated By</th>
+						<td>
+							@if ($document->updated_by)
+								{{ $document->updated_by->firstname }} {{ $document->updated_by->surname }}
+							@endif
+						</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-3 text-right">Updated At</th>
+						<td>{{ $document->updated_at }}</td>						
+					</tr>
+				@endif
 			</table>
 		</div>
 		<div class="form-inline">

@@ -18,6 +18,7 @@ class TabConstants
 	const ESTATE_AGENTS_TAB = 'estate_agents_tab';
 	const CONTRACTORS_TAB = 'contractors_tab';
 	const BANKS_TAB = 'banks_tab';
+	const INVESTORS_TAB = 'investors_tab';
 	const MILESTONES_TAB = 'milestones_tab';
 	const NOTES_TAB = 'notes_tab';
 	const DOCUMENTS_TAB = 'documents_tab';

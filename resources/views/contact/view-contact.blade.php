@@ -93,6 +93,32 @@
 					@endif
 				</td>						
 			</tr>
+			@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_AUDIT_FIELDS))
+				<tr>
+					<th class="col-sm-3 text-right">Created By</th>
+					<td>
+						@if ($contact->created_by)
+							{{ $contact->created_by->firstname }} {{ $contact->created_by->surname }}
+						@endif
+					</td>						
+				</tr>
+				<tr>
+					<th class="col-sm-3 text-right">Created At</th>
+					<td>{{ $contact->created_at }}</td>						
+				</tr>
+				<tr>
+					<th class="col-sm-3 text-right">Updated By</th>
+					<td>
+						@if ($contact->updated_by)
+							{{ $contact->updated_by->firstname }} {{ $contact->updated_by->surname }}
+						@endif
+					</td>						
+				</tr>
+				<tr>
+					<th class="col-sm-3 text-right">Updated At</th>
+					<td>{{ $contact->updated_at }}</td>						
+				</tr>
+			@endif
 		</table>
 		<div class="form-inline">
 			<div class="form-group">

@@ -26,6 +26,32 @@
 					<th class="col-sm-3 text-right">Service Description</th>
 					<td>{{ $contractor_service->service_description }}</td>						
 				</tr>
+				@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_AUDIT_FIELDS))
+					<tr>
+						<th class="col-sm-3 text-right">Created By</th>
+						<td>
+							@if ($contractor_service->created_by)
+								{{ $contractor_service->created_by->firstname }} {{ $contractor_service->created_by->surname }}
+							@endif
+						</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-3 text-right">Created At</th>
+						<td>{{ $contractor_service->created_at }}</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-3 text-right">Updated By</th>
+						<td>
+							@if ($contractor_service->updated_by)
+								{{ $contractor_service->updated_by->firstname }} {{ $contractor_service->updated_by->surname }}
+							@endif
+						</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-3 text-right">Updated At</th>
+						<td>{{ $contractor_service->updated_at }}</td>						
+					</tr>
+				@endif
 			</table>
 		</div>
 		<div class="form-inline">

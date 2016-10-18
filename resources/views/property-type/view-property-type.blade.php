@@ -22,6 +22,32 @@
 					<th class="col-sm-3 text-right">Description</th>
 					<td>{{ $property_type->description }}</td>						
 				</tr>
+				@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_AUDIT_FIELDS))
+					<tr>
+						<th class="col-sm-3 text-right">Created By</th>
+						<td>
+							@if ($property_type->created_by)
+								{{ $property_type->created_by->firstname }} {{ $property_type->created_by->surname }}
+							@endif
+						</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-3 text-right">Created At</th>
+						<td>{{ $property_type->created_at }}</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-3 text-right">Updated By</th>
+						<td>
+							@if ($property_type->updated_by)
+								{{ $property_type->updated_by->firstname }} {{ $property_type->updated_by->surname }}
+							@endif
+						</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-3 text-right">Updated At</th>
+						<td>{{ $property_type->updated_at }}</td>						
+					</tr>
+				@endif
 			</table>
 		</div>
 		<div class="form-inline">

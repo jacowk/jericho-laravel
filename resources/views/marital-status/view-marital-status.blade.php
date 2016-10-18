@@ -22,6 +22,32 @@
 					<th class="col-sm-3 text-right">Description</th>
 					<td>{{ $marital_status->description }}</td>						
 				</tr>
+				@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_AUDIT_FIELDS))
+					<tr>
+						<th class="col-sm-3 text-right">Created By</th>
+						<td>
+							@if ($marital_status->created_by)
+								{{ $marital_status->created_by->firstname }} {{ $marital_status->created_by->surname }}
+							@endif
+						</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-3 text-right">Created At</th>
+						<td>{{ $marital_status->created_at }}</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-3 text-right">Updated By</th>
+						<td>
+							@if ($marital_status->updated_by)
+								{{ $marital_status->updated_by->firstname }} {{ $marital_status->updated_by->surname }}
+							@endif
+						</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-3 text-right">Updated At</th>
+						<td>{{ $marital_status->updated_at }}</td>						
+					</tr>
+				@endif
 			</table>
 		</div>
 		<div class="form-inline">

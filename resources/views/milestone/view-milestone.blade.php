@@ -26,6 +26,32 @@
 					<th class="col-sm-3 text-right">Effective Date</th>
 					<td>{{ $milestone->effective_date }}</td>						
 				</tr>
+				@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_AUDIT_FIELDS))
+					<tr>
+						<th class="col-sm-3 text-right">Created By</th>
+						<td>
+							@if ($milestone->created_by)
+								{{ $milestone->created_by->firstname }} {{ $milestone->created_by->surname }}
+							@endif
+						</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-3 text-right">Created At</th>
+						<td>{{ $milestone->created_at }}</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-3 text-right">Updated By</th>
+						<td>
+							@if ($milestone->updated_by)
+								{{ $milestone->updated_by->firstname }} {{ $milestone->updated_by->surname }}
+							@endif
+						</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-3 text-right">Updated At</th>
+						<td>{{ $milestone->updated_at }}</td>						
+					</tr>
+				@endif
 			</table>
 		</div>
 		<div class="form-inline">

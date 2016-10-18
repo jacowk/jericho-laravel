@@ -1,4 +1,103 @@
+@if ($property)
+	<div class="container">
+		<div class="row">
+			<div class="panel-heading text-center">
+				<h4 class="panel-property-type">Property Details</h4>
+			</div>
+		</div>
+		<div class="row">
+			<table class="table table-bordered table-striped table-condensed">
+				<tr>
+					<th class="col-sm-3 text-right">ID</th>
+					<td>{{ $property->id }}</td>					
+				</tr>
+				<tr>
+					<th class="col-sm-3 text-right">Address</th>
+					<td>
+						{{ $property->address_line_1 }}<br>
+						@if ($property->address_line_2)
+							{{ $property->address_line_2 }}<br>
+						@endif
+						@if ($property->address_line_3)
+							{{ $property->address_line_3 }}<br>
+						@endif
+						@if ($property->address_line_4)
+							{{ $property->address_line_4 }}<br>
+						@endif
+						@if ($property->address_line_5)
+							{{ $property->address_line_5 }}<br>
+						@endif
+					</td>						
+				</tr>
+				<tr>
+					<th class="col-sm-3 text-right">Suburb</th>
+					<td>{{ $property->suburb->name }}</td>						
+				</tr>
+				<tr>
+					<th class="col-sm-3 text-right">Area</th>
+					<td>{{ $property->area->name }}</td>						
+				</tr>
+				<tr>
+					<th class="col-sm-3 text-right">Greater Area</th>
+					<td>{{ $property->greater_area->name }}</td>						
+				</tr>
+				<tr>
+					<th class="col-sm-3 text-right">Portion Number</th>
+					<td>{{ $property->portion_number }}</td>						
+				</tr>
+				<tr>
+					<th class="col-sm-3 text-right">Erf Number</th>
+					<td>{{ $property->erf_number }}</td>						
+				</tr>
+				<tr>
+					<th class="col-sm-3 text-right">Size</th>
+					<td>{{ $property->size }}</td>
+				</tr>
+				<tr>
+					<th class="col-sm-3 text-right">Property Type</th>
+					<td>
+						@if ($property->lookup_property_type)
+							{{ $property->lookup_property_type->description }}
+						@endif
+					</td>
+				</tr>
+				@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_AUDIT_FIELDS))
+					<tr>
+						<th class="col-sm-3 text-right">Created By</th>
+						<td>
+							@if ($property->created_by)
+								{{ $property->created_by->firstname }} {{ $property->created_by->surname }}
+							@endif
+						</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-3 text-right">Created At</th>
+						<td>{{ $property->created_at }}</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-3 text-right">Updated By</th>
+						<td>
+							@if ($property->updated_by)
+								{{ $property->updated_by->firstname }} {{ $property->updated_by->surname }}
+							@endif
+						</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-3 text-right">Updated At</th>
+						<td>{{ $property->updated_at }}</td>						
+					</tr>
+				@endif
+			</table>
+		</div>
+	</div>
+@endif
+
 <div class="container">
+	<div class="row">
+		<div class="panel-heading text-center">
+			<h4 class="panel-property-type">Property Flip Details</h4>
+		</div>
+	</div>
 	<div class="form-group">
 		<table class="table table-bordered table-striped table-condensed">
 			<tr>
@@ -27,7 +126,7 @@
 			</tr>
 			<tr>
 				<th class="col-sm-3 text-right">Selling Price</th>
-				<td>{{ $property_flip->selling_price }}</td>
+				<td>{{ MoneyUtil::toRandsAndFormat($property_flip->selling_price) }}</td>
 			</tr>
 			<tr>
 				<th class="col-sm-3 text-right">Seller Status</th>
@@ -49,7 +148,7 @@
 			</tr>
 			<tr>
 				<th class="col-sm-3 text-right">Purchase Price</th>
-				<td>{{ $property_flip->purchase_price }}</td>
+				<td>{{ MoneyUtil::toRandsAndFormat($property_flip->purchase_price) }}</td>
 			</tr>
 			<tr>
 				<th class="col-sm-3 text-right">Finance Status</th>
@@ -61,6 +160,32 @@
 					@endif
 				</td>
 			</tr>
+			@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_AUDIT_FIELDS))
+				<tr>
+					<th class="col-sm-3 text-right">Created By</th>
+					<td>
+						@if ($property_flip->created_by)
+							{{ $property_flip->created_by->firstname }} {{ $property_flip->created_by->surname }}
+						@endif
+					</td>						
+				</tr>
+				<tr>
+					<th class="col-sm-3 text-right">Created At</th>
+					<td>{{ $property_flip->created_at }}</td>						
+				</tr>
+				<tr>
+					<th class="col-sm-3 text-right">Updated By</th>
+					<td>
+						@if ($property_flip->updated_by)
+							{{ $property_flip->updated_by->firstname }} {{ $property_flip->updated_by->surname }}
+						@endif
+					</td>						
+				</tr>
+				<tr>
+					<th class="col-sm-3 text-right">Updated At</th>
+					<td>{{ $property_flip->updated_at }}</td>						
+				</tr>
+			@endif
 		</table>
 	</div>
 	

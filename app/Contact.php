@@ -43,4 +43,14 @@ class Contact extends Model
     {
     	return $this->belongsToMany('jericho\PropertyFlip', 'attorney_property_flip');
     }
+    
+    public function created_by()
+    {
+    	return $this->belongsTo('jericho\User', 'created_by_id');
+    }
+    
+    public function updated_by()
+    {
+    	return $this->belongsTo('jericho\User', 'updated_by_id');
+    }
 }

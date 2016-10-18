@@ -33,7 +33,7 @@
 								{{ $transaction->transaction_type->description }}
 							@endif
 						</td>
-						<td>{{ $transaction->amount }}</td>
+						<td>{{ MoneyUtil::toRandsAndFormat($transaction->amount) }}</td>
 						@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_TRANSACTION))
 							<td><a href="{{ route('update-transaction', ['transaction_id' => $transaction->id]) }}">Update</a></td>
 						@endif

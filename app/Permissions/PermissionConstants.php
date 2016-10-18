@@ -107,6 +107,9 @@ class PermissionConstants
 	const LINK_CONTRACTOR_CONTACT = 'Link Contractor Contact';
 	const DELETE_CONTRACTOR_CONTACT_LINK = 'Delete Contractor Contact Link';
 	const VIEW_PROPERTY_FLIP_CONTRACTORS = 'View Property Flip Contractors';
+	const LINK_INVESTOR_CONTACT = 'Link Investor Contact';
+	const DELETE_INVESTOR_CONTACT_LINK = 'Delete Investor Contact Link';
+	const VIEW_PROPERTY_FLIP_INVESTORS = 'View Property Flip Investors';
 	const LINK_BANK_CONTACT = 'Link Bank Contact';
 	const DELETE_BANK_CONTACT_LINK = 'Delete Bank Contact Link';
 	const VIEW_PROPERTY_FLIP_BANKS = 'View Property Flip Banks';
@@ -118,4 +121,5 @@ class PermissionConstants
 	const VIEW_PROFIT_AND_LOSS_BY_DATE_REPORT = 'View Profit And Loss By Date Report';
 	const VIEW_TOTALS_PER_STATUS_REPORT = 'View Totals Per Status Report';
 	const VIEW_AUDIT_TRAIL = 'View Audit Trail';
+	const VIEW_AUDIT_FIELDS = 'View Audit Fields'; /* Refering to create and update fields */
 }

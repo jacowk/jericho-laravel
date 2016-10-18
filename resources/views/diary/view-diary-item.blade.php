@@ -41,14 +41,32 @@
 <!-- 					@endif -->
 <!-- 				</td>						 -->
 <!-- 			</tr> -->
-			<tr>
-				<th class="col-sm-2 text-right">Created By</th>
-				<td>{{ $diary_item->created_by_id }}</td>						
-			</tr>
-			<tr>
-				<th class="col-sm-2 text-right">Created At</th>
-				<td>{{ $diary_item->created_at }}</td>						
-			</tr>
+			@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_AUDIT_FIELDS))
+				<tr>
+					<th class="col-sm-3 text-right">Created By</th>
+					<td>
+						@if ($diary_item->created_by)
+							{{ $diary_item->created_by->firstname }} {{ $diary_item->created_by->surname }}
+						@endif
+					</td>						
+				</tr>
+				<tr>
+					<th class="col-sm-3 text-right">Created At</th>
+					<td>{{ $diary_item->created_at }}</td>						
+				</tr>
+				<tr>
+					<th class="col-sm-3 text-right">Updated By</th>
+					<td>
+						@if ($diary_item->updated_by)
+							{{ $diary_item->updated_by->firstname }} {{ $diary_item->updated_by->surname }}
+						@endif
+					</td>						
+				</tr>
+				<tr>
+					<th class="col-sm-3 text-right">Updated At</th>
+					<td>{{ $diary_item->updated_at }}</td>						
+				</tr>
+			@endif
 		</table>
 		<div class="row">
 			<div class="form-inline">

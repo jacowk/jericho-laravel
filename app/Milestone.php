@@ -18,4 +18,14 @@ class Milestone extends Model
     {
     	return $this->belongsTo('jericho\LookupMilestoneType', 'milestone_type_id');
     }
+    
+    public function created_by()
+    {
+    	return $this->belongsTo('jericho\User', 'created_by_id');
+    }
+    
+    public function updated_by()
+    {
+    	return $this->belongsTo('jericho\User', 'updated_by_id');
+    }
 }

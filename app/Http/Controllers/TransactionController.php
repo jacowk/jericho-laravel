@@ -73,7 +73,7 @@ class TransactionController extends Controller
 		$transaction->reference = Util::getQueryParameter($request->reference);
 		$transaction->account_id = Util::getQueryParameter($request->account_id);
 		$transaction->transaction_type_id = Util::getQueryParameter($request->transaction_type_id);
-		$transaction->amount = Util::getQueryParameter($request->amount);
+		$transaction->amount = Util::processCurrencyValue($request->amount);
 		$transaction->created_by_id = $user->id;
 		$property_flip = PropertyFlip::find($request->property_flip_id);
 		$property_flip->transactions()->save($transaction);
@@ -137,7 +137,7 @@ class TransactionController extends Controller
 		$transaction->reference = Util::getQueryParameter($request->reference);
 		$transaction->account_id = Util::getQueryParameter($request->account_id);
 		$transaction->transaction_type_id = Util::getQueryParameter($request->transaction_type_id);
-		$transaction->amount = Util::getQueryParameter($request->amount);
+		$transaction->amount = Util::processCurrencyValue($request->amount);
 		$transaction->updated_by_id = $user->id;
 		$transaction->save();
 		return redirect()->action('PropertyFlipController@getViewPropertyFlip', ['property_flip_id' => $transaction->property_flip->id])

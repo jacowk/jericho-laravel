@@ -22,6 +22,32 @@
 					<th class="col-sm-3 text-right">Description</th>
 					<td>{{ $transaction_type->description }}</td>						
 				</tr>
+				@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_AUDIT_FIELDS))
+					<tr>
+						<th class="col-sm-3 text-right">Created By</th>
+						<td>
+							@if ($transaction_type->created_by)
+								{{ $transaction_type->created_by->firstname }} {{ $transaction_type->created_by->surname }}
+							@endif
+						</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-3 text-right">Created At</th>
+						<td>{{ $transaction_type->created_at }}</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-3 text-right">Updated By</th>
+						<td>
+							@if ($transaction_type->updated_by)
+								{{ $transaction_type->updated_by->firstname }} {{ $transaction_type->updated_by->surname }}
+							@endif
+						</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-3 text-right">Updated At</th>
+						<td>{{ $transaction_type->updated_at }}</td>
+					</tr>
+				@endif
 			</table>
 		</div>
 		<div class="form-inline">

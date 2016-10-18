@@ -5,6 +5,13 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use jericho\Util\Util;
 
+/**
+ * A unit test class for testing Util methods
+ * 
+ * @author Jaco Koekemoer
+ * Date: 2016-10-14
+ *
+ */
 class UtilTest extends TestCase
 {
 	/**

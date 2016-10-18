@@ -22,6 +22,32 @@
 					<th class="col-sm-3 text-right">Description</th>
 					<td>{{ $estate_agent_type->description }}</td>						
 				</tr>
+				@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_AUDIT_FIELDS))
+					<tr>
+						<th class="col-sm-3 text-right">Created By</th>
+						<td>
+							@if ($estate_agent_type->created_by)
+								{{ $estate_agent_type->created_by->firstname }} {{ $estate_agent_type->created_by->surname }}
+							@endif
+						</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-3 text-right">Created At</th>
+						<td>{{ $estate_agent_type->created_at }}</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-3 text-right">Updated By</th>
+						<td>
+							@if ($estate_agent_type->updated_by)
+								{{ $estate_agent_type->updated_by->firstname }} {{ $estate_agent_type->updated_by->surname }}
+							@endif
+						</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-3 text-right">Updated At</th>
+						<td>{{ $estate_agent_type->updated_at }}</td>						
+					</tr>
+				@endif
 			</table>
 		</div>
 		<div class="form-inline">

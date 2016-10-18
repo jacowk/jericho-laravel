@@ -48,7 +48,9 @@ class AuditTrailController extends Controller
 	public function postDoSearchAuditTrail(Request $request)
 	{
 		$validator = Validator::make($request->all(), [
-				'user_id' => 'required'
+				'user_id' => 'required',
+				'from_date' => 'date',
+				'to_date' => 'date'
 		]);
 		
 		if ($validator->fails()) {

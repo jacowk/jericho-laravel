@@ -57,6 +57,15 @@
 				@endif
 			@endif
 			
+			<!-- Investors Tab -->
+			@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_PROPERTY_FLIP_INVESTORS))
+				@if (Session::get(TabConstants::ACTIVE_TAB) == TabConstants::INVESTORS_TAB)
+					<li role="presentation" class="active"><a href="#investors" aria-controls="investors" role="tab" data-toggle="tab">Investors</a></li>
+				@else
+					<li role="presentation"><a href="#investors" aria-controls="investors" role="tab" data-toggle="tab">Investors</a></li>
+				@endif
+			@endif
+			
 			<!-- Milestones Tab -->
 			@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_MILESTONE))
 				@if (Session::get(TabConstants::ACTIVE_TAB) == TabConstants::MILESTONES_TAB)
@@ -157,6 +166,17 @@
 					@include('property-flip.bank-contacts')
 				</div>
 			@endif
+			
+			<!-- Investors Tab -->
+			@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_PROPERTY_FLIP_INVESTORS))			
+				@if (Session::get(TabConstants::ACTIVE_TAB) == TabConstants::INVESTORS_TAB)
+					<div role="tabpanel" class="tab-pane active" id="investors">
+				@else
+					<div role="tabpanel" class="tab-pane" id="investors">
+				@endif
+					@include('property-flip.contact-investors')
+				</div>
+			@endif
 				
 			<!-- Milestones Tab -->
 			@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_MILESTONE))
@@ -236,6 +256,10 @@
 				<li role="presentation"><a href="#banks" aria-controls="banks" role="tab" data-toggle="tab">Banks</a></li>
 			@endif
 			
+			@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_PROPERTY_FLIP_INVESTORS))
+				<li role="presentation"><a href="#investors" aria-controls="investors" role="tab" data-toggle="tab">Investors</a></li>
+			@endif
+			
 			@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_MILESTONE))
 				<li role="presentation"><a href="#milestones" aria-controls="milestones" role="tab" data-toggle="tab">Milestones</a></li>
 			@endif
@@ -288,6 +312,13 @@
 			@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_PROPERTY_FLIP_BANKS))
 				<div role="tabpanel" class="tab-pane" id="banks">
 					@include('property-flip.bank-contacts')
+				</div>
+			@endif
+			
+			<!-- Investors Tab -->
+			@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_PROPERTY_FLIP_INVESTORS))
+				<div role="tabpanel" class="tab-pane" id="investors">
+					@include('property-flip.contact-investors')
 				</div>
 			@endif
 			

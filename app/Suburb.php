@@ -18,4 +18,14 @@ class Suburb extends Model
     {
     	return $this->hasMany('jericho\Property');
     }
+    
+    public function created_by()
+    {
+    	return $this->belongsTo('jericho\User', 'created_by_id');
+    }
+    
+    public function updated_by()
+    {
+    	return $this->belongsTo('jericho\User', 'updated_by_id');
+    }
 }

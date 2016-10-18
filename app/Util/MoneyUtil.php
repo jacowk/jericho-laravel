@@ -1,6 +1,14 @@
 <?php
 namespace jericho\Util;
 
+use NumberFormatter;
+
+/**
+ * A util for managing money values
+ * 
+ * @author Jaco Koekemoer
+ *
+ */
 class MoneyUtil
 {
 	public static function toRandsAndFormat($value)
@@ -28,11 +36,11 @@ class MoneyUtil
 	public static function format($value)
 	{
 		setlocale(LC_MONETARY, 'en_ZA');
-// 		return money_format('%.2n', $value); /* UNIX specific */
-// 		$fmt = new NumberFormatter( 'en_ZA', NumberFormatter::CURRENCY ); 
-// 		return $fmt->formatCurrency($value, 'R');
+		/* UNIX specific */
+// 		return money_format('%.2n', $value);
 
-		$fmt = numfmt_create( 'en_ZA', NumberFormatter::CURRENCY ); 
-		return numfmt_format($value, 'R');
+		/* Windows specific */
+		$fmt = new NumberFormatter( 'en_ZA', NumberFormatter::CURRENCY ); 
+		return $fmt->format($value);
 	}
 }

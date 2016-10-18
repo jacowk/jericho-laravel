@@ -81,6 +81,18 @@ class PropertyFlip extends Model
     			'deleted_at');
     }
     
+    public function investors()
+    {
+    	return $this->belongsToMany('jericho\Contact', 'investor_property_flip')
+    	->withPivot('investment_amount',
+    			'created_by_id',
+    			'updated_by_id',
+    			'deleted_by_id',
+    			'created_at',
+    			'updated_at',
+    			'deleted_at');
+    }
+    
     public function milestones()
     {
     	return $this->hasMany('jericho\Milestone');
@@ -104,5 +116,15 @@ class PropertyFlip extends Model
     public function transactions()
     {
     	return $this->hasMany('jericho\Transaction');
+    }
+    
+    public function created_by()
+    {
+    	return $this->belongsTo('jericho\User', 'created_by_id');
+    }
+    
+    public function updated_by()
+    {
+    	return $this->belongsTo('jericho\User', 'updated_by_id');
     }
 }

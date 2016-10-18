@@ -13,4 +13,14 @@ class Permission extends Model
 	{
 		return $this->belongsToMany('jericho\Role');
 	}
+	
+	public function created_by()
+	{
+		return $this->belongsTo('jericho\User', 'created_by_id');
+	}
+	
+	public function updated_by()
+	{
+		return $this->belongsTo('jericho\User', 'updated_by_id');
+	}
 }

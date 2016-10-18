@@ -82,6 +82,10 @@
 			    $( "#effective_date" ).datepicker({
 			    	dateFormat: "yy-mm-dd"
 				});
+
+			    $('#amount').inputmask('R 99999999.99', {
+					numericInput: true
+				});
 			});
 		</script>
 	</div>

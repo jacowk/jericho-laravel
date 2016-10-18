@@ -19,9 +19,35 @@
 					<td>{{ $area->id }}</td>						
 				</tr>
 				<tr>
-					<th class="col-sm-3 text-right">ID</th>
+					<th class="col-sm-3 text-right">Name</th>
 					<td>{{ $area->name }}</td>						
 				</tr>
+				@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_AUDIT_FIELDS))
+					<tr>
+						<th class="col-sm-3 text-right">Created By</th>
+						<td>
+							@if ($area->created_by)
+								{{ $area->created_by->firstname }} {{ $area->created_by->surname }}
+							@endif
+						</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-3 text-right">Created At</th>
+						<td>{{ $area->created_at }}</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-3 text-right">Updated By</th>
+						<td>
+							@if ($area->updated_by)
+								{{ $area->updated_by->firstname }} {{ $area->updated_by->surname }}
+							@endif
+						</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-3 text-right">Updated At</th>
+						<td>{{ $area->updated_at }}</td>						
+					</tr>
+				@endif
 			</table>
 		</div>
 		<div class="form-inline">
