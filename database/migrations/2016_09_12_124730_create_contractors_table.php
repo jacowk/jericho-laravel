@@ -15,7 +15,7 @@ class CreateContractorsTable extends Migration
     {
         Schema::create('contractors', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
+            $table->string('name')->index();
             $table->longText('work_description')->nullable();
             $table->integer('contractor_type_id')->nullable();
             $table->bigInteger('created_by_id');

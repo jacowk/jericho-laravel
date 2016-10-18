@@ -15,7 +15,7 @@ class CreateSuburbsTable extends Migration
     {
         Schema::create('suburbs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
+            $table->string('name')->index();
             $table->string('box_code')->nullable();
             $table->string('street_code')->nullable();
             $table->bigInteger('area_id')->nullable();

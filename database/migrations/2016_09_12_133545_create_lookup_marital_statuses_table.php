@@ -15,7 +15,7 @@ class CreateLookupMaritalStatusesTable extends Migration
     {
         Schema::create('lookup_marital_statuses', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('description');
+            $table->string('description')->index();
             $table->bigInteger('created_by_id');
             $table->bigInteger('updated_by_id')->nullable();
             $table->bigInteger('deleted_by_id')->nullable();

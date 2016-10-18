@@ -15,7 +15,7 @@ class CreateGreaterAreasTable extends Migration
     {
         Schema::create('greater_areas', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
+            $table->string('name')->index();
             $table->bigInteger('created_by_id');
             $table->bigInteger('updated_by_id')->nullable();
             $table->bigInteger('deleted_by_id')->nullable();

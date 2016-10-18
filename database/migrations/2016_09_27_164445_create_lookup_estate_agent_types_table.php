@@ -15,7 +15,7 @@ class CreateLookupEstateAgentTypesTable extends Migration
     {
         Schema::create('lookup_estate_agent_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('description');
+            $table->string('description')->index();
             $table->bigInteger('created_by_id');
             $table->bigInteger('updated_by_id')->nullable();
             $table->bigInteger('deleted_by_id')->nullable();

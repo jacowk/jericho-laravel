@@ -15,7 +15,7 @@ class CreateLookupMilestoneTypesTable extends Migration
     {
         Schema::create('lookup_milestone_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('description');
+            $table->string('description')->index();
             $table->bigInteger('created_by_id');
             $table->bigInteger('updated_by_id')->nullable();
             $table->bigInteger('deleted_by_id')->nullable();
