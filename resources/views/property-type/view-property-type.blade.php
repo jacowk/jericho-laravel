@@ -10,7 +10,7 @@
 </ol>
 @endsection
 
-@section('content')s
+@section('content')
 	<div class="container">
 		<div class="form-group">
 			<table class="table table-bordered table-striped table-condensed">
