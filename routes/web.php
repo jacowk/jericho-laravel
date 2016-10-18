@@ -37,6 +37,7 @@ include 'contractor-type-routes.php';
 include 'contact-routes.php';
 include 'diary-routes.php';
 include 'document-routes.php';
+include 'document-type-routes.php';
 include 'estate-agent-routes.php';
 include 'estate-agent-type-routes.php';
 include 'followup-routes.php';

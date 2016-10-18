@@ -3,6 +3,12 @@
 use Illuminate\Database\Seeder;
 use jericho\LookupContractorType;
 
+/**
+ * A seeder for populating the system with Contractor types
+ * 
+ * @author Jaco Koekemoer
+ *
+ */
 class LookupContractorTypeTableSeeder extends Seeder
 {
     /**

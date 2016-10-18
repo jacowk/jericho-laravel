@@ -53,5 +53,6 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleUserTableSeeder::class);
         $this->call(LookupPropertyTypeTableSeeder::class);
         $this->call(LookupMilestoneTypeTableSeeder::class);
+        $this->call(LookupDocumentTypeTableSeeder::class);
     }
 }

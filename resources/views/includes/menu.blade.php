@@ -38,10 +38,10 @@
 						<li><a href="{{ url('/search-property') }}">Properties</a></li>
 					@endif
 					
-					@if (MenuDisplayValidator::canDisplaySetupMenu())
+					@if (MenuDisplayValidator::canDisplayLookupMenu())
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-								Setup <span class="caret"></span>
+								Lookup <span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu" role="menu">
 								@if (MenuDisplayValidator::canDisplayAccountsMenu())
@@ -66,6 +66,10 @@
 								
 								@if (MenuDisplayValidator::canDisplayContractorTypesMenu())
 									<li><a href="{{ url('/search-contractor-type') }}">Contractor Types</a></li>
+								@endif
+								
+								@if (MenuDisplayValidator::canDisplayDocumentTypesMenu())
+									<li><a href="{{ url('/search-document-type') }}">Document Types</a></li>
 								@endif
 								
 								@if (MenuDisplayValidator::canDisplayEstateAgentTypesMenu())

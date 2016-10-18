@@ -5,6 +5,7 @@ use jericho\LookupMilestoneType;
 use jericho\LookupEstateAgentType;
 use jericho\LookupAttorneyType;
 use jericho\LookupContractorType;
+use jericho\LookupDocumentType;
 use jericho\LookupPropertyType;
 use jericho\LookupTitle;
 use jericho\LookupMaritalStatus;
@@ -27,6 +28,12 @@ use jericho\Permission;
 use jericho\Util\Util;
 use DB;
 
+/**
+ * This util class is used to create key => value pairs from tables that are used in drop down boxes in the views 
+ * 
+ * @author Jaco Koekemoer
+ *
+ */
 class LookupUtil
 {
 	public static function retrieveLookupMilestoneTypes()
@@ -75,6 +82,18 @@ class LookupUtil
 			$contractor_types[$contractor_type->id] = $contractor_type->description;
 		}
 		return $contractor_types;
+	}
+	
+	public static function retrieveLookupDocumentTypes()
+	{
+		$lookup_document_types = LookupDocumentType::all();
+		$document_types = array();
+		$document_types[-1] = "Select Document Type";
+		foreach($lookup_document_types as $document_type)
+		{
+			$document_types[$document_type->id] = $document_type->description;
+		}
+		return $document_types;
 	}
 	
 	public static function retrieveLookupTitles()

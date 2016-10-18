@@ -9,7 +9,8 @@
 			<thead>
 				<tr>
 					<th class="col-sm-1 text-center">ID</th>
-					<th class="col-sm-7 text-center">Description</th>
+					<th class="col-sm-3 text-center">Document Type</th>
+					<th class="col-sm-4 text-center">Description</th>
 					<th class="col-sm-2 text-center">Date Created</th>
 					@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_DOCUMENT))
 						<th class="col-sm-1 text-center">Update</th>
@@ -22,6 +23,11 @@
 					@foreach($property_flip->documents as $document)
 					<tr>
 						<td>{{ $document->id }}</td>
+						<td>
+							@if ($document->document_type)
+								{{ $document->document_type->description }}
+							@endif
+						</td>
 						<td>{{ $document->description }}</td>
 						<td>{{ $document->created_at }}</td>
 						@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_DOCUMENT))

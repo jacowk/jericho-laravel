@@ -14,6 +14,14 @@
 	<div class="container">
 		{{ Form::open(array('route' => array('do-update-document', $document->id), 'class' => 'form-horizontal')) }}
 			{{ Form::token() }}
+			
+			<div class="form-group">
+				{{  Form::label('document_type_id', 'Document Type', array('class' => 'col-sm-2 control-label')) }}
+				<div class="col-sm-10">
+					{{ Form::select('document_type_id', $document_types, $document->document_type_id, ['class' => 'form-control']) }}
+				</div>
+			</div>
+			
 			<div class="form-group">
 				{{  Form::label('description', 'Description', array('class' => 'col-sm-2 control-label')) }}
 				<div class="col-sm-10">

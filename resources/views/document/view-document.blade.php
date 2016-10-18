@@ -19,6 +19,14 @@
 					<td>{{ $document->id }}</td>						
 				</tr>
 				<tr>
+					<th class="col-sm-3 text-right">Document Type</th>
+					<td>
+						@if ($document->document_type)
+							{{ $document->document_type->description }}
+						@endif
+					</td>						
+				</tr>
+				<tr>
 					<th class="col-sm-3 text-right">Description</th>
 					<td>{{ $document->description }}</td>						
 				</tr>
@@ -29,10 +37,6 @@
 				<tr>
 					<th class="col-sm-3 text-right">File Size</th>
 					<td>{{ $document->file_size }}</td>						
-				</tr>
-				<tr>
-					<th class="col-sm-3 text-right">Original Name</th>
-					<td>{{ $document->client_original_name }}</td>						
 				</tr>
 				<tr>
 					<th class="col-sm-3 text-right">Original Name</th>

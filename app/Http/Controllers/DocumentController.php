@@ -14,6 +14,7 @@ use jericho\Document;
 use jericho\PropertyFlip;
 use jericho\Util\Util;
 use jericho\Util\TabConstants;
+use jericho\Util\LookupUtil;
 
 /**
  * This class is a controller for performing CRUD operations on documents
@@ -32,8 +33,10 @@ class DocumentController extends Controller
 	public function getAddDocument(Request $request, $property_flip_id)
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::DOCUMENTS_TAB);
+		$document_types = LookupUtil::retrieveLookupDocumentTypes();
 		return view('document.add-document', [
-			'property_flip_id' => $property_flip_id
+			'property_flip_id' => $property_flip_id,
+			'document_types' => $document_types
 		]);
 	}
 	
@@ -106,8 +109,12 @@ class DocumentController extends Controller
 	public function getUpdateDocument(Request $request, $document_id)
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::DOCUMENTS_TAB);
+		$document_types = LookupUtil::retrieveLookupDocumentTypes();
 		$document = Document::find($document_id);
-		return view('document.update-document', ['document' => $document]);
+		return view('document.update-document', [
+			'document' => $document,
+			'document_types' => $document_types
+		]);
 	}
 	
 	/**

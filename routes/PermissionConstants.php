@@ -53,6 +53,9 @@ class PermissionConstants
 	const ADD_CONTRACTOR_TYPE = 'Add Contractor Type';
 	const UPDATE_CONTRACTOR_TYPE = 'Update Contractor Type';
 	const VIEW_CONTRACTOR_TYPE = 'View Contractor Type';
+	const ADD_DOCUMENT_TYPE = 'Add Document Type';
+	const UPDATE_DOCUMENT_TYPE = 'Update Document Type';
+	const VIEW_DOCUMENT_TYPE = 'View Document Type';
 	const ADD_ESTATE_AGENT_TYPE = 'Add Estate Agent Type';
 	const UPDATE_ESTATE_AGENT_TYPE = 'Update Estate Agent Type';
 	const VIEW_ESTATE_AGENT_TYPE = 'View Estate Agent Type';

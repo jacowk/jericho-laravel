@@ -21,7 +21,7 @@ class MenuDisplayValidator
 	}
 	
 	/* Main Menu */
-	public static function canDisplaySetupMenu()
+	public static function canDisplayLookupMenu()
 	{
 		return MenuDisplayValidator::canDisplayAccountsMenu() ||
 			MenuDisplayValidator::canDisplayGreaterAreasMenu() ||
@@ -29,6 +29,7 @@ class MenuDisplayValidator
 			MenuDisplayValidator::canDisplaySuburbsMenu() ||
 			MenuDisplayValidator::canDisplayAttorneyTypesMenu() ||
 			MenuDisplayValidator::canDisplayContractorTypesMenu() ||
+			MenuDisplayValidator::canDisplayDocumentTypesMenu() ||
 			MenuDisplayValidator::canDisplayEstateAgentTypesMenu() ||
 			MenuDisplayValidator::canDisplayMaritalStatusesMenu() ||
 			MenuDisplayValidator::canDisplayPropertyTypesMenu() ||
@@ -37,73 +38,79 @@ class MenuDisplayValidator
 			MenuDisplayValidator::canDisplayTransactionTypesMenu();
 	}
 	
-	/* Submenu of Setup menu */
+	/* Submenu of Lookup menu */
 	public static function canDisplayAccountsMenu()
 	{
 		return PermissionValidator::hasPermission(PermissionConstants::VIEW_ACCOUNT);
 	}
 	
-	/* Submenu of Setup menu */
+	/* Submenu of Lookup menu */
 	public static function canDisplayGreaterAreasMenu()
 	{
 		return PermissionValidator::hasPermission(PermissionConstants::VIEW_GREATER_AREA);
 	}
 	
-	/* Submenu of Setup menu */
+	/* Submenu of Lookup menu */
 	public static function canDisplayAreasMenu()
 	{
 		return PermissionValidator::hasPermission(PermissionConstants::VIEW_AREA);
 	}
 	
-	/* Submenu of Setup menu */
+	/* Submenu of Lookup menu */
 	public static function canDisplaySuburbsMenu()
 	{
 		return PermissionValidator::hasPermission(PermissionConstants::VIEW_SUBURB);
 	}
 	
-	/* Submenu of Setup menu */
+	/* Submenu of Lookup menu */
 	public static function canDisplayAttorneyTypesMenu()
 	{
 		return PermissionValidator::hasPermission(PermissionConstants::VIEW_ATTORNEY_TYPE);
 	}
 	
-	/* Submenu of Setup menu */
+	/* Submenu of Lookup menu */
 	public static function canDisplayContractorTypesMenu()
 	{
 		return PermissionValidator::hasPermission(PermissionConstants::VIEW_CONTRACTOR_TYPE);
 	}
 	
-	/* Submenu of Setup menu */
+	/* Submenu of Lookup menu */
+	public static function canDisplayDocumentTypesMenu()
+	{
+		return PermissionValidator::hasPermission(PermissionConstants::VIEW_DOCUMENT_TYPE);
+	}
+	
+	/* Submenu of Lookup menu */
 	public static function canDisplayEstateAgentTypesMenu()
 	{
 		return PermissionValidator::hasPermission(PermissionConstants::VIEW_ESTATE_AGENT_TYPE);
 	}
 	
-	/* Submenu of Setup menu */
+	/* Submenu of Lookup menu */
 	public static function canDisplayMaritalStatusesMenu()
 	{
 		return PermissionValidator::hasPermission(PermissionConstants::VIEW_MARITAL_STATUS);
 	}
 	
-	/* Submenu of Setup menu */
+	/* Submenu of Lookup menu */
 	public static function canDisplayPropertyTypesMenu()
 	{
 		return PermissionValidator::hasPermission(PermissionConstants::VIEW_PROPERTY_TYPE);
 	}
 	
-	/* Submenu of Setup menu */
+	/* Submenu of Lookup menu */
 	public static function canDisplayMilestoneTypesMenu()
 	{
 		return PermissionValidator::hasPermission(PermissionConstants::VIEW_MILESTONE_TYPE);
 	}
 	
-	/* Submenu of Setup menu */
+	/* Submenu of Lookup menu */
 	public static function canDisplayTitlesMenu()
 	{
 		return PermissionValidator::hasPermission(PermissionConstants::VIEW_TITLE);
 	}
 	
-	/* Submenu of Setup menu */
+	/* Submenu of Lookup menu */
 	public static function canDisplayTransactionTypesMenu()
 	{
 		return PermissionValidator::hasPermission(PermissionConstants::VIEW_TRANSACTION_TYPE);

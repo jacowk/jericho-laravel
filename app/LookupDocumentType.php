@@ -6,12 +6,14 @@ use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * A model used to manage contractor types, such as Builder, Electrician, etc
+ * A model used to manage document types, such as Lightstone Report, and is used when a Document is captured
+ * on a Property Flip.
  * 
  * @author Jaco Koekemoer
+ * Date: 2016-10-18
  *
  */
-class LookupContractorType extends Model
+class LookupDocumentType extends Model
 {
 	use Auditable;
 	

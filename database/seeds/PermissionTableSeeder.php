@@ -27,6 +27,7 @@ class PermissionTableSeeder extends Seeder
     			'GREATER_AREA',
     			'ATTORNEY_TYPE',
     			'CONTRACTOR_TYPE',
+    			'DOCUMENT_TYPE',
     			'ESTATE_AGENT_TYPE',
     			'MARITAL_STATUS',
     			'TITLE',

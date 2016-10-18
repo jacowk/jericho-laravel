@@ -15,6 +15,7 @@ class DocumentTableSeeder extends Seeder
     {
     	$property_flip = PropertyFlip::find(1);
         $document = new Document();
+        $document->document_type_id = 1;
         $document->description = "Test";
         $document->generated_filename = "test.pdf";
         $document->file_size = 100;
