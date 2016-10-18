@@ -4,6 +4,7 @@ namespace jericho\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 use jericho\Http\Requests;
 use jericho\Contact;
@@ -93,11 +94,17 @@ class ContactController extends Controller
     	{
     		$model_id = "none";
     	}
+    	$model_view_route = $this->getModelViewRoute($model_name, $model_id);
+    	$model_id_name = $this->getModelIdName($model_name);
+    	$link_description = $this->getLinkDescription($model_name);
     	return view('contact.add-contact', [
     			'lookup_titles' => $lookup_titles, 
     			'lookup_marital_statuses' => $lookup_marital_statuses,
     			'model_name' => $model_name,
-    			'model_id' => $model_id
+    			'model_id' => $model_id,
+	    		'model_view_route' => $model_view_route,
+	    		'model_id_name' => $model_id_name,
+	    		'link_description' => $link_description
     		]);
     }
     
@@ -110,7 +117,17 @@ class ContactController extends Controller
     public function postDoAddContact(Request $request)
     {
     	/* Do validation */
-    	$this->validate($request, [
+//     	$this->validate($request, [
+//     		'firstname' => 'required',
+//     		'home-tel' => 'numeric|min:10|max:10',
+//     		'work-tel' => 'numeric|min:10|max:10',
+//     		'cell-no' => 'numeric|min:10|max:10',
+//     		'personal-email' => 'email',
+//     		'work-email' => 'email',
+//     		'id-number' => 'numeric|min:13|max:13'
+//     	]);
+    	
+    	$validator = Validator::make($request->all(), [
     		'firstname' => 'required',
     		'home-tel' => 'numeric|min:10|max:10',
     		'work-tel' => 'numeric|min:10|max:10',
@@ -119,6 +136,15 @@ class ContactController extends Controller
     		'work-email' => 'email',
     		'id-number' => 'numeric|min:13|max:13'
     	]);
+    	 
+    	if ($validator->fails()) {
+    		return redirect()
+	    		->route('add-contact')
+	    		->withErrors($validator)
+	    		->withInput()
+    			->with('model_id', $request->model_id)
+    			->with('model_name', $request->model_name);
+    	}
     	
 //     	DB::transaction(function (Request $request) {
     		/* Create and store the Contact */
@@ -185,12 +211,18 @@ class ContactController extends Controller
     	{
     		$model_id = "none";
     	}
+    	$model_view_route = $this->getModelViewRoute($model_name, $model_id);
+    	$model_id_name = $this->getModelIdName($model_name);
+    	$link_description = $this->getLinkDescription($model_name);
     	return view('contact.update-contact', [
     		'contact' => $contact, 
     		'lookup_titles' => $lookup_titles, 
     		'lookup_marital_statuses' => $lookup_marital_statuses,
     		'model_name' => $model_name,
-    		'model_id' => $model_id
+    		'model_id' => $model_id,
+    		'model_view_route' => $model_view_route,
+    		'model_id_name' => $model_id_name,
+    		'link_description' => $link_description
     	]);
     }
     
@@ -203,7 +235,16 @@ class ContactController extends Controller
      */
     public function postDoUpdateContact(Request $request, $contact_id)
     {
-    	$this->validate($request, [
+//     	$this->validate($request, [
+//     		'firstname' => 'required',
+//     		'home-tel' => 'numeric|min:10|max:10',
+//     		'work-tel' => 'numeric|min:10|max:10',
+//     		'cell-no' => 'numeric|min:10|max:10',
+//     		'personal-email' => 'email',
+//     		'work-email' => 'email',
+//     		'id-number' => 'numeric|min:13|max:13'
+//     	]);
+    	$validator = Validator::make($request->all(), [
     		'firstname' => 'required',
     		'home-tel' => 'numeric|min:10|max:10',
     		'work-tel' => 'numeric|min:10|max:10',
@@ -212,6 +253,15 @@ class ContactController extends Controller
     		'work-email' => 'email',
     		'id-number' => 'numeric|min:13|max:13'
     	]);
+    	
+    	if ($validator->fails()) {
+    		return redirect()
+	    		->route('update-contact', ['contact_id' => $contact_id])
+	    		->withErrors($validator)
+	    		->withInput()
+    			->with('model_id', $request->model_id)
+    			->with('model_name', $request->model_name);
+    	}
     	$user = Auth::user();
     	$contact = Contact::find($contact_id);
     	$contact = $this->populateContactObject($request, $contact);

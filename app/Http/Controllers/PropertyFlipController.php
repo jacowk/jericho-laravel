@@ -96,7 +96,8 @@ class PropertyFlipController extends Controller
 		]);
 		
 		if ($validator->fails()) {
-			return redirect('add-property-flip')
+			return redirect()
+				->route('add-property-flip', ['property_id' => $request->property_id])
 				->withErrors($validator)
 				->withInput();
 		}

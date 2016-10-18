@@ -67,9 +67,10 @@ class AttorneyPropertyFlipController extends Controller
 		
 		if ($validator->fails()) {
 			return redirect()
-				->route('link-attorney-contact')
+				->route('link-attorney-contact', ['property_flip_id' => $request->property_flip_id])
 				->withErrors($validator)
-				->withInput();
+				->withInput()
+				->with('property_flip_id', $request->property_flip_id);
 		}
 		
 		$user = Auth::user();

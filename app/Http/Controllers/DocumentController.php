@@ -54,7 +54,7 @@ class DocumentController extends Controller
 // 		]);
 		
 		$validator = Validator::make($request->all(), [
-				'description' => 'required',
+				'document_type_id' => 'required|not_in:-1',
 				'uploaded_file' => 'required'
 		]);
 		
@@ -131,7 +131,7 @@ class DocumentController extends Controller
 // 				'description' => 'required'
 // 		]);
 		$validator = Validator::make($request->all(), [
-				'description' => 'required',
+				'document_type_id' => 'required|not_in:-1',
 				'uploaded_file' => 'required'
 		]);
 		

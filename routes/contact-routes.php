@@ -34,6 +34,11 @@ Route::group(['middleware' => 'auth'], function() {
 				'as' => 'add-contact'
 		]);
 		
+		Route::get('/add-contact', [
+				'uses' => 'ContactController@getAddContact',
+				'as' => 'add-contact'
+		]);
+		
 		Route::post('/do-add-contact', [
 				'uses' => 'ContactController@postDoAddContact',
 				'as' => 'do-add-contact'

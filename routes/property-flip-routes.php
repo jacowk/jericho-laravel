@@ -41,6 +41,11 @@ Route::group(['middleware' => 'auth'], function() {
 				'as' => 'add-property-flip'
 		]);
 		
+		Route::get('/add-property-flip/{property_id}', [
+				'uses' => 'PropertyFlipController@getAddPropertyFlip',
+				'as' => 'add-property-flip'
+		]);
+		
 		Route::post('/do-add-property-flip', [
 				'uses' => 'PropertyFlipController@postDoAddPropertyFlip',
 				'as' => 'do-add-property-flip'

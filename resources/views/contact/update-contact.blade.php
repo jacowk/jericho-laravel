@@ -6,7 +6,13 @@
 
 @section('breadcrumb')
 <ol class="breadcrumb">
-	<li class="breadcrumb-item active"><a href="{{ route('search-contact') }}">Search Contact</a></li>
+	<li class="breadcrumb-item active">
+		@if ($model_view_route === 'search-contact')
+			<a href="{{ route($model_view_route) }}">{{ $link_description }}</a>
+		@else
+			<a href="{{ route($model_view_route, array($model_id_name => $model_id)) }}">{{ $link_description }}</a>
+		@endif
+	</li>
 </ol>
 @endsection
 

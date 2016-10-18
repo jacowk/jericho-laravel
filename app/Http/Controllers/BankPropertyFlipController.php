@@ -62,9 +62,10 @@ class BankPropertyFlipController extends Controller
 		
 		if ($validator->fails()) {
 			return redirect()
-			->route('link-bank-contact')
+			->route('link-bank-contact', ['property_flip_id' => $request->property_flip_id])
 			->withErrors($validator)
-			->withInput();
+			->withInput()
+			->with('property_flip_id', $request->property_flip_id);
 		}
 		$user = Auth::user();
 		$property_flip_id = Util::getQueryParameter($request->property_flip_id);
