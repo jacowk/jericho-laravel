@@ -126,60 +126,19 @@
 					@if ($contact->sa_citizen === 1)
 						{{ Form::radio('sa_citizen', '1', true) }}Yes
 						{{ Form::radio('sa_citizen', '0') }}No
-					
-						<!-- <label class="radio-inline">
-							<input type="radio" 
-									id="sa_citizen" 
-									name="sa_citizen" 
-									value="1" 
-									checked="checked">Yes
-						</label>
-						<label class="radio-inline">
-							<input type="radio" 
-									id="sa_citizen" 
-									name="sa_citizen" 
-									value="0">No
-						</label> -->
 					@elseif ($contact->sa_citizen === 0)
 						{{ Form::radio('sa_citizen', '1') }}Yes
 						{{ Form::radio('sa_citizen', '0', true) }}No
-						
-						<!-- <label class="radio-inline">
-							<input type="radio" 
-									id="sa_citizen" 
-									name="sa_citizen" 
-									value="1">Yes
-						</label>
-						<label class="radio-inline">
-							<input type="radio" 
-									id="sa_citizen" 
-									name="sa_citizen" 
-									value="0"
-									checked="checked">No
-						</label> -->
 					@else
 						{{ Form::radio('sa_citizen', '1') }}Yes
 						{{ Form::radio('sa_citizen', '0') }}No
-						
-						<!-- <label class="radio-inline">
-							<input type="radio" 
-									id="sa_citizen" 
-									name="sa_citizen" 
-									value="1">Yes
-						</label>
-						<label class="radio-inline">
-							<input type="radio" 
-									id="sa_citizen" 
-									name="sa_citizen" 
-									value="0">No
-						</label> -->
 					@endif	
 				</div>
 			</div>
 			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<button type="submit" class="btn btn-default">Update Contact</button>
+					{{ Form::submit('Update Contact', array('class' => 'btn btn-default')) }}
 				</div>
 			</div>
 		{{ Form::close() }}

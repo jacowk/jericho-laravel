@@ -56,7 +56,7 @@
 					{{  Form::token() }}
 					<div class="form-group">
 						<div class="col-sm-10">
-							<button type="submit" class="btn btn-default">Back to Search Account</button>
+							{{ Form::submit('Back to Search Account', array('class' => 'btn btn-default')) }}
 						</div>
 					</div>
 				{{  Form::close() }}
@@ -67,7 +67,7 @@
 						{{  Form::token() }}
 						<div class="form-group">
 							<div class="col-sm-10">
-								<button type="submit" class="btn btn-default">Update Account</button>
+								{{ Form::submit('Update Account', array('class' => 'btn btn-default')) }}
 							</div>
 						</div>
 					{{  Form::close() }}

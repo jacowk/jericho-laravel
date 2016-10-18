@@ -44,7 +44,7 @@
 		<div class="row">
 			{{ Form::open(array('route' => array('add-followup-item', $diary_item->id))) }}
 				{{ Form::token() }}
-				<button type="submit" class="btn btn-default">Add Followup Item</button>
+				{{ Form::submit('Add Followup Item', array('class' => 'btn btn-default')) }}
 			{{ Form::close() }}
 		</div>
 	</div>

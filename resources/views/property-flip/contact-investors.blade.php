@@ -24,24 +24,24 @@
 			</thead>
 			<tbody>
 				@if (!empty($contact_investors) && count($contact_investors) > 0)
-					@for($i = 0; $i < count($contact_investors); $i++)
+					@foreach($contact_investors as $contact_investor)
 					<tr>
-						<td>{{ $contact_investors[$i]->contact_firstname }}</td>
-						<td>{{ $contact_investors[$i]->contact_surname }}</td>
-						<td>{{ $contact_investors[$i]->contact_work_email }}</td>
-						<td>{{ $contact_investors[$i]->contact_work_tel_no }}</td>
-						<td>{{ $contact_investors[$i]->contact_cell_no }}</td>
-						<td>{{ $contact_investors[$i]->investment_amount }}</td>
+						<td>{{ $contact_investor->contact_firstname }}</td>
+						<td>{{ $contact_investor->contact_surname }}</td>
+						<td>{{ $contact_investor->contact_work_email }}</td>
+						<td>{{ $contact_investor->contact_work_tel_no }}</td>
+						<td>{{ $contact_investor->contact_cell_no }}</td>
+						<td>{{ MoneyUtil::toRandsAndFormat($contact_investor->investment_amount) }}</td>
 						@if (PermissionValidator::hasPermission(PermissionConstants::DELETE_INVESTOR_CONTACT_LINK))
 							<td>
-								<a href="javascript:deleteContactInvestorConfirm({ property_flip_id:{{ $property_flip->id }}, contact_id:{{ $contact_investors[$i]->contact_id }} })">Delete</a>
+								<a href="javascript:deleteContactInvestorConfirm({ property_flip_id:{{ $property_flip->id }}, contact_id:{{ $contact_investor->contact_id }} })">Delete</a>
 							</td>
 						@endif
 						@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_CONTACT))
-							<td><a href="{{ route('view-contact', [ 'contact_id' => $contact_investors[$i]->contact_id, 'model_name' => 'property_flip', 'model_id' => $property_flip->id ]) }}">View</a></td>
+							<td><a href="{{ route('view-contact', [ 'contact_id' => $contact_investor->contact_id, 'model_name' => 'property_flip', 'model_id' => $property_flip->id ]) }}">View</a></td>
 						@endif
 					</tr>
-					@endfor
+					@endforeach
 				@else
 					<tr>
 						<td colspan="9">No investors</td>
@@ -57,7 +57,7 @@
 				{{  Form::hidden('property_flip_id', $property_flip->id) }}
 				<div class="form-group">
 					<div class="col-sm-10">
-						<button type="submit" class="btn btn-default">Link Investor Contact</button>
+						{{ Form::submit('Link Investor Contact', array('class' => 'btn btn-default')) }}
 					</div>
 				</div>
 			{{  Form::close() }}

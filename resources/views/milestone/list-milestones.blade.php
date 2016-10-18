@@ -52,7 +52,7 @@
 		<div class="row">
 			{{ Form::open(array('route' => array('add-milestone', $property_flip->id))) }}
 				{{ Form::token() }}
-				<button type="submit" class="btn btn-default">Add Milestone</button>
+				{{ Form::submit('Add Milestone', array('class' => 'btn btn-default')) }}
 			{{ Form::close() }}
 		</div>
 	</div>

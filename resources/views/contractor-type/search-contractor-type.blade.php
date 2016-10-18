@@ -17,7 +17,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10"> 
-						<button type="submit" class="btn btn-default">Search</button>
+						{{ Form::submit('Search', array('class' => 'btn btn-default')) }}
 					</div>
 				</div>
 			{{ Form::close() }}
@@ -67,7 +67,7 @@
 			<div class="row">
 				{{ Form::open(array('route' => 'add-contractor-type')) }}
 					{{ Form::token() }}
-					<button type="submit" class="btn btn-default">Add Contractor Type</button>
+					{{ Form::submit('Add Contractor Type', array('class' => 'btn btn-default')) }}
 				{{ Form::close() }}
 			</div>
 		</div>

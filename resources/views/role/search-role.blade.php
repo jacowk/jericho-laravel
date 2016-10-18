@@ -17,7 +17,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10"> 
-						<button type="submit" class="btn btn-default">Search</button>
+						{{ Form::submit('Search', array('class' => 'btn btn-default')) }}
 					</div>
 				</div>
 			{{ Form::close() }}
@@ -43,16 +43,16 @@
 				</thead>
 				<tbody>
 					@if (!empty($roles) && count($roles) > 0)
-						@for($i = 0; $i < count($roles); $i++)
+						@foreach($roles as $role)
 						<tr>
-							<td>{{ $roles[$i]->id }}</td>
-							<td>{{ $roles[$i]->name }}</td>
+							<td>{{ $role->id }}</td>
+							<td>{{ $role->name }}</td>
 							@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_ROLE))
-								<td><a href="{{ route('update-role', ['role_id' => $roles[$i]->id]) }}">Update</a></td>
+								<td><a href="{{ route('update-role', ['role_id' => $role->id]) }}">Update</a></td>
 							@endif
-							<td><a href="{{ route('view-role', ['role_id' => $roles[$i]->id]) }}">View</a></td>
+							<td><a href="{{ route('view-role', ['role_id' => $role->id]) }}">View</a></td>
 						</tr>
-						@endfor
+						@endforeach
 					@else
 						<tr>
 							<td colspan="4">No roles</td>
@@ -67,7 +67,7 @@
 			<div class="row">
 				{{ Form::open(array('route' => 'add-role')) }}
 					{{ Form::token() }}
-					<button type="submit" class="btn btn-default">Add Role</button>
+					{{ Form::submit('Add Role', array('class' => 'btn btn-default')) }}
 				{{ Form::close() }}
 			</div>
 		</div>

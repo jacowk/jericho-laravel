@@ -50,7 +50,7 @@
 		<div class="row">
 			{{ Form::open(array('route' => array('add-document', $property_flip->id))) }}
 				{{ Form::token() }}
-				<button type="submit" class="btn btn-default">Add Document</button>
+				{{ Form::submit('Add Document', array('class' => 'btn btn-default')) }}
 			{{ Form::close() }}
 		</div>
 	</div>

@@ -18,7 +18,11 @@
 			<div class="form-group">
 				{{  Form::label('document_type_id', 'Document Type', array('class' => 'col-sm-2 control-label')) }}
 				<div class="col-sm-10">
-					{{ Form::select('document_type_id', $document_types, $document->document_type_id, ['class' => 'form-control']) }}
+					@if ($document->document_type)
+						{{ Form::select('document_type_id', $document_types, $document->document_type->id, ['class' => 'form-control']) }}
+					@else
+						{{ Form::select('document_type_id', $document_types, '', ['class' => 'form-control']) }}
+					@endif
 				</div>
 			</div>
 			
@@ -37,7 +41,7 @@
 			</div>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<button type="submit" class="btn btn-default">Update Document</button>
+					{{ Form::submit('Update Document', array('class' => 'btn btn-default')) }}
 				</div>
 			</div>
 		{{ Form::close() }}

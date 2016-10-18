@@ -25,25 +25,25 @@
 			</thead>
 			<tbody>
 				@if (!empty($contact_contractors) && count($contact_contractors) > 0)
-					@for($i = 0; $i < count($contact_contractors); $i++)
+					@foreach($contact_contractors as $contact_contractor)
 					<tr>
-						<td>{{ $contact_contractors[$i]->contractor_name }}</td>
-						<td>{{ $contact_contractors[$i]->contact_firstname }}</td>
-						<td>{{ $contact_contractors[$i]->contact_surname }}</td>
-						<td>{{ $contact_contractors[$i]->contact_work_email }}</td>
-						<td>{{ $contact_contractors[$i]->contact_work_tel_no }}</td>
-						<td>{{ $contact_contractors[$i]->contact_cell_no }}</td>
-						<td>{{ $contact_contractors[$i]->lookup_contractor_type }}</td>
+						<td>{{ $contact_contractor->contractor_name }}</td>
+						<td>{{ $contact_contractor->contact_firstname }}</td>
+						<td>{{ $contact_contractor->contact_surname }}</td>
+						<td>{{ $contact_contractor->contact_work_email }}</td>
+						<td>{{ $contact_contractor->contact_work_tel_no }}</td>
+						<td>{{ $contact_contractor->contact_cell_no }}</td>
+						<td>{{ $contact_contractor->lookup_contractor_type }}</td>
 						@if (PermissionValidator::hasPermission(PermissionConstants::DELETE_CONTRACTOR_CONTACT_LINK))
 							<td>
-								<a href="javascript:deleteContactContractorConfirm({ property_flip_id:{{ $property_flip->id }}, contact_id:{{ $contact_contractors[$i]->contact_id }}, lookup_contractor_type_id:{{ $contact_contractors[$i]->lookup_contractor_type_id }} })">Delete</a>
+								<a href="javascript:deleteContactContractorConfirm({ property_flip_id:{{ $property_flip->id }}, contact_id:{{ $contact_contractor->contact_id }}, lookup_contractor_type_id:{{ $contact_contractor->lookup_contractor_type_id }} })">Delete</a>
 							</td>
 						@endif
 						@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_CONTACT))
-							<td><a href="{{ route('view-contact', [ 'contact_id' => $contact_contractors[$i]->contact_id, 'model_name' => 'property_flip', 'model_id' => $property_flip->id ]) }}">View</a></td>
+							<td><a href="{{ route('view-contact', [ 'contact_id' => $contact_contractor->contact_id, 'model_name' => 'property_flip', 'model_id' => $property_flip->id ]) }}">View</a></td>
 						@endif
 					</tr>
-					@endfor
+					@endforeach
 				@else
 					<tr>
 						<td colspan="9">No contractors</td>
@@ -59,7 +59,7 @@
 				{{  Form::hidden('property_flip_id', $property_flip->id) }}
 				<div class="form-group">
 					<div class="col-sm-10">
-						<button type="submit" class="btn btn-default">Link Contractor Contact</button>
+						{{ Form::submit('Link Contractor Contact', array('class' => 'btn btn-default')) }}
 					</div>
 				</div>
 			{{  Form::close() }}

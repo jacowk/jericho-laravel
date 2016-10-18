@@ -27,7 +27,7 @@
 			</div>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<button type="submit" class="btn btn-default">Update Attorney</button>
+					{{ Form::submit('Update Attorney', array('class' => 'btn btn-default')) }}
 				</div>
 			</div>
 		{{ Form::close() }}

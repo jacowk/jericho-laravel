@@ -102,7 +102,7 @@
 					{{  Form::token() }}
 					<div class="form-group">
 						<div class="col-sm-10">
-							<button type="submit" class="btn btn-default">Back to Search Property</button>
+							{{ Form::submit('Back to Search Property', array('class' => 'btn btn-default')) }}
 						</div>
 					</div>
 				{{  Form::close() }}
@@ -113,7 +113,7 @@
 						{{  Form::token() }}
 						<div class="form-group">
 							<div class="col-sm-10">
-								<button type="submit" class="btn btn-default">Update Property</button>
+								{{ Form::submit('Update Property', array('class' => 'btn btn-default')) }}
 							</div>
 						</div>
 					{{  Form::close() }}

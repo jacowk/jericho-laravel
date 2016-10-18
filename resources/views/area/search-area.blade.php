@@ -17,7 +17,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10"> 
-						<button type="submit" class="btn btn-default">Search</button>
+						{{ Form::submit('Search', array('class' => 'btn btn-default')) }}
 					</div>
 				</div>
 			{{ Form::close() }}
@@ -25,7 +25,7 @@
 	</div><br/>
 	<div class="container">
 		<div class="row">
-			<div class="panel-heading">
+			<div class="panel-heading text-center">
 				<h4 class="panel-title">Areas Search Result</h4>
 			</div>
 		</div>
@@ -43,16 +43,16 @@
 				</thead>
 				<tbody>
 					@if (!empty($areas) && count($areas) > 0)
-						@for($i = 0; $i < count($areas); $i++)
+						@foreach($areas as $area)
 						<tr>
-							<td>{{ $areas[$i]->id }}</td>
-							<td>{{ $areas[$i]->name }}</td>
+							<td>{{ $area->id }}</td>
+							<td>{{ $area->name }}</td>
 							@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_AREA))
-								<td><a href="{{ route('update-area', ['area_id' => $areas[$i]->id]) }}">Update</a></td>
+								<td><a href="{{ route('update-area', ['area_id' => $area->id]) }}">Update</a></td>
 							@endif
-							<td><a href="{{ route('view-area', ['area_id' => $areas[$i]->id]) }}">View</a></td>
+							<td><a href="{{ route('view-area', ['area_id' => $area->id]) }}">View</a></td>
 						</tr>
-						@endfor
+						@endforeach
 					@else
 						<tr>
 							<td colspan="4">No areas</td>
@@ -67,7 +67,7 @@
 			<div class="row">
 				{{ Form::open(array('route' => 'add-area')) }}
 					{{ Form::token() }}
-					<button type="submit" class="btn btn-default">Add Area</button>
+					{{ Form::submit('Add Area', array('class' => 'btn btn-default')) }}
 				{{ Form::close() }}
 			</div>
 		</div>

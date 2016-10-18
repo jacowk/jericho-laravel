@@ -100,7 +100,7 @@
 			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<button type="submit" class="btn btn-default">Add Property</button>
+					{{ Form::submit('Add Property', array('class' => 'btn btn-default')) }}
 				</div>
 			</div>
 		{{  Form::close() }}

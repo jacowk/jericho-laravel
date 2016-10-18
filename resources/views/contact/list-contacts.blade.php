@@ -21,19 +21,19 @@
 			</thead>
 			<tbody>
 				@if (!empty($contacts) && count($contacts) > 0)
-					@for($i = 0; $i < count($contacts); $i++)
+					@foreach($contacts as $contact)
 					<tr>
-						<td>{{ $contacts[$i]->id }}</td>
-						<td>{{ $contacts[$i]->firstname }}</td>
-						<td>{{ $contacts[$i]->surname }}</td>
-						<td>{{ $contacts[$i]->work_email }}</td>
-						<td>{{ $contacts[$i]->work_tel_no }}</td>
+						<td>{{ $contact->id }}</td>
+						<td>{{ $contact->firstname }}</td>
+						<td>{{ $contact->surname }}</td>
+						<td>{{ $contact->work_email }}</td>
+						<td>{{ $contact->work_tel_no }}</td>
 						@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_CONTACT))
-							<td><a href="{{ route('update-contact', ['contact_id' => $contacts[$i]->id, 'model_name' => $model_name, 'model_id' => $model_id]) }}">Update</a></td>
+							<td><a href="{{ route('update-contact', ['contact_id' => $contact->id, 'model_name' => $model_name, 'model_id' => $model_id]) }}">Update</a></td>
 						@endif
-						<td><a href="{{ route('view-contact', ['contact_id' => $contacts[$i]->id, 'model_name' => $model_name, 'model_id' => $model_id]) }}">View</a></td>
+						<td><a href="{{ route('view-contact', ['contact_id' => $contact->id, 'model_name' => $model_name, 'model_id' => $model_id]) }}">View</a></td>
 					</tr>
-					@endfor
+					@endforeach
 				@else
 					<tr>
 						<td colspan="7">No contacts</td>

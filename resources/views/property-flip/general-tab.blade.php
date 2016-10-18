@@ -8,10 +8,6 @@
 		<div class="row">
 			<table class="table table-bordered table-striped table-condensed">
 				<tr>
-					<th class="col-sm-3 text-right">ID</th>
-					<td>{{ $property->id }}</td>					
-				</tr>
-				<tr>
 					<th class="col-sm-3 text-right">Address</th>
 					<td>
 						{{ $property->address_line_1 }}<br>
@@ -42,18 +38,6 @@
 					<td>{{ $property->greater_area->name }}</td>						
 				</tr>
 				<tr>
-					<th class="col-sm-3 text-right">Portion Number</th>
-					<td>{{ $property->portion_number }}</td>						
-				</tr>
-				<tr>
-					<th class="col-sm-3 text-right">Erf Number</th>
-					<td>{{ $property->erf_number }}</td>						
-				</tr>
-				<tr>
-					<th class="col-sm-3 text-right">Size</th>
-					<td>{{ $property->size }}</td>
-				</tr>
-				<tr>
 					<th class="col-sm-3 text-right">Property Type</th>
 					<td>
 						@if ($property->lookup_property_type)
@@ -61,32 +45,6 @@
 						@endif
 					</td>
 				</tr>
-				@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_AUDIT_FIELDS))
-					<tr>
-						<th class="col-sm-3 text-right">Created By</th>
-						<td>
-							@if ($property->created_by)
-								{{ $property->created_by->firstname }} {{ $property->created_by->surname }}
-							@endif
-						</td>						
-					</tr>
-					<tr>
-						<th class="col-sm-3 text-right">Created At</th>
-						<td>{{ $property->created_at }}</td>						
-					</tr>
-					<tr>
-						<th class="col-sm-3 text-right">Updated By</th>
-						<td>
-							@if ($property->updated_by)
-								{{ $property->updated_by->firstname }} {{ $property->updated_by->surname }}
-							@endif
-						</td>						
-					</tr>
-					<tr>
-						<th class="col-sm-3 text-right">Updated At</th>
-						<td>{{ $property->updated_at }}</td>						
-					</tr>
-				@endif
 			</table>
 		</div>
 	</div>
@@ -195,7 +153,7 @@
 				{{  Form::token() }}
 				<div class="form-group">
 					<div class="col-sm-10">
-						<button type="submit" class="btn btn-default">Back to View Property</button>
+						{{ Form::submit('Back to View Property', array('class' => 'btn btn-default')) }}
 					</div>
 				</div>
 			{{  Form::close() }}
@@ -206,7 +164,7 @@
 					{{  Form::token() }}
 					<div class="form-group">
 						<div class="col-sm-10">
-							<button type="submit" class="btn btn-default">Update Property Flip</button>
+							{{ Form::submit('Update Property Flip', array('class' => 'btn btn-default')) }}
 						</div>
 					</div>
 				{{  Form::close() }}

@@ -17,7 +17,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10"> 
-						<button type="submit" class="btn btn-default">Search</button>
+						{{ Form::submit('Search', array('class' => 'btn btn-default')) }}
 					</div>
 				</div>
 			{{ Form::close() }}
@@ -25,7 +25,7 @@
 	</div><br/>
 	<div class="container">
 		<div class="row">
-			<div class="panel-heading">
+			<div class="panel-heading text-center">
 				<h4 class="panel-title">Attorneys Search Result</h4>
 			</div>
 		</div>
@@ -43,16 +43,16 @@
 				</thead>
 				<tbody>
 					@if (!empty($attorneys) && count($attorneys) > 0)
-						@for($i = 0; $i < count($attorneys); $i++)
+						@foreach($attorneys as $attorney)
 						<tr>
-							<td>{{ $attorneys[$i]->id }}</td>
-							<td>{{ $attorneys[$i]->name }}</td>
+							<td>{{ $attorney->id }}</td>
+							<td>{{ $attorney->name }}</td>
 							@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_ATTORNEY))
-								<td><a href="{{ route('update-attorney', ['attorney_id' => $attorneys[$i]->id]) }}">Update</a></td>
+								<td><a href="{{ route('update-attorney', ['attorney_id' => $attorney->id]) }}">Update</a></td>
 							@endif
-							<td><a href="{{ route('view-attorney', ['attorney_id' => $attorneys[$i]->id]) }}">View</a></td>
+							<td><a href="{{ route('view-attorney', ['attorney_id' => $attorney->id]) }}">View</a></td>
 						</tr>
-						@endfor
+						@endforeach
 					@else
 						<tr>
 							<td colspan="4">No attorneys</td>
@@ -67,7 +67,7 @@
 			<div class="row">
 				{{ Form::open(array('route' => 'add-attorney')) }}
 					{{ Form::token() }}
-					<button type="submit" class="btn btn-default">Add Attorney</button>
+					{{ Form::submit('Add Attorney', array('class' => 'btn btn-default')) }}
 				{{ Form::close() }}
 			</div>
 		</div>

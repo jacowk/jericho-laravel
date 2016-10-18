@@ -66,7 +66,7 @@
 					{{  Form::token() }}
 					<div class="form-group">
 						<div class="col-sm-10">
-							<button type="submit" class="btn btn-default">Back to Search Permission</button>
+							{{ Form::submit('Back to Search Permission', array('class' => 'btn btn-default')) }}
 						</div>
 					</div>
 				{{  Form::close() }}
@@ -77,7 +77,7 @@
 						{{  Form::token() }}
 						<div class="form-group">
 							<div class="col-sm-10">
-								<button type="submit" class="btn btn-default">Update Permission</button>
+								{{ Form::submit('Update Permission', array('class' => 'btn btn-default')) }}
 							</div>
 						</div>
 					{{  Form::close() }}

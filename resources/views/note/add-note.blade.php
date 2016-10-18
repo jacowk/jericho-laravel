@@ -24,7 +24,7 @@
 			</div>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<button type="submit" class="btn btn-default">Add Note</button>
+					{{ Form::submit('Add Note', array('class' => 'btn btn-default')) }}
 				</div>
 			</div>
 		{{  Form::close() }}

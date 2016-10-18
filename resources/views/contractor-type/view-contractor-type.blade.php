@@ -56,7 +56,7 @@
 					{{  Form::token() }}
 					<div class="form-group">
 						<div class="col-sm-10">
-							<button type="submit" class="btn btn-default">Back to Search Contractor Types</button>
+							{{ Form::submit('Back to Search Contractor Types', array('class' => 'btn btn-default')) }}
 						</div>
 					</div>
 				{{  Form::close() }}
@@ -67,7 +67,7 @@
 						{{  Form::token() }}
 						<div class="form-group">
 							<div class="col-sm-10">
-								<button type="submit" class="btn btn-default">Update Contractor Type</button>
+								{{ Form::submit('Update Contractor Type', array('class' => 'btn btn-default')) }}
 							</div>
 						</div>
 					{{  Form::close() }}

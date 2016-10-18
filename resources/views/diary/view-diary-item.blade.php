@@ -72,16 +72,16 @@
 			<div class="form-inline">
 				<div class="form-group">
 					{{  Form::open(array('route' => array('view-property-flip', $diary_item->property_flip->id), 'class' => 'form-horizontal')) }}
-						{{  Form::token() }}
-						<button type="submit" class="btn btn-default">Back to View Property</button>
+						{{ Form::token() }}
+						{{ Form::submit('Back to View Property', array('class' => 'btn btn-default')) }}
 					{{  Form::close() }}
 				</div>
 				
 				@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_DIARY_ITEM))
 					<div class="form-group">
 						{{  Form::open(array('route' => array('update-diary-item', $diary_item->id), 'class' => 'form-horizontal')) }}
-							{{  Form::token() }}
-							<button type="submit" class="btn btn-default">Update Diary Item</button>
+							{{ Form::token() }}
+							{{ Form::submit('Update Diary Item', array('class' => 'btn btn-default')) }}
 						{{  Form::close() }}
 					</div>
 				@endif

@@ -60,7 +60,7 @@
 					{{  Form::token() }}
 					<div class="form-group">
 						<div class="col-sm-10">
-							<button type="submit" class="btn btn-default">Back to View Property</button>
+							{{ Form::submit('Back to View Property', array('class' => 'btn btn-default')) }}
 						</div>
 					</div>
 				{{  Form::close() }}
@@ -71,7 +71,7 @@
 						{{  Form::token() }}
 						<div class="form-group">
 							<div class="col-sm-10">
-								<button type="submit" class="btn btn-default">Update Milestone</button>
+								{{ Form::submit('Update Milestone', array('class' => 'btn btn-default')) }}
 							</div>
 						</div>
 					{{  Form::close() }}

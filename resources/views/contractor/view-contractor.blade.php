@@ -56,7 +56,7 @@
 					{{ Form::token() }}
 					<div class="form-group">
 						<div class="col-sm-10">
-							<button type="submit" class="btn btn-default">Back to Search Contractor</button>
+							{{ Form::submit('Back to Search Contractor', array('class' => 'btn btn-default')) }}
 						</div>
 					</div>
 				{{ Form::close() }}
@@ -67,7 +67,7 @@
 						{{  Form::token() }}
 						<div class="form-group">
 							<div class="col-sm-10">
-								<button type="submit" class="btn btn-default">Update Contractor</button>
+								{{ Form::submit('Update Contractor', array('class' => 'btn btn-default')) }}
 							</div>
 						</div>
 					{{  Form::close() }}
@@ -88,10 +88,10 @@
 		<div class="container">
 			<div class="row">
 				{{  Form::open(array('route' => 'add-contact')) }}
-					{{  Form::token() }}
-					{{  Form::hidden('model_name', $model_name) }}
-					{{  Form::hidden('model_id', $model_id) }}
-					<button type="submit" class="btn btn-default">Add Contact</button>
+					{{ Form::token() }}
+					{{ Form::hidden('model_name', $model_name) }}
+					{{ Form::hidden('model_id', $model_id) }}
+					{{ Form::submit('Add Contact', array('class' => 'btn btn-default')) }}
 				{{  Form::close() }}
 			</div>
 		</div>

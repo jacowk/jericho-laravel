@@ -17,7 +17,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10"> 
-						<button type="submit" class="btn btn-default">Search</button>
+						{{ Form::submit('Search', array('class' => 'btn btn-default')) }}
 					</div>
 				</div>
 			{{ Form::close() }}
@@ -46,19 +46,19 @@
 				</thead>
 				<tbody>
 					@if (!empty($suburbs) && count($suburbs) > 0)
-						@for($i = 0; $i < count($suburbs); $i++)
+						@foreach($suburbs as $suburb)
 						<tr>
-							<td>{{ $suburbs[$i]->id }}</td>
-							<td>{{ $suburbs[$i]->name }}</td>
-							<td>{{ $suburbs[$i]->box_code }}</td>
-							<td>{{ $suburbs[$i]->street_code }}</td>
-							<td>{{ $suburbs[$i]->area_name }}</td>
+							<td>{{ $suburb->id }}</td>
+							<td>{{ $suburb->name }}</td>
+							<td>{{ $suburb->box_code }}</td>
+							<td>{{ $suburb->street_code }}</td>
+							<td>{{ $suburb->area_name }}</td>
 							@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_SUBURB))
-								<td><a href="{{ route('update-suburb', ['suburb_id' => $suburbs[$i]->id]) }}">Update</a></td>
+								<td><a href="{{ route('update-suburb', ['suburb_id' => $suburb->id]) }}">Update</a></td>
 							@endif
-							<td><a href="{{ route('view-suburb', ['suburb_id' => $suburbs[$i]->id]) }}">View</a></td>
+							<td><a href="{{ route('view-suburb', ['suburb_id' => $suburb->id]) }}">View</a></td>
 						</tr>
-						@endfor
+						@endforeach
 					@else
 						<tr>
 							<td colspan="7">No suburbs</td>
@@ -73,7 +73,7 @@
 			<div class="row">
 				{{ Form::open(array('route' => 'add-suburb')) }}
 					{{ Form::token() }}
-					<button type="submit" class="btn btn-default">Add Suburb</button>
+					{{ Form::submit('Add Suburb', array('class' => 'btn btn-default')) }}
 				{{ Form::close() }}
 			</div>
 		</div>

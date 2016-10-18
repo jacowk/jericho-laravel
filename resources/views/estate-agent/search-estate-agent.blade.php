@@ -17,7 +17,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10"> 
-						<button type="submit" class="btn btn-default">Search</button>
+						{{ Form::submit('Search', array('class' => 'btn btn-default')) }}
 					</div>
 				</div>
 			{{ Form::close() }}
@@ -44,16 +44,16 @@
 				</thead>
 				<tbody>
 					@if (!empty($estate_agents) && count($estate_agents) > 0)
-						@for($i = 0; $i < count($estate_agents); $i++)
+						@foreach($estate_agents as $estate_agent)
 						<tr>
-							<td>{{ $estate_agents[$i]->id }}</td>
-							<td>{{ $estate_agents[$i]->name }}</td>
+							<td>{{ $estate_agent->id }}</td>
+							<td>{{ $estate_agent->name }}</td>
 							@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_ESTATE_AGENT))
-								<td><a href="{{ route('update-estate-agent', ['estate_agent_id' => $estate_agents[$i]->id]) }}">Update</a></td>
+								<td><a href="{{ route('update-estate-agent', ['estate_agent_id' => $estate_agent->id]) }}">Update</a></td>
 							@endif
-							<td><a href="{{ route('view-estate-agent', ['estate_agent_id' => $estate_agents[$i]->id]) }}">View</a></td>
+							<td><a href="{{ route('view-estate-agent', ['estate_agent_id' => $estate_agent->id]) }}">View</a></td>
 						</tr>
-						@endfor
+						@endforeach
 					@else
 						<tr>
 							<td colspan="4">No estate agents</td>
@@ -68,7 +68,7 @@
 			<div class="row">
 				{{ Form::open(array('route' => 'add-estate-agent')) }}
 					{{ csrf_field() }}
-					<button type="submit" class="btn btn-default">Add Estate Agent</button>
+					{{ Form::submit('Add Estate Agent', array('class' => 'btn btn-default')) }}
 				{{ Form::close() }}
 			</div>
 		</div>

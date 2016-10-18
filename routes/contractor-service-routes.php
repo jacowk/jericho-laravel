@@ -41,6 +41,11 @@ Route::group(['middleware' => 'auth'], function() {
 				'as' => 'update-contractor-service'
 		]);
 		
+		Route::post('/update-contractor-service/{contractor_service_id}', [
+				'uses' => 'ContractorServiceController@getUpdateContractorService',
+				'as' => 'update-contractor-service'
+		]);
+		
 		Route::post('/do-update-contractor-service/{contractor_service_id}', [
 				'uses' => 'ContractorServiceController@postDoUpdateContractorService',
 				'as' => 'do-update-contractor-service'

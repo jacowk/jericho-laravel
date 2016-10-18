@@ -48,7 +48,7 @@
 		<div class="row">
 			{{ Form::open(array('route' => array('add-diary-item', $property_flip->id), 'class' => 'form-horizontal')) }}
 				{{ Form::token() }}
-				<button type="submit" class="btn btn-default">Add Diary Item</button>
+				{{ Form::submit('Add Diary Item', array('class' => 'btn btn-default')) }}
 			{{ Form::close() }}
 		</div>
 	</div>

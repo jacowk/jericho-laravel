@@ -17,7 +17,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10"> 
-						<button type="submit" class="btn btn-default">Search</button>
+						{{ Form::submit('Search', array('class' => 'btn btn-default')) }}
 					</div>
 				</div>
 			{{ Form::close() }}
@@ -42,15 +42,15 @@
 				</thead>
 				<tbody>
 					@if (!empty($milestones) && count($milestones) > 0)
-						@for($i = 0; $i < count($milestones); $i++)
+						@foreach($milestones as $milestone)
 						<tr>
-							<td>{{ $milestones[$i]->id }}</td>
-							<td>{{ $milestones[$i]->lookup_milestone_type->description }}</td>
-							<td>{{ $milestones[$i]->effective_date }}</td>
-							<td><a href="{{ route('update-milestone', ['milestone_id' => $milestones[$i]->id]) }}">Update</a></td>
-							<td><a href="{{ route('view-milestone', ['milestone_id' => $milestones[$i]->id]) }}">View</a></td>
+							<td>{{ $milestone->id }}</td>
+							<td>{{ $milestone->lookup_milestone_type->description }}</td>
+							<td>{{ $milestone->effective_date }}</td>
+							<td><a href="{{ route('update-milestone', ['milestone_id' => $milestone->id]) }}">Update</a></td>
+							<td><a href="{{ route('view-milestone', ['milestone_id' => $milestone->id]) }}">View</a></td>
 						</tr>
-						@endfor
+						@endforeach
 					@else
 						<tr>
 							<td colspan="4">No milestones</td>
@@ -64,7 +64,7 @@
 		<div class="row">
 			{{ Form::open(array('route' => 'add-milestone')) }}
 				{{ Form::token() }}
-				<button type="submit" class="btn btn-default">Add Milestone</button>
+				{{ Form::submit('Add Milestone', array('class' => 'btn btn-default')) }}
 			{{ Form::close() }}
 		</div>
 	</div>

@@ -56,7 +56,7 @@
 					{{  Form::token() }}
 					<div class="form-group">
 						<div class="col-sm-10">
-							<button type="submit" class="btn btn-default">Back to Search Property Types</button>
+							{{ Form::submit('Back to Search Property Types', array('class' => 'btn btn-default')) }}
 						</div>
 					</div>
 				{{  Form::close() }}
@@ -67,7 +67,7 @@
 						{{  Form::token() }}
 						<div class="form-group">
 							<div class="col-sm-10">
-								<button type="submit" class="btn btn-default">Update Property Type</button>
+								{{ Form::submit('Update Property Type', array('class' => 'btn btn-default')) }}
 							</div>
 						</div>
 					{{  Form::close() }}

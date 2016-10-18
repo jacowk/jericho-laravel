@@ -172,6 +172,7 @@ class DocumentController extends Controller
 			/* Create and save document */
 			$document = new Document();
 			$document->description = Util::getQueryParameter($request->description);
+			$document->document_type_id = Util::getNumericQueryParameter($request->document_type_id);
 			$document->file_size = $file_size;
 			$document->client_original_name = $client_original_name;
 			$document->client_original_extension = $client_original_extension;
@@ -181,7 +182,7 @@ class DocumentController extends Controller
 			$document->updated_by_id = $user->id;
 			$document->save();
 		}
-		return redirect()->action('PropertyFlipController@getViewPropertyFlip', ['property_flip_id' => $document->property_flip->id])
+		return redirect()->action('PropertyFlipController@getViewPropertyFlip', ['property_flip_id' => $request->property_flip_id])
 			->with(['message' => 'Document updated']);
 	}
 	

@@ -45,17 +45,13 @@
 			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<button type="submit" class="btn btn-default">Update Diary Item</button>
+					{{ Form::submit('Update Diary Item', array('class' => 'btn btn-default')) }}
 				</div>
 			</div>
 		{{  Form::close() }}
 	</div>
 	<script type="text/javascript">
 		$( function() {
-// 		    $( "#followup_date" ).datepicker({
-// 		    	dateFormat: "yy-mm-dd"
-// 			});
-
 			$('#followup_date').datetimepicker({
 				formatTime:'H:i',
 				formatDate:'Y-m-d',

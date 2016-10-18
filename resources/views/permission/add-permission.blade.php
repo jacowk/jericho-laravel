@@ -34,7 +34,7 @@
 			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<button type="submit" class="btn btn-default">Add Permission</button>
+					{{ Form::submit('Add Permission', array('class' => 'btn btn-default')) }}
 				</div>
 			</div>
 		{{  Form::close() }}

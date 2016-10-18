@@ -17,7 +17,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10"> 
-						<button type="submit" class="btn btn-default">Search</button>
+						{{ Form::submit('Search', array('class' => 'btn btn-default')) }}
 					</div>
 				</div>
 			{{ Form::close() }}
@@ -41,14 +41,14 @@
 				</thead>
 				<tbody>
 					@if (!empty($notes) && count($notes) > 0)
-						@for($i = 0; $i < count($notes); $i++)
+						@foreach($notes as $note)
 						<tr>
-							<td>{{ $notes[$i]->id }}</td>
-							<td>{{ $notes[$i]->description }}</td>
-							<td><a href="{{ route('update-note', ['note_id' => $notes[$i]->id]) }}">Update</a></td>
-							<td><a href="{{ route('view-note', ['note_id' => $notes[$i]->id]) }}">View</a></td>
+							<td>{{ $note->id }}</td>
+							<td>{{ $note->description }}</td>
+							<td><a href="{{ route('update-note', ['note_id' => $note->id]) }}">Update</a></td>
+							<td><a href="{{ route('view-note', ['note_id' => $note->id]) }}">View</a></td>
 						</tr>
-						@endfor
+						@endforeach
 					@else
 						<tr>
 							<td colspan="4">No notes</td>
@@ -62,7 +62,7 @@
 		<div class="row">
 			{{ Form::open(array('route' => 'add-note')) }}
 				{{ Form::token() }}
-				<button type="submit" class="btn btn-default">Add Note</button>
+				{{ Form::submit('Add Note', array('class' => 'btn btn-default')) }}
 			{{ Form::close() }}
 		</div>
 	</div>

@@ -17,7 +17,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10"> 
-						<button type="submit" class="btn btn-default">Search</button>
+						{{ Form::submit('Search', array('class' => 'btn btn-default')) }}
 					</div>
 				</div>
 			{{ Form::close() }}
@@ -25,7 +25,7 @@
 	</div><br/>
 	<div class="container">
 		<div class="row">
-			<div class="panel-heading">
+			<div class="panel-heading text-center">
 				<h4 class="panel-title">Accounts Search Result</h4>
 			</div>
 		</div>
@@ -43,16 +43,16 @@
 				</thead>
 				<tbody>
 					@if (!empty($accounts) && count($accounts) > 0)
-						@for($i = 0; $i < count($accounts); $i++)
+						@foreach($accounts as $account)
 						<tr>
-							<td>{{ $accounts[$i]->id }}</td>
-							<td>{{ $accounts[$i]->name }}</td>
+							<td>{{ $account->id }}</td>
+							<td>{{ $account->name }}</td>
 							@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_ACCOUNT))
-								<td><a href="{{ route('update-account', ['account_id' => $accounts[$i]->id]) }}">Update</a></td>
+								<td><a href="{{ route('update-account', ['account_id' => $account->id]) }}">Update</a></td>
 							@endif
-							<td><a href="{{ route('view-account', ['account_id' => $accounts[$i]->id]) }}">View</a></td>
+							<td><a href="{{ route('view-account', ['account_id' => $account->id]) }}">View</a></td>
 						</tr>
-						@endfor
+						@endforeach
 					@else
 						<tr>
 							<td colspan="4">No accounts</td>
@@ -67,7 +67,7 @@
 			<div class="row">
 				{{ Form::open(array('route' => 'add-account')) }}
 					{{ Form::token() }}
-					<button type="submit" class="btn btn-default">Add Account</button>
+					{{ Form::submit('Add Account', array('class' => 'btn btn-default')) }}
 				{{ Form::close() }}
 			</div>
 		</div>

@@ -67,7 +67,7 @@
 						{{  Form::token() }}
 						<div class="form-group">
 							<div class="col-sm-10">
-								<button type="submit" class="btn btn-default">Update Greater Area</button>
+								{{ Form::submit('Update Greater Area', array('class' => 'btn btn-default')) }}
 							</div>
 						</div>
 					{{  Form::close() }}

@@ -23,7 +23,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10"> 
-						<button type="submit" class="btn btn-default">Search</button>
+						{{ Form::submit('Search', array('class' => 'btn btn-default')) }}
 					</div>
 				</div>
 			{{ Form::close() }}
@@ -41,9 +41,9 @@
 			<div class="row">
 				{{ Form::open(array('route' => 'add-contact')) }}
 					{{ Form::token() }}
-					{{  Form::hidden('model_name', 'none') }}
-					{{  Form::hidden('model_id', '0') }}
-					<button type="submit" class="btn btn-default">Add Contact</button>
+					{{ Form::hidden('model_name', 'none') }}
+					{{ Form::hidden('model_id', '0') }}
+					{{ Form::submit('Add Contact', array('class' => 'btn btn-default')) }}
 				{{ Form::close() }}
 			</div>
 		</div>

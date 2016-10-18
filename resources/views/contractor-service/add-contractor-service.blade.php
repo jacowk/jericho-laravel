@@ -32,7 +32,7 @@
 			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<button type="submit" class="btn btn-default">Add Contractor Service</button>
+					{{ Form::submit('Add Contractor Service', array('class' => 'btn btn-default')) }}
 				</div>
 			</div>
 		{{  Form::close() }}

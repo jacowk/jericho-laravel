@@ -17,7 +17,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10"> 
-						<button type="submit" class="btn btn-default">Search</button>
+						{{ Form::submit('Search', array('class' => 'btn btn-default')) }}
 					</div>
 				</div>
 			{{ Form::close() }}
@@ -43,16 +43,16 @@
 				</thead>
 				<tbody>
 					@if (!empty($banks) && count($banks) > 0)
-						@for($i = 0; $i < count($banks); $i++)
+						@foreach($banks as $bank)
 						<tr>
-							<td>{{ $banks[$i]->id }}</td>
-							<td>{{ $banks[$i]->name }}</td>
+							<td>{{ $bank->id }}</td>
+							<td>{{ $bank->name }}</td>
 							@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_BANK))
-								<td><a href="{{ route('update-bank', ['bank_id' => $banks[$i]->id]) }}">Update</a></td>
+								<td><a href="{{ route('update-bank', ['bank_id' => $bank->id]) }}">Update</a></td>
 							@endif
-							<td><a href="{{ route('view-bank', ['bank_id' => $banks[$i]->id]) }}">View</a></td>
+							<td><a href="{{ route('view-bank', ['bank_id' => $bank->id]) }}">View</a></td>
 						</tr>
-						@endfor
+						@endforeach
 					@else
 						<tr>
 							<td colspan="4">No banks</td>
@@ -67,7 +67,7 @@
 			<div class="row">
 				{{ Form::open(array('route' => 'add-bank')) }}
 					{{ Form::token() }}
-					<button type="submit" class="btn btn-default">Add Bank</button>
+					{{ Form::submit('Add Bank', array('class' => 'btn btn-default')) }}
 				{{ Form::close() }}
 			</div>
 		</div>

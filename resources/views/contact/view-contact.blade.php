@@ -126,7 +126,7 @@
 					{{ Form::token() }}
 					<div class="form-group">
 						<div class="col-sm-10">
-							<button type="submit" class="btn btn-default">{{ $link_description }}</button>
+							{{ Form::submit($link_description, array('class' => 'btn btn-default')) }}
 						</div>
 					</div>
 				{{ Form::close() }}
@@ -139,7 +139,7 @@
 						{{ Form::hidden('model_name', $model_id_name) }}
 						<div class="form-group">
 							<div class="col-sm-10">
-								<button type="submit" class="btn btn-default">Update Contact</button>
+								{{ Form::submit('Update Contact', array('class' => 'btn btn-default')) }}
 							</div>
 						</div>
 					{{  Form::close() }}

@@ -17,7 +17,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10"> 
-						<button type="submit" class="btn btn-default">Search</button>
+						{{ Form::submit('Search', array('class' => 'btn btn-default')) }}
 					</div>
 				</div>
 			{{ Form::close() }}
@@ -46,25 +46,25 @@
 				</thead>
 				<tbody>
 					@if (!empty($properties) && count($properties) > 0)
-						@for($i = 0; $i < count($properties); $i++)
+						@foreach($properties as $property)
 						<tr>
-							<td>{{ $properties[$i]->id }}</td>
+							<td>{{ $property->id }}</td>
 							<td>
-								{{ $properties[$i]->address_line_1 }}<br>
-								{{ $properties[$i]->address_line_2 }}<br>
-								{{ $properties[$i]->address_line_3 }}<br>
-								{{ $properties[$i]->address_line_4 }}<br>
-								{{ $properties[$i]->address_line_5 }}<br>
+								{{ $property->address_line_1 }}<br>
+								{{ $property->address_line_2 }}<br>
+								{{ $property->address_line_3 }}<br>
+								{{ $property->address_line_4 }}<br>
+								{{ $property->address_line_5 }}<br>
 							</td>
-							<td>{{ $properties[$i]->suburb_name }}</td>
-							<td>{{ $properties[$i]->area_name }}</td>
-							<td>{{ $properties[$i]->greater_area_name }}</td>
+							<td>{{ $property->suburb_name }}</td>
+							<td>{{ $property->area_name }}</td>
+							<td>{{ $property->greater_area_name }}</td>
 							@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_PROPERTY))
-								<td><a href="{{ route('update-property', ['property_id' => $properties[$i]->id]) }}">Update</a></td>
+								<td><a href="{{ route('update-property', ['property_id' => $property->id]) }}">Update</a></td>
 							@endif
-							<td><a href="{{ route('view-property', ['property_id' => $properties[$i]->id]) }}">View</a></td>
+							<td><a href="{{ route('view-property', ['property_id' => $property->id]) }}">View</a></td>
 						</tr>
-						@endfor
+						@endforeach
 					@else
 						<tr>
 							<td colspan="7">No properties</td>
@@ -79,7 +79,7 @@
 			<div class="row">
 				{{ Form::open(array('route' => 'add-property')) }}
 					{{ Form::token() }}
-					<button type="submit" class="btn btn-default">Add Property</button>
+					{{ Form::submit('Add Property', array('class' => 'btn btn-default')) }}
 				{{ Form::close() }}
 			</div>
 		</div>

@@ -17,7 +17,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10"> 
-						<button type="submit" class="btn btn-default">Search</button>
+						{{ Form::submit('Search', array('class' => 'btn btn-default')) }}
 					</div>
 				</div>
 			{{  Form::close() }}
@@ -43,16 +43,16 @@
 				</thead>
 				<tbody>
 					@if (!empty($greater_areas) && count($greater_areas) > 0)
-						@for($i = 0; $i < count($greater_areas); $i++)
+						@foreach($greater_areas as $greater_area)
 						<tr>
-							<td>{{ $greater_areas[$i]->id }}</td>
-							<td>{{ $greater_areas[$i]->name }}</td>
+							<td>{{ $greater_area->id }}</td>
+							<td>{{ $greater_area->name }}</td>
 							@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_GREATER_AREA))
-								<td><a href="{{ route('update-greater-area', ['greater_area_id' => $greater_areas[$i]->id]) }}">Update</a></td>
+								<td><a href="{{ route('update-greater-area', ['greater_area_id' => $greater_area->id]) }}">Update</a></td>
 							@endif
-							<td><a href="{{ route('view-greater-area', ['greater_area_id' => $greater_areas[$i]->id]) }}">View</a></td>
+							<td><a href="{{ route('view-greater-area', ['greater_area_id' => $greater_area->id]) }}">View</a></td>
 						</tr>
-						@endfor
+						@endforeach
 					@else
 						<tr>
 							<td colspan="4">No Greater Areas</td>
@@ -65,9 +65,9 @@
 	@if (PermissionValidator::hasPermission(PermissionConstants::ADD_GREATER_AREA))
 		<div class="container">
 			<div class="row">
-				{{  Form::open(array('route' => 'add-greater-area')) }}
-					{{  Form::token() }}
-					<button type="submit" class="btn btn-default">Add Greater Area</button>
+				{{ Form::open(array('route' => 'add-greater-area')) }}
+					{{ Form::token() }}
+					{{ Form::submit('Add Greater Area', array('class' => 'btn btn-default')) }}
 				{{  Form::close() }}
 			</div>
 		</div>

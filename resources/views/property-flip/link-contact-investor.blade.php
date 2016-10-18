@@ -32,7 +32,7 @@
 			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<button type="submit" class="btn btn-default">Link Investor Contact</button>
+					{{ Form::submit('Link Investor Contact', array('class' => 'btn btn-default')) }}
 				</div>
 			</div>
 		{{  Form::close() }}

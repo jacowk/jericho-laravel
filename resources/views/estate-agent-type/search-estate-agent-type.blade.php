@@ -17,7 +17,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10"> 
-						<button type="submit" class="btn btn-default">Search</button>
+						{{ Form::submit('Search', array('class' => 'btn btn-default')) }}
 					</div>
 				</div>
 			{{ Form::close() }}
@@ -25,7 +25,7 @@
 	</div><br/>
 	<div class="container">
 		<div class="row">
-			<div class="panel-heading">
+			<div class="panel-heading text-center">
 				<h4 class="panel-estate-agent-type">Estate Agent Types Search Result</h4>
 			</div>
 		</div>
@@ -67,7 +67,7 @@
 			<div class="row">
 				{{ Form::open(array('route' => 'add-estate-agent-type')) }}
 					{{ Form::token() }}
-					<button type="submit" class="btn btn-default">Add Estate Agent Type</button>
+					{{ Form::submit('Add Estate Agent Type', array('class' => 'btn btn-default')) }}
 				{{ Form::close() }}
 			</div>
 		</div>

@@ -56,7 +56,7 @@
 					{{  Form::token() }}
 					<div class="form-group">
 						<div class="col-sm-10">
-							<button type="submit" class="btn btn-default">Back to Search Bank</button>
+							{{ Form::submit('Back to Search Bank', array('class' => 'btn btn-default')) }}
 						</div>
 					</div>
 				{{  Form::close() }}
@@ -67,7 +67,7 @@
 						{{  Form::token() }}
 						<div class="form-group">
 							<div class="col-sm-10">
-								<button type="submit" class="btn btn-default">Update Bank</button>
+								{{ Form::submit('Update Bank', array('class' => 'btn btn-default')) }}
 							</div>
 						</div>
 					{{  Form::close() }}
@@ -89,7 +89,7 @@
 					{{  Form::token() }}
 					{{  Form::hidden('model_name', $model_name) }}
 					{{  Form::hidden('model_id', $model_id) }}
-					<button type="submit" class="btn btn-default">Add Contact</button>
+					{{ Form::submit('Add Contact', array('class' => 'btn btn-default')) }}
 				{{  Form::close() }}
 			</div>
 		</div>

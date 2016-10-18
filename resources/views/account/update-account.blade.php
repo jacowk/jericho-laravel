@@ -26,7 +26,7 @@
 			</div>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<button type="submit" class="btn btn-default">Update Account</button>
+					{{ Form::submit('Update Account', array('class' => 'btn btn-default')) }}
 				</div>
 			</div>
 		{{ Form::close() }}

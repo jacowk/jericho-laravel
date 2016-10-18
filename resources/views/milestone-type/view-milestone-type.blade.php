@@ -56,7 +56,7 @@
 					{{  Form::token() }}
 					<div class="form-group">
 						<div class="col-sm-10">
-							<button type="submit" class="btn btn-default">Back to Search Milestone Types</button>
+							{{ Form::submit('Back to Search Milestone Types', array('class' => 'btn btn-default')) }}
 						</div>
 					</div>
 				{{  Form::close() }}
@@ -67,7 +67,7 @@
 						{{  Form::token() }}
 						<div class="form-group">
 							<div class="col-sm-10">
-								<button type="submit" class="btn btn-default">Update Milestone Type</button>
+								{{ Form::submit('Update Milestone Type', array('class' => 'btn btn-default')) }}
 							</div>
 						</div>
 					{{  Form::close() }}

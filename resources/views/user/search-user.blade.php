@@ -24,7 +24,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10"> 
-						<button type="submit" class="btn btn-default">Search</button>
+						{{ Form::submit('Search', array('class' => 'btn btn-default')) }}
 					</div>
 				</div>
 			{{ Form::close() }}
@@ -52,18 +52,18 @@
 				</thead>
 				<tbody>
 					@if (!empty($users) && count($users) > 0)
-						@for($i = 0; $i < count($users); $i++)
+						@foreach($users as $user)
 						<tr>
-							<td>{{ $users[$i]->id }}</td>
-							<td>{{ $users[$i]->firstname }}</td>
-							<td>{{ $users[$i]->surname }}</td>
-							<td>{{ $users[$i]->email }}</td>
+							<td>{{ $user->id }}</td>
+							<td>{{ $user->firstname }}</td>
+							<td>{{ $user->surname }}</td>
+							<td>{{ $user->email }}</td>
 							@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_USER))
-								<td><a href="{{ route('update-user', ['user_id' => $users[$i]->id]) }}">Update</a></td>
+								<td><a href="{{ route('update-user', ['user_id' => $user->id]) }}">Update</a></td>
 							@endif
-							<td><a href="{{ route('view-user', ['user_id' => $users[$i]->id]) }}">View</a></td>
+							<td><a href="{{ route('view-user', ['user_id' => $user->id]) }}">View</a></td>
 						</tr>
-						@endfor
+						@endforeach
 					@else
 						<tr>
 							<td colspan="6">No users</td>
@@ -78,7 +78,7 @@
 			<div class="row">
 				{{ Form::open(array('route' => 'add-user')) }}
 					{{ Form::token() }}
-					<button type="submit" class="btn btn-default">Add User</button>
+					{{ Form::submit('Add User', array('class' => 'btn btn-default')) }}
 				{{ Form::close() }}
 			</div>
 		</div>

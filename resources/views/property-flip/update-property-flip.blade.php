@@ -6,7 +6,7 @@
 
 @section('breadcrumb')
 <ol class="breadcrumb">
-	<li class="breadcrumb-item active"><a href="{{ route('view-property', ['property_id' => $property_flip->property->id]) }}">View Property</a></li>
+	<li class="breadcrumb-item active"><a href="{{ route('view-property-flip', ['property_flip_id' => $property_flip->id]) }}">View Property Flip</a></li>
 </ol>
 @endsection
 
@@ -81,7 +81,7 @@
 			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<button type="submit" class="btn btn-default">Update Property Flip</button>
+					{{ Form::submit('Update Property Flip', array('class' => 'btn btn-default')) }}
 				</div>
 			</div>
 		{{ Form::close() }}

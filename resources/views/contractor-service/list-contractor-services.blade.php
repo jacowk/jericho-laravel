@@ -45,7 +45,7 @@
 		<div class="row">
 			{{ Form::open(array('route' => array('add-contractor-service', $contractor->id))) }}
 				{{ Form::token() }}
-				<button type="submit" class="btn btn-default">Add Contractor Service</button>
+				{{ Form::submit('Add Contractor Service', array('class' => 'btn btn-default')) }}
 			{{ Form::close() }}
 		</div>
 	</div>

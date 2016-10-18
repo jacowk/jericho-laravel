@@ -56,7 +56,7 @@
 					{{  Form::token() }}
 					<div class="form-group">
 						<div class="col-sm-10">
-							<button type="submit" class="btn btn-default">Back to Search Marital Statuses</button>
+							{{ Form::submit('Back to Search Marital Statuses', array('class' => 'btn btn-default')) }}
 						</div>
 					</div>
 				{{  Form::close() }}
@@ -67,7 +67,7 @@
 						{{  Form::token() }}
 						<div class="form-group">
 							<div class="col-sm-10">
-								<button type="submit" class="btn btn-default">Update Marital Status</button>
+								{{ Form::submit('Update Marital Status', array('class' => 'btn btn-default')) }}
 							</div>
 						</div>
 					{{  Form::close() }}
