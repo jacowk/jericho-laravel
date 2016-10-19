@@ -81,7 +81,9 @@
 		Attorney Contacts
 	@endsection
 	
-	@include('contact.list-contacts')
+	@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_CONTACT))
+		@include('contact.list-contacts')
+	@endif
 	
 	@if (PermissionValidator::hasPermission(PermissionConstants::ADD_CONTACT))
 		<div class="container">

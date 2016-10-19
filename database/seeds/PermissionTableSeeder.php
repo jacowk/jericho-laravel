@@ -21,6 +21,7 @@ class PermissionTableSeeder extends Seeder
     			'CONTRACTOR', 
     			'CONTRACTOR_SERVICE',
     			'DIARY_ITEM',
+    			'DIARY_ITEM_COMMENT',
     			'DOCUMENT',
     			'ESTATE_AGENT',
     			'FOLLOWUP_ITEM',
@@ -42,7 +43,9 @@ class PermissionTableSeeder extends Seeder
     			'ROLE',
     			'SUBURB',
     			'TRANSACTION',
-    			'USER'
+    			'USER',
+    			'ISSUE',
+    			'ISSUE_COMMENT'
     	);
     	$permission_prefix_array = array('ADD', 'UPDATE', 'VIEW');
     	foreach($permission_array as $permission_value)

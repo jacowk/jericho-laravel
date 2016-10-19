@@ -202,7 +202,8 @@ class MenuDisplayValidator
 		return MenuDisplayValidator::canDisplayPermissionsMenu() ||
 			MenuDisplayValidator::canDisplayRolesMenu() ||
 			MenuDisplayValidator::canDisplayUsersMenu() ||
-			MenuDisplayValidator::canDisplayAuditTrailMenu();
+			MenuDisplayValidator::canDisplayAuditTrailMenu() ||
+			MenuDisplayValidator::canDisplayIssueTrackerMenu();
 	}
 	
 	/* Submenu of Admin menu */
@@ -227,5 +228,11 @@ class MenuDisplayValidator
 	public static function canDisplayAuditTrailMenu()
 	{
 		return PermissionValidator::hasPermission(PermissionConstants::VIEW_AUDIT_TRAIL);
+	}
+	
+	/* Submenu of Admin menu */
+	public static function canDisplayIssueTrackerMenu()
+	{
+		return PermissionValidator::hasPermission(PermissionConstants::VIEW_ISSUE);
 	}
 }

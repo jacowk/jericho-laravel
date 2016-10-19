@@ -26,6 +26,10 @@ use jericho\Bank;
 use jericho\Role;
 use jericho\Permission;
 use jericho\Util\Util;
+use jericho\LookupIssueComponent;
+use jericho\LookupIssueCategory;
+use jericho\LookupIssueSeverity;
+use jericho\IssueStatus;
 use DB;
 
 /**
@@ -459,5 +463,54 @@ class LookupUtil
 			);
 		}
 		return $permissions;
-	}	
+	}
+	
+	/* Issue Tracker Lookups */
+	public static function retrieveLookupIssueComponents()
+	{
+		$lookup_issue_components = LookupIssueComponent::orderBy('description', 'asc')->get();
+		$issue_components = array();
+		$issue_components[-1] = "Select Issue Component";
+		foreach($lookup_issue_components as $issue_component)
+		{
+			$issue_components[$issue_component->id] = $issue_component->description;
+		}
+		return $issue_components;
+	}
+	
+	public static function retrieveLookupIssueCategories()
+	{
+		$lookup_issue_categories = LookupIssueCategory::all();
+		$issue_categories = array();
+		$issue_categories[-1] = "Select Issue Category";
+		foreach($lookup_issue_categories as $issue_category)
+		{
+			$issue_categories[$issue_category->id] = $issue_category->description;
+		}
+		return $issue_categories;
+	}
+	
+	public static function retrieveLookupIssueSeverityList()
+	{
+		$lookup_issue_severity_list = LookupIssueSeverity::all();
+		$issue_severity_list = array();
+		$issue_severity_list[-1] = "Select Issue Severity";
+		foreach($lookup_issue_severity_list as $issue_severity)
+		{
+			$issue_severity_list[$issue_severity->id] = $issue_severity->description;
+		}
+		return $issue_severity_list;
+	}
+	
+	public static function retrieveIssueStatusLookup()
+	{
+		$table_issue_statuses = IssueStatus::all();
+		$issue_statuses = array();
+		$issue_statuses[-1] = "Select Issue Status";
+		foreach($table_issue_statuses as $issue_status)
+		{
+			$issue_statuses[$issue_status->id] = $issue_status->description;
+		}
+		return $issue_statuses;
+	}
 }

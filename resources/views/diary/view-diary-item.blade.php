@@ -95,6 +95,9 @@
 			</div>
 		</div>
 	</div>
+	@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_DIARY_ITEM_COMMENT))
+		@include('diary-item-comment.list-diary-item-comments')
+	@endif
 	@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_FOLLOWUP_ITEM))
 		@include('followup.list-followup-items')
 	@endif

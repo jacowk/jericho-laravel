@@ -54,5 +54,13 @@ class DatabaseSeeder extends Seeder
         $this->call(LookupPropertyTypeTableSeeder::class);
         $this->call(LookupMilestoneTypeTableSeeder::class);
         $this->call(LookupDocumentTypeTableSeeder::class);
+        $this->call(DiaryItemCommentTableSeeder::class);
+        
+        $this->call(IssueTableSeeder::class);
+        $this->call(IssueCommentTableSeeder::class);
+        $this->call(IssueStatusTableSeeder::class);
+        $this->call(LookupIssueComponentTableSeeder::class);
+        $this->call(LookupIssueCategoryTableSeeder::class);
+        $this->call(LookupIssueSeverityTableSeeder::class);
     }
 }

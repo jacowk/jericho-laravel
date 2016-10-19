@@ -76,13 +76,17 @@
 		</div>
 	</div>
 	
-	@include('contractor-service.list-contractor-services')
+	@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_CONTRACTOR_SERVICE))
+		include('contractor-service.list-contractor-services')
+	@endif
 	
 	@section('contact-list-title')
 		Contractor Contacts
 	@endsection
 	
-	@include('contact.list-contacts')
+	@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_CONTACT))
+		@include('contact.list-contacts')
+	@endif
 	
 	@if (PermissionValidator::hasPermission(PermissionConstants::ADD_CONTACT))
 		<div class="container">

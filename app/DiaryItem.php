@@ -19,6 +19,11 @@ class DiaryItem extends Model
     	return $this->hasMany('jericho\FollowupItem');
     }
     
+    public function diary_item_comments()
+    {
+    	return $this->hasMany('jericho\DiaryItemComment');
+    }
+    
     public function allocated_user()
     {
     	return $this->belongsTo('jericho\User');

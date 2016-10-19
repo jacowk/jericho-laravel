@@ -95,7 +95,7 @@
 								@if (MenuDisplayValidator::canDisplayTransactionTypesMenu())
 									<li><a href="{{ url('/search-transaction-type') }}">Transaction Types</a></li>
 								@endif
-								<li><a href="{{ url('/test') }}">Test</a></li>
+								<!-- <li><a href="{{ url('/test') }}">Test</a></li> -->
 							</ul>
 						</li>
 					@endif
@@ -178,6 +178,10 @@
 								
 								@if (MenuDisplayValidator::canDisplayAuditTrailMenu())
 									<li><a href="{{ url('/search-audit-trail') }}">Audit Trailing</a></li>
+								@endif
+								
+								@if (MenuDisplayValidator::canDisplayIssueTrackerMenu())
+									<li><a href="{{ url('/search-issue') }}">Issue Tracker</a></li>
 								@endif
 							</ul>
 						</li>

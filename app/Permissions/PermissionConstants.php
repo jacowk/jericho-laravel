@@ -35,6 +35,9 @@ class PermissionConstants
 	const ADD_DIARY_ITEM = 'Add Diary Item';
 	const UPDATE_DIARY_ITEM = 'Update Diary Item';
 	const VIEW_DIARY_ITEM = 'View Diary Item';
+	const ADD_DIARY_ITEM_COMMENT = 'Add Diary Item Comment';
+	const UPDATE_DIARY_ITEM_COMMENT = 'Update Diary Item Comment';
+	const VIEW_DIARY_ITEM_COMMENT = 'View Diary Item Comment';
 	const ADD_DOCUMENT = 'Add Document';
 	const UPDATE_DOCUMENT = 'Update Document';
 	const VIEW_DOCUMENT = 'View Document';
@@ -125,4 +128,10 @@ class PermissionConstants
 	const VIEW_TOTALS_PER_STATUS_REPORT = 'View Totals Per Status Report';
 	const VIEW_AUDIT_TRAIL = 'View Audit Trail';
 	const VIEW_AUDIT_FIELDS = 'View Audit Fields'; /* Refering to create and update fields */
+	const ADD_ISSUE = 'Add Issue';
+	const UPDATE_ISSUE = 'Update Issue';
+	const VIEW_ISSUE = 'View Issue';
+	const ADD_ISSUE_COMMENT = 'Add Issue Comment';
+	const UPDATE_ISSUE_COMMENT = 'Update Issue Comment';
+	const VIEW_ISSUE_COMMENT = 'View Issue Comment';
 }

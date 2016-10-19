@@ -30,10 +30,17 @@
 			</div>
 			
 			<div class="form-group">
-				{{  Form::label('comments', 'Comments', array('class' => 'col-sm-2 control-label')) }}
-				<div class="col-sm-10">
-					{{  Form::textarea('comments', $diary_item->comments, array('class' => 'form-control', 'placeholder' => 'Comment')) }}
-				</div>
+				@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_DIARY_ITEM_COMMENT))
+					{{  Form::label('comments', 'Comments', array('class' => 'col-sm-2 control-label')) }}
+					<div class="col-sm-10">
+						{{  Form::textarea('comments', $diary_item->comments, array('class' => 'form-control', 'placeholder' => 'Comment')) }}
+					</div>
+				@else
+					{{  Form::label('comments', 'Comments', array('class' => 'col-sm-2 control-label')) }}
+					<div class="col-sm-10">
+						<p>{{ $diary_item->comments }}</p>
+					</div>
+				@endif
 			</div>
 			
 			<div class="form-group">
