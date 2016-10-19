@@ -18,6 +18,13 @@
 				</div>
 				
 				<div class="form-group">
+					{{  Form::label('created_by_id', 'Created By', array('class' => 'col-sm-2 control-label')) }}
+					<div class="col-sm-10">
+						{{ Form::select('created_by_id', $users, $created_by_id, ['class' => 'form-control']) }}
+					</div>
+				</div>
+				
+				<div class="form-group">
 					{{  Form::label('assigned_to_id', 'Assigned To', array('class' => 'col-sm-2 control-label')) }}
 					<div class="col-sm-10">
 						{{ Form::select('assigned_to_id', $users, $assigned_to_id, ['class' => 'form-control']) }}

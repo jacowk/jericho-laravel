@@ -35,7 +35,8 @@ class IssueController extends Controller
 			'issue_statuses' => $issue_statuses,
 			'id' => null,
 			'assigned_to_id' => null,
-			'issue_status_id' => null
+			'issue_status_id' => null,
+			'created_by_id' => null
 		]);
 	}
 	
@@ -48,6 +49,7 @@ class IssueController extends Controller
 	public function postDoSearchIssue(Request $request)
 	{
 		$id = null;
+		$created_by_id = null;
 		$assigned_to_id = null;
 		$issue_status_id = null;
 		$query_parameters = array();
@@ -58,7 +60,13 @@ class IssueController extends Controller
 			$id_query_parameter = ['id', '=', $id];
 			array_push($query_parameters, $id_query_parameter);
 		}
-		if (Util::isValidRequestVariable($request->assigned_to) && $request->assigned_to > 0)
+		if (Util::isValidRequestVariable($request->created_by_id) && $request->created_by_id > 0)
+		{
+			$created_by_id = $request->created_by_id;
+			$created_by_id_query_parameter = ['created_by_id', '=', $created_by_id];
+			array_push($query_parameters, $created_by_id_query_parameter);
+		}
+		if (Util::isValidRequestVariable($request->assigned_to_id) && $request->assigned_to_id > 0)
 		{
 			$assigned_to_id = $request->assigned_to_id;
 			$assigned_to_query_parameter = ['assigned_to_id', '=', $assigned_to_id];
@@ -77,6 +85,8 @@ class IssueController extends Controller
 		/* Prepare screen parameters */
 		$users = LookupUtil::retrieveUsersLookup();
 		$issue_statuses = LookupUtil::retrieveIssueStatusLookup();
+		
+		
 		/* Return to view */
 		return view('issue.search-issue', [
 			'issues' => $issues,
@@ -84,7 +94,8 @@ class IssueController extends Controller
 			'issue_statuses' => $issue_statuses,
 			'id' => $id,
 			'assigned_to_id' => $assigned_to_id,
-			'issue_status_id' => $issue_status_id
+			'issue_status_id' => $issue_status_id,
+			'created_by_id' => $created_by_id
 		]);
 	}
 	
