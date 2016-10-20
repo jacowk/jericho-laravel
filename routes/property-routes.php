@@ -15,6 +15,12 @@ Route::group(['middleware' => 'auth'], function() {
 				'as' => 'search-property'
 		]);
 		
+		/* Pagination */
+		Route::get('/do-search-property', [
+				'uses' => 'PropertyController@postDoSearchProperty',
+				'as' => 'do-search-property'
+		]);
+		
 		Route::post('/do-search-property', [
 				'uses' => 'PropertyController@postDoSearchProperty',
 				'as' => 'do-search-property'

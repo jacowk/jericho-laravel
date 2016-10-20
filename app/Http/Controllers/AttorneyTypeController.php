@@ -39,15 +39,18 @@ class AttorneyTypeController extends Controller
 	 */
 	public function postDoSearchAttorneyType(Request $request)
 	{
+		$user = Auth::user();
 		$description = null;
 		if (Util::isValidRequestVariable($request->description))
 		{
 			$description = $request->description;
-			$attorney_types = LookupAttorneyType::where('description', 'like', '%' . $description . '%')->orderBy('description', 'asc')->get();
+			$attorney_types = LookupAttorneyType::where('description', 'like', '%' . $description . '%')
+								->orderBy('description', 'asc')
+								->paginate($user->pagination_size);
 		}
 		else
 		{
-			$attorney_types = LookupAttorneyType::orderBy('description', 'asc')->get();
+			$attorney_types = LookupAttorneyType::orderBy('description', 'asc')->paginate($user->pagination_size);
 		}
 		return view('attorney-type.search-attorney-type', [
 			'attorney_types' => $attorney_types,

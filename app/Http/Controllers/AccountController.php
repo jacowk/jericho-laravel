@@ -39,15 +39,16 @@ class AccountController extends Controller
 	 */
 	public function postDoSearchAccount(Request $request)
 	{
+		$user = Auth::user();
 		$name = null;
 		if (Util::isValidRequestVariable($request->name))
 		{
 			$name = $request->name;
-			$accounts = Account::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->get();
+			$accounts = Account::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->paginate($user->pagination_size);
 		}
 		else
 		{
-			$accounts = Account::orderBy('name', 'asc')->get();
+			$accounts = Account::orderBy('name', 'asc')->paginate($user->pagination_size);
 		}
 		return view('account.search-account', [
 				'accounts' => $accounts,

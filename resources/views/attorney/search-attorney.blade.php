@@ -60,6 +60,23 @@
 					@endif
 				</tbody>
 			</table>
+			<!-- Pagination -->
+			<div class="text-center">
+				@if (!empty($attorneys) && count($attorneys) > 0)
+					@if ($attorneys->hasMorePages())
+						{{ $attorneys->render() }}<br/>
+					@else
+						<ul class="pagination">
+							<li><a href="{{ $attorneys->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@for ($i = 1; $i <= $attorneys->lastPage(); $i++)
+								<li class="{{ ($attorneys->currentPage() == $i) ? ' active' : '' }}">
+									<a href="{{ $attorneys->url($i) }}"><span>{{ $i }}</span></a>
+								</li>
+							@endfor
+						</ul>
+					@endif
+				@endif
+			</div>
 		</div>
 	</div>
 	@if (PermissionValidator::hasPermission(PermissionConstants::ADD_ATTORNEY))

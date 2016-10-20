@@ -15,6 +15,12 @@ Route::group(['middleware' => 'auth'], function() {
 				'as' => 'search-milestone-type'
 		]);
 		
+		/* Pagination */
+		Route::get('/do-search-milestone-type', [
+				'uses' => 'MilestoneTypeController@postDoSearchMilestoneType',
+				'as' => 'do-search-milestone-type'
+		]);
+		
 		Route::post('/do-search-milestone-type', [
 				'uses' => 'MilestoneTypeController@postDoSearchMilestoneType',
 				'as' => 'do-search-milestone-type'

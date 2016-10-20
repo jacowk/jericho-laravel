@@ -60,6 +60,24 @@
 					@endif
 				</tbody>
 			</table>
+			
+			<!-- Pagination -->
+			<div class="text-center">
+				@if (!empty($transaction_types) && count($transaction_types) > 0)
+					@if ($transaction_types->hasMorePages())
+						{{ $transaction_types->render() }}<br/>
+					@else
+						<ul class="pagination">
+							<li><a href="{{ $transaction_types->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@for ($i = 1; $i <= $transaction_types->lastPage(); $i++)
+								<li class="{{ ($transaction_types->currentPage() == $i) ? ' active' : '' }}">
+									<a href="{{ $transaction_types->url($i) }}"><span>{{ $i }}</span></a>
+								</li>
+							@endfor
+						</ul>
+					@endif
+				@endif
+			</div>
 		</div>
 	</div>
 	@if (PermissionValidator::hasPermission(PermissionConstants::ADD_TRANSACTION_TYPE))

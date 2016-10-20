@@ -9,6 +9,8 @@ class Suburb extends Model
 {
 	use Auditable;
 	
+	protected $fillable = ['name', 'box_code', 'street_code'];
+	
     public function area()
     {
     	return $this->belongsTo('jericho\Area');

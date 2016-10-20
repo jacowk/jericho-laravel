@@ -32,8 +32,18 @@ class PropertyController extends Controller
 	 */
 	public function getSearchProperty()
 	{
+		$suburbs = LookupUtil::retrieveSuburbsLookup();
+		$areas = LookupUtil::retrieveAreasLookup();
+		$greater_areas = LookupUtil::retrieveGreaterAreasLookup();
 		return view('property.search-property', [
-			'address' => null
+			'address' => null,
+			'suburb_id' => null,
+			'area_id' => null,
+			'greater_area_id' => null,
+			'reference_number' => null,
+			'suburbs' => $suburbs,
+			'areas' => $areas,
+			'greater_areas' => $greater_areas
 		]);
 	}
 	
@@ -45,40 +55,111 @@ class PropertyController extends Controller
 	 */
 	public function postDoSearchProperty(Request $request)
 	{
+		$user = Auth::user();
 		$address = null;
+		$query_parameters = array();
+		
+		/* Prepare query parameters */
+		$address = null;
+		$suburb_id = null;
+		$area_id = null;
+		$greater_area_id = null;
+		$reference_number = null;
+		$address_query_parameter = null;
+		
+		/* The address is used as part of an orWhere clause in the query builder */
 		if (Util::isValidRequestVariable($request->address))
 		{
 			$address = $request->address;
-// 			$properties = Property::where('address_line_1', 'like', '%' . $address_line . '%')->get();
-			
-			$properties = DB::table('properties')
-							->join('suburbs', 'properties.suburb_id', '=', 'suburbs.id')
-							->join('areas', 'properties.area_id', '=', 'areas.id')
-							->join('greater_areas', 'properties.greater_area_id', '=', 'greater_areas.id')
-							->where('address_line_1', 'like', '%' . $address . '%')
-							->select('properties.*', 
-										'suburbs.name as suburb_name', 
-										'areas.name as area_name',
-										'greater_areas.name as greater_area_name')
-							->get();
+			$address_query_parameter = $address;
 		}
 		else
 		{
-// 			$properties = Property::all();
-
+			$address_query_parameter = Util::convertToLikeQueryParameter('');
+		}
+		
+		/* The suburb_id, area_id, and greater_area_id is grouped in the query builder */
+		if (Util::isValidSelectRequestVariable($request->suburb_id))
+		{
+			$suburb_id = $request->suburb_id;
+			$suburb_id_query_parameter = ['properties.suburb_id', '=', $suburb_id];
+			array_push($query_parameters, $suburb_id_query_parameter);
+		}
+		if (Util::isValidSelectRequestVariable($request->area_id))
+		{
+			$area_id = $request->area_id;
+			$area_id_query_parameter = ['properties.area_id', '=', $area_id];
+			array_push($query_parameters, $area_id_query_parameter);
+		}
+		if (Util::isValidSelectRequestVariable($request->greater_area_id))
+		{
+			$greater_area_id = $request->greater_area_id;
+			$greater_area_id_query_parameter = ['properties.greater_area_id', '=', $greater_area_id];
+			array_push($query_parameters, $greater_area_id_query_parameter);
+		}
+		
+		/* Property Flip Table parameters */
+		if (Util::isValidRequestVariable($request->reference_number))
+		{
+			$reference_number = $request->reference_number;
+			$reference_number_query_parameter = ['property_flips.reference_number', '=', $reference_number];
+			array_push($query_parameters, $reference_number_query_parameter);
+		}
+		
+		if (Util::isValidRequestVariable($request->reference_number)) /* Include join with property_flip */
+		{
 			$properties = DB::table('properties')
+							->join('property_flips', 'properties.id', '=', 'property_flips.property_id')
 							->join('suburbs', 'properties.suburb_id', '=', 'suburbs.id')
 							->join('areas', 'properties.area_id', '=', 'areas.id')
 							->join('greater_areas', 'properties.greater_area_id', '=', 'greater_areas.id')
+							->where($query_parameters)
+							->where(function ($query) use ($address_query_parameter) {
+									$query->where('address_line_1', 'like', $address_query_parameter)
+											->orWhere('address_line_2', 'like', $address_query_parameter)
+											->orWhere('address_line_3', 'like', $address_query_parameter)
+											->orWhere('address_line_4', 'like', $address_query_parameter)
+											->orWhere('address_line_5', 'like', $address_query_parameter);
+							})
 							->select('properties.*',
 									'suburbs.name as suburb_name',
 									'areas.name as area_name',
 									'greater_areas.name as greater_area_name')
-									->get();
+							->paginate($user->pagination_size);
 		}
+		else /* Exlude join with property_flip */
+		{
+			$properties = DB::table('properties')
+							->join('suburbs', 'properties.suburb_id', '=', 'suburbs.id')
+							->join('areas', 'properties.area_id', '=', 'areas.id')
+							->join('greater_areas', 'properties.greater_area_id', '=', 'greater_areas.id')
+							->where($query_parameters)
+							->where(function ($query) use ($address_query_parameter) {
+								$query->where('address_line_1', 'like', $address_query_parameter)
+								->orWhere('address_line_2', 'like', $address_query_parameter)
+								->orWhere('address_line_3', 'like', $address_query_parameter)
+								->orWhere('address_line_4', 'like', $address_query_parameter)
+								->orWhere('address_line_5', 'like', $address_query_parameter);
+							})
+							->select('properties.*',
+									'suburbs.name as suburb_name',
+									'areas.name as area_name',
+									'greater_areas.name as greater_area_name')
+							->paginate($user->pagination_size);
+		}			
+		$suburbs = LookupUtil::retrieveSuburbsLookup();
+		$areas = LookupUtil::retrieveAreasLookup();
+		$greater_areas = LookupUtil::retrieveGreaterAreasLookup();
 		return view('property.search-property', [
 			'properties' => $properties,
-			'address' => $address
+			'address' => $address,
+			'suburb_id' => $suburb_id,
+			'area_id' => $area_id,
+			'greater_area_id' => $greater_area_id,
+			'reference_number' => $reference_number,
+			'suburbs' => $suburbs,
+			'areas' => $areas,
+			'greater_areas' => $greater_areas
 		]);
 	}
 	

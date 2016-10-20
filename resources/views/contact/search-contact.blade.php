@@ -9,16 +9,25 @@
 		<div class="row">
 			{{ Form::open(array('route' => 'do-search-contact', 'class' => 'form-horizontal')) }}
 				{{ Form::token() }}
+				
 				<div class="form-group">
 					{{ Form::label('firstname', 'Firstname', array('class' => 'col-sm-2 control-label')) }}
 					<div class="col-sm-10"> 
 						{{ Form::text('firstname', $firstname, array('class' => 'form-control', 'placeholder' => 'Firstname')) }}
 					</div>
 				</div>
+				
 				<div class="form-group">
 					{{ Form::label('surname', 'Surname', array('class' => 'col-sm-2 control-label')) }}
 					<div class="col-sm-10">
 						{{ Form::text('surname', $surname, array('class' => 'form-control', 'placeholder' => 'Surname')) }}
+					</div>
+				</div>
+				
+				<div class="form-group">
+					{{ Form::label('work_email', 'Work Email', array('class' => 'col-sm-2 control-label')) }}
+					<div class="col-sm-10">
+						{{ Form::text('work_email', $work_email, array('class' => 'form-control', 'placeholder' => 'Work Email')) }}
 					</div>
 				</div>
 				<div class="form-group">
@@ -35,6 +44,24 @@
 	@endsection
 	
 	@include('contact.list-contacts')
+	
+	<!-- Pagination -->
+	<div class="text-center">
+		@if (!empty($contacts) && count($contacts) > 0)
+			@if ($contacts->hasMorePages())
+				{{ $contacts->render() }}<br/>
+			@else
+				<ul class="pagination">
+					<li><a href="{{ $contacts->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+					@for ($i = 1; $i <= $contacts->lastPage(); $i++)
+						<li class="{{ ($contacts->currentPage() == $i) ? ' active' : '' }}">
+							<a href="{{ $contacts->url($i) }}"><span>{{ $i }}</span></a>
+						</li>
+					@endfor
+				</ul>
+			@endif
+		@endif
+	</div>
 	
 	@if (PermissionValidator::hasPermission(PermissionConstants::ADD_CONTACT))
 		<div class="container">

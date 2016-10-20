@@ -41,15 +41,16 @@ class AttorneyController extends Controller
      */
     public function postDoSearchAttorney(Request $request)
     {
+    	$user = Auth::user();
     	$name = null;
     	if (Util::isValidRequestVariable($request->name))
     	{
     		$name = $request->name;
-    		$attorneys = Attorney::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->get();
+    		$attorneys = Attorney::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->paginate($user->pagination_size);
     	}
     	else 
     	{
-    		$attorneys = Attorney::orderBy('name', 'asc')->get();
+    		$attorneys = Attorney::orderBy('name', 'asc')->paginate($user->pagination_size);
     	}
     	return view('attorney.search-attorney', [
     			'attorneys' => $attorneys,

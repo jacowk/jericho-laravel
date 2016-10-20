@@ -28,6 +28,8 @@
 	    <link href="{{ URL::asset('css/prettify.min.css') }}" rel="stylesheet">
 	    <link href="{{ URL::asset('css/bootstrap-duallistbox.css') }}" rel="stylesheet">
 	    <link href="{{ URL::asset('css/jquery.datetimepicker.min.css') }}" rel="stylesheet">
+	    <link href="{{ URL::asset('css/jquery.datetimepicker.min.css') }}" rel="stylesheet">
+	    <link href="{{ URL::asset('css/jericho.css') }}" rel="stylesheet">
 	    
 	    <script>
 	        window.Laravel = <?php echo json_encode([

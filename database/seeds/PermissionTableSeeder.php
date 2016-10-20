@@ -13,6 +13,8 @@ class PermissionTableSeeder extends Seeder
      */
     public function run()
     {
+    	Permission::truncate();
+    	
     	$permission_array = array('ACCOUNT', 
     			'AREA', 
     			'ATTORNEY', 

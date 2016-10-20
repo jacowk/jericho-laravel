@@ -13,6 +13,8 @@ class AttorneyContactTableSeeder extends Seeder
      */
     public function run()
     {
+    	DB::table('attorney_contact')->truncate();
+    	
     	/* Contacts for Attorney 1 */
         $attorney = Attorney::find(1);
         

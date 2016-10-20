@@ -60,6 +60,24 @@
 					@endif
 				</tbody>
 			</table>
+			
+			<!-- Pagination -->
+			<div class="text-center">
+				@if (!empty($estate_agent_types) && count($estate_agent_types) > 0)
+					@if ($estate_agent_types->hasMorePages())
+						{{ $estate_agent_types->render() }}<br/>
+					@else
+						<ul class="pagination">
+							<li><a href="{{ $estate_agent_types->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@for ($i = 1; $i <= $estate_agent_types->lastPage(); $i++)
+								<li class="{{ ($estate_agent_types->currentPage() == $i) ? ' active' : '' }}">
+									<a href="{{ $estate_agent_types->url($i) }}"><span>{{ $i }}</span></a>
+								</li>
+							@endfor
+						</ul>
+					@endif
+				@endif
+			</div>
 		</div>
 	</div>
 	@if (PermissionValidator::hasPermission(PermissionConstants::ADD_ESTATE_AGENT_TYPE))

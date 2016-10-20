@@ -39,16 +39,18 @@ class AreaController extends Controller
 	 */
 	public function postDoSearchArea(Request $request)
 	{
+		$user = Auth::user();
 		$name = null;
 		if (Util::isValidRequestVariable($request->name))
 		{
 			$name = $request->name;
-			$areas = Area::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->get();
+			$areas = Area::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->paginate($user->pagination_size);
 		}
 		else
 		{
-			$areas = Area::orderBy('name', 'asc')->get();
+			$areas = Area::orderBy('name', 'asc')->paginate($user->pagination_size);
 		}
+		//Illuminate\Pagination\LengthAwarePaginator
 		return view('area.search-area', [
 			'areas' => $areas,
 			'name' => $name

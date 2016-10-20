@@ -13,6 +13,8 @@ class RoleUserTableSeeder extends Seeder
      */
     public function run()
     {
+    	DB::table('role_user')->truncate();
+    	
     	$user = User::find(1);
     	
     	$role = Role::find(1);

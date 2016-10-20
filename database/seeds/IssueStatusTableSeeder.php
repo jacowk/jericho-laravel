@@ -19,6 +19,8 @@ class IssueStatusTableSeeder extends Seeder
      */
     public function run()
     {
+    	IssueStatus::truncate();
+    	
     	$value_array = array('New', 'Viewed', 'In Progress', 'Developed', 'Tested', 'Completed', 'Rejected', 'Reopened');
     	foreach($value_array as $value)
     	{

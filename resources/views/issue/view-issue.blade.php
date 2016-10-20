@@ -15,7 +15,7 @@
 		<div class="form-group">
 			<table class="table table-bordered table-striped table-condensed">
 				<tr>
-					<th class="col-sm-3 text-right">ID</th>
+					<th class="col-sm-3 text-right">Issue ID</th>
 					<td>{{ $issue->id }}</td>						
 				</tr>
 				<tr>

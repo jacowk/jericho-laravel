@@ -15,6 +15,12 @@ Route::group(['middleware' => 'auth'], function() {
 				'as' => 'search-estate-agent-type'
 		]);
 		
+		/* Pagination */
+		Route::get('/do-search-estate-agent-type', [
+				'uses' => 'EstateAgentTypeController@postDoSearchEstateAgentType',
+				'as' => 'do-search-estate-agent-type'
+		]);
+		
 		Route::post('/do-search-estate-agent-type', [
 				'uses' => 'EstateAgentTypeController@postDoSearchEstateAgentType',
 				'as' => 'do-search-estate-agent-type'

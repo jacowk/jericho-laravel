@@ -15,6 +15,12 @@ Route::group(['middleware' => 'auth'], function() {
 				'as' => 'search-bank'
 		]);
 		
+		/* Pagination */
+		Route::get('/do-search-bank', [
+				'uses' => 'BankController@postDoSearchBank',
+				'as' => 'do-search-bank'
+		]);
+		
 		Route::post('/do-search-bank', [
 				'uses' => 'BankController@postDoSearchBank',
 				'as' => 'do-search-bank'

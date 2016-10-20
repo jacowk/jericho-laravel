@@ -12,6 +12,8 @@ class AreaTableSeeder extends Seeder
      */
     public function run()
     {
+    	Area::truncate();
+    	
     	$area1 = new Area();
     	$area1->name = "Roodepoort";
     	$area1->created_by_id = 1;
@@ -26,5 +28,14 @@ class AreaTableSeeder extends Seeder
     	$area3->name = "Randburg";
     	$area3->created_by_id = 1;
     	$area3->save();
+    	
+    	$faker = Faker\Factory::create();
+    	foreach(range(1, 20) as $index)
+    	{
+    		Area::create([
+    				'name' => $faker->word,
+    				'created_by_id' => 1
+    		]);
+    	}
     }
 }

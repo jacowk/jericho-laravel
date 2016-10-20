@@ -60,6 +60,24 @@
 					@endif
 				</tbody>
 			</table>
+			
+			<!-- Pagination -->
+			<div class="text-center">
+				@if (!empty($areas) && count($areas) > 0)
+					@if ($areas->hasMorePages())
+						{{ $areas->render() }}<br/>
+					@else
+						<ul class="pagination">
+							<li><a href="{{ $areas->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@for ($i = 1; $i <= $areas->lastPage(); $i++)
+								<li class="{{ ($areas->currentPage() == $i) ? ' active' : '' }}">
+									<a href="{{ $areas->url($i) }}"><span>{{ $i }}</span></a>
+								</li>
+							@endfor
+						</ul>
+					@endif
+				@endif
+			</div>
 		</div>
 	</div>
 	@if (PermissionValidator::hasPermission(PermissionConstants::ADD_AREA))

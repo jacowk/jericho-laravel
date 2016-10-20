@@ -12,6 +12,8 @@ class ContractorTableSeeder extends Seeder
      */
     public function run()
     {
+    	Contractor::truncate();
+    	
         $contractor1 = new Contractor();
         $contractor1->name = "Contractor 1";
         $contractor1->work_description = "Test Description 1";
@@ -29,5 +31,14 @@ class ContractorTableSeeder extends Seeder
         $contractor3->work_description = "Test Description 3";
         $contractor3->created_by_id = 1;
         $contractor3->save();
+        
+        $faker = Faker\Factory::create();
+        foreach(range(1, 20) as $index)
+        {
+        	Contractor::create([
+        			'name' => $faker->word,
+        			'created_by_id' => 1
+        	]);
+        }
     }
 }

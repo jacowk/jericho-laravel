@@ -17,7 +17,7 @@
 			<div class="form-group">
 				{{  Form::label('description', 'Description', array('class' => 'col-sm-2 control-label')) }}
 				<div class="col-sm-10">
-					{{  Form::text('description', '', array('class' => 'form-control', 'placeholder' => 'Description')) }}
+					{{  Form::text('description', '', array('class' => 'form-control captialize', 'placeholder' => 'Description')) }}
 				</div>
 			</div>
 			<div class="form-group">

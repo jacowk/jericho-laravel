@@ -16,6 +16,12 @@ Route::group(['middleware' => 'auth'], function() {
 				'as' => 'search-permission'
 		]);
 		
+		/* Pagination */
+		Route::get('/do-search-permission', [
+				'uses' => 'PermissionController@postDoSearchPermission',
+				'as' => 'do-search-permission'
+		]);
+		
 		Route::post('/do-search-permission', [
 				'uses' => 'PermissionController@postDoSearchPermission',
 				'as' => 'do-search-permission'

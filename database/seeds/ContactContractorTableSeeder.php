@@ -13,6 +13,8 @@ class ContactContractorTableSeeder extends Seeder
      */
     public function run()
     {
+    	DB::table('contact_contractor')->truncate();
+    	
     	/* Contacts for Contractor 1 */
     	$contractor = Contractor::find(1);
     	

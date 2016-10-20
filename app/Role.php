@@ -9,6 +9,8 @@ class Role extends Model
 {
 	use Auditable;
 	
+	protected $fillable = ['name'];
+	
 	public function permissions()
 	{
 		return $this->belongsToMany('jericho\Permission');

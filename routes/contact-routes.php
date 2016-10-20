@@ -15,6 +15,12 @@ Route::group(['middleware' => 'auth'], function() {
 				'as' => 'search-contact'
 		]);
 		
+		/* Pagination */
+		Route::get('/do-search-contact', [
+				'uses' => 'ContactController@postDoSearchContact',
+				'as' => 'do-search-contact'
+		]);
+		
 		Route::post('/do-search-contact', [
 				'uses' => 'ContactController@postDoSearchContact',
 				'as' => 'do-search-contact'

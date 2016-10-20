@@ -39,15 +39,18 @@ class ContractorTypeController extends Controller
 	 */
 	public function postDoSearchContractorType(Request $request)
 	{
+		$user = Auth::user();
 		$description = null;
 		if (Util::isValidRequestVariable($request->description))
 		{
 			$description = $request->description;
-			$contractor_types = LookupContractorType::where('description', 'like', '%' . $description . '%')->orderBy('description', 'asc')->get();
+			$contractor_types = LookupContractorType::where('description', 'like', '%' . $description . '%')
+									->orderBy('description', 'asc')
+									->paginate($user->pagination_size);
 		}
 		else
 		{
-			$contractor_types = LookupContractorType::orderBy('description', 'asc')->get();
+			$contractor_types = LookupContractorType::orderBy('description', 'asc')->paginate($user->pagination_size);
 		}
 		return view('contractor-type.search-contractor-type', [
 			'contractor_types' => $contractor_types,

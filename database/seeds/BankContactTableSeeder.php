@@ -13,6 +13,8 @@ class BankContactTableSeeder extends Seeder
      */
     public function run()
     {
+    	DB::table('bank_contact')->truncate();
+    	
         /* Contacts for Bank 1 */
         $bank = Bank::find(1);
         

@@ -32,7 +32,7 @@
 	</div><br/>
 	<div class="container">
 		<div class="row">
-			<div class="panel-heading">
+			<div class="panel-heading text-center">
 				<h4 class="panel-title">Users Search Result</h4>
 			</div>
 		</div>
@@ -71,6 +71,24 @@
 					@endif
 				</tbody>
 			</table>
+			
+			<!-- Pagination -->
+			<div class="text-center">
+				@if (!empty($users) && count($users) > 0)
+					@if ($users->hasMorePages())
+						{{ $users->render() }}<br/>
+					@else
+						<ul class="pagination">
+							<li><a href="{{ $users->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@for ($i = 1; $i <= $users->lastPage(); $i++)
+								<li class="{{ ($users->currentPage() == $i) ? ' active' : '' }}">
+									<a href="{{ $users->url($i) }}"><span>{{ $i }}</span></a>
+								</li>
+							@endfor
+						</ul>
+					@endif
+				@endif
+			</div>
 		</div>
 	</div>
 	@if (PermissionValidator::hasPermission(PermissionConstants::ADD_USER))

@@ -19,6 +19,8 @@ class LookupMilestoneTypeTableSeeder extends Seeder
      */
     public function run()
     {
+    	LookupMilestoneType::truncate();
+    	
     	$milestone_type_array = array(
 		    	'Date Offer Made',
 		    	'Date Of Acceptance',

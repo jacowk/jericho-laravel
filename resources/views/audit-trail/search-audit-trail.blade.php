@@ -88,12 +88,16 @@
 	</div>
 	<script type="text/javascript">
 		$( function() {
-		    $( "#from_date" ).datepicker({
-		    	dateFormat: "yy-mm-dd"
+		    $('#from_date').datetimepicker({
+				formatTime:'H:i',
+				formatDate:'Y-m-d',
+				step:5
 			});
-
-		    $( "#to_date" ).datepicker({
-		    	dateFormat: "yy-mm-dd"
+			
+		    $('#to_date').datetimepicker({
+				formatTime:'H:i',
+				formatDate:'Y-m-d',
+				step:5
 			});
 		});
 	</script>

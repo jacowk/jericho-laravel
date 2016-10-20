@@ -15,6 +15,12 @@ Route::group(['middleware' => 'auth'], function() {
 				'as' => 'search-suburb'
 		]);
 		
+		/* Pagination */
+		Route::get('/do-search-suburb', [
+				'uses' => 'SuburbController@postDoSearchSuburb',
+				'as' => 'do-search-suburb'
+		]);
+		
 		Route::post('/do-search-suburb', [
 				'uses' => 'SuburbController@postDoSearchSuburb',
 				'as' => 'do-search-suburb'

@@ -9,6 +9,8 @@ class Area extends Model
 {
 	use Auditable;
 	
+	protected $fillable = ['name'];
+	
     public function suburbs()
     {
     	return $this->hasMany('jericho\Suburb');

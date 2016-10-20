@@ -15,6 +15,12 @@ Route::group(['middleware' => 'auth'], function() {
 				'as' => 'search-document-type'
 		]);
 		
+		/* Pagination */
+		Route::get('/do-search-document-type', [
+				'uses' => 'DocumentTypeController@postDoSearchDocumentType',
+				'as' => 'do-search-document-type'
+		]);
+		
 		Route::post('/do-search-document-type', [
 				'uses' => 'DocumentTypeController@postDoSearchDocumentType',
 				'as' => 'do-search-document-type'

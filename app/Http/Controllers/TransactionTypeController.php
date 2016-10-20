@@ -39,15 +39,18 @@ class TransactionTypeController extends Controller
 	 */
 	public function postDoSearchTransactionType(Request $request)
 	{
+		$user = Auth::user();
 		$description = null;
 		if (Util::isValidRequestVariable($request->description))
 		{
 			$description = $request->description;
-			$transaction_types = LookupTransactionType::where('description', 'like', '%' . $description . '%')->orderBy('description', 'asc')->get();
+			$transaction_types = LookupTransactionType::where('description', 'like', '%' . $description . '%')
+									->orderBy('description', 'asc')
+									->paginate($user->pagination_size);
 		}
 		else
 		{
-			$transaction_types = LookupTransactionType::orderBy('description', 'asc')->get();
+			$transaction_types = LookupTransactionType::orderBy('description', 'asc')->paginate($user->pagination_size);
 		}
 		return view('transaction-type.search-transaction-type', [
 			'transaction_types' => $transaction_types,

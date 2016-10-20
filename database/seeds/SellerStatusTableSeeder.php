@@ -12,6 +12,8 @@ class SellerStatusTableSeeder extends Seeder
      */
     public function run()
     {
+    	SellerStatus::truncate();
+    	
         $seller_status1 = new SellerStatus();
         $seller_status1->description = 'Not Actioned';
         $seller_status1->created_by_id = 1;

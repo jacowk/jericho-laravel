@@ -39,14 +39,14 @@
 			<div class="form-group">
 				{{ Form::label('firstname', 'Firstname', array('class' => 'col-sm-2 control-label')) }}
 				<div class="col-sm-10">
-					{{ Form::text('firstname', $contact->firstname, array('class' => 'form-control', 'placeholder' => 'Firstname')) }}
+					{{ Form::text('firstname', $contact->firstname, array('class' => 'form-control captialize', 'placeholder' => 'Firstname')) }}
 				</div>
 			</div>
 			
 			<div class="form-group">
 				{{ Form::label('surname', 'Surname', array('class' => 'col-sm-2 control-label')) }}
 				<div class="col-sm-10">
-					{{ Form::text('surname', $contact->surname, array('class' => 'form-control', 'placeholder' => 'Surname')) }}
+					{{ Form::text('surname', $contact->surname, array('class' => 'form-control captialize', 'placeholder' => 'Surname')) }}
 				</div>
 			</div>
 			

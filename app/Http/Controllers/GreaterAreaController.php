@@ -32,15 +32,16 @@ class GreaterAreaController extends Controller
 	 */
 	public function postDoSearchGreaterArea(Request $request)
 	{
+		$user = Auth::user();
 		$name = null;
 		if (Util::isValidRequestVariable($request->name))
 		{
 			$name = $request->name;
-			$greater_areas = GreaterArea::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->get();
+			$greater_areas = GreaterArea::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->paginate($user->pagination_size);
 		}
 		else
 		{
-			$greater_areas = GreaterArea::orderBy('name', 'asc')->get();
+			$greater_areas = GreaterArea::orderBy('name', 'asc')->paginate($user->pagination_size);
 		}
 		return view('greater-area.search-greater-area', [
 			'greater_areas' => $greater_areas,

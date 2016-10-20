@@ -40,15 +40,16 @@ class BankController extends Controller
      */
     public function postDoSearchBank(Request $request)
     {
+    	$user = Auth::user();
     	$name = null;
     	if (Util::isValidRequestVariable($request->name))
     	{
     		$name = $request->name;
-    		$banks = Bank::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->get();
+    		$banks = Bank::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->paginate($user->pagination_size);
     	}
     	else 
     	{
-    		$banks = Bank::orderBy('name', 'asc')->get();
+    		$banks = Bank::orderBy('name', 'asc')->paginate($user->pagination_size);
     	}
     	return view('bank.search-bank', [
     		'banks' => $banks,

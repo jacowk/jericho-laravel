@@ -13,6 +13,8 @@ class ContactEstateAgentTableSeeder extends Seeder
      */
     public function run()
     {
+    	DB::table('contact_estate_agent')->truncate();
+    	
     	/* Contacts for Estate Agent 1 */
     	$estateAgent = EstateAgent::find(1);
     	 

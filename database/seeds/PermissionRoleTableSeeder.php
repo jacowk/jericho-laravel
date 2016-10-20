@@ -14,6 +14,8 @@ class PermissionRoleTableSeeder extends Seeder
      */
     public function run()
     {
+    	DB::table('permission_role')->truncate();
+    	
     	$superUserRole = Role::where('name', 'like', 'Super User')->first();
 		$permissions = Permission::all();
     	

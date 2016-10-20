@@ -41,15 +41,16 @@ class RoleController extends Controller
 	 */
 	public function postDoSearchRole(Request $request)
 	{
+		$user = Auth::user();
 		$name = null;
 		if (Util::isValidRequestVariable($request->name))
 		{
 			$name = $request->name;
-			$roles = Role::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->get();
+			$roles = Role::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->paginate($user->pagination_size);
 		}
 		else
 		{
-			$roles = Role::orderBy('name', 'asc')->get();
+			$roles = Role::orderBy('name', 'asc')->paginate($user->pagination_size);
 		}
 		return view('role.search-role', [
 			'roles' => $roles,

@@ -15,6 +15,12 @@ Route::group(['middleware' => 'auth'], function() {
 				'as' => 'search-issue'
 		]);
 		
+		/* Pagination */
+		Route::get('/do-search-issue', [
+				'uses' => 'IssueController@postDoSearchIssue',
+				'as' => 'do-search-issue'
+		]);
+		
 		Route::post('/do-search-issue', [
 				'uses' => 'IssueController@postDoSearchIssue',
 				'as' => 'do-search-issue'

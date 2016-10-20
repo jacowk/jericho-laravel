@@ -13,6 +13,8 @@ class DiaryItemCommentTableSeeder extends Seeder
      */
     public function run()
     {
+    	DiaryItemComment::truncate();
+    	
     	$diary_item = DiaryItem::find(1);
     	$diary_item_comment1 = new DiaryItemComment();
     	$diary_item_comment1->comment = "This is test followup comment 1";

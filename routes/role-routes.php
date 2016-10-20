@@ -15,6 +15,12 @@ Route::group(['middleware' => 'auth'], function() {
 				'as' => 'search-role'
 		]);
 		
+		/* Pagination */
+		Route::get('/do-search-role', [
+				'uses' => 'RoleController@postDoSearchRole',
+				'as' => 'do-search-role'
+		]);
+		
 		Route::post('/do-search-role', [
 				'uses' => 'RoleController@postDoSearchRole',
 				'as' => 'do-search-role'

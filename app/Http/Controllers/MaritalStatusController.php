@@ -39,15 +39,18 @@ class MaritalStatusController extends Controller
 	 */
 	public function postDoSearchMaritalStatus(Request $request)
 	{
+		$user = Auth::user();
 		$description = null;
 		if (Util::isValidRequestVariable($request->description))
 		{
 			$description = $request->description;
-			$marital_statuses = LookupMaritalStatus::where('description', 'like', '%' . $description . '%')->orderBy('description', 'asc')->get();
+			$marital_statuses = LookupMaritalStatus::where('description', 'like', '%' . $description . '%')
+									->orderBy('description', 'asc')
+									->paginate($user->pagination_size);
 		}
 		else
 		{
-			$marital_statuses = LookupMaritalStatus::orderBy('description', 'asc')->get();
+			$marital_statuses = LookupMaritalStatus::orderBy('description', 'asc')->paginate($user->pagination_size);
 		}
 		return view('marital-status.search-marital-status', [
 			'marital_statuses' => $marital_statuses,

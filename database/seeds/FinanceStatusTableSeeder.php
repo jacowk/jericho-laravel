@@ -12,6 +12,8 @@ class FinanceStatusTableSeeder extends Seeder
      */
     public function run()
     {
+    	FinanceStatus::truncate();
+    	
         $finance_status1 = new FinanceStatus();
         $finance_status1->description = 'Awaiting Acceptance';
         $finance_status1->created_by_id = 1;

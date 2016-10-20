@@ -39,15 +39,18 @@ class MilestoneTypeController extends Controller
 	 */
 	public function postDoSearchMilestoneType(Request $request)
 	{
+		$user = Auth::user();
 		$description = null;
 		if (Util::isValidRequestVariable($request->description))
 		{
 			$description = $request->description;
-			$milestone_types = LookupMilestoneType::where('description', 'like', '%' . $description . '%')->orderBy('description', 'asc')->get();
+			$milestone_types = LookupMilestoneType::where('description', 'like', '%' . $description . '%')
+								->orderBy('description', 'asc')
+								->paginate($user->pagination_size);
 		}
 		else
 		{
-			$milestone_types = LookupMilestoneType::orderBy('description', 'asc')->get();
+			$milestone_types = LookupMilestoneType::orderBy('description', 'asc')->paginate($user->pagination_size);
 		}
 		return view('milestone-type.search-milestone-type', [
 				'milestone_types' => $milestone_types,

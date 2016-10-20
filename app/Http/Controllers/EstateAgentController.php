@@ -41,15 +41,16 @@ class EstateAgentController extends Controller
      */
     public function postDoSearchEstateAgent(Request $request)
     {
+    	$user = Auth::user();
     	$name = null;
     	if (Util::isValidRequestVariable($request->name))
     	{
     		$name = $request->name;
-    		$estate_agents = EstateAgent::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->get();
+    		$estate_agents = EstateAgent::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->paginate($user->pagination_size);
     	}
     	else 
     	{
-    		$estate_agents = EstateAgent::orderBy('name', 'asc')->get();
+    		$estate_agents = EstateAgent::orderBy('name', 'asc')->paginate($user->pagination_size);
     	}
     	return view('estate-agent.search-estate-agent', [
     		'estate_agents' => $estate_agents,

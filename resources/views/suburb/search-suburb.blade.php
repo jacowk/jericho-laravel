@@ -25,7 +25,7 @@
 	</div><br/>
 	<div class="container">
 		<div class="row">
-			<div class="panel-heading">
+			<div class="panel-heading text-center">
 				<h4 class="panel-title">Suburbs Search Result</h4>
 			</div>
 		</div>
@@ -66,6 +66,24 @@
 					@endif
 				</tbody>
 			</table>
+			
+			<!-- Pagination -->
+			<div class="text-center">
+				@if (!empty($suburbs) && count($suburbs) > 0)
+					@if ($suburbs->hasMorePages())
+						{{ $suburbs->render() }}<br/>
+					@else
+						<ul class="pagination">
+							<li><a href="{{ $suburbs->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@for ($i = 1; $i <= $suburbs->lastPage(); $i++)
+								<li class="{{ ($suburbs->currentPage() == $i) ? ' active' : '' }}">
+									<a href="{{ $suburbs->url($i) }}"><span>{{ $i }}</span></a>
+								</li>
+							@endfor
+						</ul>
+					@endif
+				@endif
+			</div>
 		</div>
 	</div>
 	@if (PermissionValidator::hasPermission(PermissionConstants::ADD_SUBURB))

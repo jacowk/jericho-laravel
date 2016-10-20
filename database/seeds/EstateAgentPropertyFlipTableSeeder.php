@@ -14,6 +14,8 @@ class EstateAgentPropertyFlipTableSeeder extends Seeder
      */
     public function run()
     {
+    	DB::table('estate_agent_property_flip')->truncate();
+    	
     	$contact = Contact::find(1);
     	$property_flip = PropertyFlip::find(1);
     	$property_flip->estate_agents()->attach($contact, [

@@ -14,6 +14,8 @@ class AttorneyPropertyFlipTableSeeder extends Seeder
      */
     public function run()
     {
+    	DB::table('attorney_property_flip')->truncate();
+    	
     	$contact = Contact::find(1);
     	$property_flip = PropertyFlip::find(1);
     	$property_flip->attorneys()->attach($contact, [

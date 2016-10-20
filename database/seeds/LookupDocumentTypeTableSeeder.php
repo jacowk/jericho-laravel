@@ -19,6 +19,8 @@ class LookupDocumentTypeTableSeeder extends Seeder
      */
     public function run()
     {
+    	LookupDocumentType::truncate();
+    	
     	$document_type_array = array('Lightstone Report', 'FNB Report', 'Flip Calculations');
     	foreach($document_type_array as $document_type)
     	{
@@ -26,6 +28,15 @@ class LookupDocumentTypeTableSeeder extends Seeder
     		$lookup_document_type->description = $document_type;
     		$lookup_document_type->created_by_id = 1;
     		$lookup_document_type->save();
+    	}
+    	
+    	$faker = Faker\Factory::create();
+    	foreach(range(1, 20) as $index)
+    	{
+    		LookupDocumentType::create([
+    				'description' => $faker->word,
+    				'created_by_id' => 1
+    		]);
     	}
     }
 }

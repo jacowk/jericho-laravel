@@ -9,6 +9,8 @@ class GreaterArea extends Model
 {
 	use Auditable;
 	
+	protected $fillable = ['name'];
+	
 	public function properties()
 	{
 		return $this->hasMany('jericho\Property');

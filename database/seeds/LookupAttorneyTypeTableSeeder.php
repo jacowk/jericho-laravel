@@ -12,6 +12,8 @@ class LookupAttorneyTypeTableSeeder extends Seeder
      */
     public function run()
     {
+    	LookupAttorneyType::truncate();
+    	
     	$attorney_type_array = array('Transfer Attorney', 'Bond Registering Attorney', 'Bond Cancellation Attorney');
     	foreach($attorney_type_array as $attorney_type)
     	{
@@ -19,6 +21,15 @@ class LookupAttorneyTypeTableSeeder extends Seeder
     		$lookup_attorney_type->description = $attorney_type;
     		$lookup_attorney_type->created_by_id = 1;
     		$lookup_attorney_type->save();
+    	}
+    	
+    	$faker = Faker\Factory::create();
+    	foreach(range(1, 20) as $index)
+    	{
+    		LookupAttorneyType::create([
+    				'description' => $faker->word,
+    				'created_by_id' => 1
+    		]);
     	}
     }
 }

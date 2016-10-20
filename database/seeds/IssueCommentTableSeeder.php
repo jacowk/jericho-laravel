@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use jericho\IssueComment;
 
 class IssueCommentTableSeeder extends Seeder
 {
@@ -11,6 +12,6 @@ class IssueCommentTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        IssueComment::truncate();
     }
 }

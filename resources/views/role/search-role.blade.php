@@ -60,6 +60,24 @@
 					@endif
 				</tbody>
 			</table>
+			
+			<!-- Pagination -->
+			<div class="text-center">
+				@if (!empty($roles) && count($roles) > 0)
+					@if ($roles->hasMorePages())
+						{{ $roles->render() }}<br/>
+					@else
+						<ul class="pagination">
+							<li><a href="{{ $roles->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@for ($i = 1; $i <= $roles->lastPage(); $i++)
+								<li class="{{ ($roles->currentPage() == $i) ? ' active' : '' }}">
+									<a href="{{ $roles->url($i) }}"><span>{{ $i }}</span></a>
+								</li>
+							@endfor
+						</ul>
+					@endif
+				@endif
+			</div>
 		</div>
 	</div>
 	@if (PermissionValidator::hasPermission(PermissionConstants::ADD_ROLE))

@@ -9,6 +9,9 @@ class Contact extends Model
 {
 	use Auditable;
 	
+	protected $fillable = ['firstname', 'surname', 'home_tel_no', 'work_tel_no', 'cell_no', 'fax_no', 
+							'personal_email', 'work_email', 'work_email', 'sa_citizen', 'created_by_id'];
+	
 	public function title()
 	{
 		return $this->belongsTo('jericho\LookupTitle');

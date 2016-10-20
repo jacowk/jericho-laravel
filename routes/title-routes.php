@@ -15,6 +15,12 @@ Route::group(['middleware' => 'auth'], function() {
 				'as' => 'search-title'
 		]);
 		
+		/* Pagination */
+		Route::get('/do-search-title', [
+				'uses' => 'TitleController@postDoSearchTitle',
+				'as' => 'do-search-title'
+		]);
+		
 		Route::post('/do-search-title', [
 				'uses' => 'TitleController@postDoSearchTitle',
 				'as' => 'do-search-title'

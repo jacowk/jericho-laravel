@@ -13,6 +13,8 @@ class TransactionTableSeeder extends Seeder
      */
     public function run()
     {
+    	Transaction::truncate();
+    	
         $property_flip = PropertyFlip::find(1);
         $transaction1 = new Transaction();
         $transaction1->effective_date = date_create_from_format('Y-m-d', '2016-10-01');

@@ -15,6 +15,12 @@ Route::group(['middleware' => 'auth'], function() {
 				'as' => 'search-attorney-type'
 		]);
 		
+		/* Pagination */
+		Route::get('/do-search-attorney-type', [
+				'uses' => 'AttorneyTypeController@postDoSearchAttorneyType',
+				'as' => 'do-search-attorney-type'
+		]);
+		
 		Route::post('/do-search-attorney-type', [
 				'uses' => 'AttorneyTypeController@postDoSearchAttorneyType',
 				'as' => 'do-search-attorney-type'

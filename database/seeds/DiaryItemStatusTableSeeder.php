@@ -12,6 +12,8 @@ class DiaryItemStatusTableSeeder extends Seeder
      */
     public function run()
     {
+    	DiaryItemStatus::truncate();
+    	
         $diary_item_status1 = new DiaryItemStatus();
         $diary_item_status1->description = 'Open';
         $diary_item_status1->created_by_id = 1;

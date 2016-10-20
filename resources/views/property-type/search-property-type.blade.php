@@ -60,6 +60,24 @@
 					@endif
 				</tbody>
 			</table>
+			
+			<!-- Pagination -->
+			<div class="text-center">
+				@if (!empty($property_types) && count($property_types) > 0)
+					@if ($property_types->hasMorePages())
+						{{ $property_types->render() }}<br/>
+					@else
+						<ul class="pagination">
+							<li><a href="{{ $property_types->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@for ($i = 1; $i <= $property_types->lastPage(); $i++)
+								<li class="{{ ($property_types->currentPage() == $i) ? ' active' : '' }}">
+									<a href="{{ $property_types->url($i) }}"><span>{{ $i }}</span></a>
+								</li>
+							@endfor
+						</ul>
+					@endif
+				@endif
+			</div>
 		</div>
 	</div>
 	@if (PermissionValidator::hasPermission(PermissionConstants::ADD_PROPERTY_TYPE))

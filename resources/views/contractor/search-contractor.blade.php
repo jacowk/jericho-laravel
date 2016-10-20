@@ -26,7 +26,7 @@
 	
 	<div class="container">
 		<div class="row">
-			<div class="panel-heading">
+			<div class="panel-heading text-center">
 				<h4 class="panel-title">Contractors Search Result</h4>
 			</div>
 		</div>
@@ -61,6 +61,23 @@
 					@endif
 				</tbody>
 			</table>
+			<!-- Pagination -->
+			<div class="text-center">
+				@if (!empty($contractors) && count($contractors) > 0)
+					@if ($contractors->hasMorePages())
+						{{ $contractors->render() }}<br/>
+					@else
+						<ul class="pagination">
+							<li><a href="{{ $contractors->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@for ($i = 1; $i <= $contractors->lastPage(); $i++)
+								<li class="{{ ($contractors->currentPage() == $i) ? ' active' : '' }}">
+									<a href="{{ $contractors->url($i) }}"><span>{{ $i }}</span></a>
+								</li>
+							@endfor
+						</ul>
+					@endif
+				@endif
+			</div>
 		</div>
 	</div>
 	

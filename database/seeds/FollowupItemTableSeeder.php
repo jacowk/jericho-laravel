@@ -13,6 +13,8 @@ class FollowupItemTableSeeder extends Seeder
      */
     public function run()
     {
+    	FollowupItem::truncate();
+    	
         $diary_item = DiaryItem::find(1);
         $followup_item1 = new FollowupItem();
         $followup_item1->comments = "This is test followup comment 1";

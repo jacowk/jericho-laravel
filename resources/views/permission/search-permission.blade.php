@@ -25,7 +25,7 @@
 	</div><br/>
 	<div class="container">
 		<div class="row">
-			<div class="panel-heading">
+			<div class="panel-heading text-center">
 				<h4 class="panel-title">Permissions Search Result</h4>
 			</div>
 		</div>
@@ -60,6 +60,24 @@
 					@endif
 				</tbody>
 			</table>
+			
+			<!-- Pagination -->
+			<div class="text-center">
+				@if (!empty($permissions) && count($permissions) > 0)
+					@if ($permissions->hasMorePages())
+						{{ $permissions->render() }}<br/>
+					@else
+						<ul class="pagination">
+							<li><a href="{{ $permissions->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@for ($i = 1; $i <= $permissions->lastPage(); $i++)
+								<li class="{{ ($permissions->currentPage() == $i) ? ' active' : '' }}">
+									<a href="{{ $permissions->url($i) }}"><span>{{ $i }}</span></a>
+								</li>
+							@endfor
+						</ul>
+					@endif
+				@endif
+			</div>
 		</div>
 	</div>
 	@if (PermissionValidator::hasPermission(PermissionConstants::ADD_PERMISSION))

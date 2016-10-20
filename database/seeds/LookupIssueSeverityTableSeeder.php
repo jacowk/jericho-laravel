@@ -19,6 +19,8 @@ class LookupIssueSeverityTableSeeder extends Seeder
      */
     public function run()
     {
+    	LookupIssueSeverity::truncate();
+    	
     	$value_array = array('Low', 'Medium', 'High', 'Critical');
     	foreach($value_array as $value)
     	{

@@ -13,6 +13,8 @@ class MilestoneTableSeeder extends Seeder
      */
     public function run()
     {
+    	Milestone::truncate();
+    	
         $property_flip = PropertyFlip::find(1);
         $milestone = new Milestone();
         $milestone->milestone_type_id = 1;

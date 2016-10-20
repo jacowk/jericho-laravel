@@ -12,6 +12,8 @@ class GreaterAreaTableSeeder extends Seeder
      */
     public function run()
     {
+    	GreaterArea::truncate();
+    	
         $greaterArea1 = new GreaterArea();
         $greaterArea1->name = "North";
         $greaterArea1->created_by_id = 1;
@@ -31,5 +33,14 @@ class GreaterAreaTableSeeder extends Seeder
         $greaterArea4->name = "West";
         $greaterArea4->created_by_id = 1;
         $greaterArea4->save();
+        
+        $faker = Faker\Factory::create();
+        foreach(range(1, 20) as $index)
+        {
+        	GreaterArea::create([
+        			'name' => $faker->word,
+        			'created_by_id' => 1
+        	]);
+        }
     }
 }

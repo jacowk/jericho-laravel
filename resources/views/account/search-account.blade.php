@@ -60,6 +60,23 @@
 					@endif
 				</tbody>
 			</table>
+			<!-- Pagination -->
+			<div class="text-center">
+				@if (!empty($accounts) && count($accounts) > 0)
+					@if ($accounts->hasMorePages())
+						{{ $accounts->render() }}<br/>
+					@else
+						<ul class="pagination">
+							<li><a href="{{ $accounts->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@for ($i = 1; $i <= $accounts->lastPage(); $i++)
+								<li class="{{ ($accounts->currentPage() == $i) ? ' active' : '' }}">
+									<a href="{{ $accounts->url($i) }}"><span>{{ $i }}</span></a>
+								</li>
+							@endfor
+						</ul>
+					@endif
+				@endif
+			</div>
 		</div>
 	</div>
 	@if (PermissionValidator::hasPermission(PermissionConstants::ADD_ACCOUNT))

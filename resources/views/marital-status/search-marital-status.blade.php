@@ -25,7 +25,7 @@
 	</div><br/>
 	<div class="container">
 		<div class="row">
-			<div class="panel-heading">
+			<div class="panel-heading text-center">
 				<h4 class="panel-marital-status">Marital Statuses Search Result</h4>
 			</div>
 		</div>
@@ -60,6 +60,24 @@
 					@endif
 				</tbody>
 			</table>
+			
+			<!-- Pagination -->
+			<div class="text-center">
+				@if (!empty($marital_statuses) && count($marital_statuses) > 0)
+					@if ($marital_statuses->hasMorePages())
+						{{ $marital_statuses->render() }}<br/>
+					@else
+						<ul class="pagination">
+							<li><a href="{{ $marital_statuses->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@for ($i = 1; $i <= $marital_statuses->lastPage(); $i++)
+								<li class="{{ ($marital_statuses->currentPage() == $i) ? ' active' : '' }}">
+									<a href="{{ $marital_statuses->url($i) }}"><span>{{ $i }}</span></a>
+								</li>
+							@endfor
+						</ul>
+					@endif
+				@endif
+			</div>
 		</div>
 	</div>
 	@if (PermissionValidator::hasPermission(PermissionConstants::ADD_MARITAL_STATUS))

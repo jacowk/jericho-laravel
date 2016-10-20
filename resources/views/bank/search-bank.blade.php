@@ -60,6 +60,23 @@
 					@endif
 				</tbody>
 			</table>
+			<!-- Pagination -->
+			<div class="text-center">
+				@if (!empty($banks) && count($banks) > 0)
+					@if ($banks->hasMorePages())
+						{{ $banks->render() }}<br/>
+					@else
+						<ul class="pagination">
+							<li><a href="{{ $banks->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@for ($i = 1; $i <= $banks->lastPage(); $i++)
+								<li class="{{ ($banks->currentPage() == $i) ? ' active' : '' }}">
+									<a href="{{ $banks->url($i) }}"><span>{{ $i }}</span></a>
+								</li>
+							@endfor
+						</ul>
+					@endif
+				@endif
+			</div>
 		</div>
 	</div>
 	@if (PermissionValidator::hasPermission(PermissionConstants::ADD_BANK))

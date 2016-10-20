@@ -9,6 +9,8 @@ class Account extends Model
 {
 	use Auditable;
 	
+	protected $fillable = ['name'];
+	
 	public function property_flip()
 	{
 		return $this->belongsTo('jericho\PropertyFlip');

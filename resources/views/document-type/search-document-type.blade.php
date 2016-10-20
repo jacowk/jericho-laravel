@@ -25,7 +25,7 @@
 	</div><br/>
 	<div class="container">
 		<div class="row">
-			<div class="panel-heading">
+			<div class="panel-heading text-center">
 				<h4 class="panel-document-type">Document Types Search Result</h4>
 			</div>
 		</div>
@@ -60,6 +60,24 @@
 					@endif
 				</tbody>
 			</table>
+			
+			<!-- Pagination -->
+			<div class="text-center">
+				@if (!empty($document_types) && count($document_types) > 0)
+					@if ($document_types->hasMorePages())
+						{{ $document_types->render() }}<br/>
+					@else
+						<ul class="pagination">
+							<li><a href="{{ $document_types->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@for ($i = 1; $i <= $document_types->lastPage(); $i++)
+								<li class="{{ ($document_types->currentPage() == $i) ? ' active' : '' }}">
+									<a href="{{ $document_types->url($i) }}"><span>{{ $i }}</span></a>
+								</li>
+							@endfor
+						</ul>
+					@endif
+				@endif
+			</div>
 		</div>
 	</div>
 	@if (PermissionValidator::hasPermission(PermissionConstants::ADD_CONTRACTOR_TYPE))

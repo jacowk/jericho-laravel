@@ -13,6 +13,8 @@ class DocumentTableSeeder extends Seeder
      */
     public function run()
     {
+    	Document::truncate();
+    	
     	$property_flip = PropertyFlip::find(1);
         $document = new Document();
         $document->document_type_id = 1;

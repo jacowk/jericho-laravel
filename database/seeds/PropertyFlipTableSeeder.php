@@ -12,6 +12,8 @@ class PropertyFlipTableSeeder extends Seeder
      */
     public function run()
     {
+    	PropertyFlip::truncate();
+    	
         $property_flip1 = new PropertyFlip();
         $property_flip1->reference_number = 1234;
         $property_flip1->title_deed_number = "ABC";

@@ -25,7 +25,7 @@
 	</div><br/>
 	<div class="container">
 		<div class="row">
-			<div class="panel-heading">
+			<div class="panel-heading text-center">
 				<h4 class="panel-title">Greater Areas Search Result</h4>
 			</div>
 		</div>
@@ -60,6 +60,23 @@
 					@endif
 				</tbody>
 			</table>
+			<!-- Pagination -->
+			<div class="text-center">
+				@if (!empty($greater_areas) && count($greater_areas) > 0)
+					@if ($greater_areas->hasMorePages())
+						{{ $greater_areas->render() }}<br/>
+					@else
+						<ul class="pagination">
+							<li><a href="{{ $greater_areas->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@for ($i = 1; $i <= $greater_areas->lastPage(); $i++)
+								<li class="{{ ($greater_areas->currentPage() == $i) ? ' active' : '' }}">
+									<a href="{{ $greater_areas->url($i) }}"><span>{{ $i }}</span></a>
+								</li>
+							@endfor
+						</ul>
+					@endif
+				@endif
+			</div>
 		</div>
 	</div>
 	@if (PermissionValidator::hasPermission(PermissionConstants::ADD_GREATER_AREA))

@@ -32,6 +32,15 @@ class Util
 		return null;
 	}
 	
+	public static function isValidSelectRequestVariable($requestVar)
+	{
+		if (Util::isValidRequestVariable($requestVar) && $requestVar > 0)
+		{
+			return true;
+		}
+		return false;
+	}
+	
 	public static function isValidRequestVariable($requestVar)
 	{
 		if (isset($requestVar) && !is_null($requestVar) && strlen($requestVar) > 0)
@@ -130,5 +139,16 @@ class Util
 		$value = trim($value); /* Strip white space */
 		$value = trim($value, '_'); /* Strip underscore */
 		return $value;
+	}
+	
+	/**
+	 * Convert a parameter to a query parameter that can be used in the database for searches
+	 * 
+	 * @param unknown $parameter
+	 * @return string
+	 */
+	public static function convertToLikeQueryParameter($parameter)
+	{
+		return '%' . $parameter . '%';
 	}
 }

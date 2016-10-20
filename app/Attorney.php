@@ -9,6 +9,8 @@ class Attorney extends Model
 {
 	use Auditable;
 	
+	protected $fillable = ['name'];
+	
     public function contacts()
     {
     	return $this->belongsToMany('jericho\Contact');

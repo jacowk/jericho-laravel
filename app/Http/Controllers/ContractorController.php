@@ -41,15 +41,16 @@ class ContractorController extends Controller
      */
     public function postDoSearchContractor(Request $request)
     {
+    	$user = Auth::user();
     	$name = null;
     	if (Util::isValidRequestVariable($request->name))
     	{
     		$name = $request->name;
-    		$contractors = Contractor::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->get();
+    		$contractors = Contractor::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->paginate($user->pagination_size);
     	}
     	else 
     	{
-    		$contractors = Contractor::orderBy('name', 'asc')->get();
+    		$contractors = Contractor::orderBy('name', 'asc')->paginate($user->pagination_size);
     	}
     	return view('contractor.search-contractor', [
     		'contractors' => $contractors,

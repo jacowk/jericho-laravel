@@ -39,15 +39,18 @@ class EstateAgentTypeController extends Controller
 	 */
 	public function postDoSearchEstateAgentType(Request $request)
 	{
+		$user = Auth::user();
 		$description = null;
 		if (Util::isValidRequestVariable($request->description))
 		{
 			$description = $request->description;
-			$estate_agent_types = LookupEstateAgentType::where('description', 'like', '%' . $name . '%')->orderBy('description', 'asc')->get();
+			$estate_agent_types = LookupEstateAgentType::where('description', 'like', '%' . $name . '%')
+									->orderBy('description', 'asc')
+									->paginate($user->pagination_size);
 		}
 		else
 		{
-			$estate_agent_types = LookupEstateAgentType::orderBy('description', 'asc')->get();
+			$estate_agent_types = LookupEstateAgentType::orderBy('description', 'asc')->paginate($user->pagination_size);
 		}
 		return view('estate-agent-type.search-estate-agent-type', [
 			'estate_agent_types' => $estate_agent_types,

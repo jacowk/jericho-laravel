@@ -19,6 +19,8 @@ class LookupIssueCategoryTableSeeder extends Seeder
      */
     public function run()
     {
+    	LookupIssueCategory::truncate();
+    	
     	$value_array = array('Error', 'New Feature');
     	foreach($value_array as $value)
     	{

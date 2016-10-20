@@ -12,6 +12,8 @@ class LookupTransactionTypeTableSeeder extends Seeder
      */
     public function run()
     {
+    	LookupTransactionType::truncate();
+    	
         $lookup_transaction_type1 = new LookupTransactionType();
         $lookup_transaction_type1->description = "Renovations";
         $lookup_transaction_type1->created_by_id = 1;
@@ -31,5 +33,14 @@ class LookupTransactionTypeTableSeeder extends Seeder
         $lookup_transaction_type4->description = "Sourcing Fees";
         $lookup_transaction_type4->created_by_id = 1;
         $lookup_transaction_type4->save();
+        
+        $faker = Faker\Factory::create();
+        foreach(range(1, 20) as $index)
+        {
+        	LookupTransactionType::create([
+        			'description' => $faker->word,
+        			'created_by_id' => 1
+        	]);
+        }
     }
 }

@@ -12,6 +12,8 @@ class DiaryItemTableSeeder extends Seeder
      */
     public function run()
     {
+    	DiaryItem::truncate();
+    	
         $diary_item = new DiaryItem();
         $diary_item->property_flip_id = 1;
 //         $diary_item->allocated_user_id = 1;

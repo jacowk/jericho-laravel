@@ -37,6 +37,7 @@ class SuburbController extends Controller
 	 */
 	public function postDoSearchSuburb(Request $request)
 	{
+		$user = Auth::user();
 		$name = null;
 		if (Util::isValidRequestVariable($request->name))
 		{
@@ -46,7 +47,7 @@ class SuburbController extends Controller
 							->where('suburbs.name', 'like', '%' . $name . '%')
 							->select('suburbs.*', 'areas.name as area_name')
 							->orderBy('name', 'asc')
-							->get();
+							->paginate($user->pagination_size);
 		}
 		else
 		{
@@ -55,7 +56,7 @@ class SuburbController extends Controller
 							->join('areas', 'suburbs.area_id', '=', 'areas.id')
 							->select('suburbs.*', 'areas.name as area_name')
 							->orderBy('name', 'asc')
-							->get();
+							->paginate($user->pagination_size);
 		}
 		return view('suburb.search-suburb', [
 			'suburbs' => $suburbs,

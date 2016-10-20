@@ -15,6 +15,12 @@ Route::group(['middleware' => 'auth'], function() {
 				'as' => 'search-area'
 		]);
 		
+		/* Pagination */
+		Route::get('/do-search-area', [
+				'uses' => 'AreaController@postDoSearchArea',
+				'as' => 'do-search-area'
+		]);
+		
 		Route::post('/do-search-area', [
 				'uses' => 'AreaController@postDoSearchArea',
 				'as' => 'do-search-area'

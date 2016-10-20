@@ -19,6 +19,8 @@ class LookupIssueComponentTableSeeder extends Seeder
      */
     public function run()
     {
+    	LookupIssueComponent::truncate();
+    	
     	$value_array = array(
     			'ACCOUNT',
     			'AREA',

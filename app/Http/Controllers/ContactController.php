@@ -38,7 +38,8 @@ class ContactController extends Controller
     {
     	return view('contact.search-contact', [
     		'firstname' => null,
-    		'surname' => null
+    		'surname' => null,
+    		'work_email' => null
     	]);
     }
     
@@ -50,22 +51,39 @@ class ContactController extends Controller
      */
     public function postDoSearchContact(Request $request)
     {
+    	$user = Auth::user();
     	$model_name = ModelConstants::NONE_MODEL_NAME;
     	$model_id = 0;
-    	$firstname = Util::getQueryParameter($request->firstname);
-    	$surname = Util::getQueryParameter($request->surname);
-    	$contacts = Contact::where([
-    					['firstname', 'like', '%' . $firstname . '%'],
-    					['surname', 'like', '%' . $surname . '%']
-    				])
-    				->orderBy('surname', 'asc')
-    				->get();
+    	$query_parameters = array();
+    	$firstname = null;
+    	$surname = null;
+    	$work_email = null;
+    	if (Util::isValidRequestVariable($request->firstname))
+    	{
+    		$firstname = $request->firstname;
+    		$firstname_query_parameter = ['firstname', 'like', Util::convertToLikeQueryParameter($firstname)];
+    		array_push($query_parameters, $firstname_query_parameter);
+    	}
+    	if (Util::isValidRequestVariable($request->surname))
+    	{
+    		$surname = $request->surname;
+    		$surname_query_parameter = ['surname', 'like', Util::convertToLikeQueryParameter($surname)];
+    		array_push($query_parameters, $surname_query_parameter);
+    	}
+    	if (Util::isValidRequestVariable($request->work_email))
+    	{
+    		$work_email = $request->work_email;
+    		$work_email_query_parameter = ['work_email', 'like', Util::convertToLikeQueryParameter($work_email)];
+    		array_push($query_parameters, $work_email_query_parameter);
+    	}
+    	$contacts = Contact::where($query_parameters)->paginate($user->pagination_size);
     	return view('contact.search-contact', [
     		'contacts' => $contacts, 
     		'model_name' => $model_name,
     		'model_id' => $model_id,
     		'firstname' => $firstname,
-    		'surname' => $surname
+    		'surname' => $surname,
+    		'work_email' => $work_email
     	]);
     }
     
@@ -117,24 +135,14 @@ class ContactController extends Controller
     public function postDoAddContact(Request $request)
     {
     	/* Do validation */
-//     	$this->validate($request, [
-//     		'firstname' => 'required',
-//     		'home-tel' => 'numeric|min:10|max:10',
-//     		'work-tel' => 'numeric|min:10|max:10',
-//     		'cell-no' => 'numeric|min:10|max:10',
-//     		'personal-email' => 'email',
-//     		'work-email' => 'email',
-//     		'id-number' => 'numeric|min:13|max:13'
-//     	]);
-    	
     	$validator = Validator::make($request->all(), [
     		'firstname' => 'required',
     		'home-tel' => 'numeric|min:10|max:10',
     		'work-tel' => 'numeric|min:10|max:10',
     		'cell-no' => 'numeric|min:10|max:10',
-    		'personal-email' => 'email',
-    		'work-email' => 'email',
-    		'id-number' => 'numeric|min:13|max:13'
+    		'personal-email' => 'email|unique:contacts',
+    		'work-email' => 'email|unique:contacts',
+    		'id-number' => 'numeric|min:13|max:13|unique:contacts'
     	]);
     	 
     	if ($validator->fails()) {

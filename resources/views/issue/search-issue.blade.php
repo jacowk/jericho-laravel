@@ -107,6 +107,23 @@
 					@endif
 				</tbody>
 			</table>
+			<!-- Pagination -->
+			<div class="text-center">
+				@if (!empty($issues) && count($issues) > 0)
+					@if ($issues->hasMorePages())
+						{{ $issues->render() }}<br/>
+					@else
+						<ul class="pagination">
+							<li><a href="{{ $issues->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@for ($i = 1; $i <= $issues->lastPage(); $i++)
+								<li class="{{ ($issues->currentPage() == $i) ? ' active' : '' }}">
+									<a href="{{ $issues->url($i) }}"><span>{{ $i }}</span></a>
+								</li>
+							@endfor
+						</ul>
+					@endif
+				@endif
+			</div>
 		</div>
 	</div>
 	@if (PermissionValidator::hasPermission(PermissionConstants::ADD_ISSUE))

@@ -39,15 +39,18 @@ class PropertyTypeController extends Controller
 	 */
 	public function postDoSearchPropertyType(Request $request)
 	{
+		$user = Auth::user();
 		$description = null;
 		if (Util::isValidRequestVariable($request->description))
 		{
 			$description = $request->description;
-			$property_types = LookupPropertyType::where('description', 'like', '%' . $description . '%')->orderBy('description', 'asc')->get();
+			$property_types = LookupPropertyType::where('description', 'like', '%' . $description . '%')
+								->orderBy('description', 'asc')
+								->paginate($user->pagination_size);
 		}
 		else
 		{
-			$property_types = LookupPropertyType::orderBy('description', 'asc')->get();
+			$property_types = LookupPropertyType::orderBy('description', 'asc')->paginate($user->pagination_size);
 		}
 		return view('property-type.search-property-type', [
 				'property_types' => $property_types,

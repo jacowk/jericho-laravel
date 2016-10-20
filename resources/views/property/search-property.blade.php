@@ -9,12 +9,42 @@
 		<div class="row">
 			{{ Form::open(array('route' => 'do-search-property', 'class' => 'form-horizontal')) }}
 				{{ Form::token() }}
+				
+				<div class="form-group">
+					{{ Form::label('reference_number', 'Reference Number', array('class' => 'col-sm-2 control-label')) }}
+					<div class="col-sm-10"> 
+						{{ Form::text('reference_number', $reference_number, array('class' => 'form-control', 'placeholder' => 'Reference Number')) }}
+					</div>
+				</div>
+				
 				<div class="form-group">
 					{{ Form::label('address', 'Address', array('class' => 'col-sm-2 control-label')) }}
 					<div class="col-sm-10"> 
 						{{ Form::text('address', $address, array('class' => 'form-control', 'placeholder' => 'Address')) }}
 					</div>
 				</div>
+				
+				<div class="form-group">
+					{{ Form::label('suburb_id', 'Suburb', array('class' => 'col-sm-2 control-label')) }}
+					<div class="col-sm-10"> 
+						{{ Form::select('suburb_id', $suburbs, $suburb_id, ['class' => 'form-control']) }}
+					</div>
+				</div>
+				
+				<div class="form-group">
+					{{ Form::label('area_id', 'Area', array('class' => 'col-sm-2 control-label')) }}
+					<div class="col-sm-10"> 
+						{{ Form::select('area_id', $areas, $area_id, ['class' => 'form-control']) }}
+					</div>
+				</div>
+				
+				<div class="form-group">
+					{{ Form::label('greater_area_id', 'Greater Area', array('class' => 'col-sm-2 control-label')) }}
+					<div class="col-sm-10"> 
+						{{ Form::select('greater_area_id', $greater_areas, $greater_area_id, ['class' => 'form-control']) }}
+					</div>
+				</div>
+				
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10"> 
 						{{ Form::submit('Search', array('class' => 'btn btn-default')) }}
@@ -72,6 +102,24 @@
 					@endif
 				</tbody>
 			</table>
+			
+			<!-- Pagination -->
+			<div class="text-center">
+				@if (!empty($properties) && count($properties) > 0)
+					@if ($properties->hasMorePages())
+						{{ $properties->render() }}<br/>
+					@else
+						<ul class="pagination">
+							<li><a href="{{ $properties->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@for ($i = 1; $i <= $properties->lastPage(); $i++)
+								<li class="{{ ($properties->currentPage() == $i) ? ' active' : '' }}">
+									<a href="{{ $properties->url($i) }}"><span>{{ $i }}</span></a>
+								</li>
+							@endfor
+						</ul>
+					@endif
+				@endif
+			</div>
 		</div>
 	</div>
 	@if (PermissionValidator::hasPermission(PermissionConstants::ADD_PROPERTY))

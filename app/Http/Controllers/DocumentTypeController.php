@@ -39,15 +39,18 @@ class DocumentTypeController extends Controller
 	 */
 	public function postDoSearchDocumentType(Request $request)
 	{
+		$user = Auth::user();
 		$description = null;
 		if (Util::isValidRequestVariable($request->description))
 		{
 			$description = $request->description;
-			$document_types = LookupDocumentType::where('description', 'like', '%' . $description . '%')->orderBy('description', 'asc')->get();
+			$document_types = LookupDocumentType::where('description', 'like', '%' . $description . '%')
+								->orderBy('description', 'asc')
+								->paginate($user->pagination_size);
 		}
 		else
 		{
-			$document_types = LookupDocumentType::orderBy('description', 'asc')->get();
+			$document_types = LookupDocumentType::orderBy('description', 'asc')->paginate($user->pagination_size);
 		}
 		return view('document-type.search-document-type', [
 			'document_types' => $document_types,

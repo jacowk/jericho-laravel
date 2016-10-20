@@ -12,6 +12,8 @@ class PropertyTableSeeder extends Seeder
      */
     public function run()
     {
+    	Property::truncate();
+    	
     	$property1 = new Property();
     	$property1->address_line_1 = "10 Some Street";
     	$property1->address_line_2 = "xxxxxx";
@@ -56,5 +58,20 @@ class PropertyTableSeeder extends Seeder
     	$property3->erf_number = 1179;
     	$property3->size = 100;
     	$property3->save();
+    	
+    	$faker = Faker\Factory::create();
+    	foreach(range(1, 20) as $index)
+    	{
+    		Property::create([
+    				'address_line_1' => $faker->address,
+    				'suburb_id' => $faker->numberBetween(1, 5),
+    				'area_id' => $faker->numberBetween(1, 5),
+    				'greater_area_id' => $faker->numberBetween(1, 5),
+    				'portion_number' => $faker->numberBetween(1, 5),
+    				'erf_number' => $faker->numberBetween(100, 999),
+    				'size' => $faker->numberBetween(50, 1000),
+    				'created_by_id' => 1
+    		]);
+    	}
     }
 }

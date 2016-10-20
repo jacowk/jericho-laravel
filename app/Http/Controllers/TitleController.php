@@ -39,15 +39,18 @@ class TitleController extends Controller
 	 */
 	public function postDoSearchTitle(Request $request)
 	{
+		$user = Auth::user();
 		$description = null;
 		if (Util::isValidRequestVariable($request->description))
 		{
 			$description = $request->description;
-			$titles = LookupTitle::where('description', 'like', '%' . $description . '%')->orderBy('description', 'asc')->get();
+			$titles = LookupTitle::where('description', 'like', '%' . $description . '%')
+							->orderBy('description', 'asc')
+							->paginate($user->pagination_size);
 		}
 		else
 		{
-			$titles = LookupTitle::orderBy('description', 'asc')->get();
+			$titles = LookupTitle::orderBy('description', 'asc')->paginate($user->pagination_size);
 		}
 		return view('title.search-title', [
 				'titles' => $titles,

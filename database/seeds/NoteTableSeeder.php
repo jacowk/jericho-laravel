@@ -13,6 +13,8 @@ class NoteTableSeeder extends Seeder
      */
     public function run()
     {
+    	Note::truncate();
+    	
     	$property_flip = PropertyFlip::find(1);
     	
         $note = new Note();

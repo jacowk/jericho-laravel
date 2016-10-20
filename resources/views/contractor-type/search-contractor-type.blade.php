@@ -60,6 +60,24 @@
 					@endif
 				</tbody>
 			</table>
+			
+			<!-- Pagination -->
+			<div class="text-center">
+				@if (!empty($contractor_types) && count($contractor_types) > 0)
+					@if ($contractor_types->hasMorePages())
+						{{ $contractor_types->render() }}<br/>
+					@else
+						<ul class="pagination">
+							<li><a href="{{ $contractor_types->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@for ($i = 1; $i <= $contractor_types->lastPage(); $i++)
+								<li class="{{ ($contractor_types->currentPage() == $i) ? ' active' : '' }}">
+									<a href="{{ $contractor_types->url($i) }}"><span>{{ $i }}</span></a>
+								</li>
+							@endfor
+						</ul>
+					@endif
+				@endif
+			</div>
 		</div>
 	</div>
 	@if (PermissionValidator::hasPermission(PermissionConstants::ADD_CONTRACTOR_TYPE))

@@ -44,6 +44,7 @@ class UserController extends Controller
 	 */
 	public function postDoSearchUser(Request $request)
 	{
+		$user = Auth::user();
 		$firstname = Util::getQueryParameter($request->firstname);
 		$surname = Util::getQueryParameter($request->surname);
 		$users = User::where([
@@ -52,7 +53,7 @@ class UserController extends Controller
 	    				])
 						->orderBy('firstname', 'asc')
 						->orderBy('surname', 'asc')
-						->get();
+						->paginate($user->pagination_size);
 		return view('user.search-user', [
 				'users' => $users,
 				'firstname' => $firstname,
@@ -104,6 +105,7 @@ class UserController extends Controller
 		$new_user->surname = Util::getQueryParameter($request->surname);
 		$new_user->email = Util::getQueryParameter($request->email);
 		$new_user->password = bcrypt(Util::getQueryParameter($request->password));
+		$new_user->pagination_size = 10;
 		$new_user->created_by_id = $user->id;
 		$new_user->save();
 		$this->processRoles($request, $new_user);

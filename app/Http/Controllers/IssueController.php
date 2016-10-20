@@ -48,6 +48,7 @@ class IssueController extends Controller
 	 */
 	public function postDoSearchIssue(Request $request)
 	{
+		$user = Auth::user();
 		$id = null;
 		$created_by_id = null;
 		$assigned_to_id = null;
@@ -60,19 +61,19 @@ class IssueController extends Controller
 			$id_query_parameter = ['id', '=', $id];
 			array_push($query_parameters, $id_query_parameter);
 		}
-		if (Util::isValidRequestVariable($request->created_by_id) && $request->created_by_id > 0)
+		if (Util::isValidSelectRequestVariable($request->created_by_id))
 		{
 			$created_by_id = $request->created_by_id;
 			$created_by_id_query_parameter = ['created_by_id', '=', $created_by_id];
 			array_push($query_parameters, $created_by_id_query_parameter);
 		}
-		if (Util::isValidRequestVariable($request->assigned_to_id) && $request->assigned_to_id > 0)
+		if (Util::isValidSelectRequestVariable($request->assigned_to_id))
 		{
 			$assigned_to_id = $request->assigned_to_id;
 			$assigned_to_query_parameter = ['assigned_to_id', '=', $assigned_to_id];
 			array_push($query_parameters, $assigned_to_query_parameter);
 		}
-		if (Util::isValidRequestVariable($request->issue_status_id) && $request->issue_status_id > 0)
+		if (Util::isValidSelectRequestVariable($request->issue_status_id))
 		{
 			$issue_status_id = $request->issue_status_id;
 			$issue_status_id_query_parameter = ['issue_status_id', '=', $issue_status_id];
@@ -81,11 +82,10 @@ class IssueController extends Controller
 		/* Do the search using the query parameters */
 		$issues = Issue::where($query_parameters)
 						->orderBy('created_at', 'desc')
-						->get();
+						->paginate($user->pagination_size);
 		/* Prepare screen parameters */
 		$users = LookupUtil::retrieveUsersLookup();
 		$issue_statuses = LookupUtil::retrieveIssueStatusLookup();
-		
 		
 		/* Return to view */
 		return view('issue.search-issue', [

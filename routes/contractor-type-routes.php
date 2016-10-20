@@ -15,6 +15,12 @@ Route::group(['middleware' => 'auth'], function() {
 				'as' => 'search-contractor-type'
 		]);
 		
+		/* Pagination */
+		Route::get('/do-search-contractor-type', [
+				'uses' => 'ContractorTypeController@postDoSearchContractorType',
+				'as' => 'do-search-contractor-type'
+		]);
+		
 		Route::post('/do-search-contractor-type', [
 				'uses' => 'ContractorTypeController@postDoSearchContractorType',
 				'as' => 'do-search-contractor-type'

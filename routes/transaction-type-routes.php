@@ -15,6 +15,12 @@ Route::group(['middleware' => 'auth'], function() {
 				'as' => 'search-transaction-type'
 		]);
 		
+		/* Pagination */
+		Route::get('/do-search-transaction-type', [
+				'uses' => 'TransactionTypeController@postDoSearchTransactionType',
+				'as' => 'do-search-transaction-type'
+		]);
+		
 		Route::post('/do-search-transaction-type', [
 				'uses' => 'TransactionTypeController@postDoSearchTransactionType',
 				'as' => 'do-search-transaction-type'

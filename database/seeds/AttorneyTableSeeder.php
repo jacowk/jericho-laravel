@@ -12,6 +12,8 @@ class AttorneyTableSeeder extends Seeder
      */
     public function run()
     {
+    	Attorney::truncate();
+    	
         $attorney1 = new Attorney();
         $attorney1->name = "Test Attorney 1";
         $attorney1->created_by_id = 1;
@@ -26,5 +28,14 @@ class AttorneyTableSeeder extends Seeder
         $attorney3->name = "Test Attorney 3";
         $attorney3->created_by_id = 1;
         $attorney3->save();
+        
+        $faker = Faker\Factory::create();
+        foreach(range(1, 20) as $index)
+        {
+        	Attorney::create([
+        			'name' => $faker->word,
+        			'created_by_id' => 1
+        	]);
+        }
     }
 }

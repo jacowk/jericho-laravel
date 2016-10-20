@@ -15,6 +15,12 @@ Route::group(['middleware' => 'auth'], function() {
 				'as' => 'search-marital-status'
 		]);
 		
+		/* Pagination */
+		Route::get('/do-search-marital-status', [
+				'uses' => 'MaritalStatusController@postDoSearchMaritalStatus',
+				'as' => 'do-search-marital-status'
+		]);
+		
 		Route::post('/do-search-marital-status', [
 				'uses' => 'MaritalStatusController@postDoSearchMaritalStatus',
 				'as' => 'do-search-marital-status'

@@ -41,15 +41,16 @@ class PermissionController extends Controller
 	 */
 	public function postDoSearchPermission(Request $request)
 	{
+		$user = Auth::user();
 		$name = null;
 		if (Util::isValidRequestVariable($request->name))
 		{
 			$name = $request->name;
-			$permissions = Permission::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->get();
+			$permissions = Permission::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->paginate($user->pagination_size);
 		}
 		else
 		{
-			$permissions = Permission::orderBy('name', 'asc')->get();
+			$permissions = Permission::orderBy('name', 'asc')->paginate($user->pagination_size);
 		}
 		return view('permission.search-permission', [
 			'permissions' => $permissions,

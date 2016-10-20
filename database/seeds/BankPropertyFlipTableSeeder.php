@@ -14,6 +14,8 @@ class BankPropertyFlipTableSeeder extends Seeder
      */
     public function run()
     {
+    	DB::table('bank_property_flip')->truncate();
+    	
         $contact = Contact::find(1);
     	$property_flip = PropertyFlip::find(1);
     	$property_flip->banks()->attach($contact, [
