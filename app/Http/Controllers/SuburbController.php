@@ -88,6 +88,8 @@ class SuburbController extends Controller
 // 		]);
 		$validator = Validator::make($request->all(), [
 				'name' => 'required|unique:suburbs',
+				'box_code' => 'numeric',
+				'street_code' => 'numeric',
 				'area_id' => 'required|not_in:-1'
 		]);
 		
@@ -138,6 +140,8 @@ class SuburbController extends Controller
 // 		]);
 		$validator = Validator::make($request->all(), [
 				'name' => 'required',
+				'box_code' => 'numeric',
+				'street_code' => 'numeric',
 				'area_id' => 'required|not_in:-1'
 		]);
 		

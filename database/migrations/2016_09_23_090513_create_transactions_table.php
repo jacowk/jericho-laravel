@@ -16,9 +16,10 @@ class CreateTransactionsTable extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->increments('id');
             $table->date('effective_date');
-            $table->text('description');
-            $table->text('reference');
-            $table->integer('amount');
+            $table->text('description')->nullable();
+            $table->text('reference')->nullable();
+            $table->integer('debit_amount')->nullable();
+            $table->integer('credit_amount')->nullable();
             $table->integer('account_id');
             $table->integer('transaction_type_id');
             $table->bigInteger('property_flip_id');

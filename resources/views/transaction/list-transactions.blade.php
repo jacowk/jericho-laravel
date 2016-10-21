@@ -13,7 +13,8 @@
 					<th class="col-sm-2 text-center">Description</th>
 					<th class="col-sm-2 text-center">Reference</th>
 					<th class="col-sm-2 text-center">Transaction Type</th>
-					<th class="col-sm-1 text-center">Amount</th>
+					<th class="col-sm-1 text-center">Debit Amount</th>
+					<th class="col-sm-1 text-center">Credit Amount</th>
 					@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_TRANSACTION))
 						<th class="col-sm-1 text-center">Update</th>
 					@endif
@@ -33,13 +34,18 @@
 								{{ $transaction->transaction_type->description }}
 							@endif
 						</td>
-						<td>{{ MoneyUtil::toRandsAndFormat($transaction->amount) }}</td>
+						<td>{{ MoneyUtil::toRandsAndFormat($transaction->debit_amount) }}</td>
+						<td>{{ MoneyUtil::toRandsAndFormat($transaction->credit_amount) }}</td>
 						@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_TRANSACTION))
 							<td><a href="{{ route('update-transaction', ['transaction_id' => $transaction->id]) }}">Update</a></td>
 						@endif
 						<td><a href="{{ route('view-transaction', ['transaction_id' => $transaction->id]) }}">View</a></td>
 					</tr>
 					@endforeach
+					<tr>
+						<th class="text-right" colspan="5">Balance</th>
+						<td colspan="4">{{ MoneyUtil::toRandsAndFormat($profit_loss_balance) }}</td>
+					</tr>
 				@else
 					<tr>
 						<td colspan="8">No transactions</td>

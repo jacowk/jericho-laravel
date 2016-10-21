@@ -30,13 +30,13 @@ class RoleTableSeeder extends Seeder
         	$role->save();
         }
         
-        $faker = Faker\Factory::create();
-        foreach(range(1, 20) as $index)
-        {
-        	Role::create([
-        			'name' => $faker->word,
-        			'created_by_id' => 1
-        	]);
-        }
+//         $faker = Faker\Factory::create();
+//         foreach(range(1, 20) as $index)
+//         {
+//         	Role::create([
+//         			'name' => $faker->word,
+//         			'created_by_id' => 1
+//         	]);
+//         }
     }
 }

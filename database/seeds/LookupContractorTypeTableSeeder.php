@@ -29,13 +29,13 @@ class LookupContractorTypeTableSeeder extends Seeder
     		$lookup_contractor_type->save();
     	}
     	
-    	$faker = Faker\Factory::create();
-    	foreach(range(1, 20) as $index)
-    	{
-    		LookupContractorType::create([
-    				'description' => $faker->word,
-    				'created_by_id' => 1
-    		]);
-    	}
+//     	$faker = Faker\Factory::create();
+//     	foreach(range(1, 20) as $index)
+//     	{
+//     		LookupContractorType::create([
+//     				'description' => $faker->word,
+//     				'created_by_id' => 1
+//     		]);
+//     	}
     }
 }

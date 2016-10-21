@@ -48,15 +48,13 @@ class TransactionController extends Controller
 	public function postDoAddTransaction(Request $request)
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::TRANSACTIONS_TAB);
-// 		$this->validate($request, [
-// 				'description' => 'required'
-// 		]);
 		
 		$validator = Validator::make($request->all(), [
 				'effective_date' => 'required',
 				'account_id' => 'required|not_in:-1',
 				'transaction_type_id' => 'required|not_in:-1',
-				'amount' => 'required'
+				'debit_amount' => 'required_without:credit_amount',
+				'credit_amount' => 'required_without:debit_amount'
 		]);
 		
 		if ($validator->fails()) {
@@ -73,7 +71,8 @@ class TransactionController extends Controller
 		$transaction->reference = Util::getQueryParameter($request->reference);
 		$transaction->account_id = Util::getQueryParameter($request->account_id);
 		$transaction->transaction_type_id = Util::getQueryParameter($request->transaction_type_id);
-		$transaction->amount = Util::processCurrencyValue($request->amount);
+		$transaction->debit_amount = Util::processCurrencyValue($request->debit_amount);
+		$transaction->credit_amount = Util::processCurrencyValue($request->credit_amount);
 		$transaction->created_by_id = $user->id;
 		$property_flip = PropertyFlip::find($request->property_flip_id);
 		$property_flip->transactions()->save($transaction);
@@ -112,15 +111,12 @@ class TransactionController extends Controller
 	public function postDoUpdateTransaction(Request $request, $transaction_id)
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::TRANSACTIONS_TAB);
-// 		$this->validate($request, [
-// 				'description' => 'required'
-// 		]);
-		
 		$validator = Validator::make($request->all(), [
 				'effective_date' => 'required',
 				'account_id' => 'required|not_in:-1',
 				'transaction_type_id' => 'required|not_in:-1',
-				'amount' => 'required'
+				'debit_amount' => 'required_without:credit_amount',
+				'credit_amount' => 'required_without:debit_amount'
 		]);
 		
 		if ($validator->fails()) {
@@ -137,7 +133,8 @@ class TransactionController extends Controller
 		$transaction->reference = Util::getQueryParameter($request->reference);
 		$transaction->account_id = Util::getQueryParameter($request->account_id);
 		$transaction->transaction_type_id = Util::getQueryParameter($request->transaction_type_id);
-		$transaction->amount = Util::processCurrencyValue($request->amount);
+		$transaction->debit_amount = Util::processCurrencyValue($request->debit_amount);
+		$transaction->credit_amount = Util::processCurrencyValue($request->credit_amount);
 		$transaction->updated_by_id = $user->id;
 		$transaction->save();
 		return redirect()->action('PropertyFlipController@getViewPropertyFlip', ['property_flip_id' => $transaction->property_flip->id])

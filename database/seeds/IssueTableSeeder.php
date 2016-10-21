@@ -14,7 +14,7 @@ class IssueTableSeeder extends Seeder
     {
         Issue::truncate();
         
-        $faker = Faker\Factory::create();
+//         $faker = Faker\Factory::create();
 //         foreach(range(1, 20) as $index)
 //         {
 //         	Issue::create([

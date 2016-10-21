@@ -190,12 +190,6 @@ class PropertyController extends Controller
 	 */
 	public function postDoAddProperty(Request $request)
 	{
-// 		$this->validate($request, [
-// 				'address_line_1' => 'required|unique:properties',
-// 				'portion_number' => 'numeric',
-// 				'erf_number' => 'numeric',
-// 				'size' => 'numeric'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'address_line_1' => 'required|unique:properties',
 				'portion_number' => 'numeric',
@@ -261,13 +255,6 @@ class PropertyController extends Controller
 	 */
 	public function postDoUpdateProperty(Request $request, $property_id)
 	{
-// 		$this->validate($request, [
-// 				'address_line_1' => 'required',
-// 				'portion_number' => 'numeric',
-// 				'erf_number' => 'numeric',
-// 				'size' => 'numeric'
-// 		]);
-
 		$validator = Validator::make($request->all(), [
 				'address_line_1' => 'required',
 				'portion_number' => 'numeric',

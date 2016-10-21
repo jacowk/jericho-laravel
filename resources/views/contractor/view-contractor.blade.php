@@ -77,7 +77,7 @@
 	</div>
 	
 	@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_CONTRACTOR_SERVICE))
-		include('contractor-service.list-contractor-services')
+		@include('contractor-service.list-contractor-services')
 	@endif
 	
 	@section('contact-list-title')

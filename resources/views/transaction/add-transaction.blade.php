@@ -52,9 +52,16 @@
 			</div>
 			
 			<div class="form-group">
-				{{  Form::label('amount', 'Amount', array('class' => 'col-sm-2 control-label')) }}
+				{{  Form::label('debit_amount', 'Debit Amount', array('class' => 'col-sm-2 control-label')) }}
 				<div class="col-sm-10">
-					{{  Form::text('amount', '', array('class' => 'form-control', 'placeholder' => 'Amount')) }}
+					{{  Form::text('debit_amount', '', array('class' => 'form-control', 'placeholder' => 'Debit Amount')) }}
+				</div>
+			</div>
+			
+			<div class="form-group">
+				{{  Form::label('credit_amount', 'Credit Amount', array('class' => 'col-sm-2 control-label')) }}
+				<div class="col-sm-10">
+					{{  Form::text('credit_amount', '', array('class' => 'form-control', 'placeholder' => 'Credit Amount')) }}
 				</div>
 			</div>
 			
@@ -70,7 +77,11 @@
 			    	dateFormat: "yy-mm-dd"
 				});
 
-			    $('#amount').inputmask('R 99999999.99', {
+			    $('#debit_amount').inputmask('R 99 999 999.99', {
+					numericInput: true
+				});
+
+			    $('#credit_amount').inputmask('R 99 999 999.99', {
 					numericInput: true
 				});
 			});

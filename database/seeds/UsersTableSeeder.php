@@ -41,16 +41,16 @@ class UsersTableSeeder extends Seeder
         $user2->created_by_id = 1;
         $user2->save();
         
-        $faker = Faker\Factory::create();
-        foreach(range(1, 20) as $index)
-        {
-        	User::create([
-        			'firstname' => $faker->firstName,
-        			'surname' => $faker->lastName,
-        			'email' => $faker->email,
-        			'password' => $faker->password,
-        			'created_by_id' => 1
-        	]);
-        }
+//         $faker = Faker\Factory::create();
+//         foreach(range(1, 20) as $index)
+//         {
+//         	User::create([
+//         			'firstname' => $faker->firstName,
+//         			'surname' => $faker->lastName,
+//         			'email' => $faker->email,
+//         			'password' => $faker->password,
+//         			'created_by_id' => 1
+//         	]);
+//         }
     }
 }

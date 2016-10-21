@@ -49,10 +49,6 @@ class DocumentController extends Controller
 	public function postDoAddDocument(Request $request)
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::DOCUMENTS_TAB);
-// 		$this->validate($request, [
-// 				'description' => 'required'
-// 		]);
-		
 		$validator = Validator::make($request->all(), [
 				'document_type_id' => 'required|not_in:-1',
 				'uploaded_file' => 'required'
@@ -76,6 +72,7 @@ class DocumentController extends Controller
 			$generated_filename = Util::generateFilename($user->id, $client_original_extension);
 			$mime_type = $request->file('uploaded_file')->getClientMimeType();
 			$real_path = $request->file('uploaded_file')->getRealPath();
+			$document_type_id = $request->document_type_id;
 			$property_flip_id = $request->property_flip_id;
 			
 			/* Upload file */
@@ -90,6 +87,7 @@ class DocumentController extends Controller
 			$document->generated_filename = $generated_filename;
 			$document->mime_type = $mime_type;
 			$document->file = $file;
+			$document->document_type_id = $document_type_id;
 			$document->created_by_id = $user->id;
 			$property_flip = PropertyFlip::find($property_flip_id);
 			$property_flip->documents()->save($document);
@@ -127,9 +125,6 @@ class DocumentController extends Controller
 	public function postDoUpdateDocument(Request $request, $document_id)
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::DOCUMENTS_TAB);
-// 		$this->validate($request, [
-// 				'description' => 'required'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'document_type_id' => 'required|not_in:-1',
 				'uploaded_file' => 'required'
@@ -164,6 +159,7 @@ class DocumentController extends Controller
 			$generated_filename = Util::generateFilename($user->id, $client_original_extension);
 			$mime_type = $request->file('uploaded_file')->getClientMimeType();
 			$real_path = $request->file('uploaded_file')->getRealPath();
+			$document_type_id = $request->document_type_id;
 			$property_flip_id = $request->property_flip_id;
 			
 			/* Upload file */
@@ -179,6 +175,7 @@ class DocumentController extends Controller
 			$document->generated_filename = $generated_filename;
 			$document->mime_type = $mime_type;
 			$document->file = $file;
+			$document->document_type_id = $document_type_id;
 			$document->updated_by_id = $user->id;
 			$document->save();
 		}

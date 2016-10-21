@@ -17,6 +17,8 @@ use jericho\Milestone;
 use jericho\Attorney;
 use DB;
 use Carbon\Carbon;
+use jericho\Accounts\AccountBalanceCalculator;
+use jericho\Accounts\AccountConstants;
 
 /**
  * This class is a controller for performing CRUD operations on property_flips
@@ -86,13 +88,9 @@ class PropertyFlipController extends Controller
 	public function postDoAddPropertyFlip(Request $request)
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::GENERAL_TAB);
-// 		$this->validate($request, [
-// 			'reference_number' => 'required',
-// 			'property_id' => 'required',
-// 		]);
 		$validator = Validator::make($request->all(), [
-			'reference_number' => 'required',
-			'property_id' => 'required',
+			'reference_number' => 'required|unique:property_flips|numeric',
+			'property_id' => 'required'
 		]);
 		
 		if ($validator->fails()) {
@@ -151,12 +149,8 @@ class PropertyFlipController extends Controller
 	public function postDoUpdatePropertyFlip(Request $request, $property_flip_id)
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::GENERAL_TAB);
-// 		$this->validate($request, [
-// 			'reference_number' => 'required',
-// 			'property_id' => 'required',
-// 		]);
 		$validator = Validator::make($request->all(), [
-			'reference_number' => 'required',
+			'reference_number' => 'required|numeric',
 			'property_id' => 'required',
 		]);
 		
@@ -200,6 +194,11 @@ class PropertyFlipController extends Controller
 		$contact_contractors = $this->populateContractors($property_flip);
 		$bank_contacts = $this->populateBanks($property_flip);
 		$contact_investors = $this->populateInvestors($property_flip);
+		
+		$accountBalanceCalculator = new AccountBalanceCalculator();
+		$profit_loss_balance = $accountBalanceCalculator->calculate(AccountConstants::PROFIT_AND_LOSS_ACCOUNT, 
+			$property_flip->transactions);
+		
 		return view('property-flip.view-property-flip', [
 			'property_flip' => $property_flip,
 			'attorney_contacts' => $attorney_contacts,
@@ -207,7 +206,8 @@ class PropertyFlipController extends Controller
 			'contact_contractors' => $contact_contractors,
 			'bank_contacts' => $bank_contacts,
 			'contact_investors' => $contact_investors,
-			'property' => $property
+			'property' => $property,
+			'profit_loss_balance' => $profit_loss_balance
 		]);
 	}
 	

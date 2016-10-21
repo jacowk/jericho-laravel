@@ -20,7 +20,7 @@ class TransactionTableSeeder extends Seeder
         $transaction1->effective_date = date_create_from_format('Y-m-d', '2016-10-01');
         $transaction1->description = "Test description 1";
         $transaction1->reference = "Test reference 1";
-        $transaction1->amount = 10;
+        $transaction1->debit_amount = 10000000;
         $transaction1->account_id = 1;
         $transaction1->transaction_type_id = 1;
         $transaction1->created_by_id = 1;
@@ -30,7 +30,7 @@ class TransactionTableSeeder extends Seeder
         $transaction2->effective_date = date_create_from_format('Y-m-d', '2016-10-02');
         $transaction2->description = "Test description 2";
         $transaction2->reference = "Test reference 2";
-        $transaction2->amount = 10;
+        $transaction2->credit_amount = 25000000;
         $transaction2->account_id = 1;
         $transaction2->transaction_type_id = 2;
         $transaction2->created_by_id = 1;

@@ -113,6 +113,7 @@ class AuditTrailController extends Controller
 							'audits.auditable_id',
 							'audits.old',
 							'audits.new')
+					->orderBy('audits.created_at', 'asc')
 					->get();
 		}
 		else

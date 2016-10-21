@@ -44,16 +44,16 @@ class SuburbTableSeeder extends Seeder
         $area = Area::find(1);
         $area->suburbs()->save($suburb3);
         
-        $faker = Faker\Factory::create();
-        foreach(range(1, 20) as $index)
-        {
-        	Suburb::create([
-        			'name' => $faker->word,
-        			'box_code' => $faker->numberBetween(1000, 9999),
-        			'street_code' => $faker->numberBetween(1000, 9999),
-        			'area_id' => 1,
-        			'created_by_id' => 1
-        	]);
-        }
+//         $faker = Faker\Factory::create();
+//         foreach(range(1, 20) as $index)
+//         {
+//         	Suburb::create([
+//         			'name' => $faker->word,
+//         			'box_code' => $faker->numberBetween(1000, 9999),
+//         			'street_code' => $faker->numberBetween(1000, 9999),
+//         			'area_id' => 1,
+//         			'created_by_id' => 1
+//         	]);
+//         }
     }
 }

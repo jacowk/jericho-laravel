@@ -11,7 +11,6 @@
 					<th class="col-sm-1 text-center">ID</th>
 					<th class="col-sm-5 text-center">Milestone Type</th>
 					<th class="col-sm-2 text-center">Effective Date</th>
-					<th class="col-sm-2 text-center">Date Created</th>
 					@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_MILESTONE))
 						<th class="col-sm-1 text-center">Update</th>
 					@endif
@@ -31,7 +30,6 @@
 							@endif
 						</td>
 						<td>{{ $milestone->effective_date }}</td>
-						<td>{{ $milestone->created_at }}</td>
 						@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_MILESTONE))
 							<td><a href="{{ route('update-milestone', ['milestone_id' => $milestone->id]) }}">Update</a></td>
 						@endif
@@ -40,7 +38,7 @@
 					@endforeach
 				@else
 					<tr>
-						<td colspan="6">No milestones</td>
+						<td colspan="5">No milestones</td>
 					</tr>
 				@endif
 			</tbody>

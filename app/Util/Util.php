@@ -137,6 +137,7 @@ class Util
 	{
 		$value = trim($value, 'R'); /* Strip R */
 		$value = trim($value); /* Strip white space */
+		$value = str_replace(' ', '', $value); /* Strip white space in the middle */
 		$value = trim($value, '_'); /* Strip underscore */
 		return $value;
 	}

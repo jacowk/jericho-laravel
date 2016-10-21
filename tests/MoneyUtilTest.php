@@ -18,6 +18,5 @@ class MoneyUtilTest extends TestCase
     {
     	$parameter = 10000.00;
     	$actual = MoneyUtil::format($parameter);
-    	echo $actual;
     }
 }

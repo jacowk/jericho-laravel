@@ -46,8 +46,12 @@
 				</td>
 			</tr>
 			<tr>
-				<th class="col-sm-2 text-right">Amount</th>
-				<td>{{ MoneyUtil::toRandsAndFormat($transaction->amount) }}</td>
+				<th class="col-sm-2 text-right">Debit Amount</th>
+				<td>{{ MoneyUtil::toRandsAndFormat($transaction->debit_amount) }}</td>
+			</tr>
+			<tr>
+				<th class="col-sm-2 text-right">Credit Amount</th>
+				<td>{{ MoneyUtil::toRandsAndFormat($transaction->credit_amount) }}</td>
 			</tr>
 			@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_AUDIT_FIELDS))
 				<tr>
