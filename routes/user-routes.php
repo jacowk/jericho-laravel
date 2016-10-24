@@ -73,5 +73,18 @@ Route::group(['middleware' => 'auth'], function() {
 				'as' => 'do-update-user'
 		]);
 	});
+	
+	Route::group(['middleware' => 'permission:' . PermissionConstants::RESET_PASSWORD], function() {
+		/* Update an User */
+		Route::get('/reset-password/{user_id}', [
+				'uses' => 'UserController@resetPassword',
+				'as' => 'reset-password'
+		]);
+		
+		Route::post('/do-reset-password/{user_id}', [
+				'uses' => 'UserController@doResetPassword',
+				'as' => 'do-reset-password'
+		]);
+	});
 
 });

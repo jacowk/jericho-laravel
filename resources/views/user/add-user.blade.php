@@ -39,7 +39,21 @@
 			<div class="form-group">
 				{{  Form::label('password', 'Password', array('class' => 'col-sm-2 control-label')) }}
 				<div class="col-sm-10">
-					{{  Form::password('password', '', array('class' => 'form-control', 'placeholder' => 'Password')) }}
+					{{  Form::password('password', array('class' => 'form-control', 'placeholder' => 'Password')) }}
+				</div>
+			</div>
+			
+			<div class="form-group">
+				{{  Form::label('password_confirm', 'Confirm Password' , array('class' => 'col-sm-2 control-label')) }}
+				<div class="col-sm-10">
+					{{  Form::password('password_confirm', array('class' => 'form-control', 'placeholder' => 'Confirm Password')) }}
+				</div>
+			</div>
+			
+			<div class="form-group">
+				{{  Form::label('pagination_size', 'Results Per Page', array('class' => 'col-sm-2 control-label')) }}
+				<div class="col-sm-10">
+					{{  Form::select('pagination_size', $pagination_options, null, ['class' => 'form-control']) }}
 				</div>
 			</div>
 			

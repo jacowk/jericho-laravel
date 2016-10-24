@@ -15,6 +15,7 @@ use jericho\PropertyFlip;
 use jericho\Util\Util;
 use jericho\Util\TabConstants;
 use jericho\Util\LookupUtil;
+use DB;
 
 /**
  * This class is a controller for performing CRUD operations on documents
@@ -50,6 +51,7 @@ class DocumentController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::DOCUMENTS_TAB);
 		$validator = Validator::make($request->all(), [
+				'property_flip_id' => 'required|not_in:-1',
 				'document_type_id' => 'required|not_in:-1',
 				'uploaded_file' => 'required'
 		]);
@@ -62,36 +64,41 @@ class DocumentController extends Controller
 		}
 		$user = Auth::user();
 		
-		if ($request->hasFile('uploaded_file'))
-		{
-			/* Get request variables */
-			$file = $request->file('uploaded_file');
-			$file_size = $request->file('uploaded_file')->getSize();
-			$client_original_name = $request->file('uploaded_file')->getClientOriginalName();
-			$client_original_extension = $request->file('uploaded_file')->getClientOriginalExtension();
-			$generated_filename = Util::generateFilename($user->id, $client_original_extension);
-			$mime_type = $request->file('uploaded_file')->getClientMimeType();
-			$real_path = $request->file('uploaded_file')->getRealPath();
-			$document_type_id = $request->document_type_id;
-			$property_flip_id = $request->property_flip_id;
+		/* Get request variables */
+		$file = $request->file('uploaded_file');
+		$file_size = $request->file('uploaded_file')->getSize();
+		$client_original_name = $request->file('uploaded_file')->getClientOriginalName();
+		$client_original_extension = $request->file('uploaded_file')->getClientOriginalExtension();
+		$generated_filename = Util::generateFilename($user->id, $client_original_extension);
+		$mime_type = $request->file('uploaded_file')->getClientMimeType();
+		$real_path = $request->file('uploaded_file')->getRealPath();
+		$document_type_id = $request->document_type_id;
+		$property_flip_id = $request->property_flip_id;
+		
+		/* Upload file */
+		$generated_path = Storage::putFileAs('documents', new File($real_path), $generated_filename);
+		
+		/* Create and save document */
+		$document = new Document();
+		$document->description = Util::getQueryParameter($request->description);
+		$document->file_size = $file_size;
+		$document->client_original_name = $client_original_name;
+		$document->client_original_extension = $client_original_extension;
+		$document->generated_filename = $generated_filename;
+		$document->mime_type = $mime_type;
+		$document->file = $file;
+		$document->document_type_id = $document_type_id;
+		$document->created_by_id = $user->id;
+		$property_flip = PropertyFlip::find($property_flip_id);
 			
-			/* Upload file */
-			$generated_path = Storage::putFileAs('documents', new File($real_path), $generated_filename);
+			/* Get file content - This is not the problem */
+// 			$opened_file = fopen($real_path, 'r');
+// 			$content = fread($opened_file, $file_size);
+// // 			$content = addslashes($opened_file);
+// 			fclose($opened_file);
 			
-			/* Create and save document */
-			$document = new Document();
-			$document->description = Util::getQueryParameter($request->description);
-			$document->file_size = $file_size;
-			$document->client_original_name = $client_original_name;
-			$document->client_original_extension = $client_original_extension;
-			$document->generated_filename = $generated_filename;
-			$document->mime_type = $mime_type;
-			$document->file = $file;
-			$document->document_type_id = $document_type_id;
-			$document->created_by_id = $user->id;
-			$property_flip = PropertyFlip::find($property_flip_id);
-			$property_flip->documents()->save($document);
-		}
+		/* Save document */
+		$property_flip->documents()->save($document);
 		
 		return redirect()->action('PropertyFlipController@getViewPropertyFlip', ['property_flip_id' => $property_flip_id])
 			->with(['message' => 'Document added']);
@@ -126,8 +133,7 @@ class DocumentController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::DOCUMENTS_TAB);
 		$validator = Validator::make($request->all(), [
-				'document_type_id' => 'required|not_in:-1',
-				'uploaded_file' => 'required'
+				'document_type_id' => 'required|not_in:-1'
 		]);
 		
 		if ($validator->fails()) {
@@ -137,20 +143,14 @@ class DocumentController extends Controller
 				->withInput();
 		}
 		$user = Auth::user();
+		
+		$document = Document::find($document_id);
+		$document->description = Util::getQueryParameter($request->description);
+		$document->document_type_id = Util::getNumericQueryParameter($request->document_type_id);
+		$document->updated_by_id = $user->id;
+		
 		if ($request->hasFile('uploaded_file'))
 		{
-// 			$generated_filename = Util::generateFilename($user->id, $request->file('uploaded_file')->getClientOriginalExtension());
-// 			$generated_path = Storage::putFileAs('documents',
-// 				new File($request->file('uploaded_file')->getRealPath()), $generated_filename);
-// 			$document = Document::find($document_id);
-// 			$document->description = Util::getQueryParameter($request->description);
-// 			$document->file_size = $request->file('uploaded_file')->getSize();
-// 			$document->client_original_name = $request->file('uploaded_file')->getClientOriginalName();
-// 			$document->client_original_extension = $request->file('uploaded_file')->getClientOriginalExtension();
-// 			$document->generated_filename = $generated_path;
-// 			$document->mime_type = $request->file('uploaded_file')->getClientMimeType();
-// 			$document->file = $request->file('uploaded_file');
-
 			/* Get request variables */
 			$file = $request->file('uploaded_file');
 			$file_size = $request->file('uploaded_file')->getSize();
@@ -159,27 +159,27 @@ class DocumentController extends Controller
 			$generated_filename = Util::generateFilename($user->id, $client_original_extension);
 			$mime_type = $request->file('uploaded_file')->getClientMimeType();
 			$real_path = $request->file('uploaded_file')->getRealPath();
-			$document_type_id = $request->document_type_id;
-			$property_flip_id = $request->property_flip_id;
 			
-			/* Upload file */
+			/* Delete the current file */
+			$current_generated_filename = $document->generated_filename; /* Not updated at this stage */
+			if (Storage::exists('./documents/' . $current_generated_filename))
+			{
+				Storage::delete('./documents/' . $current_generated_filename);
+			}
+			
+			/* Upload new file */
 			$generated_path = Storage::putFileAs('documents', new File($real_path), $generated_filename);
 			
-			/* Create and save document */
-			$document = new Document();
-			$document->description = Util::getQueryParameter($request->description);
-			$document->document_type_id = Util::getNumericQueryParameter($request->document_type_id);
+			/* Update applicable fields related to the uploaded file */
 			$document->file_size = $file_size;
 			$document->client_original_name = $client_original_name;
 			$document->client_original_extension = $client_original_extension;
 			$document->generated_filename = $generated_filename;
 			$document->mime_type = $mime_type;
 			$document->file = $file;
-			$document->document_type_id = $document_type_id;
-			$document->updated_by_id = $user->id;
-			$document->save();
 		}
-		return redirect()->action('PropertyFlipController@getViewPropertyFlip', ['property_flip_id' => $request->property_flip_id])
+		$document->save();
+		return redirect()->action('PropertyFlipController@getViewPropertyFlip', ['property_flip_id' => $document->property_flip_id])
 			->with(['message' => 'Document updated']);
 	}
 	
@@ -219,6 +219,28 @@ class DocumentController extends Controller
 	}
 	
 	/**
+	 * THIS IS NOT WORKING. I'M TRIED TO STORE AND DOWNLOAD THE FILE FROM THE DATABASE.
+	 * Download the document from the database
+	 * 
+	 * @param Request $request
+	 * @param unknown $document_id
+	 */
+	public function downloadDocumentDatabase(Request $request, $document_id)
+	{
+		$document = DB::table('documents')
+					->where('id', '=', $document_id)
+					->select('file', 'client_original_extension', 'file_size', 'generated_filename')
+					->first();
+		return \Illuminate\Support\Facades\Response::view($document->file)
+			->withHeaders([
+				'Content-Type' => $document->client_original_extension,
+				'Content-Length' => $document->file_size,
+				'Content-Disposition' => 'attachment; filename=' . $document->generated_filename
+			]);
+	}
+	
+	/**
+	 * THIS IS NOT WORKING. I'M TRIED TO STORE AND DOWNLOAD THE FILE FROM THE DATABASE.
 	 * Download the document from the file system
 	 * 
 	 * @param Request $request

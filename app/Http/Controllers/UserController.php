@@ -80,17 +80,11 @@ class UserController extends Controller
 	 */
 	public function postDoAddUser(Request $request)
 	{
-// 		$this->validate($request, [
-// 			'firstname' => 'required',
-// 			'surname' => 'required',
-// 			'email' => 'required|email|unique:users',
-// 			'password' => 'required'
-// 		]);
 		$validator = Validator::make($request->all(), [
 			'firstname' => 'required',
 			'surname' => 'required',
 			'email' => 'required|email|unique:users',
-			'password' => 'required'
+			'password' => 'required|min:6|confirmed'
 		]);
 		
 		if ($validator->fails()) {
@@ -136,12 +130,6 @@ class UserController extends Controller
 	 */
 	public function postDoUpdateUser(Request $request, $user_id)
 	{
-// 		$this->validate($request, [
-// 			'firstname' => 'required',
-// 			'surname' => 'required',
-// 			'email' => 'required|email',
-// 		]);
-		
 		$validator = Validator::make($request->all(), [
 			'firstname' => 'required',
 			'surname' => 'required',
@@ -195,6 +183,48 @@ class UserController extends Controller
 		return view('user.view-user', [
 				'user' => $user
 		]);
+	}
+	
+	/**
+	 * Load page to reset a password
+	 *
+	 * @param Request $request
+	 * @param unknown $user_id
+	 * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+	 */
+	public function resetPassword(Request $request, $user_id)
+	{
+		$user = User::find($user_id);
+		$roles = LookupUtil::retrieveRolesForCheckboxes($user->roles);
+		return view('user.reset-password', ['user' => $user]);
+	}
+	
+	/**
+	 * Reset a password
+	 *
+	 * @param Request $request
+	 * @param unknown $user_id
+	 * @return \Illuminate\Http\RedirectResponse
+	 */
+	public function doResetPassword(Request $request, $user_id)
+	{
+		$validator = Validator::make($request->all(), [
+				'password' => 'required|min:6|confirmed'
+		]);
+	
+		if ($validator->fails()) {
+			return redirect()
+			->route('reset-password', ['user_id' => $user_id])
+			->withErrors($validator);
+		}
+	
+		$user = Auth::user();
+		$update_user = User::find($user_id);
+		$update_user->password = bcrypt($request->password);
+		$update_user->updated_by_id = $user->id;
+		$update_user->save();
+		return redirect()->action('UserController@getViewUser', ['user_Id' => $update_user->id])
+			->with(['message' => 'Password reset']);
 	}
 	
 	/**

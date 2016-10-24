@@ -76,9 +76,6 @@ class DocumentTypeController extends Controller
 	 */
 	public function postDoAddDocumentType(Request $request)
 	{
-// 		$this->validate($request, [
-// 				'description' => 'required|unique:lookup_document_types'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'description' => 'required|unique:lookup_document_types'
 		]);
@@ -120,9 +117,6 @@ class DocumentTypeController extends Controller
 	 */
 	public function postDoUpdateDocumentType(Request $request, $document_type_id)
 	{
-// 		$this->validate($request, [
-// 				'description' => 'required'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'description' => 'required'
 		]);

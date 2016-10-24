@@ -513,4 +513,14 @@ class LookupUtil
 		}
 		return $issue_statuses;
 	}
+	
+	public static function paginationSizeOptions()
+	{
+		$pagination_size_options = array();
+		$pagination_size_options[10] = 10;
+		$pagination_size_options[20] = 20;
+		$pagination_size_options[30] = 30;
+		$pagination_size_options[50] = 50;
+		return $pagination_size_options;
+	}
 }

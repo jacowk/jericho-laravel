@@ -48,7 +48,10 @@
 				</tr>
 				<tr>
 					<th class="col-sm-3 text-right">Download File</th>
-					<td><a href="{{ route('download-document-direct', $document->id) }}">Click to download</a></td>						
+					<td>
+						<a href="{{ route('download-document-direct', $document->id) }}">Click to download</a><br/>
+						<a href="{{ route('download-document-database', $document->id) }}">Click to download from database</a>
+					</td>						
 				</tr>
 				@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_AUDIT_FIELDS))
 					<tr>

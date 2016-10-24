@@ -88,7 +88,8 @@ class HomeController extends Controller
         return view('home', [
         	'todays_diary_items' => $todays_diary_items,
         	'past_diary_items' => $past_diary_items,
-        	'future_diary_items' => $future_diary_items
+        	'future_diary_items' => $future_diary_items,
+        	'user' => $user
         ]);
     }
 }

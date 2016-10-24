@@ -68,7 +68,8 @@ class RegisterController extends Controller
         	'surname' => $data['surname'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-        	'pagination_size' => 10
+        	'pagination_size' => '10',
+        	'created_by_id' => '1' /* Default value is 1 - Web Master - for user registration */
         ]);
     }
 }

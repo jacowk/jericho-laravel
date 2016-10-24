@@ -38,6 +38,10 @@
 						@endif
 					</td>
 				</tr>
+				<tr>
+					<th class="col-sm-3 text-right">Results Per Page</th>
+					<td>{{ $user->pagination_size }}</td>						
+				</tr>
 				@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_AUDIT_FIELDS))
 					<tr>
 						<th class="col-sm-3 text-right">Created By</th>
@@ -66,19 +70,17 @@
 				@endif
 			</table>
 		</div>
-		<!-- 
-		<div class="form-inline">
+		@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_PROFILE))
 			<div class="form-group">
-				{{  Form::open(array('route' => array('update-user', $user->id), 'class' => 'form-horizontal')) }}
+				{{  Form::open(array('route' => array('update-profile', $user->id), 'class' => 'form-horizontal')) }}
 					{{  Form::token() }}
 					<div class="form-group">
 						<div class="col-sm-10">
-							<button type="submit" class="btn btn-default">Update User</button>
+							{{ Form::submit('Update Profile', array('class' => 'btn btn-default')) }}
 						</div>
 					</div>
 				{{  Form::close() }}
 			</div>
-		</div>
-		 -->
+		@endif
 	</div>
 @endsection

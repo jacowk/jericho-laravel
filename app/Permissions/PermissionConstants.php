@@ -134,4 +134,6 @@ class PermissionConstants
 	const ADD_ISSUE_COMMENT = 'Add Issue Comment';
 	const UPDATE_ISSUE_COMMENT = 'Update Issue Comment';
 	const VIEW_ISSUE_COMMENT = 'View Issue Comment';
+	const RESET_PASSWORD = 'Reset Password';
+	const UPDATE_PROFILE = 'Update Profile';
 }

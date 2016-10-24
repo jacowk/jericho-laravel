@@ -63,6 +63,11 @@ Route::group(['middleware' => 'auth'], function() {
 				'uses' => 'DocumentController@downloadDocumentDirect',
 				'as' => 'download-document-direct'
 		]);
+		
+		Route::get('/download-document-database/{document_id}', [
+				'uses' => 'DocumentController@downloadDocumentDatabase',
+				'as' => 'download-document-database'
+		]);
 	});
 
 });

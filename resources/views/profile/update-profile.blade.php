@@ -1,18 +1,18 @@
 @extends('layouts.master')
 
 @section('title')
-	Update User
+	Update Profile
 @endsection
 
 @section('breadcrumb')
 <ol class="breadcrumb">
-	<li class="breadcrumb-item active"><a href="{{ route('search-user') }}">Search User</a></li>
+	<li class="breadcrumb-item active"><a href="{{ route('view-profile') }}">View Profile</a></li>
 </ol>
 @endsection
 
 @section('content')
 	<div class="container">
-		{{ Form::open(array('route' => array('do-update-user', $user->id), 'class' => 'form-horizontal')) }}
+		{{ Form::open(array('route' => array('do-update-profile', $user->id), 'class' => 'form-horizontal')) }}
 			{{ Form::token() }}
 			
 			<div class="form-group">
@@ -44,26 +44,15 @@
 			</div>
 			
 			<div class="form-group">
-				{{  Form::label('roles', 'Roles', array('class' => 'col-sm-2 control-label')) }}
+				{{  Form::label('results_per_page', 'Results Per Page', array('class' => 'col-sm-2 control-label')) }}
 				<div class="col-sm-10">
-					@if ($roles)
-						@foreach($roles as $id => $role)
-							{{ Form::checkbox($role['html_name'], $id, $role['role_selected'], ['class' => 'field']) }} {{ $role['name'] }}<br>
-						@endforeach
-					@endif
-				</div>
-			</div>
-			
-			<div class="form-group">
-				{{  Form::label('pagination_size', 'Results Per Page', array('class' => 'col-sm-2 control-label')) }}
-				<div class="col-sm-10">
-					{{  Form::select('pagination_size', $pagination_options, $user->pagination_size, ['class' => 'form-control']) }}
+					{{  Form::select('results_per_page', $pagination_size_options, $user->pagination_size, ['class' => 'form-control']) }}
 				</div>
 			</div>
 			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					{{ Form::submit('Update User', array('class' => 'btn btn-default')) }}
+					{{ Form::submit('Update Profile', array('class' => 'btn btn-default')) }}
 				</div>
 			</div>
 		{{ Form::close() }}

@@ -19,6 +19,7 @@ use DB;
 use Carbon\Carbon;
 use jericho\Accounts\AccountBalanceCalculator;
 use jericho\Accounts\AccountConstants;
+use jericho\Accounts\AccountViewDataGenerator;
 
 /**
  * This class is a controller for performing CRUD operations on property_flips
@@ -199,6 +200,10 @@ class PropertyFlipController extends Controller
 		$profit_loss_balance = $accountBalanceCalculator->calculate(AccountConstants::PROFIT_AND_LOSS_ACCOUNT, 
 			$property_flip->transactions);
 		
+		/* Generate account transactions data for the view */
+		$account_view_data_generator = new AccountViewDataGenerator();
+		$account_transactions = $account_view_data_generator->generateData($property_flip_id);
+		
 		return view('property-flip.view-property-flip', [
 			'property_flip' => $property_flip,
 			'attorney_contacts' => $attorney_contacts,
@@ -207,7 +212,8 @@ class PropertyFlipController extends Controller
 			'bank_contacts' => $bank_contacts,
 			'contact_investors' => $contact_investors,
 			'property' => $property,
-			'profit_loss_balance' => $profit_loss_balance
+			'profit_loss_balance' => $profit_loss_balance,
+			'account_transactions' => $account_transactions
 		]);
 	}
 	

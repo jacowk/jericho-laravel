@@ -15,8 +15,8 @@ class UsersTableSeeder extends Seeder
     	User::truncate();
     	
         $user = new User();
-        $user->firstname = "Jaco";
-        $user->surname = "Koekemoer";
+        $user->firstname = "Web";
+        $user->surname = "Master";
         $user->email = "jaco.wk@gmail.com";
         $user->password = bcrypt("password");
         $user->pagination_size = 10;

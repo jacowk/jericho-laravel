@@ -30,7 +30,13 @@
 		<div class="container">
 			<div class="panel panel-default text-center">
 				<div class="panel-heading">Welcome to Jericho</div>
-				<div class="panel-body text-center">You are now logged in</div>
+				<div class="panel-body text-center">
+					You are now logged in<br>
+					@if (empty($user->roles) || count($user->roles) == 0)
+						You currently do not belong to a role. Request an Administrator to assign you to a role.
+					@endif
+				</div>
+				
 			</div>
 		</div>
 	@endif

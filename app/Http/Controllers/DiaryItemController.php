@@ -45,12 +45,7 @@ class DiaryItemController extends Controller
 	public function postDoAddDiaryItem(Request $request)
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::DIARY_TAB);
-// 		$this->validate($request, [
-// 			'followup_date' => 'required',
-// 			'followup_user_id' => 'required',
-// 			'comments' => 'required'
-// 		]);
-		
+
 		$validator = Validator::make($request->all(), [
 			'followup_date' => 'required',
 			'followup_user_id' => 'required|not_in:-1',

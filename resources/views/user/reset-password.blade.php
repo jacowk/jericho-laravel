@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-	Update User
+	Reset Password
 @endsection
 
 @section('breadcrumb')
@@ -12,7 +12,7 @@
 
 @section('content')
 	<div class="container">
-		{{ Form::open(array('route' => array('do-update-user', $user->id), 'class' => 'form-horizontal')) }}
+		{{ Form::open(array('route' => array('do-reset-password', $user->id), 'class' => 'form-horizontal')) }}
 			{{ Form::token() }}
 			
 			<div class="form-group">
@@ -25,45 +25,41 @@
 			<div class="form-group">
 				{{  Form::label('firstname', 'Firstname', array('class' => 'col-sm-2 control-label')) }}
 				<div class="col-sm-10">
-					{{  Form::text('firstname', $user->firstname, array('class' => 'form-control captialize', 'placeholder' => 'Firstname')) }}
+					<p>{{ $user->firstname }}</p>
 				</div>
 			</div>
 			
 			<div class="form-group">
 				{{  Form::label('surname', 'Surname', array('class' => 'col-sm-2 control-label')) }}
 				<div class="col-sm-10">
-					{{  Form::text('surname', $user->surname, array('class' => 'form-control captialize', 'placeholder' => 'Surname')) }}
+					<p>{{ $user->surname }}</p>
 				</div>
 			</div>
 			
 			<div class="form-group">
 				{{  Form::label('email', 'Email', array('class' => 'col-sm-2 control-label')) }}
 				<div class="col-sm-10">
-					{{  Form::text('email', $user->email, array('class' => 'form-control', 'placeholder' => 'Email')) }}
+					<p>{{ $user->email }}</p>
 				</div>
 			</div>
 			
 			<div class="form-group">
-				{{  Form::label('roles', 'Roles', array('class' => 'col-sm-2 control-label')) }}
+				{{  Form::label('password', 'New Password', array('class' => 'col-sm-2 control-label')) }}
 				<div class="col-sm-10">
-					@if ($roles)
-						@foreach($roles as $id => $role)
-							{{ Form::checkbox($role['html_name'], $id, $role['role_selected'], ['class' => 'field']) }} {{ $role['name'] }}<br>
-						@endforeach
-					@endif
+					{{  Form::password('password', array('class' => 'form-control', 'placeholder' => 'New Password')) }}
 				</div>
 			</div>
 			
 			<div class="form-group">
-				{{  Form::label('pagination_size', 'Results Per Page', array('class' => 'col-sm-2 control-label')) }}
+				{{  Form::label('password_confirm', 'Confirm Password' , array('class' => 'col-sm-2 control-label')) }}
 				<div class="col-sm-10">
-					{{  Form::select('pagination_size', $pagination_options, $user->pagination_size, ['class' => 'form-control']) }}
+					{{  Form::password('password_confirmation', array('class' => 'form-control', 'placeholder' => 'Confirm Password')) }}
 				</div>
 			</div>
 			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					{{ Form::submit('Update User', array('class' => 'btn btn-default')) }}
+					{{ Form::submit('Reset Password', array('class' => 'btn btn-default')) }}
 				</div>
 			</div>
 		{{ Form::close() }}

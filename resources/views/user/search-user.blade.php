@@ -41,9 +41,12 @@
 				<thead>
 					<tr>
 						<th class="col-sm-1 text-center">ID</th>
-						<th class="col-sm-3 text-center">Firstname</th>
+						<th class="col-sm-2 text-center">Firstname</th>
 						<th class="col-sm-3 text-center">Surname</th>
 						<th class="col-sm-3 text-center">Email</th>
+						@if (PermissionValidator::hasPermission(PermissionConstants::RESET_PASSWORD))
+							<th class="col-sm-1 text-center">Reset Password</th>
+						@endif
 						@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_USER))
 							<th class="col-sm-1 text-center">Update</th>
 						@endif
@@ -58,6 +61,9 @@
 							<td>{{ $user->firstname }}</td>
 							<td>{{ $user->surname }}</td>
 							<td>{{ $user->email }}</td>
+							@if (PermissionValidator::hasPermission(PermissionConstants::RESET_PASSWORD))
+								<td><a href="{{ route('reset-password', ['user_id' => $user->id]) }}">Reset</a></td>
+							@endif
 							@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_USER))
 								<td><a href="{{ route('update-user', ['user_id' => $user->id]) }}">Update</a></td>
 							@endif
@@ -66,7 +72,7 @@
 						@endforeach
 					@else
 						<tr>
-							<td colspan="6">No users</td>
+							<td colspan="7">No users</td>
 						</tr>
 					@endif
 				</tbody>

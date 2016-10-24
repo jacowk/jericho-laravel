@@ -11,9 +11,23 @@
 |
 */
 
+/*
+ * User: Jaco Koekemoer (For this comment)
+ * Date: 2016-10-24
+ * 
+ * Alternatively add to composer.json, under autoload as:
+ * "jsr-0" {
+ * 		"Permission": "/Permission/PermissionConstants.php"
+ * }
+ *
+ * Then on command line run "composer update"
+ *
+ */
+require app_path() . '/Permissions/PermissionConstants.php';
+
 Route::get('/', function () {
     return view('welcome');
-})->middleware('auth');
+}); /* This must not get the 'auth' middleware, otherwise the site redirects to the 'Welcome' page after login, instead of to the 'Home' page. */
 
 Auth::routes();
 

@@ -12,7 +12,7 @@
 
 @section('content')
 	<div class="container">
-		{{ Form::open(array('route' => array('do-update-document', $document->id), 'class' => 'form-horizontal')) }}
+		{{ Form::open(array('route' => array('do-update-document', $document->id), 'class' => 'form-horizontal', 'files' => true)) }}
 			{{ Form::token() }}
 			
 			<div class="form-group">

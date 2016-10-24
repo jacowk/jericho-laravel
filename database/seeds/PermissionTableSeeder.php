@@ -79,7 +79,9 @@ class PermissionTableSeeder extends Seeder
     			'VIEW_PROFIT_AND_LOSS_BY_DATE_REPORT',
 				'VIEW_TOTALS_PER_STATUS_REPORT', 
     			'VIEW_AUDIT_TRAIL',
-    			'VIEW_AUDIT_FIELDS'
+    			'VIEW_AUDIT_FIELDS',
+    			'RESET_PASSWORD',
+    			'UPDATE_PROFILE'
     	);
     	foreach($add_permissions_array as $permission_name)
     	{

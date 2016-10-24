@@ -76,9 +76,6 @@ class ContractorController extends Controller
      */
     public function postDoAddContractor(Request $request)
     {
-//     	$this->validate($request, [
-//     	 	'name' => 'required|unique:contractors'
-//     	]);
     	$validator = Validator::make($request->all(), [
     			'name' => 'required|unique:contractors'
     	]);
@@ -120,9 +117,6 @@ class ContractorController extends Controller
      */
     public function postDoUpdateContractor(Request $request, $contractor_id)
     {
-//     	$this->validate($request, [
-//     			'name' => 'required'
-//     	]);
     	$validator = Validator::make($request->all(), [
     			'name' => 'required'
     	]);
