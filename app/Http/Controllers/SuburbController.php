@@ -23,8 +23,13 @@ class SuburbController extends Controller
 	 */
 	public function getSearchSuburb()
 	{
+		$areas = LookupUtil::retrieveAreasLookup();
 		return view('suburb.search-suburb', [
-			'name' => null
+			'name' => null,
+			'box_code' => null,
+			'street_code' => null,
+			'area_id' => null,
+			'areas' => $areas
 		]);
 	}
 	
@@ -39,28 +44,44 @@ class SuburbController extends Controller
 	{
 		$user = Auth::user();
 		$name = null;
+		$box_code = null;
+		$street_code = null;
+		$area_id = null;
+		$query_parameters = array();
+		
 		if (Util::isValidRequestVariable($request->name))
 		{
 			$name = $request->name;
-			$suburbs = DB::table('suburbs')
-							->join('areas', 'suburbs.area_id', '=', 'areas.id')
-							->where('suburbs.name', 'like', '%' . $name . '%')
-							->select('suburbs.*', 'areas.name as area_name')
-							->orderBy('name', 'asc')
-							->paginate($user->pagination_size);
+			$name_query_parameter = ['name', 'like', Util::convertToLikeQueryParameter($name)];
+			array_push($query_parameters, $name_query_parameter);
 		}
-		else
+		if (Util::isValidRequestVariable($request->box_code))
 		{
-			/* Select all */
-			$suburbs = DB::table('suburbs')
-							->join('areas', 'suburbs.area_id', '=', 'areas.id')
-							->select('suburbs.*', 'areas.name as area_name')
-							->orderBy('name', 'asc')
-							->paginate($user->pagination_size);
+			$box_code = $request->box_code;
+			$box_code_query_parameter = ['box_code', 'like', $box_code];
+			array_push($query_parameters, $box_code_query_parameter);
 		}
+		if (Util::isValidRequestVariable($request->street_code))
+		{
+			$street_code = $request->street_code;
+			$street_code_query_parameter = ['street_code', 'like', $street_code];
+			array_push($query_parameters, $street_code_query_parameter);
+		}
+		if (Util::isValidRequestVariable($request->area_id) && $request->area_id > -1)
+		{
+			$area_id = $request->area_id;
+			$area_id_query_parameter = ['area_id', '=', $area_id];
+			array_push($query_parameters, $area_id_query_parameter);
+		}
+		$suburbs = Suburb::where($query_parameters)->paginate($user->pagination_size);
+		$areas = LookupUtil::retrieveAreasLookup();
 		return view('suburb.search-suburb', [
 			'suburbs' => $suburbs,
-			'name' => $name
+			'name' => $name,
+			'box_code' => $box_code,
+			'street_code' => $street_code,
+			'area_id' => $area_id,
+			'areas' => $areas
 		]);
 	}
 	
@@ -191,5 +212,13 @@ class SuburbController extends Controller
 			$return_array[] = array('id' => $area->id, 'value' => $area->name);
 		}
 		return Response::json($return_array);
+	}
+	
+	
+	public function postAjaxRetrieveSuburbsForArea(Request $request)
+	{
+		$area_id = Util::getQueryParameter($request->area_id);
+		$suburbs_for_area = LookupUtil::retrieveSuburbsForAreaAjax($area_id);
+		return json_encode($suburbs_for_area);
 	}
 }

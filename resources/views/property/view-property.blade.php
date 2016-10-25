@@ -37,12 +37,12 @@
 					</td>						
 				</tr>
 				<tr>
-					<th class="col-sm-3 text-right">Suburb</th>
-					<td>{{ $property->suburb->name }}</td>						
-				</tr>
-				<tr>
 					<th class="col-sm-3 text-right">Area</th>
 					<td>{{ $property->area->name }}</td>						
+				</tr>
+				<tr>
+					<th class="col-sm-3 text-right">Suburb</th>
+					<td>{{ $property->suburb->name }}</td>						
 				</tr>
 				<tr>
 					<th class="col-sm-3 text-right">Greater Area</th>

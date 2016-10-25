@@ -132,7 +132,6 @@ class AttorneyPropertyFlipController extends Controller
 	{
 		$attorney_id = Util::getQueryParameter($request->attorney_id);
 		$attorney_contacts = LookupUtil::retrieveAttorneyContactsAjax($attorney_id);
-		Util::writeToFile(json_encode($attorney_contacts));
 		return json_encode($attorney_contacts);
 	}
 	

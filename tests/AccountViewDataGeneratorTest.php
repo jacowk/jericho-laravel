@@ -24,6 +24,6 @@ class AccountViewDataGeneratorTest extends TestCase
     	$property_flip_id = 1;
     	$accountViewDataGenerator = new AccountViewDataGenerator();
     	$account_transactions = $accountViewDataGenerator->generateData($property_flip_id);
-    	print_r($account_transactions);
+//     	print_r($account_transactions);
     }
 }

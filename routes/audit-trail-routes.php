@@ -15,6 +15,12 @@ Route::group(['middleware' => 'auth'], function() {
 				'as' => 'search-audit-trail'
 		]);
 		
+		/* Pagination */
+		Route::get('/do-search-audit-trail', [
+				'uses' => 'AuditTrailController@postDoSearchAuditTrail',
+				'as' => 'do-search-audit-trail'
+		]);
+		
 		Route::post('/do-search-audit-trail', [
 				'uses' => 'AuditTrailController@postDoSearchAuditTrail',
 				'as' => 'do-search-audit-trail'

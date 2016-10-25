@@ -126,7 +126,7 @@ class LookupUtil
 	
 	public static function retrieveGreaterAreasLookup()
 	{
-		$table_greater_areas = GreaterArea::all();
+		$table_greater_areas = GreaterArea::orderBy('name', 'asc')->get();
 		$greater_areas = array();
 		$greater_areas[-1] = "Select Greater Area";
 		foreach($table_greater_areas as $greater_area)
@@ -138,7 +138,7 @@ class LookupUtil
 	
 	public static function retrieveAreasLookup()
 	{
-		$table_areas = Area::all();
+		$table_areas = Area::orderBy('name', 'asc')->get();
 		$areas = array();
 		$areas[-1] = "Select Area";
 		foreach($table_areas as $area)
@@ -522,5 +522,18 @@ class LookupUtil
 		$pagination_size_options[30] = 30;
 		$pagination_size_options[50] = 50;
 		return $pagination_size_options;
+	}
+	
+	public static function retrieveSuburbsForAreaAjax($area_id)
+	{
+		$lookup_suburbs_for_area = Suburb::where('area_id', '=', $area_id)
+									->select('suburbs.id', 'suburbs.name')
+									->get();
+		$suburbs_for_area = array();
+		foreach($lookup_suburbs_for_area as $suburb)
+		{
+			$suburbs_for_area[$suburb->id] = $suburb->name;
+		}
+		return $suburbs_for_area;
 	}
 }

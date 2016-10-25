@@ -130,6 +130,12 @@ class ContractorPropertyFlipController extends Controller
 		return json_encode($contractor_contacts);
 	}
 	
+	/**
+	 * Get the contractor types for the selected contractors via ajax
+	 *
+	 * @param Request $request
+	 * @return string
+	 */
 	public function postAjaxContactContractorTypes(Request $request)
 	{
 		$contractor_id = Util::getQueryParameter($request->contractor_id);

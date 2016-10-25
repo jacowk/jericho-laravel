@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-	Profile
+	User Account
 @endsection
 
 @section('breadcrumb')
@@ -76,7 +76,7 @@
 					{{  Form::token() }}
 					<div class="form-group">
 						<div class="col-sm-10">
-							{{ Form::submit('Update Profile', array('class' => 'btn btn-default')) }}
+							{{ Form::submit('Update User Account', array('class' => 'btn btn-default')) }}
 						</div>
 					</div>
 				{{  Form::close() }}

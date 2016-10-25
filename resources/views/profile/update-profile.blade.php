@@ -1,12 +1,12 @@
 @extends('layouts.master')
 
 @section('title')
-	Update Profile
+	Update User Account
 @endsection
 
 @section('breadcrumb')
 <ol class="breadcrumb">
-	<li class="breadcrumb-item active"><a href="{{ route('view-profile') }}">View Profile</a></li>
+	<li class="breadcrumb-item active"><a href="{{ route('view-profile') }}">View User Account</a></li>
 </ol>
 @endsection
 
@@ -52,7 +52,7 @@
 			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					{{ Form::submit('Update Profile', array('class' => 'btn btn-default')) }}
+					{{ Form::submit('Update User Account', array('class' => 'btn btn-default')) }}
 				</div>
 			</div>
 		{{ Form::close() }}

@@ -185,4 +185,37 @@ class UtilTest extends TestCase
 	}
 	
 	//Continue with convertNameForForm and figure out exception handling
+	
+	/**
+	 * Test string contains with values
+	 */
+	public function testStringContainsWithValidAmountTest()
+	{
+		$string = 'debit_amount';
+		$contains = 'amount';
+		$actual = Util::stringContains($string, $contains);
+		$this->assertTrue($actual);
+	}
+	
+	/**
+	 * Test string with invalid values
+	 */
+	public function testStringContainsWithValidPriceTest()
+	{
+		$string = 'debit_price';
+		$contains = 'price';
+		$actual = Util::stringContains($string, $contains);
+		$this->assertTrue($actual);
+	}
+	
+	/**
+	 * Test string with invalid values
+	 */
+	public function testStringContainsWithInValidTest()
+	{
+		$string = 'debit_invalid';
+		$contains = 'price';
+		$actual = Util::stringContains($string, $contains);
+		$this->assertFalse($actual);
+	}
 }

@@ -57,16 +57,16 @@
 			</div>
 			
 			<div class="form-group">
-				{{  Form::label('suburb_id', 'Suburb', array('class' => 'col-sm-2 control-label')) }}
+				{{  Form::label('area_id', 'Area', array('class' => 'col-sm-2 control-label')) }}
 				<div class="col-sm-10">
-					{{  Form::select('suburb_id', $suburbs, $property->suburb->id, ['class' => 'form-control']) }}
+					{{  Form::select('area_id', $areas, $property->area->id, ['class' => 'form-control']) }}
 				</div>
 			</div>
 			
 			<div class="form-group">
-				{{  Form::label('area_id', 'Area', array('class' => 'col-sm-2 control-label')) }}
+				{{  Form::label('suburb_id', 'Suburb', array('class' => 'col-sm-2 control-label')) }}
 				<div class="col-sm-10">
-					{{  Form::select('area_id', $areas, $property->area->id, ['class' => 'form-control']) }}
+					{{  Form::select('suburb_id', $suburbs, $property->suburb->id, ['class' => 'form-control']) }}
 				</div>
 			</div>
 			
@@ -112,4 +112,19 @@
 			</div>
 		{{ Form::close() }}
 	</div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#area_id').on('change', function() {
+				var area_id = $("#area_id").val();
+				var url = "{{ asset('ajax-retrieve-suburbs-for-area') }}";
+				$.getJSON(url, {area_id: area_id, ajax: 'true'}, function(data) {
+					  $("select#suburb_id").empty();
+					  $("select#suburb_id").append('<option value="-1">Select Suburb</option>');
+					  $.each(data, function(key, val) {
+						  $("select#suburb_id").append('<option value="' + key + '">' + val + '</option>');
+					  });
+				});
+			});
+		});
+	</script>
 @endsection

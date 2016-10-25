@@ -53,7 +53,18 @@
 			<div class="form-group">
 				{{  Form::label('pagination_size', 'Results Per Page', array('class' => 'col-sm-2 control-label')) }}
 				<div class="col-sm-10">
-					{{  Form::select('pagination_size', $pagination_options, null, ['class' => 'form-control']) }}
+					{{  Form::select('pagination_size', $pagination_size_options, null, ['class' => 'form-control']) }}
+				</div>
+			</div>
+			
+			<div class="form-group">
+				{{  Form::label('is_super_user', 'Is Super User', array('class' => 'col-sm-2 control-label')) }}
+				<div class="col-sm-10">
+					@if (PermissionValidator::isUserInSuperUserRole())
+						The user is a super user
+					@else
+						The user is not a super user
+					@endif
 				</div>
 			</div>
 			
@@ -62,7 +73,13 @@
 				<div class="col-sm-10">
 					@if ($roles)
 						@foreach($roles as $id => $name)
-							{{ Form::checkbox($name['html_name'], $id, null, ['class' => 'field']) }} {{ $name['name'] }}<br>
+							@if (PermissionValidator::isUserInSuperUserRole() && $name['html_name'] === 'super_user')
+								{{ Form::checkbox($name['html_name'], $id, null, ['class' => 'field']) }} {{ $name['name'] }}<br>
+							@elseif (!PermissionValidator::isUserInSuperUserRole() && $name['html_name'] === 'super_user')
+								{{-- Do not display the role --}}
+							@else
+								{{ Form::checkbox($name['html_name'], $id, null, ['class' => 'field']) }} {{ $name['name'] }}<br>
+							@endif
 						@endforeach
 					@endif
 				</div>

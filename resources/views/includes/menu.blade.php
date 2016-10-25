@@ -33,7 +33,7 @@
 					<li><a href="{{ url('/register') }}">Register</a></li>
 				@else
 					<li><a href="{{ url('/home') }}">Home</a></li>
-					<li><a href="{{ url('/view-profile') }}">Profile</a></li>
+					<li><a href="{{ url('/view-profile') }}">User Account</a></li>
 					@if (MenuDisplayValidator::canDisplayPropertiesMenu())
 						<li><a href="{{ url('/search-property') }}">Properties</a></li>
 					@endif

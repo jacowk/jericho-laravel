@@ -32,8 +32,9 @@ class PropertyController extends Controller
 	 */
 	public function getSearchProperty()
 	{
-		$suburbs = LookupUtil::retrieveSuburbsLookup();
 		$areas = LookupUtil::retrieveAreasLookup();
+		$suburbs = array(); /* Retrieved via ajax */
+		$suburbs['-1'] = "Select Suburb";
 		$greater_areas = LookupUtil::retrieveGreaterAreasLookup();
 		return view('property.search-property', [
 			'address' => null,
@@ -172,7 +173,8 @@ class PropertyController extends Controller
 	{
 		$greater_areas = LookupUtil::retrieveGreaterAreasLookup();
 		$areas = LookupUtil::retrieveAreasLookup();
-		$suburbs = LookupUtil::retrieveSuburbsLookup();
+		$suburbs = array(); /* Retrieved via ajax */
+		$suburbs['-1'] = "Select Suburb";
 		$lookup_property_types = LookupUtil::retrieveLookupPropertyTypes();
 		return view('property.add-property', [
 			'greater_areas' => $greater_areas,
@@ -235,7 +237,7 @@ class PropertyController extends Controller
 		$property = Property::find($property_id);
 		$greater_areas = LookupUtil::retrieveGreaterAreasLookup();
 		$areas = LookupUtil::retrieveAreasLookup();
-		$suburbs = LookupUtil::retrieveSuburbsLookup();
+		$suburbs = LookupUtil::retrieveSuburbsForAreaAjax($property->area_id);
 		$lookup_property_types = LookupUtil::retrieveLookupPropertyTypes();
 		return view('property.update-property', [
 			'property' => $property,

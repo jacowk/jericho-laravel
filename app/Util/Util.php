@@ -152,4 +152,20 @@ class Util
 	{
 		return '%' . $parameter . '%';
 	}
+	
+	/**
+	 * Validate if a string contains another string
+	 * 
+	 * @param unknown $string
+	 * @param unknown $contains
+	 * @return boolean
+	 */
+	public static function stringContains($string, $contains)
+	{
+		if (strpos($string, $contains) !== false)
+		{
+			return true;
+		}
+		return false;
+	}
 }

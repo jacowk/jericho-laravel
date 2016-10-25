@@ -9,12 +9,35 @@
 		<div class="row">
 			{{ Form::open(array('route' => 'do-search-suburb', 'class' => 'form-horizontal')) }}
 				{{ Form::token() }}
+				
 				<div class="form-group">
 					{{ Form::label('name', 'Name', array('class' => 'col-sm-2 control-label')) }}
 					<div class="col-sm-10"> 
 						{{ Form::text('name', $name, array('class' => 'form-control', 'placeholder' => 'Name')) }}
 					</div>
 				</div>
+				
+				<div class="form-group">
+					{{ Form::label('box_code', 'Box Code', array('class' => 'col-sm-2 control-label')) }}
+					<div class="col-sm-10"> 
+						{{ Form::text('box_code', $box_code, array('class' => 'form-control', 'placeholder' => 'Box Code')) }}
+					</div>
+				</div>
+				
+				<div class="form-group">
+					{{ Form::label('street_code', 'Street Code', array('class' => 'col-sm-2 control-label')) }}
+					<div class="col-sm-10"> 
+						{{ Form::text('street_code', $street_code, array('class' => 'form-control', 'placeholder' => 'Street Code')) }}
+					</div>
+				</div>
+				
+				<div class="form-group">
+					{{ Form::label('area_id', 'Area', array('class' => 'col-sm-2 control-label')) }}
+					<div class="col-sm-10">
+						{{ Form::select('area_id', $areas, $area_id, array('class' => 'form-control')) }}
+					</div>
+				</div>
+				
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10"> 
 						{{ Form::submit('Search', array('class' => 'btn btn-default')) }}
@@ -52,7 +75,7 @@
 							<td>{{ $suburb->name }}</td>
 							<td>{{ $suburb->box_code }}</td>
 							<td>{{ $suburb->street_code }}</td>
-							<td>{{ $suburb->area_name }}</td>
+							<td>{{ $suburb->area->name }}</td>
 							@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_SUBURB))
 								<td><a href="{{ route('update-suburb', ['suburb_id' => $suburb->id]) }}">Update</a></td>
 							@endif

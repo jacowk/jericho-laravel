@@ -3,6 +3,7 @@
 namespace jericho\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use jericho\Http\Requests;
 use OwenIt\Auditing\Facades\Auditing;
@@ -48,18 +49,20 @@ class AuditTrailController extends Controller
 	 */
 	public function postDoSearchAuditTrail(Request $request)
 	{
-		$validator = Validator::make($request->all(), [
-				'user_id' => 'required',
-				'from_date' => 'date',
-				'to_date' => 'date'
-		]);
+		/* TODO request variables of the search criteria are lost */
 		
-		if ($validator->fails()) {
-			return redirect()
-				->route('search-audit-trail')
-				->withErrors($validator)
-				->withInput();
-		}
+// 		$validator = Validator::make($request->all(), [
+// 				'user_id' => 'required|not_in:-1',
+// 				'from_date' => 'date',
+// 				'to_date' => 'date'
+// 		]);
+		
+// 		if ($validator->fails()) {
+// 			return redirect()
+// 				->route('search-audit-trail')
+// 				->withErrors($validator)
+// 				->withInput();
+// 		}
 		$user_id = null;
 		$from_date = null;
 		$to_date = null;
@@ -98,6 +101,7 @@ class AuditTrailController extends Controller
 			$to_date_query_parameter = DateTime::createFromFormat('Y-m-d H:i:s', '2100-12-31 23:59:59');
 		}
 		
+		$user = Auth::user();
 		if (Util::isValidSelectRequestVariable($request->user_id))
 		{
 			$audits = DB::table('audits')
@@ -114,7 +118,7 @@ class AuditTrailController extends Controller
 							'audits.old',
 							'audits.new')
 					->orderBy('audits.created_at', 'asc')
-					->get();
+					->paginate($user->pagination_size);
 		}
 		else
 		{
@@ -130,7 +134,7 @@ class AuditTrailController extends Controller
 							'audits.auditable_id',
 							'audits.old',
 							'audits.new')
-					->get();
+					->paginate($user->pagination_size);
 		}
 		
 		$users = LookupUtil::retrieveUsersLookup();

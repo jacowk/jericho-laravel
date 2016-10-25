@@ -15,6 +15,13 @@ class Document extends Model
 {
 	use Auditable;
 	
+	/**
+	 * Exclude the following properties from being audited by Auditable
+	 *
+	 * @var array
+	 */
+	protected $dontKeepAuditOf = ['file'];
+	
     public function property_flip()
     {
     	return $this->belongsTo('jericho\PropertyFlip');

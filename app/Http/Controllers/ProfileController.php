@@ -99,7 +99,7 @@ class ProfileController extends Controller
 			$update_user->updated_by_id = $user->id;
 			$update_user->save();
 			return redirect()->action('ProfileController@getViewProfile')
-				->with(['message' => 'Profile updated']);
+				->with(['message' => 'User Account updated']);
 // 		}
 		//TODO: Handle if email is duplicate
 	}

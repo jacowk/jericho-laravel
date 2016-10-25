@@ -69,7 +69,11 @@ class UserController extends Controller
 	public function getAddUser()
 	{
 		$roles = LookupUtil::retrieveRolesForCheckboxes();
-		return view('user.add-user', [ 'roles' => $roles ]);
+		$pagination_size_options = LookupUtil::paginationSizeOptions();
+		return view('user.add-user', [ 
+				'roles' => $roles, 
+				'pagination_size_options' => $pagination_size_options
+		]);
 	}
 	
 	/**
@@ -118,7 +122,12 @@ class UserController extends Controller
 	{
 		$user = User::find($user_id);
 		$roles = LookupUtil::retrieveRolesForCheckboxes($user->roles);
-		return view('user.update-user', ['user' => $user, 'roles' => $roles]);
+		$pagination_size_options = LookupUtil::paginationSizeOptions();
+		return view('user.update-user', [
+				'user' => $user, 
+				'roles' => $roles,
+				'pagination_size_options' => $pagination_size_options
+		]);
 	}
 	
 	/**

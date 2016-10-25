@@ -79,5 +79,10 @@ Route::group(['middleware' => 'auth'], function() {
 				'as' => 'do-update-suburb'
 		]);
 	});
+	
+	Route::get('/ajax-retrieve-suburbs-for-area', [
+			'uses' => 'SuburbController@postAjaxRetrieveSuburbsForArea',
+			'as' => 'ajax-retrieve-suburbs-for-area'
+	]);
 
 });

@@ -29,6 +29,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
     
+    /**
+     * Exclude the following properties from being audited by Auditable
+     * 
+     * @var array
+     */
     protected $dontKeepAuditOf = ['remember_token', 'password'];
     
     public function roles()

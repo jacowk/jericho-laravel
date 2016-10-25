@@ -84,6 +84,24 @@
 					@endif
 				</tbody>
 			</table>
+			
+			<!-- Pagination -->
+			<div class="text-center">
+				@if (!empty($audits) && count($audits) > 0)
+					@if ($audits->hasMorePages())
+						{{ $audits->render() }}<br/>
+					@else
+						<ul class="pagination">
+							<li><a href="{{ $audits->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@for ($i = 1; $i <= $audits->lastPage(); $i++)
+								<li class="{{ ($audits->currentPage() == $i) ? ' active' : '' }}">
+									<a href="{{ $audits->url($i) }}"><span>{{ $i }}</span></a>
+								</li>
+							@endfor
+						</ul>
+					@endif
+				@endif
+			</div>
 		</div>
 	</div>
 	<script type="text/javascript">
