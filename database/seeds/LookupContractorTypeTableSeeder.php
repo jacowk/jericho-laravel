@@ -29,6 +29,14 @@ class LookupContractorTypeTableSeeder extends Seeder
     		$lookup_contractor_type->save();
     	}
     	
+//     	for ($i = 0; $i < 200; $i++)
+//     	{
+//     		$lookup_contractor_type = new LookupContractorType();
+//     		$lookup_contractor_type->description = "Test Contractor Type " . $i;
+//     		$lookup_contractor_type->created_by_id = 1;
+//     		$lookup_contractor_type->save();
+//     	}
+    	
 //     	$faker = Faker\Factory::create();
 //     	foreach(range(1, 20) as $index)
 //     	{

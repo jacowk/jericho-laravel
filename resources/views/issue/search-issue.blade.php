@@ -49,7 +49,11 @@
 	<div class="container">
 		<div class="row">
 			<div class="panel-heading text-center">
-				<h4 class="panel-title">Issues Search Result</h4>
+				@if (!empty($issues) && count($issues) > 0)
+					<h4 class="panel-title">Issues Search Result ({{ $issues->total() }} items found)</h4>
+				@else
+					<h4 class="panel-title">Issues Search Result</h4>
+				@endif
 			</div>
 		</div>
 		<div class="row">
@@ -111,15 +115,26 @@
 			<div class="text-center">
 				@if (!empty($issues) && count($issues) > 0)
 					@if ($issues->hasMorePages())
-						{{ $issues->render() }}<br/>
+						{{ $issues->appends(['id' => $id, 'created_by_id' => $created_by_id, 'assigned_to_id' => $assigned_to_id, 'issue_status_id' => $issue_status_id])->render() }}<br/>
 					@else
 						<ul class="pagination">
-							<li><a href="{{ $issues->previousPageUrl() }}" rel="prev">&laquo;</a></li>
-							@for ($i = 1; $i <= $issues->lastPage(); $i++)
-								<li class="{{ ($issues->currentPage() == $i) ? ' active' : '' }}">
-									<a href="{{ $issues->url($i) }}"><span>{{ $i }}</span></a>
-								</li>
-							@endfor
+							<li><a href="{{ $issues->appends(['id' => $id, 'created_by_id' => $created_by_id, 'assigned_to_id' => $assigned_to_id, 'issue_status_id' => $issue_status_id])->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@if ($issues->lastPage() > 10)
+								@for ($i = 1; $i <= 5; $i++)
+									<li class="{{ ($issues->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $issues->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+								<li><span>...</span></li>
+								<li><a href="{{ $issues->appends(['id' => $id, 'created_by_id' => $created_by_id, 'assigned_to_id' => $assigned_to_id, 'issue_status_id' => $issue_status_id])->url($issues->lastPage() - 1) }}"><span>{{ $issues->lastPage() - 1 }}</span></a></li>
+								<li><a href="{{ $issues->appends(['id' => $id, 'created_by_id' => $created_by_id, 'assigned_to_id' => $assigned_to_id, 'issue_status_id' => $issue_status_id])->url($issues->lastPage()) }}"><span>{{ $issues->lastPage() }}</span></a></li>
+							@else
+								@for ($i = 1; $i <= $issues->lastPage(); $i++)
+									<li class="{{ ($issues->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $issues->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+							@endif
 						</ul>
 					@endif
 				@endif

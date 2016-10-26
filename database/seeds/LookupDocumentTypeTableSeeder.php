@@ -30,6 +30,14 @@ class LookupDocumentTypeTableSeeder extends Seeder
     		$lookup_document_type->save();
     	}
     	
+//     	for ($i = 0; $i < 50; $i++)
+// 		{
+// 			$lookup_document_type = new LookupDocumentType();
+// 			$lookup_document_type->description = "Test Document Type " . $i;
+// 			$lookup_document_type->created_by_id = 1;
+// 			$lookup_document_type->save();
+// 		}
+    	
 //     	$faker = Faker\Factory::create();
 //     	foreach(range(1, 20) as $index)
 //     	{

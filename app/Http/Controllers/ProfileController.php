@@ -5,6 +5,7 @@ namespace jericho\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use jericho\Http\Requests;
 use jericho\User;
 use jericho\Util\LookupUtil;
@@ -66,41 +67,26 @@ class ProfileController extends Controller
 		$validator = Validator::make($request->all(), [
 				'firstname' => 'required',
 				'surname' => 'required',
-				'email' => 'required|email',
+				'email' => 'required|email|unique:users,email,' . $user_id,
 				'results_per_page' => 'required|numeric'
 		]);
 	
 		if ($validator->fails()) {
 			return redirect()
-			->route('update-profile', ['user_id' => $user_id])
-			->withErrors($validator)
-			->withInput();
+				->route('update-profile', ['user_id' => $user_id])
+				->withErrors($validator)
+				->withInput();
 		}
-	
-		/* TODO: Validate that the email is unique excluding the current user id */
-		$current_emails = DB::table('users')
-			->where('email', 'like', $request->email)
-			->where('id', '<>', $user_id)
-			->get();
-	
-		// 		echo count($current_emails);
-		// 		echo '<br>' . $request->email;
-		// 		echo '<br>' . $user_id;
-		// 		return;
-	
-// 		if (count($current_emails) == 0)
-// 		{
-			$user = Auth::user();
-			$update_user = User::find($user_id);
-			$update_user->firstname = Util::getQueryParameter($request->firstname);
-			$update_user->surname = Util::getQueryParameter($request->surname);
-			$update_user->email = Util::getQueryParameter($request->email);
-			$update_user->pagination_size = Util::getQueryParameter($request->results_per_page);
-			$update_user->updated_by_id = $user->id;
-			$update_user->save();
-			return redirect()->action('ProfileController@getViewProfile')
-				->with(['message' => 'User Account updated']);
-// 		}
-		//TODO: Handle if email is duplicate
+		
+		$user = Auth::user();
+		$update_user = User::find($user_id);
+		$update_user->firstname = Util::getQueryParameter($request->firstname);
+		$update_user->surname = Util::getQueryParameter($request->surname);
+		$update_user->email = Util::getQueryParameter($request->email);
+		$update_user->pagination_size = Util::getQueryParameter($request->results_per_page);
+		$update_user->updated_by_id = $user->id;
+		$update_user->save();
+		return redirect()->action('ProfileController@getViewProfile')
+			->with(['message' => 'User Account updated']);
 	}
 }

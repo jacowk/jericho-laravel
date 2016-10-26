@@ -60,10 +60,10 @@ class PropertyTableSeeder extends Seeder
     	$property3->save();
     	
 //     	$faker = Faker\Factory::create();
-//     	foreach(range(1, 20) as $index)
+//     	foreach(range(1, 200) as $index)
 //     	{
 //     		Property::create([
-//     				'address_line_1' => $faker->address,
+//     				'address_line_1' => 'Test ' . $faker->address,
 //     				'suburb_id' => $faker->numberBetween(1, 5),
 //     				'area_id' => $faker->numberBetween(1, 5),
 //     				'greater_area_id' => $faker->numberBetween(1, 5),

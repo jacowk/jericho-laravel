@@ -23,6 +23,14 @@ class LookupEstateAgentTypeTableSeeder extends Seeder
     		$lookup_estate_agent_type->save();
     	}
     	
+//     	for ($i = 0; $i < 25; $i++)
+//     	{
+//     		$lookup_estate_agent_type = new LookupEstateAgentType();
+//     		$lookup_estate_agent_type->description = "Test Estate Agent Type " . $i;
+//     		$lookup_estate_agent_type->created_by_id = 1;
+//     		$lookup_estate_agent_type->save();
+//     	}
+    	
 //     	$faker = Faker\Factory::create();
 //     	foreach(range(1, 20) as $index)
 //     	{

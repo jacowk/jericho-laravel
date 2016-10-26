@@ -49,7 +49,11 @@
 	<div class="container">
 		<div class="row">
 			<div class="panel-heading text-center">
-				<h4 class="panel-title">Suburbs Search Result</h4>
+				@if (!empty($suburbs) && count($suburbs) > 0)
+					<h4 class="panel-title">Suburbs Search Result ({{ $suburbs->total() }} items found)</h4>
+				@else
+					<h4 class="panel-title">Suburbs Search Result</h4>
+				@endif
 			</div>
 		</div>
 		<div class="row">
@@ -94,15 +98,35 @@
 			<div class="text-center">
 				@if (!empty($suburbs) && count($suburbs) > 0)
 					@if ($suburbs->hasMorePages())
-						{{ $suburbs->render() }}<br/>
+						{{ 
+							$suburbs
+								->appends([
+									'name' => $name,
+									'box_code' => $box_code,
+									'street_code' => $street_code,
+									'area_id' => $area_id
+								])
+								->render() 
+						}}<br/>
 					@else
 						<ul class="pagination">
-							<li><a href="{{ $suburbs->previousPageUrl() }}" rel="prev">&laquo;</a></li>
-							@for ($i = 1; $i <= $suburbs->lastPage(); $i++)
-								<li class="{{ ($suburbs->currentPage() == $i) ? ' active' : '' }}">
-									<a href="{{ $suburbs->url($i) }}"><span>{{ $i }}</span></a>
-								</li>
-							@endfor
+							<li><a href="{{ $suburbs->appends(['name' => $name, 'box_code' => $box_code, 'street_code' => $street_code, 'area_id' => $area_id])->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@if ($suburbs->lastPage() > 10)
+								@for ($i = 1; $i <= 5; $i++)
+									<li class="{{ ($suburbs->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $suburbs->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+								<li><span>...</span></li>
+								<li><a href="{{ $suburbs->appends(['name' => $name, 'box_code' => $box_code, 'street_code' => $street_code, 'area_id' => $area_id])->url($suburbs->lastPage() - 1) }}"><span>{{ $suburbs->lastPage() - 1 }}</span></a></li>
+								<li><a href="{{ $suburbs->appends(['name' => $name, 'box_code' => $box_code, 'street_code' => $street_code, 'area_id' => $area_id])->url($suburbs->lastPage()) }}"><span>{{ $suburbs->lastPage() }}</span></a></li>
+							@else
+								@for ($i = 1; $i <= $suburbs->lastPage(); $i++)
+									<li class="{{ ($suburbs->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $suburbs->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+							@endif
 						</ul>
 					@endif
 				@endif

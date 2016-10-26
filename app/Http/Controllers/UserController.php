@@ -142,7 +142,7 @@ class UserController extends Controller
 		$validator = Validator::make($request->all(), [
 			'firstname' => 'required',
 			'surname' => 'required',
-			'email' => 'required|email'
+			'email' => 'required|email|unique:users,email,' . $user_id
 		]);
 		
 		if ($validator->fails()) {
@@ -152,31 +152,16 @@ class UserController extends Controller
 				->withInput(Input::except('password'));
 		}
 		
-		/* TODO: Validate that the email is unique excluding the current user id */
-		$current_emails = DB::table('users')
-							->where('email', '=', $request->email)
-							->where('id', '<>', $user_id)
-							->get();
-		
-// 		echo count($current_emails);
-// 		echo '<br>' . $request->email;
-// 		echo '<br>' . $user_id;
-// 		return;
-		
-		if (count($current_emails) == 0)
-		{
-			$user = Auth::user();
-			$update_user = User::find($user_id);
-			$update_user->firstname = Util::getQueryParameter($request->firstname);
-			$update_user->surname = Util::getQueryParameter($request->surname);
-			$update_user->email = Util::getQueryParameter($request->email);
-			$update_user->updated_by_id = $user->id;
-			$update_user->save();
-			$this->processRolesForUpdate($request, $update_user);
-			return redirect()->action('UserController@getViewUser', ['user_Id' => $update_user->id])
-				->with(['message' => 'User updated']);
-		}
-		//TODO: Handle if email is duplicate
+		$user = Auth::user();
+		$update_user = User::find($user_id);
+		$update_user->firstname = Util::getQueryParameter($request->firstname);
+		$update_user->surname = Util::getQueryParameter($request->surname);
+		$update_user->email = Util::getQueryParameter($request->email);
+		$update_user->updated_by_id = $user->id;
+		$update_user->save();
+		$this->processRolesForUpdate($request, $update_user);
+		return redirect()->action('UserController@getViewUser', ['user_Id' => $update_user->id])
+			->with(['message' => 'User updated']);
 	}
 	
 	/**

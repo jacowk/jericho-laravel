@@ -23,6 +23,14 @@ class LookupMaritalStatusTableSeeder extends Seeder
         	$lookup_marital_status->save();
         }
         
+//         for ($i = 0; $i < 25; $i++)
+//         {
+//         	LookupMaritalStatus::create([
+//         		'description' => 'Test Marital Status ' . $i,
+//         		'created_by_id' => 1
+//         	]);
+//         }
+        
 //         $faker = Faker\Factory::create();
 //         foreach(range(1, 20) as $index)
 //         {

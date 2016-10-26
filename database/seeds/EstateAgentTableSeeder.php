@@ -14,20 +14,13 @@ class EstateAgentTableSeeder extends Seeder
     {
     	EstateAgent::truncate();
     	
-        $estateAgent1 = new EstateAgent();
-        $estateAgent1->name = "Estate Agent 1";
-        $estateAgent1->created_by_id = 1;
-        $estateAgent1->save();
-        
-        $estateAgent2 = new EstateAgent();
-        $estateAgent2->name = "Estate Agent 2";
-        $estateAgent2->created_by_id = 1;
-        $estateAgent2->save();
-        
-        $estateAgent3= new EstateAgent();
-        $estateAgent3->name = "Estate Agent 3";
-        $estateAgent3->created_by_id = 1;
-        $estateAgent3->save();
+        for ($i = 0; $i < 25; $i++)
+        {
+        	$estate_agent = new EstateAgent();
+        	$estate_agent->name = "Test Estate Agent " . $i;
+        	$estate_agent->created_by_id = 1;
+        	$estate_agent->save();
+        }
         
 //         $faker = Faker\Factory::create();
 //         foreach(range(1, 20) as $index)

@@ -38,7 +38,11 @@
 	<div class="container">
 		<div class="row">
 			<div class="panel-heading text-center">
-				<h4 class="panel-title">Audit Search Result</h4>
+				@if (!empty($audits) && count($audits) > 0)
+					<h4 class="panel-title">Audit Trail Search Result ({{ $audits->total() }} items found)</h4>
+				@else
+					<h4 class="panel-title">Audit Trail Search Result</h4>
+				@endif
 			</div>
 		</div>
 		<div class="row">
@@ -89,15 +93,26 @@
 			<div class="text-center">
 				@if (!empty($audits) && count($audits) > 0)
 					@if ($audits->hasMorePages())
-						{{ $audits->render() }}<br/>
+						{{ $audits->appends(['user_id' => $user_id, 'from_date' => $from_date, 'to_date' => $to_date])->render() }}<br/>
 					@else
 						<ul class="pagination">
-							<li><a href="{{ $audits->previousPageUrl() }}" rel="prev">&laquo;</a></li>
-							@for ($i = 1; $i <= $audits->lastPage(); $i++)
-								<li class="{{ ($audits->currentPage() == $i) ? ' active' : '' }}">
-									<a href="{{ $audits->url($i) }}"><span>{{ $i }}</span></a>
-								</li>
-							@endfor
+							<li><a href="{{ $audits->appends(['user_id' => $user_id, 'from_date' => $from_date, 'to_date' => $to_date])->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@if ($audits->lastPage() > 10)
+								@for ($i = 1; $i <= 5; $i++)
+									<li class="{{ ($audits->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $audits->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+								<li><span>...</span></li>
+								<li><a href="{{ $audits->appends(['user_id' => $user_id, 'from_date' => $from_date, 'to_date' => $to_date])->url($audits->lastPage() - 1) }}"><span>{{ $audits->lastPage() - 1 }}</span></a></li>
+								<li><a href="{{ $audits->appends(['user_id' => $user_id, 'from_date' => $from_date, 'to_date' => $to_date])->url($audits->lastPage()) }}"><span>{{ $audits->lastPage() }}</span></a></li>
+							@else
+								@for ($i = 1; $i <= $audits->lastPage(); $i++)
+									<li class="{{ ($audits->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $audits->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+							@endif
 						</ul>
 					@endif
 				@endif

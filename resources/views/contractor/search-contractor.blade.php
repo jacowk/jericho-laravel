@@ -27,7 +27,11 @@
 	<div class="container">
 		<div class="row">
 			<div class="panel-heading text-center">
-				<h4 class="panel-title">Contractors Search Result</h4>
+				@if (!empty($contractors) && count($contractors) > 0)
+					<h4 class="panel-title">Contractors Search Result ({{ $contractors->total() }} items found)</h4>
+				@else
+					<h4 class="panel-title">Contractors Search Result</h4>
+				@endif
 			</div>
 		</div>
 		<div class="row">
@@ -65,15 +69,26 @@
 			<div class="text-center">
 				@if (!empty($contractors) && count($contractors) > 0)
 					@if ($contractors->hasMorePages())
-						{{ $contractors->render() }}<br/>
+						{{ $contractors->appends(['name' => $name])->render() }}<br/>
 					@else
 						<ul class="pagination">
-							<li><a href="{{ $contractors->previousPageUrl() }}" rel="prev">&laquo;</a></li>
-							@for ($i = 1; $i <= $contractors->lastPage(); $i++)
-								<li class="{{ ($contractors->currentPage() == $i) ? ' active' : '' }}">
-									<a href="{{ $contractors->url($i) }}"><span>{{ $i }}</span></a>
-								</li>
-							@endfor
+							<li><a href="{{ $contractors->appends(['name' => $name])->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@if ($contractors->lastPage() > 10)
+								@for ($i = 1; $i <= 5; $i++)
+									<li class="{{ ($contractors->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $contractors->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+								<li><span>...</span></li>
+								<li><a href="{{ $contractors->appends(['name' => $name])->url($contractors->lastPage() - 1) }}"><span>{{ $contractors->lastPage() - 1 }}</span></a></li>
+								<li><a href="{{ $contractors->appends(['name' => $name])->url($contractors->lastPage()) }}"><span>{{ $contractors->lastPage() }}</span></a></li>
+							@else
+								@for ($i = 1; $i <= $contractors->lastPage(); $i++)
+									<li class="{{ ($contractors->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $contractors->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+							@endif
 						</ul>
 					@endif
 				@endif

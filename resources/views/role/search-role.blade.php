@@ -25,8 +25,12 @@
 	</div><br/>
 	<div class="container">
 		<div class="row">
-			<div class="panel-heading">
-				<h4 class="panel-title">Roles Search Result</h4>
+			<div class="panel-heading text-center">
+				@if (!empty($roles) && count($roles) > 0)
+					<h4 class="panel-title">Roles Search Result ({{ $roles->total() }} items found)</h4>
+				@else
+					<h4 class="panel-title">Roles Search Result</h4>
+				@endif
 			</div>
 		</div>
 		<div class="row">
@@ -65,15 +69,26 @@
 			<div class="text-center">
 				@if (!empty($roles) && count($roles) > 0)
 					@if ($roles->hasMorePages())
-						{{ $roles->render() }}<br/>
+						{{ $roles->appends(['name' => $name])->render() }}<br/>
 					@else
 						<ul class="pagination">
-							<li><a href="{{ $roles->previousPageUrl() }}" rel="prev">&laquo;</a></li>
-							@for ($i = 1; $i <= $roles->lastPage(); $i++)
-								<li class="{{ ($roles->currentPage() == $i) ? ' active' : '' }}">
-									<a href="{{ $roles->url($i) }}"><span>{{ $i }}</span></a>
-								</li>
-							@endfor
+							<li><a href="{{ $roles->appends(['name' => $name])->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@if ($roles->lastPage() > 10)
+								@for ($i = 1; $i <= 5; $i++)
+									<li class="{{ ($roles->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $roles->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+								<li><span>...</span></li>
+								<li><a href="{{ $roles->appends(['name' => $name])->url($roles->lastPage() - 1) }}"><span>{{ $roles->lastPage() - 1 }}</span></a></li>
+								<li><a href="{{ $roles->appends(['name' => $name])->url($roles->lastPage()) }}"><span>{{ $roles->lastPage() }}</span></a></li>
+							@else
+								@for ($i = 1; $i <= $roles->lastPage(); $i++)
+									<li class="{{ ($roles->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $roles->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+							@endif
 						</ul>
 					@endif
 				@endif

@@ -23,7 +23,6 @@ class JSONUtilTest extends TestCase
     	$actual = JSONUtil::convertJSONToString($jsonValue);
     	$this->assertNotEmpty($actual, "The JSON output may not be empty");
     	$this->assertNotNull($actual, "The JSON output may not be null");
-    	echo $actual;
     }
     
 //     public static function convertJSONToString($jsonValue)

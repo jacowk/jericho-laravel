@@ -26,7 +26,11 @@
 	<div class="container">
 		<div class="row">
 			<div class="panel-heading text-center">
-				<h4 class="panel-marital-status">Marital Statuses Search Result</h4>
+				@if (!empty($marital_statuses) && count($marital_statuses) > 0)
+					<h4 class="panel-title">Marital Statuses Search Result ({{ $marital_statuses->total() }} items found)</h4>
+				@else
+					<h4 class="panel-title">Marital Statuses Search Result</h4>
+				@endif
 			</div>
 		</div>
 		<div class="row">
@@ -65,15 +69,26 @@
 			<div class="text-center">
 				@if (!empty($marital_statuses) && count($marital_statuses) > 0)
 					@if ($marital_statuses->hasMorePages())
-						{{ $marital_statuses->render() }}<br/>
+						{{ $marital_statuses->appends(['description' => $description])->render() }}<br/>
 					@else
 						<ul class="pagination">
-							<li><a href="{{ $marital_statuses->previousPageUrl() }}" rel="prev">&laquo;</a></li>
-							@for ($i = 1; $i <= $marital_statuses->lastPage(); $i++)
-								<li class="{{ ($marital_statuses->currentPage() == $i) ? ' active' : '' }}">
-									<a href="{{ $marital_statuses->url($i) }}"><span>{{ $i }}</span></a>
-								</li>
-							@endfor
+							<li><a href="{{ $marital_statuses->appends(['description' => $description])->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@if ($marital_statuses->lastPage() > 10)
+								@for ($i = 1; $i <= 5; $i++)
+									<li class="{{ ($marital_statuses->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $marital_statuses->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+								<li><span>...</span></li>
+								<li><a href="{{ $marital_statuses->appends(['description' => $description])->url($marital_statuses->lastPage() - 1) }}"><span>{{ $marital_statuses->lastPage() - 1 }}</span></a></li>
+								<li><a href="{{ $marital_statuses->appends(['description' => $description])->url($marital_statuses->lastPage()) }}"><span>{{ $marital_statuses->lastPage() }}</span></a></li>
+							@else
+								@for ($i = 1; $i <= $marital_statuses->lastPage(); $i++)
+									<li class="{{ ($marital_statuses->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $marital_statuses->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+							@endif
 						</ul>
 					@endif
 				@endif

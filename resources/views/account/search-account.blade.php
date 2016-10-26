@@ -26,7 +26,11 @@
 	<div class="container">
 		<div class="row">
 			<div class="panel-heading text-center">
-				<h4 class="panel-title">Accounts Search Result</h4>
+				@if (!empty($accounts) && count($accounts) > 0)
+					<h4 class="panel-title">Accounts Search Result ({{ $accounts->total() }} items found)</h4>
+				@else
+					<h4 class="panel-title">Accounts Search Result</h4>
+				@endif
 			</div>
 		</div>
 		<div class="row">
@@ -64,15 +68,26 @@
 			<div class="text-center">
 				@if (!empty($accounts) && count($accounts) > 0)
 					@if ($accounts->hasMorePages())
-						{{ $accounts->render() }}<br/>
+						{{ $accounts->appends(['name' => $name])->render() }}<br/>
 					@else
 						<ul class="pagination">
-							<li><a href="{{ $accounts->previousPageUrl() }}" rel="prev">&laquo;</a></li>
-							@for ($i = 1; $i <= $accounts->lastPage(); $i++)
-								<li class="{{ ($accounts->currentPage() == $i) ? ' active' : '' }}">
-									<a href="{{ $accounts->url($i) }}"><span>{{ $i }}</span></a>
-								</li>
-							@endfor
+							<li><a href="{{ $accounts->appends(['name' => $name])->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@if ($accounts->lastPage() > 10)
+								@for ($i = 1; $i <= 5; $i++)
+									<li class="{{ ($accounts->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $accounts->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+								<li><span>...</span></li>
+								<li><a href="{{ $accounts->appends(['name' => $name])->url($accounts->lastPage() - 1) }}"><span>{{ $accounts->lastPage() - 1 }}</span></a></li>
+								<li><a href="{{ $accounts->appends(['name' => $name])->url($accounts->lastPage()) }}"><span>{{ $accounts->lastPage() }}</span></a></li>
+							@else
+								@for ($i = 1; $i <= $accounts->lastPage(); $i++)
+									<li class="{{ ($accounts->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $accounts->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+							@endif
 						</ul>
 					@endif
 				@endif

@@ -26,7 +26,11 @@
 	<div class="container">
 		<div class="row">
 			<div class="panel-heading text-center">
-				<h4 class="panel-document-type">Document Types Search Result</h4>
+				@if (!empty($document_types) && count($document_types) > 0)
+					<h4 class="panel-title">Document Types Search Result ({{ $document_types->total() }} items found)</h4>
+				@else
+					<h4 class="panel-title">Document Types Search Result</h4>
+				@endif
 			</div>
 		</div>
 		<div class="row">
@@ -65,15 +69,26 @@
 			<div class="text-center">
 				@if (!empty($document_types) && count($document_types) > 0)
 					@if ($document_types->hasMorePages())
-						{{ $document_types->render() }}<br/>
+						{{ $document_types->appends(['description' => $description])->render() }}<br/>
 					@else
 						<ul class="pagination">
-							<li><a href="{{ $document_types->previousPageUrl() }}" rel="prev">&laquo;</a></li>
-							@for ($i = 1; $i <= $document_types->lastPage(); $i++)
-								<li class="{{ ($document_types->currentPage() == $i) ? ' active' : '' }}">
-									<a href="{{ $document_types->url($i) }}"><span>{{ $i }}</span></a>
-								</li>
-							@endfor
+							<li><a href="{{ $document_types->appends(['description' => $description])->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@if ($document_types->lastPage() > 10)
+								@for ($i = 1; $i <= 5; $i++)
+									<li class="{{ ($document_types->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $document_types->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+								<li><span>...</span></li>
+								<li><a href="{{ $document_types->appends(['description' => $description])->url($document_types->lastPage() - 1) }}"><span>{{ $document_types->lastPage() - 1 }}</span></a></li>
+								<li><a href="{{ $document_types->appends(['description' => $description])->url($document_types->lastPage()) }}"><span>{{ $document_types->lastPage() }}</span></a></li>
+							@else
+								@for ($i = 1; $i <= $document_types->lastPage(); $i++)
+									<li class="{{ ($document_types->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $document_types->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+							@endif
 						</ul>
 					@endif
 				@endif

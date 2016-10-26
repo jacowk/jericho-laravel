@@ -19,6 +19,14 @@ class AccountTableSeeder extends Seeder
         $account1->created_by_id = 1;
         $account1->save();
         
+        for ($i = 0; $i < 100; $i++)
+        {
+        	$account = new Account();
+        	$account->name = "Test Account " . $i;
+        	$account->created_by_id = 1;
+        	$account->save();
+        }
+        
 //         $faker = Faker\Factory::create();
 //         foreach(range(1, 20) as $index)
 //         {

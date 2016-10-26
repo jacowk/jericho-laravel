@@ -25,8 +25,12 @@
 	</div><br/>
 	<div class="container">
 		<div class="row">
-			<div class="panel-heading">
-				<h4 class="panel-title">Banks Search Result</h4>
+			<div class="panel-heading text-center">
+				@if (!empty($banks) && count($banks) > 0)
+					<h4 class="panel-title">Banks Search Result ({{ $banks->total() }} items found)</h4>
+				@else
+					<h4 class="panel-title">Banks Search Result</h4>
+				@endif
 			</div>
 		</div>
 		<div class="row">
@@ -64,15 +68,26 @@
 			<div class="text-center">
 				@if (!empty($banks) && count($banks) > 0)
 					@if ($banks->hasMorePages())
-						{{ $banks->render() }}<br/>
+						{{ $banks->appends(['name' => $name])->render() }}<br/>
 					@else
 						<ul class="pagination">
-							<li><a href="{{ $banks->previousPageUrl() }}" rel="prev">&laquo;</a></li>
-							@for ($i = 1; $i <= $banks->lastPage(); $i++)
-								<li class="{{ ($banks->currentPage() == $i) ? ' active' : '' }}">
-									<a href="{{ $banks->url($i) }}"><span>{{ $i }}</span></a>
-								</li>
-							@endfor
+							<li><a href="{{ $banks->appends(['name' => $name])->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@if ($banks->lastPage() > 10)
+								@for ($i = 1; $i <= 5; $i++)
+									<li class="{{ ($banks->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $banks->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+								<li><span>...</span></li>
+								<li><a href="{{ $banks->appends(['name' => $name])->url($banks->lastPage() - 1) }}"><span>{{ $banks->lastPage() - 1 }}</span></a></li>
+								<li><a href="{{ $banks->appends(['name' => $name])->url($banks->lastPage()) }}"><span>{{ $banks->lastPage() }}</span></a></li>
+							@else
+								@for ($i = 1; $i <= $banks->lastPage(); $i++)
+									<li class="{{ ($banks->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $banks->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+							@endif
 						</ul>
 					@endif
 				@endif

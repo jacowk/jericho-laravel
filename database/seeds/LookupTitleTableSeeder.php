@@ -23,6 +23,14 @@ class LookupTitleTableSeeder extends Seeder
     		$lookup_title->save();
     	}
     	
+    	for ($i = 0; $i < 200; $i++)
+    	{
+    		LookupTitle::create([
+    				'description' => 'Test Title ' . $i,
+    				'created_by_id' => 1
+    		]);
+    	}
+    	
 //     	$faker = Faker\Factory::create();
 //     	foreach(range(1, 20) as $index)
 //     	{

@@ -27,7 +27,11 @@
 	<div class="container">
 		<div class="row">
 			<div class="panel-heading text-center">
-				<h4 class="panel-title">Estate Agents Search Result</h4>
+				@if (!empty($estate_agents) && count($estate_agents) > 0)
+					<h4 class="panel-title">Estate Agents Search Result ({{ $estate_agents->total() }} items found)</h4>
+				@else
+					<h4 class="panel-title">Estate Agents Search Result</h4>
+				@endif
 			</div>
 		</div>
 		<div class="row">
@@ -65,15 +69,26 @@
 			<div class="text-center">
 				@if (!empty($estate_agents) && count($estate_agents) > 0)
 					@if ($estate_agents->hasMorePages())
-						{{ $estate_agents->render() }}<br/>
+						{{ $estate_agents->appends(['name' => $name])->render() }}<br/>
 					@else
 						<ul class="pagination">
-							<li><a href="{{ $estate_agents->previousPageUrl() }}" rel="prev">&laquo;</a></li>
-							@for ($i = 1; $i <= $estate_agents->lastPage(); $i++)
-								<li class="{{ ($estate_agents->currentPage() == $i) ? ' active' : '' }}">
-									<a href="{{ $estate_agents->url($i) }}"><span>{{ $i }}</span></a>
-								</li>
-							@endfor
+							<li><a href="{{ $estate_agents->appends(['name' => $name])->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@if ($estate_agents->lastPage() > 10)
+								@for ($i = 1; $i <= 5; $i++)
+									<li class="{{ ($estate_agents->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $estate_agents->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+								<li><span>...</span></li>
+								<li><a href="{{ $estate_agents->appends(['name' => $name])->url($estate_agents->lastPage() - 1) }}"><span>{{ $estate_agents->lastPage() - 1 }}</span></a></li>
+								<li><a href="{{ $estate_agents->appends(['name' => $name])->url($estate_agents->lastPage()) }}"><span>{{ $estate_agents->lastPage() }}</span></a></li>
+							@else
+								@for ($i = 1; $i <= $estate_agents->lastPage(); $i++)
+									<li class="{{ ($estate_agents->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $estate_agents->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+							@endif
 						</ul>
 					@endif
 				@endif

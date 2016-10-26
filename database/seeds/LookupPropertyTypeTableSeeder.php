@@ -23,6 +23,14 @@ class LookupPropertyTypeTableSeeder extends Seeder
     		$lookup_property_type->save();
     	}
     	
+//     	for ($i = 0; $i < 200; $i++)
+//     	{
+//     		LookupPropertyType::create([
+//     				'description' => 'Test Property Type ' . $i,
+//     				'created_by_id' => 1
+//     		]);
+//     	}
+    	
 //     	$faker = Faker\Factory::create();
 //     	foreach(range(1, 20) as $index)
 //     	{

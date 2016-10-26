@@ -56,7 +56,11 @@
 	<div class="container">
 		<div class="row">
 			<div class="panel-heading text-center">
-				<h4 class="panel-title">Properties Search Result</h4>
+				@if (!empty($properties) && count($properties) > 0)
+					<h4 class="panel-title">Properties Search Result ({{ $properties->total() }} items found)</h4>
+				@else
+					<h4 class="panel-title">Properties Search Result</h4>
+				@endif
 			</div>
 		</div>
 		<div class="row">
@@ -107,15 +111,26 @@
 			<div class="text-center">
 				@if (!empty($properties) && count($properties) > 0)
 					@if ($properties->hasMorePages())
-						{{ $properties->render() }}<br/>
+						{{ $properties->appends(['reference_number' => $reference_number, 'address' => $address, 'area_id' => $area_id, 'suburb_id' => $suburb_id, 'greater_area_id' => $greater_area_id])->render() }}<br/>
 					@else
 						<ul class="pagination">
-							<li><a href="{{ $properties->previousPageUrl() }}" rel="prev">&laquo;</a></li>
-							@for ($i = 1; $i <= $properties->lastPage(); $i++)
-								<li class="{{ ($properties->currentPage() == $i) ? ' active' : '' }}">
-									<a href="{{ $properties->url($i) }}"><span>{{ $i }}</span></a>
-								</li>
-							@endfor
+							<li><a href="{{ $properties->appends(['reference_number' => $reference_number, 'address' => $address, 'area_id' => $area_id, 'suburb_id' => $suburb_id, 'greater_area_id' => $greater_area_id])->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@if ($properties->lastPage() > 10)
+								@for ($i = 1; $i <= 5; $i++)
+									<li class="{{ ($properties->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $properties->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+								<li><span>...</span></li>
+								<li><a href="{{ $properties->appends(['reference_number' => $reference_number, 'address' => $address, 'area_id' => $area_id, 'suburb_id' => $suburb_id, 'greater_area_id' => $greater_area_id])->url($properties->lastPage() - 1) }}"><span>{{ $properties->lastPage() - 1 }}</span></a></li>
+								<li><a href="{{ $properties->appends(['reference_number' => $reference_number, 'address' => $address, 'area_id' => $area_id, 'suburb_id' => $suburb_id, 'greater_area_id' => $greater_area_id])->url($properties->lastPage()) }}"><span>{{ $properties->lastPage() }}</span></a></li>
+							@else
+								@for ($i = 1; $i <= $properties->lastPage(); $i++)
+									<li class="{{ ($properties->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $properties->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+							@endif
 						</ul>
 					@endif
 				@endif

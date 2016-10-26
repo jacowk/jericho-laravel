@@ -25,8 +25,12 @@
 	</div><br/>
 	<div class="container">
 		<div class="row">
-			<div class="panel-heading">
-				<h4 class="panel-contractor-type">Contractor Types Search Result</h4>
+			<div class="panel-heading text-center">
+				@if (!empty($contractor_types) && count($contractor_types) > 0)
+					<h4 class="panel-title">Contractor Types Search Result ({{ $contractor_types->total() }} items found)</h4>
+				@else
+					<h4 class="panel-title">Contractor Types Search Result</h4>
+				@endif
 			</div>
 		</div>
 		<div class="row">
@@ -65,15 +69,26 @@
 			<div class="text-center">
 				@if (!empty($contractor_types) && count($contractor_types) > 0)
 					@if ($contractor_types->hasMorePages())
-						{{ $contractor_types->render() }}<br/>
+						{{ $contractor_types->appends(['description' => $description])->render() }}<br/>
 					@else
 						<ul class="pagination">
-							<li><a href="{{ $contractor_types->previousPageUrl() }}" rel="prev">&laquo;</a></li>
-							@for ($i = 1; $i <= $contractor_types->lastPage(); $i++)
-								<li class="{{ ($contractor_types->currentPage() == $i) ? ' active' : '' }}">
-									<a href="{{ $contractor_types->url($i) }}"><span>{{ $i }}</span></a>
-								</li>
-							@endfor
+							<li><a href="{{ $contractor_types->appends(['description' => $description])->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@if ($contractor_types->lastPage() > 10)
+								@for ($i = 1; $i <= 5; $i++)
+									<li class="{{ ($contractor_types->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $contractor_types->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+								<li><span>...</span></li>
+								<li><a href="{{ $contractor_types->appends(['description' => $description])->url($contractor_types->lastPage() - 1) }}"><span>{{ $contractor_types->lastPage() - 1 }}</span></a></li>
+								<li><a href="{{ $contractor_types->appends(['description' => $description])->url($contractor_types->lastPage()) }}"><span>{{ $contractor_types->lastPage() }}</span></a></li>
+							@else
+								@for ($i = 1; $i <= $contractor_types->lastPage(); $i++)
+									<li class="{{ ($contractor_types->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $contractor_types->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+							@endif
 						</ul>
 					@endif
 				@endif

@@ -26,7 +26,11 @@
 	<div class="container">
 		<div class="row">
 			<div class="panel-heading text-center">
-				<h4 class="panel-title">Areas Search Result</h4>
+				@if (!empty($areas) && count($areas) > 0)
+					<h4 class="panel-title">Areas Search Result ({{ $areas->total() }} items found)</h4>
+				@else
+					<h4 class="panel-title">Areas Search Result</h4>
+				@endif
 			</div>
 		</div>
 		<div class="row">
@@ -65,15 +69,32 @@
 			<div class="text-center">
 				@if (!empty($areas) && count($areas) > 0)
 					@if ($areas->hasMorePages())
-						{{ $areas->render() }}<br/>
+						{{ 
+							$areas
+								->appends([
+									'name' => $name
+								])
+								->render() 
+						}}<br/>
 					@else
 						<ul class="pagination">
-							<li><a href="{{ $areas->previousPageUrl() }}" rel="prev">&laquo;</a></li>
-							@for ($i = 1; $i <= $areas->lastPage(); $i++)
-								<li class="{{ ($areas->currentPage() == $i) ? ' active' : '' }}">
-									<a href="{{ $areas->url($i) }}"><span>{{ $i }}</span></a>
-								</li>
-							@endfor
+							<li><a href="{{ $areas->appends(['name' => $name])->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@if ($areas->lastPage() > 10)
+								@for ($i = 1; $i <= 5; $i++)
+									<li class="{{ ($areas->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $areas->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+								<li><span>...</span></li>
+								<li><a href="{{ $areas->appends(['name' => $name])->url($areas->lastPage() - 1) }}"><span>{{ $areas->lastPage() - 1 }}</span></a></li>
+								<li><a href="{{ $areas->appends(['name' => $name])->url($areas->lastPage()) }}"><span>{{ $areas->lastPage() }}</span></a></li>
+							@else
+								@for ($i = 1; $i <= $areas->lastPage(); $i++)
+									<li class="{{ ($areas->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $areas->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+							@endif
 						</ul>
 					@endif
 				@endif

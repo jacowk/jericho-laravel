@@ -30,6 +30,14 @@ class RoleTableSeeder extends Seeder
         	$role->save();
         }
         
+//         for ($i = 0; $i < 200; $i++)
+//         {
+//         	Role::create([
+//         			'name' => 'Test Role ' . $i,
+//         			'created_by_id' => 1
+//         	]);
+//         }
+        
 //         $faker = Faker\Factory::create();
 //         foreach(range(1, 20) as $index)
 //         {

@@ -22,13 +22,11 @@ class UserTest extends TestCase
 // 	public function setUp()
 // 	{
 // 		parent::setUp();
-// 		$this->artisan('migrate:refresh');
 // 		$this->artisan('db:seed');
 // 	}
 	
 // 	public function tearDown()
 // 	{
-// 		$this->artisan('migrate:refresh');
 // 		$this->artisan('db:seed');
 		
 // 		parent::tearDown();

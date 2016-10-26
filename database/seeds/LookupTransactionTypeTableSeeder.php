@@ -34,6 +34,14 @@ class LookupTransactionTypeTableSeeder extends Seeder
         $lookup_transaction_type4->created_by_id = 1;
         $lookup_transaction_type4->save();
         
+//         for ($i = 0; $i < 25; $i++)
+//         {
+//         	LookupTransactionType::create([
+//         			'description' => 'Test Transaction Type ' . $i,
+//         			'created_by_id' => 1
+//         	]);
+//         }
+        
 //         $faker = Faker\Factory::create();
 //         foreach(range(1, 20) as $index)
 //         {

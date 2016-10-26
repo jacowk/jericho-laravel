@@ -26,7 +26,11 @@
 	<div class="container">
 		<div class="row">
 			<div class="panel-heading text-center">
-				<h4 class="panel-title">Greater Areas Search Result</h4>
+				@if (!empty($greater_areas) && count($greater_areas) > 0)
+					<h4 class="panel-title">Greater Areas Search Result ({{ $greater_areas->total() }} items found)</h4>
+				@else
+					<h4 class="panel-title">Greater Areas Search Result</h4>
+				@endif
 			</div>
 		</div>
 		<div class="row">
@@ -64,15 +68,26 @@
 			<div class="text-center">
 				@if (!empty($greater_areas) && count($greater_areas) > 0)
 					@if ($greater_areas->hasMorePages())
-						{{ $greater_areas->render() }}<br/>
+						{{ $greater_areas->appends(['name' => $name])->render() }}<br/>
 					@else
 						<ul class="pagination">
-							<li><a href="{{ $greater_areas->previousPageUrl() }}" rel="prev">&laquo;</a></li>
-							@for ($i = 1; $i <= $greater_areas->lastPage(); $i++)
-								<li class="{{ ($greater_areas->currentPage() == $i) ? ' active' : '' }}">
-									<a href="{{ $greater_areas->url($i) }}"><span>{{ $i }}</span></a>
-								</li>
-							@endfor
+							<li><a href="{{ $greater_areas->appends(['name' => $name])->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@if ($greater_areas->lastPage() > 10)
+								@for ($i = 1; $i <= 5; $i++)
+									<li class="{{ ($greater_areas->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $greater_areas->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+								<li><span>...</span></li>
+								<li><a href="{{ $greater_areas->appends(['name' => $name])->url($greater_areas->lastPage() - 1) }}"><span>{{ $greater_areas->lastPage() - 1 }}</span></a></li>
+								<li><a href="{{ $greater_areas->appends(['name' => $name])->url($greater_areas->lastPage()) }}"><span>{{ $greater_areas->lastPage() }}</span></a></li>
+							@else
+								@for ($i = 1; $i <= $greater_areas->lastPage(); $i++)
+									<li class="{{ ($greater_areas->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $greater_areas->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+							@endif
 						</ul>
 					@endif
 				@endif

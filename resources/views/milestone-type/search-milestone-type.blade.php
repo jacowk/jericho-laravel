@@ -26,7 +26,11 @@
 	<div class="container">
 		<div class="row">
 			<div class="panel-heading text-center">
-				<h4 class="panel-milestone-type">Milestone Types Search Result</h4>
+				@if (!empty($milestone_types) && count($milestone_types) > 0)
+					<h4 class="panel-title">Milestone Types Search Result ({{ $milestone_types->total() }} items found)</h4>
+				@else
+					<h4 class="panel-title">Milestone Types Search Result</h4>
+				@endif
 			</div>
 		</div>
 		<div class="row">
@@ -65,15 +69,26 @@
 			<div class="text-center">
 				@if (!empty($milestone_types) && count($milestone_types) > 0)
 					@if ($milestone_types->hasMorePages())
-						{{ $milestone_types->render() }}<br/>
+						{{ $milestone_types->appends(['description' => $description])->render() }}<br/>
 					@else
 						<ul class="pagination">
-							<li><a href="{{ $milestone_types->previousPageUrl() }}" rel="prev">&laquo;</a></li>
-							@for ($i = 1; $i <= $milestone_types->lastPage(); $i++)
-								<li class="{{ ($milestone_types->currentPage() == $i) ? ' active' : '' }}">
-									<a href="{{ $milestone_types->url($i) }}"><span>{{ $i }}</span></a>
-								</li>
-							@endfor
+							<li><a href="{{ $milestone_types->appends(['description' => $description])->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@if ($milestone_types->lastPage() > 10)
+								@for ($i = 1; $i <= 5; $i++)
+									<li class="{{ ($milestone_types->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $milestone_types->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+								<li><span>...</span></li>
+								<li><a href="{{ $milestone_types->appends(['description' => $description])->url($milestone_types->lastPage() - 1) }}"><span>{{ $milestone_types->lastPage() - 1 }}</span></a></li>
+								<li><a href="{{ $milestone_types->appends(['description' => $description])->url($milestone_types->lastPage()) }}"><span>{{ $milestone_types->lastPage() }}</span></a></li>
+							@else
+								@for ($i = 1; $i <= $milestone_types->lastPage(); $i++)
+									<li class="{{ ($milestone_types->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $milestone_types->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+							@endif
 						</ul>
 					@endif
 				@endif

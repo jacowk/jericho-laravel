@@ -49,15 +49,26 @@
 	<div class="text-center">
 		@if (!empty($contacts) && count($contacts) > 0)
 			@if ($contacts->hasMorePages())
-				{{ $contacts->render() }}<br/>
+				{{ $contacts->appends(['firstname' => $firstname, 'surname' => $surname, 'work_email' => $work_email])->render() }}<br/>
 			@else
 				<ul class="pagination">
-					<li><a href="{{ $contacts->previousPageUrl() }}" rel="prev">&laquo;</a></li>
-					@for ($i = 1; $i <= $contacts->lastPage(); $i++)
-						<li class="{{ ($contacts->currentPage() == $i) ? ' active' : '' }}">
-							<a href="{{ $contacts->url($i) }}"><span>{{ $i }}</span></a>
-						</li>
-					@endfor
+					<li><a href="{{ $contacts->appends(['firstname' => $firstname, 'surname' => $surname, 'work_email' => $work_email])->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+					@if ($contacts->lastPage() > 10)
+						@for ($i = 1; $i <= 5; $i++)
+							<li class="{{ ($contacts->currentPage() == $i) ? ' active' : '' }}">
+								<a href="{{ $contacts->url($i) }}"><span>{{ $i }}</span></a>
+							</li>
+						@endfor
+						<li><span>...</span></li>
+						<li><a href="{{ $contacts->appends(['firstname' => $firstname, 'surname' => $surname, 'work_email' => $work_email])->url($contacts->lastPage() - 1) }}"><span>{{ $contacts->lastPage() - 1 }}</span></a></li>
+						<li><a href="{{ $contacts->appends(['firstname' => $firstname, 'surname' => $surname, 'work_email' => $work_email])->url($contacts->lastPage()) }}"><span>{{ $contacts->lastPage() }}</span></a></li>
+					@else
+						@for ($i = 1; $i <= $contacts->lastPage(); $i++)
+							<li class="{{ ($contacts->currentPage() == $i) ? ' active' : '' }}">
+								<a href="{{ $contacts->url($i) }}"><span>{{ $i }}</span></a>
+							</li>
+						@endfor
+					@endif
 				</ul>
 			@endif
 		@endif

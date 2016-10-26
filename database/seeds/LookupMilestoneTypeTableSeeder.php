@@ -55,5 +55,13 @@ class LookupMilestoneTypeTableSeeder extends Seeder
     		$lookup_milestone_type->created_by_id = 1;
     		$lookup_milestone_type->save();
     	}
+    	
+//     	for ($i = 0; $i < 200; $i++)
+// 		{
+// 			LookupMilestoneType::create([
+// 				'description' => 'Test Milestone Type ' . $i,
+// 				'created_by_id' => 1
+// 			]);
+// 		}
     }
 }

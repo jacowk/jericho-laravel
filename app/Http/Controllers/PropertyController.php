@@ -72,7 +72,7 @@ class PropertyController extends Controller
 		if (Util::isValidRequestVariable($request->address))
 		{
 			$address = $request->address;
-			$address_query_parameter = $address;
+			$address_query_parameter = Util::convertToLikeQueryParameter($address);
 		}
 		else
 		{
@@ -80,19 +80,19 @@ class PropertyController extends Controller
 		}
 		
 		/* The suburb_id, area_id, and greater_area_id is grouped in the query builder */
-		if (Util::isValidSelectRequestVariable($request->suburb_id))
+		if (Util::isValidSelectRequestVariable($request->suburb_id) && $request->suburb_id > 0)
 		{
 			$suburb_id = $request->suburb_id;
 			$suburb_id_query_parameter = ['properties.suburb_id', '=', $suburb_id];
 			array_push($query_parameters, $suburb_id_query_parameter);
 		}
-		if (Util::isValidSelectRequestVariable($request->area_id))
+		if (Util::isValidSelectRequestVariable($request->area_id) && $request->area_id > 0)
 		{
 			$area_id = $request->area_id;
 			$area_id_query_parameter = ['properties.area_id', '=', $area_id];
 			array_push($query_parameters, $area_id_query_parameter);
 		}
-		if (Util::isValidSelectRequestVariable($request->greater_area_id))
+		if (Util::isValidSelectRequestVariable($request->greater_area_id) && $request->greater_area_id > 0)
 		{
 			$greater_area_id = $request->greater_area_id;
 			$greater_area_id_query_parameter = ['properties.greater_area_id', '=', $greater_area_id];

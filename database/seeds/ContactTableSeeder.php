@@ -51,6 +51,23 @@ class ContactTableSeeder extends Seeder
     	$contact2->save();
     	
 //     	$faker = Faker\Factory::create();
+//     	foreach(range(1, 200) as $index)
+//     	{
+//     		Contact::create([
+//     				'firstname' => 'Test Firstname ' . $index,
+//     				'surname' => 'Test Surname ' . $index,
+//     				'home_tel_no' => $faker->phoneNumber,
+//     				'work_tel_no' => $faker->phoneNumber,
+//     				'cell_no' => $faker->phoneNumber,
+//     				'fax_no' => $faker->phoneNumber,
+//     				'personal_email' => $faker->email,
+//     				'work_email' => $faker->email,
+//     				'sa_citizen' => true,
+//     				'created_by_id' => 1
+//     		]);
+//     	}
+    	
+//     	$faker = Faker\Factory::create();
 //     	foreach(range(1, 20) as $index)
 //     	{
 //     		Contact::create([

@@ -44,7 +44,7 @@ class EstateAgentTypeController extends Controller
 		if (Util::isValidRequestVariable($request->description))
 		{
 			$description = $request->description;
-			$estate_agent_types = LookupEstateAgentType::where('description', 'like', '%' . $name . '%')
+			$estate_agent_types = LookupEstateAgentType::where('description', 'like', '%' . $description . '%')
 									->orderBy('description', 'asc')
 									->paginate($user->pagination_size);
 		}

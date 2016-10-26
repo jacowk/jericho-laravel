@@ -34,6 +34,14 @@ class GreaterAreaTableSeeder extends Seeder
         $greaterArea4->created_by_id = 1;
         $greaterArea4->save();
         
+//         for ($i = 0; $i < 25; $i++)
+//         {
+//         	$greater_area = new GreaterArea();
+//         	$greater_area->name = "Test Greater Area " . $i;
+//         	$greater_area->created_by_id = 1;
+//         	$greater_area->save();
+//         }
+        
 //         $faker = Faker\Factory::create();
 //         foreach(range(1, 20) as $index)
 //         {

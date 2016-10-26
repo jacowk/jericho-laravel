@@ -25,8 +25,12 @@
 	</div><br/>
 	<div class="container">
 		<div class="row">
-			<div class="panel-heading">
-				<h4 class="panel-title">Titles Search Result</h4>
+			<div class="panel-heading text-center">
+				@if (!empty($titles) && count($titles) > 0)
+					<h4 class="panel-title">Titles Search Result ({{ $titles->total() }} items found)</h4>
+				@else
+					<h4 class="panel-title">Titles Search Result</h4>
+				@endif
 			</div>
 		</div>
 		<div class="row">
@@ -65,15 +69,26 @@
 			<div class="text-center">
 				@if (!empty($titles) && count($titles) > 0)
 					@if ($titles->hasMorePages())
-						{{ $titles->render() }}<br/>
+						{{ $titles->appends(['description' => $description])->render() }}<br/>
 					@else
 						<ul class="pagination">
-							<li><a href="{{ $titles->previousPageUrl() }}" rel="prev">&laquo;</a></li>
-							@for ($i = 1; $i <= $titles->lastPage(); $i++)
-								<li class="{{ ($titles->currentPage() == $i) ? ' active' : '' }}">
-									<a href="{{ $titles->url($i) }}"><span>{{ $i }}</span></a>
-								</li>
-							@endfor
+							<li><a href="{{ $titles->appends(['description' => $description])->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+							@if ($titles->lastPage() > 10)
+								@for ($i = 1; $i <= 5; $i++)
+									<li class="{{ ($titles->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $titles->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+								<li><span>...</span></li>
+								<li><a href="{{ $titles->appends(['description' => $description])->url($titles->lastPage() - 1) }}"><span>{{ $titles->lastPage() - 1 }}</span></a></li>
+								<li><a href="{{ $titles->appends(['description' => $description])->url($titles->lastPage()) }}"><span>{{ $titles->lastPage() }}</span></a></li>
+							@else
+								@for ($i = 1; $i <= $titles->lastPage(); $i++)
+									<li class="{{ ($titles->currentPage() == $i) ? ' active' : '' }}">
+										<a href="{{ $titles->url($i) }}"><span>{{ $i }}</span></a>
+									</li>
+								@endfor
+							@endif
 						</ul>
 					@endif
 				@endif
