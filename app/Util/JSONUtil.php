@@ -2,7 +2,7 @@
 namespace jericho\Util;
 
 /**
- * A class for converting JSON data
+ * A class for converting JSON data to string
  * 
  * @author Jaco Koekemoer
  * Date: 2016-10-12 
@@ -50,5 +50,12 @@ class JSONUtil
 			}
 		}
 		return $output;
+	}
+	
+	public static function isJson($string)
+	{
+	    return ((is_string($string) &&
+				(is_object(json_decode($string)) ||
+				is_array(json_decode($string))))) ? true : false;
 	}
 }

@@ -13,6 +13,7 @@ use jericho\Util\Util;
 use jericho\Role;
 use jericho\Util\LookupUtil;
 use DB;
+use jericho\Audits\RoleToUserAuditor;
 
 /**
  * This class is a controller for performing CRUD operations on users
@@ -227,8 +228,9 @@ class UserController extends Controller
 	 * @param Request $request
 	 * @param unknown $new_user
 	 */
-	private function processRoles(Request $request, $user)
+	private function processRoles(Request $request, $user, $old_roles = null)
 	{
+		$new_roles = array(); /* This is for auditing */
 		$roles = Role::all();
 		foreach ($roles as $role)
 		{
@@ -236,8 +238,11 @@ class UserController extends Controller
 			if ($request->$role_name)
 			{
 				$user->roles()->attach($role);
+				array_push($new_roles, $role);
 			}
 		}
+		/* Auditing */
+		(new RoleToUserAuditor($request, Auth::user(), $user, $new_roles, $old_roles))->log();
 	}
 	
 	/**
@@ -249,9 +254,10 @@ class UserController extends Controller
 	private function processRolesForUpdate(Request $request, $user)
 	{
 		/* Detach all existing roles */
+		$old_roles = Util::copyArray($user->roles); /* This is for auditing */
 		$user->roles()->detach();
 	
 		/* Add new roles */
-		$this->processRoles($request, $user);
+		$this->processRoles($request, $user, $old_roles);
 	}
 }

@@ -17,6 +17,8 @@ use Carbon\Carbon;
 use jericho\LookupAttorneyType;
 use DB;
 use jericho\Util\TabConstants;
+use jericho\Audits\LinkAttorneyPropertyFlipAuditor;
+use jericho\Audits\DeleteAttorneyPropertyFlipAuditor;
 
 /**
  * This class is a controller for performing CRUD operations on property flips
@@ -88,6 +90,10 @@ class AttorneyPropertyFlipController extends Controller
 					'created_by_id' => $user->id,
 					'created_at'=> new Carbon
 			]);
+			
+			/* Auditing */
+			(new LinkAttorneyPropertyFlipAuditor($request, $property_flip, $attorney, $contact, $lookup_attorney_type_id, $user))->log();
+			
 			return redirect()->action('PropertyFlipController@getViewPropertyFlip', [
 					'property_flip_Id' => $property_flip->id
 			])->with(['message' => 'Attorney Contact linked']);
@@ -95,9 +101,6 @@ class AttorneyPropertyFlipController extends Controller
 		return redirect()->action('PropertyFlipController@getViewPropertyFlip', [
 				'property_flip_Id' => $property_flip->id
 		]);
-		
-// 		return redirect()->action('AttorneyPropertyFlipController@postLinkAttorneyContact', ['property_flip_Id' => $property_flip->id])
-// 			->with(['message' => 'Attorney Contact already added to the property flip']);
 	}
 	
 	/**
@@ -155,6 +158,10 @@ class AttorneyPropertyFlipController extends Controller
 			->where('lookup_attorney_type_id', '=', $lookup_attorney_type_id)
 			->limit(1)
 			->delete();
+		
+		/* Auditing */
+		(new DeleteAttorneyPropertyFlipAuditor($request, $property_flip, $contact, $lookup_attorney_type_id, $user))->log();
+		
 		return redirect()->action('PropertyFlipController@getViewPropertyFlip', [
 			'property_flip_Id' => $property_flip->id
 		])->with(['message' => 'Attorney Contact removed from Property Flip']);

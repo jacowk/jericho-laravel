@@ -16,6 +16,8 @@ use Carbon\Carbon;
 use jericho\LookupEstateAgentType;
 use DB;
 use jericho\Util\TabConstants;
+use jericho\Audits\LinkEstateAgentPropertyFlipAuditor;
+use jericho\Audits\DeleteEstateAgentPropertyFlipAuditor;
 
 /**
  * This class is a controller for linking the contacts of estate agents to property flips
@@ -85,13 +87,14 @@ class EstateAgentPropertyFlipController extends Controller
 					'created_by_id' => $user->id,
 					'created_at'=> new Carbon
 			]);
+			
+			/* Auditing */
+			(new LinkEstateAgentPropertyFlipAuditor($request, $property_flip, $estate_agent, $contact, $lookup_estate_agent_type_id, $user))->log();
+			
 			return redirect()->action('PropertyFlipController@getViewPropertyFlip', ['property_flip_Id' => $property_flip->id])
 				->with(['message' => 'Estate Agent Contact linked']);
 		}
 		return redirect()->action('PropertyFlipController@getViewPropertyFlip', ['property_flip_Id' => $property_flip->id]);
-		
-// 		return redirect()->action('EstateAgentPropertyFlipController@postLinkContactEstateAgent', ['property_flip_Id' => $property_flip->id])
-// 			->with(['message' => 'Estate Agent Contact already added to the property flip']);
 	}
 	
 	/**
@@ -150,6 +153,10 @@ class EstateAgentPropertyFlipController extends Controller
 			->where('lookup_estate_agent_type_id', '=', $lookup_estate_agent_type_id)
 			->limit(1)
 			->delete();
+		
+		/* Auditing */
+		(new DeleteEstateAgentPropertyFlipAuditor($request, $property_flip, $contact, $lookup_estate_agent_type_id, $user))->log();
+		
 		return redirect()->action('PropertyFlipController@getViewPropertyFlip', ['property_flip_Id' => $property_flip->id])
 			->with(['message' => 'Estate Agent Contact removed from Property Flip']);
 	}

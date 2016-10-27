@@ -15,6 +15,8 @@ use jericho\Bank;
 use Carbon\Carbon;
 use DB;
 use jericho\Util\TabConstants;
+use jericho\Audits\LinkBankPropertyFlipAuditor;
+use jericho\Audits\DeleteBankPropertyFlipAuditor;
 
 /**
  * This class is a controller for performing CRUD operations on property flips
@@ -80,13 +82,14 @@ class BankPropertyFlipController extends Controller
 					'created_by_id' => $user->id,
 					'created_at'=> new Carbon
 			]);
+			
+			/* Auditing */
+			(new LinkBankPropertyFlipAuditor($request, $property_flip, $bank, $contact, $user))->log();
+			
 			return redirect()->action('PropertyFlipController@getViewPropertyFlip', ['property_flip_Id' => $property_flip->id])
 				->with(['message' => 'Bank Contact linked']);
 		}
 		return redirect()->action('PropertyFlipController@getViewPropertyFlip', ['property_flip_Id' => $property_flip->id]);
-		
-// 		return redirect()->action('BankPropertyFlipController@postLinkBankContact', ['property_flip_Id' => $property_flip->id])
-// 			->with(['message' => 'Bank Contact already added to the property flip']);
 	}
 	
 	/**
@@ -142,6 +145,10 @@ class BankPropertyFlipController extends Controller
 			->where('property_flip_id', '=', $property_flip_id)
 			->limit(1)
 			->delete();
+		
+		/* Auditing */
+		(new DeleteBankPropertyFlipAuditor($request, $property_flip, $contact, $user))->log();
+			
 		return redirect()->action('PropertyFlipController@getViewPropertyFlip', ['property_flip_Id' => $property_flip->id])
 			->with(['message' => 'Bank Contact removed from Property Flip']);
 	}

@@ -13,9 +13,10 @@ use jericho\Util\Util;
 use jericho\Util\LookupUtil;
 use jericho\Contractor;
 use Carbon\Carbon;
-use jericho\LookupContractorType;
 use DB;
 use jericho\Util\TabConstants;
+use jericho\Audits\LinkContractorPropertyFlipAuditor;
+use jericho\Audits\DeleteContractorPropertyFlipAuditor;
 
 /**
  * This class is a controller for linking the contacts of contractors to property flips
@@ -86,13 +87,14 @@ class ContractorPropertyFlipController extends Controller
 					'created_by_id' => $user->id,
 					'created_at'=> new Carbon
 			]);
+			
+			/* Auditing */
+			(new LinkContractorPropertyFlipAuditor($request, $property_flip, $contractor, $contact, $lookup_contractor_type_id, $user))->log();
+			
 			return redirect()->action('PropertyFlipController@getViewPropertyFlip', ['property_flip_Id' => $property_flip->id])
 				->with(['message' => 'Contractor Contact linked']);
 		}
 		return redirect()->action('PropertyFlipController@getViewPropertyFlip', ['property_flip_Id' => $property_flip->id]);
-		
-// 		return redirect()->action('ContractorPropertyFlipController@postLinkContactContractor', ['property_flip_Id' => $property_flip->id])
-// 			->with(['message' => 'Contractor Contact already added to the property flip']);
 	}
 	
 	/**
@@ -163,6 +165,10 @@ class ContractorPropertyFlipController extends Controller
 			->where('lookup_contractor_type_id', '=', $lookup_contractor_type_id)
 			->limit(1)
 			->delete();
+		
+		/* Auditing */
+		(new DeleteContractorPropertyFlipAuditor($request, $property_flip, $contact, $lookup_contractor_type_id, $user))->log();
+			
 		return redirect()->action('PropertyFlipController@getViewPropertyFlip', ['property_flip_Id' => $property_flip->id])
 			->with(['message' => 'Contractor Contact removed from Property Flip']);
 	}

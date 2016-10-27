@@ -117,7 +117,7 @@ class AuditTrailController extends Controller
 							'audits.auditable_id',
 							'audits.old',
 							'audits.new')
-					->orderBy('audits.created_at', 'asc')
+					->orderBy('audits.created_at', 'desc')
 					->paginate($user->pagination_size);
 		}
 		else
@@ -134,6 +134,7 @@ class AuditTrailController extends Controller
 							'audits.auditable_id',
 							'audits.old',
 							'audits.new')
+					->orderBy('audits.created_at', 'desc')
 					->paginate($user->pagination_size);
 		}
 		

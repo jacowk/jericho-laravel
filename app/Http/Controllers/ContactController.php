@@ -19,6 +19,10 @@ use jericho\Bank;
 use jericho\Contractor;
 use jericho\EstateAgent;
 use DB;
+use jericho\Audits\AddContactToAttorneyAuditor;
+use jericho\Audits\AddContactToBankAuditor;
+use jericho\Audits\AddContactToContractorAuditor;
+use jericho\Audits\AddContactToEstateAgentAuditor;
 
 /**
  * This class is a controller for performing CRUD operations on contacts
@@ -416,21 +420,25 @@ class ContactController extends Controller
     	{
     		$attorney = Attorney::find($model_id);
     		$attorney->contacts()->attach($contact);
+    		(new AddContactToAttorneyAuditor($request, Auth::user(), $attorney, $contact))->log();
     	}
     	else if ($model_name === ModelConstants::BANK_MODEL_NAME)
     	{
-    		$contractor = Bank::find($model_id);
-    		$contractor->contacts()->attach($contact);
+    		$bank = Bank::find($model_id);
+    		$bank->contacts()->attach($contact);
+    		(new AddContactToBankAuditor($request, Auth::user(), $bank, $contact))->log();
     	}
     	else if ($model_name === ModelConstants::CONTRACTOR_MODEL_NAME)
     	{
     		$contractor = Contractor::find($model_id);
     		$contractor->contacts()->attach($contact);
+    		(new AddContactToContractorAuditor($request, Auth::user(), $contractor, $contact))->log();
     	}
     	else if ($model_name === ModelConstants::ESTATE_AGENT_MODEL_NAME)
     	{
     		$estate_agent = EstateAgent::find($model_id);
     		$estate_agent->contacts()->attach($contact);
+    		(new AddContactToEstateAgentAuditor($request, Auth::user(), $estate_agent, $contact))->log();
     	}
     	//Do the other models here
     }

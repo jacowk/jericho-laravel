@@ -71,12 +71,20 @@
 							<td>{{ $audit->auditable_id }}</td>
 							<td>
 								@if ($audit->old)
-									{!! JSONUtil::convertJSONToString($audit->old) !!}
+									@if (JSONUtil::isJson($audit->old))
+										{!! JSONUtil::convertJSONToString($audit->old) !!}
+									@else
+										{!! stripslashes(trim($audit->old, '"')) !!}
+									@endif
 								@endif
 							</td>
 							<td>
 								@if ($audit->new)
-									{!! JSONUtil::convertJSONToString($audit->new) !!}
+									@if (JSONUtil::isJson($audit->new))
+										{!! JSONUtil::convertJSONToString($audit->new) !!}
+									@else
+										{!! stripslashes(trim($audit->new, '"')) !!}
+									@endif
 								@endif
 							</td>
 						</tr>

@@ -168,4 +168,20 @@ class Util
 		}
 		return false;
 	}
+	
+	/**
+	 * A method for copying an array
+	 * 
+	 * @param unknown $old_array
+	 * $return array
+	 */
+	public static function copyArray($old_array)
+	{
+		$new_array = array();
+		foreach($old_array as $item)
+		{
+			array_push($new_array, $item);
+		}
+		return $new_array;
+	}	
 }

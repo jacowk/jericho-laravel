@@ -11,6 +11,7 @@ use jericho\Role;
 use jericho\Permission;
 use jericho\Util\Util;
 use jericho\Util\LookupUtil;
+use jericho\Audits\PermissionToRoleAuditor;
 
 /**
  * This class is a controller for performing CRUD operations on roles
@@ -77,9 +78,6 @@ class RoleController extends Controller
 	 */
 	public function postDoAddRole(Request $request)
 	{
-// 		$this->validate($request, [
-// 				'name' => 'required|unique:roles'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'name' => 'required|unique:roles'
 		]);
@@ -123,9 +121,6 @@ class RoleController extends Controller
 	 */
 	public function postDoUpdateRole(Request $request, $role_id)
 	{
-// 		$this->validate($request, [
-// 				'name' => 'required'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'name' => 'required'
 		]);
@@ -167,8 +162,9 @@ class RoleController extends Controller
 	 * @param Request $request
 	 * @param unknown $new_user
 	 */
-	private function processPermissions(Request $request, $role)
+	private function processPermissions(Request $request, $role, $old_permissions = null)
 	{
+		$new_permissions = array(); /* This is for auditing */
 		$all_permissions = Permission::all();
 		$request_permissions = $request->permissions;
 		if ($request_permissions)
@@ -181,10 +177,13 @@ class RoleController extends Controller
 					if ($request_permission_name === $all_permissions_name)
 					{
 						$role->permissions()->attach($permission);
+						array_push($new_permissions, $permission);
 						break;
 					}
 				}
 			}
+			/* Auditing */
+			(new PermissionToRoleAuditor($request, Auth::user(), $role, $new_permissions, $old_permissions))->log();
 		}
 	}
 	
@@ -197,8 +196,10 @@ class RoleController extends Controller
 	private function processPermissionsForUpdate(Request $request, $role)
 	{
 		/* Detach all existing permissions */
+		$old_permissions = Util::copyArray($role->permissions); /* This is for auditing */
 		$role->permissions()->detach();
+		
 		/* Add new permissions */
-		$this->processPermissions($request, $role);
+		$this->processPermissions($request, $role, $old_permissions);
 	}
 }

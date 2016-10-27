@@ -11,6 +11,7 @@ use jericho\Permission;
 use jericho\Role;
 use jericho\Util\Util;
 use jericho\Util\LookupUtil;
+use jericho\Audits\RoleToPermissionAuditor;
 
 /**
  * This class is a controller for performing CRUD operations on permissions
@@ -77,9 +78,6 @@ class PermissionController extends Controller
 	 */
 	public function postDoAddPermission(Request $request)
 	{
-// 		$this->validate($request, [
-// 				'name' => 'required|unique:permissions'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'name' => 'required|unique:permissions'
 		]);
@@ -123,9 +121,6 @@ class PermissionController extends Controller
 	 */
 	public function postDoUpdatePermission(Request $request, $permission_id)
 	{
-// 		$this->validate($request, [
-// 				'name' => 'required'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'name' => 'required'
 		]);
@@ -167,8 +162,9 @@ class PermissionController extends Controller
 	 * @param Request $request
 	 * @param unknown $permission
 	 */
-	private function processRoles(Request $request, $permission)
+	private function processRoles(Request $request, $permission, $old_roles = null)
 	{
+		$new_roles = array(); /* This is for auditing */
 		$roles = Role::all();
 		foreach ($roles as $role)
 		{
@@ -176,8 +172,11 @@ class PermissionController extends Controller
 			if ($request->$role_name)
 			{
 				$permission->roles()->attach($role);
+				array_push($new_roles, $role);
 			}
 		}
+		/* Auditing */
+		(new RoleToPermissionAuditor($request, Auth::user(), $permission, $new_roles, $old_roles))->log();
 	}
 	
 	/**
@@ -189,9 +188,10 @@ class PermissionController extends Controller
 	private function processRolesForUpdate(Request $request, $permission)
 	{
 		/* Detach all existing roles */
+		$old_roles = Util::copyArray($permission->roles); /* This is for auditing */
 		$permission->roles()->detach();
 	
 		/* Add new roles */
-		$this->processRoles($request, $permission);
+		$this->processRoles($request, $permission, $old_roles);
 	}
 }

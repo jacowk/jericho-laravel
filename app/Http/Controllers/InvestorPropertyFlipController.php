@@ -16,6 +16,8 @@ use Carbon\Carbon;
 use jericho\LookupInvestorType;
 use DB;
 use jericho\Util\TabConstants;
+use jericho\Audits\LinkInvestorPropertyFlipAuditor;
+use jericho\Audits\DeleteInvestorPropertyFlipAuditor;
 
 /**
  * This class is a controller for linking the contacts of investors to property flips
@@ -77,6 +79,10 @@ class InvestorPropertyFlipController extends Controller
 					'created_by_id' => $user->id,
 					'created_at'=> new Carbon
 			]);
+			
+			/* Auditing */
+			(new LinkInvestorPropertyFlipAuditor($request, $property_flip, $contact, $user, $investment_amount))->log();
+			
 			return redirect()->action('PropertyFlipController@getViewPropertyFlip', ['property_flip_Id' => $property_flip->id])
 				->with(['message' => 'Investor Contact linked']);
 		}
@@ -122,6 +128,10 @@ class InvestorPropertyFlipController extends Controller
 			->where('property_flip_id', '=', $property_flip_id)
 			->limit(1)
 			->delete();
+		
+		/* Auditing */
+		(new DeleteInvestorPropertyFlipAuditor($request, $property_flip, $contact, $user))->log();
+			
 		return redirect()->action('PropertyFlipController@getViewPropertyFlip', ['property_flip_Id' => $property_flip->id])
 			->with(['message' => 'Investor removed from Property Flip']);
 	}

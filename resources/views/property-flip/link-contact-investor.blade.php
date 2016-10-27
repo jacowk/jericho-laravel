@@ -39,7 +39,7 @@
 	</div>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$('#investment_amount').inputmask('R 99999999.99', {
+			$('#investment_amount').inputmask('R 99 999 999.99', {
 				numericInput: true
 			});
 		});

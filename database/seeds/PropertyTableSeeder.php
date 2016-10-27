@@ -3,6 +3,13 @@
 use Illuminate\Database\Seeder;
 use jericho\Property;
 
+/**
+ * A seeder for populating the properties table.
+ * 
+ * @author Jaco Koekemoer
+ * Date: 2016-10-27
+ *
+ */
 class PropertyTableSeeder extends Seeder
 {
     /**

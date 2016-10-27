@@ -23,7 +23,7 @@
  * Then on command line run "composer update"
  *
  */
-require app_path() . '/Permissions/PermissionConstants.php';
+// require app_path() . '/Permissions/PermissionConstants.php';
 
 Route::get('/', function () {
     return view('welcome');
