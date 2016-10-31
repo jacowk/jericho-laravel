@@ -37,6 +37,8 @@ class PropertyController extends Controller
 		$suburbs['-1'] = "Select Suburb";
 		$greater_areas = LookupUtil::retrieveGreaterAreasLookup();
 		return view('property.search-property', [
+			'property_id' => null,
+			'property_flip_id' => null,
 			'address' => null,
 			'suburb_id' => null,
 			'area_id' => null,
@@ -61,6 +63,8 @@ class PropertyController extends Controller
 		$query_parameters = array();
 		
 		/* Prepare query parameters */
+		$property_id = null;
+		$property_flip_id = null;
 		$address = null;
 		$suburb_id = null;
 		$area_id = null;
@@ -79,7 +83,13 @@ class PropertyController extends Controller
 			$address_query_parameter = Util::convertToLikeQueryParameter('');
 		}
 		
-		/* The suburb_id, area_id, and greater_area_id is grouped in the query builder */
+		/* The propety_id, suburb_id, area_id, and greater_area_id is grouped in the query builder */
+		if (Util::isValidSelectRequestVariable($request->property_id) && $request->property_id > 0)
+		{
+			$property_id = $request->property_id;
+			$property_id_query_parameter = ['properties.id', '=', $property_id];
+			array_push($query_parameters, $property_id_query_parameter);
+		}
 		if (Util::isValidSelectRequestVariable($request->suburb_id) && $request->suburb_id > 0)
 		{
 			$suburb_id = $request->suburb_id;
@@ -100,6 +110,12 @@ class PropertyController extends Controller
 		}
 		
 		/* Property Flip Table parameters */
+		if (Util::isValidRequestVariable($request->property_flip_id))
+		{
+			$property_flip_id = $request->property_flip_id;
+			$property_flip_id_query_parameter = ['property_flips.id', '=', $property_flip_id];
+			array_push($query_parameters, $property_flip_id_query_parameter);
+		}
 		if (Util::isValidRequestVariable($request->reference_number))
 		{
 			$reference_number = $request->reference_number;
@@ -107,7 +123,8 @@ class PropertyController extends Controller
 			array_push($query_parameters, $reference_number_query_parameter);
 		}
 		
-		if (Util::isValidRequestVariable($request->reference_number)) /* Include join with property_flip */
+		if (Util::isValidRequestVariable($request->reference_number) || 
+				Util::isValidRequestVariable($request->property_flip_id)) /* Include join with property_flip */
 		{
 			$properties = DB::table('properties')
 							->join('property_flips', 'properties.id', '=', 'property_flips.property_id')
@@ -123,6 +140,8 @@ class PropertyController extends Controller
 											->orWhere('address_line_5', 'like', $address_query_parameter);
 							})
 							->select('properties.*',
+									'property_flips.id as property_flip_id',
+									'property_flips.reference_number',
 									'suburbs.name as suburb_name',
 									'areas.name as area_name',
 									'greater_areas.name as greater_area_name')
@@ -153,6 +172,8 @@ class PropertyController extends Controller
 		$greater_areas = LookupUtil::retrieveGreaterAreasLookup();
 		return view('property.search-property', [
 			'properties' => $properties,
+			'property_id' => $property_id,
+			'property_flip_id' => $property_flip_id,
 			'address' => $address,
 			'suburb_id' => $suburb_id,
 			'area_id' => $area_id,

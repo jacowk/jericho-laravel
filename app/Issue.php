@@ -4,6 +4,9 @@ namespace jericho;
 
 use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
+use jericho\Audits\Model\ModelTransformAuditor;
+use jericho\Util\ModelTypeConstants;
 
 /**
  * This model forms part of the issue tracker, for creating issues
@@ -54,5 +57,20 @@ class Issue extends Model
 	public function updated_by()
 	{
 		return $this->belongsTo('jericho\User', 'updated_by_id');
+	}
+	
+	public function transformAudit(array $data)
+	{
+		$transformations = [
+				'created_by_id' => array(ModelTypeConstants::USER, array('firstname', 'surname')),
+				'updated_by_id' => array(ModelTypeConstants::USER, array('firstname', 'surname')),
+				'lookup_issue_component_id' => array(ModelTypeConstants::LOOKUP_ISSUE_COMPONENT, array('description')),
+				'lookup_issue_category_id' => array(ModelTypeConstants::LOOKUP_ISSUE_CATEGORY, array('description')),
+				'lookup_issue_severity_id' => array(ModelTypeConstants::LOOKUP_ISSUE_SEVERITY, array('description')),
+				'issue_status_id' => array(ModelTypeConstants::ISSUE_STATUS, array('description'))
+		];
+		$modelTransformAuditor = new ModelTransformAuditor();
+		$data = $modelTransformAuditor->audit($data, $transformations);
+		return $data;
 	}
 }

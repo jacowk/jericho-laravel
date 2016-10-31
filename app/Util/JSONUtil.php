@@ -29,13 +29,13 @@ class JSONUtil
 				{
 					continue;
 				}
+				$key = str_replace('_', ' ', $key);
+				$key = ucwords($key);
 				if (is_string($value))
 				{
-					$key = str_replace('_', ' ', $key);
-					$key = ucwords($key);
 					$output .= '<b>' . $key . '</b>: ' . $value . '<br/>';
 				}
-				else if (!is_null($value) && (Util::stringContains($key, 'amount')  ||  Util::stringContains($key, 'price'))) /* debit_amount or credit_amount */
+				else if (!is_null($value) && (Util::stringContains($key, 'Amount')  ||  Util::stringContains($key, 'Price'))) /* debit_amount or credit_amount */
 				{
 					$output .= '<b>' . $key . '</b>: ' . MoneyUtil::toRandsAndFormat($value) . '<br/>';
 				}

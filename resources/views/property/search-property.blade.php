@@ -11,6 +11,20 @@
 				{{ Form::token() }}
 				
 				<div class="form-group">
+					{{ Form::label('property_id', 'Property ID', array('class' => 'col-sm-2 control-label')) }}
+					<div class="col-sm-10"> 
+						{{ Form::text('property_id', $property_id, array('class' => 'form-control', 'placeholder' => 'Property ID')) }}
+					</div>
+				</div>
+				
+				<div class="form-group">
+					{{ Form::label('propert_flip_id', 'Property Flip ID', array('class' => 'col-sm-2 control-label')) }}
+					<div class="col-sm-10"> 
+						{{ Form::text('property_flip_id', $property_flip_id, array('class' => 'form-control', 'placeholder' => 'Property Flip ID')) }}
+					</div>
+				</div>
+				
+				<div class="form-group">
 					{{ Form::label('reference_number', 'Reference Number', array('class' => 'col-sm-2 control-label')) }}
 					<div class="col-sm-10"> 
 						{{ Form::text('reference_number', $reference_number, array('class' => 'form-control', 'placeholder' => 'Reference Number')) }}
@@ -67,11 +81,13 @@
 			<table class="table table-bordered table-striped table-hover table-condensed">
 				<thead>
 					<tr>
-						<th class="col-sm-1 text-center">ID</th>
+						<th class="col-sm-1 text-center">Property ID</th>
+						<th class="col-sm-1 text-center">Property Flip ID</th>
+						<th class="col-sm-1 text-center">Reference Number</th>
 						<th class="col-sm-2 text-center">Address</th>
-						<th class="col-sm-2 text-center">Suburb</th>
-						<th class="col-sm-2 text-center">Area</th>
-						<th class="col-sm-2 text-center">Greater Area</th>
+						<th class="col-sm-1 text-center">Area</th>
+						<th class="col-sm-1 text-center">Suburb</th>
+						<th class="col-sm-1 text-center">Greater Area</th>
 						@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_PROPERTY))
 							<th class="col-sm-1 text-center">Update</th>
 						@endif
@@ -84,14 +100,24 @@
 						<tr>
 							<td>{{ $property->id }}</td>
 							<td>
+								@if (!empty($property->property_flip_id))
+									{{ $property->property_flip_id }}
+								@endif
+							</td>
+							<td>
+								@if (!empty($property->reference_number))
+									{{ $property->reference_number }}
+								@endif
+							</td>
+							<td>
 								{{ $property->address_line_1 }}<br>
 								{{ $property->address_line_2 }}<br>
 								{{ $property->address_line_3 }}<br>
 								{{ $property->address_line_4 }}<br>
 								{{ $property->address_line_5 }}<br>
 							</td>
-							<td>{{ $property->suburb_name }}</td>
 							<td>{{ $property->area_name }}</td>
+							<td>{{ $property->suburb_name }}</td>
 							<td>{{ $property->greater_area_name }}</td>
 							@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_PROPERTY))
 								<td><a href="{{ route('update-property', ['property_id' => $property->id]) }}">Update</a></td>

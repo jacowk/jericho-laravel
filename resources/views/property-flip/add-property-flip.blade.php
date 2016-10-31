@@ -88,11 +88,11 @@
 	</div>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$('#selling_price').inputmask('R 99999999.99', {
+			$('#selling_price').inputmask('R 99 999 999.99', {
 				numericInput: true
 			});
 
-			$('#purchase_price').inputmask('R 99999999.99', {
+			$('#purchase_price').inputmask('R 99 999 999.99', {
 				numericInput: true
 			});
 		});

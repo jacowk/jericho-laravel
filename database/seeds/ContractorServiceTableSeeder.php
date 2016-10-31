@@ -13,6 +13,8 @@ class ContractorServiceTableSeeder extends Seeder
      */
     public function run()
     {
+    	ContractorService::truncate();
+    	
     	$contractor = Contractor::find(1);
         $contractor_service1 = new ContractorService();
         $contractor_service1->service_description = "Test description 1";

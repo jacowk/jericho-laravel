@@ -183,5 +183,21 @@ class Util
 			array_push($new_array, $item);
 		}
 		return $new_array;
-	}	
+	}
+	
+	/**
+	 * Transform to getter method
+	 * 
+	 * @param unknown $value
+	 * @return string
+	 */
+	public static function transformToGetterMethod($value)
+	{
+		$getter_name = str_replace('_', ' ', $value);
+		$getter_name = strtolower($getter_name);
+		$getter_name = ucwords($getter_name);
+		$getter_name = str_replace(' ', '', $getter_name);
+		$getter_name = 'get' . $getter_name;
+		return $getter_name;
+	}
 }

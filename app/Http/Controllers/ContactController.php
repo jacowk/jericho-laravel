@@ -141,10 +141,7 @@ class ContactController extends Controller
     	/* Do validation */
     	$validator = Validator::make($request->all(), [
     		'firstname' => 'required',
-    		'home-tel' => 'numeric|min:10|max:10',
-    		'work-tel' => 'numeric|min:10|max:10',
-    		'cell-no' => 'numeric|min:10|max:10',
-    		'personal-email' => 'email|unique:contacts',
+    		'surname' => 'required',
     		'work-email' => 'email|unique:contacts',
     		'id-number' => 'numeric|min:13|max:13|unique:contacts'
     	]);
@@ -249,10 +246,7 @@ class ContactController extends Controller
     {
     	$validator = Validator::make($request->all(), [
     		'firstname' => 'required',
-    		'home_tel' => 'numeric|min:10|max:10',
-    		'work_tel' => 'numeric|min:10|max:10',
-    		'cell_no' => 'numeric|min:10|max:10',
-    		'id_number' => 'numeric|min:13|max:13',
+    		'surname' => 'required',
     		'personal_email' => 'required|email|unique:contacts,personal_email,' . $contact_id,
     		'work_email' => 'required|email|unique:contacts,work_email,' . $contact_id
     	]);

@@ -4,10 +4,34 @@ namespace jericho;
 
 use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
+use jericho\Audits\Model\ModelTransformAuditor;
+use jericho\Util\ModelTypeConstants;
 
+/**
+ * A model representing a property flip
+ * 
+ * @author Jaco Koekemoer
+ *
+ */
 class PropertyFlip extends Model
 {
 	use Auditable;
+	
+	protected $fillable = [
+			'reference_number',
+			'title_deed_number',
+			'case_number',
+			'seller_id',
+			'selling_price',
+			'seller_status_id',
+			'purchaser_id',
+			'purchase_price',
+			'finance_status_id',
+			'property_id',
+			'created_by_id',
+			'updated_by_id'
+	];
 	
 	public function property()
     {
@@ -126,5 +150,20 @@ class PropertyFlip extends Model
     public function updated_by()
     {
     	return $this->belongsTo('jericho\User', 'updated_by_id');
+    }
+    
+    public function transformAudit(array $data)
+    {
+    	$transformations = [
+    			'created_by_id' => array(ModelTypeConstants::USER, array('firstname', 'surname')),
+    			'updated_by_id' => array(ModelTypeConstants::USER, array('firstname', 'surname')),
+    			'finance_status_id' => array(ModelTypeConstants::FINANCE_STATUS, array('description')),
+    			'seller_status_id' => array(ModelTypeConstants::SELLER_STATUS, array('description')),
+    			'seller_id' => array(ModelTypeConstants::CONTACT, array('firstname', 'surname')),
+    			'purchaser_id' => array(ModelTypeConstants::CONTACT, array('firstname', 'surname'))
+    	];
+    	$modelTransformAuditor = new ModelTransformAuditor();
+    	$data = $modelTransformAuditor->audit($data, $transformations);
+    	return $data;
     }
 }
