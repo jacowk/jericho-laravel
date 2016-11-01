@@ -126,6 +126,7 @@ class PermissionConstants
 	const VIEW_LEADS_PER_AREA_REPORT = 'View Leads Per Area Report';
 	const VIEW_PROFIT_AND_LOSS_BY_DATE_REPORT = 'View Profit And Loss By Date Report';
 	const VIEW_TOTALS_PER_STATUS_REPORT = 'View Totals Per Status Report';
+	const VIEW_SUMMARY_OF_TOTALS_REPORT = 'Summary Of Totals Report'; 
 	const VIEW_AUDIT_TRAIL = 'View Audit Trail';
 	const VIEW_AUDIT_FIELDS = 'View Audit Fields'; /* Refering to create and update fields */
 	const ADD_ISSUE = 'Add Issue';

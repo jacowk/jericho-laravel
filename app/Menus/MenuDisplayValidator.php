@@ -163,7 +163,8 @@ class MenuDisplayValidator
 			MenuDisplayValidator::canDisplayAmountOfLeadsActionedMenu() ||
 			MenuDisplayValidator::canDisplayLeadsPerAreaMenu() ||
 			MenuDisplayValidator::canDisplayProfitAndLossByDateMenu() ||
-			MenuDisplayValidator::canDisplayTotalsPerStatusMenu();
+			MenuDisplayValidator::canDisplayTotalsPerStatusMenu() ||
+			MenuDisplayValidator::canDisplaySummaryOfTotalsMenu();
 	}
 	
 	/* Submenu of Reports menu */
@@ -194,6 +195,11 @@ class MenuDisplayValidator
 	public static function canDisplayTotalsPerStatusMenu()
 	{
 		return PermissionValidator::hasPermission(PermissionConstants::VIEW_TOTALS_PER_STATUS_REPORT);
+	}
+	/* Submenu of Reports menu */
+	public static function canDisplaySummaryOfTotalsMenu()
+	{
+		return PermissionValidator::hasPermission(PermissionConstants::VIEW_SUMMARY_OF_TOTALS_REPORT);
 	}
 	
 	/* Main menu */

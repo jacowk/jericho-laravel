@@ -78,6 +78,7 @@ class PermissionTableSeeder extends Seeder
 				'VIEW_LEADS_PER_AREA_REPORT', 
     			'VIEW_PROFIT_AND_LOSS_BY_DATE_REPORT',
 				'VIEW_TOTALS_PER_STATUS_REPORT', 
+    			'VIEW_SUMMARY_OF_TOTALS_REPORT', 
     			'VIEW_AUDIT_TRAIL',
     			'VIEW_AUDIT_FIELDS',
     			'RESET_PASSWORD',

@@ -136,7 +136,7 @@
 							</a>
 							<ul class="dropdown-menu" role="menu">
 								@if (MenuDisplayValidator::canDisplayLeadsToSalesMenu())
-									<li><a href="#">Leads to Sales</a></li>
+									<li><a href="{{ url('/leads-to-sales-report') }}">Leads to Sales</a></li>
 								@endif
 								
 								@if (MenuDisplayValidator::canDisplayAmountOfLeadsActionedMenu())
@@ -144,7 +144,7 @@
 								@endif
 								
 								@if (MenuDisplayValidator::canDisplayLeadsPerAreaMenu())
-									<li><a href="#">Leads per Area</a></li>
+									<li><a href="{{ url('/leads-per-area-report') }}">Leads per Area</a></li>
 								@endif
 								
 								@if (MenuDisplayValidator::canDisplayProfitAndLossByDateMenu())
@@ -153,6 +153,10 @@
 								
 								@if (MenuDisplayValidator::canDisplayTotalsPerStatusMenu())
 									<li><a href="#">Totals per Status</a></li>
+								@endif
+								
+								@if (MenuDisplayValidator::canDisplaySummaryOfTotalsMenu())
+									<li><a href="#">Summary Of Totals</a></li>
 								@endif
 							</ul>
 						</li>
