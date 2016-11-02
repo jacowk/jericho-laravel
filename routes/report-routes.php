@@ -68,10 +68,15 @@ Route::group(['middleware' => 'auth'], function() {
 				'uses' => 'SummaryOfTotalsReportController@getSummaryOfTotalsReport',
 				'as' => 'summary-of-totals-report'
 		]);
-	
+		
 		Route::post('/do-summary-of-totals-report', [
 				'uses' => 'SummaryOfTotalsReportController@postDoSummaryOfTotalsReport',
 				'as' => 'do-summary-of-totals-report'
+		]);
+		
+		Route::post('/download-summary-of-totals-report-pdf', [
+				'uses' => 'SummaryOfTotalsReportController@downloadPDF',
+				'as' => 'download-summary-of-totals-report-pdf'
 		]);
 	});
 

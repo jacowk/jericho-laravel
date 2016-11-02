@@ -126,6 +126,16 @@
 				</table>
 			</div>
 		</div>
+		<div class="container">
+			<div class="row">
+				{{  Form::open(array('route' => array('download-summary-of-totals-report-pdf'), 'class' => 'form-horizontal')) }}
+					{{ Form::token() }}
+					{{ Form::hidden('from_date', $from_date) }}
+					{{ Form::hidden('to_date', $to_date) }}
+					{{ Form::submit('Download PDF', array('class' => 'btn btn-default')) }}
+				{{  Form::close() }}
+			</div>
+		</div>
 	@endif
 	<script type="text/javascript">
 		$( function() {

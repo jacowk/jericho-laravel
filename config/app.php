@@ -188,7 +188,11 @@ return [
     	 * Auditing
     	 */
     	OwenIt\Auditing\AuditingServiceProvider::class,
-
+		
+    	/*
+    	 * DomPDF
+    	 */
+    	Barryvdh\DomPDF\ServiceProvider::class,
     ],
 
     /*
@@ -242,7 +246,8 @@ return [
 		'PermissionConstants' => jericho\Permissions\PermissionConstants::class,
     	'MenuDisplayValidator' => jericho\Menus\MenuDisplayValidator::class,
     	'MoneyUtil' => jericho\Util\MoneyUtil::class,
-    	'JSONUtil' => jericho\Util\JSONUtil::class
+    	'JSONUtil' => jericho\Util\JSONUtil::class,
+    	'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];
