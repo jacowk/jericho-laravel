@@ -37,5 +37,41 @@ Route::group(['middleware' => 'auth'], function() {
 				'as' => 'view-area'
 		]);
 	});
+	
+	Route::group(['middleware' => 'permission:' . PermissionConstants::ADD_AREA], function() {
+		/* Add an Area */
+		Route::post('/add-area', [
+				'uses' => 'AreaController@getAddArea',
+				'as' => 'add-area'
+		]);
+	
+		Route::get('/add-area', [
+				'uses' => 'AreaController@getAddArea',
+				'as' => 'add-area'
+		]);
+	
+		Route::post('/do-add-area', [
+				'uses' => 'AreaController@postDoAddArea',
+				'as' => 'do-add-area'
+		]);
+	});
+	
+	Route::group(['middleware' => 'permission:' . PermissionConstants::UPDATE_AREA], function() {
+		/* Update an Area */
+		Route::get('/update-area/{area_id}', [
+				'uses' => 'AreaController@getUpdateArea',
+				'as' => 'update-area'
+		]);
+
+		Route::post('/update-area/{area_id}', [
+				'uses' => 'AreaController@getUpdateArea',
+				'as' => 'update-area'
+		]);
+
+		Route::post('/do-update-area/{area_id}', [
+				'uses' => 'AreaController@postDoUpdateArea',
+				'as' => 'do-update-area'
+		]);
+	});
 
 });

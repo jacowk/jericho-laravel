@@ -21,7 +21,7 @@ class PostalDataSeeder extends Seeder
      */
     public function run()
     {
-        $load_data = true;
+        $load_data = false;
         
         if ($load_data)
         {
@@ -53,6 +53,10 @@ class PostalDataSeeder extends Seeder
         			}
         			
         			if ($this->exlude($suburb_name))
+        			{
+        				continue;
+        			}
+        			if (!$this->include($area_name))
         			{
         				continue;
         			}
@@ -98,6 +102,18 @@ class PostalDataSeeder extends Seeder
     {
     	$excludes = [' uit', ' fase', '-noord', '-oos', '-suid', '-wes', 'noord-', 'oos-', 'suid-', 'wes-'];
     	if (str_contains(strtolower($name), $excludes))
+    	{
+    		return true;
+    	}
+    	return false;
+    }
+    
+    private function include($name)
+    {
+    	Util::writeToFile($name);
+    	//$includes = ['Alberton', 'Alexandra', 'Atteridgeville', 'Bekkersdal', 'Benoni', 'Boipatong', 'Boksburg', 'Bophelong', 'Brakpan', 'Bronberg', 'Bronkhorstspruit', 'Carletonville', 'Centurion', 'Cullinan', 'Daveyton', 'Devon', 'Duduza', 'Edenvale', 'Ekangala', 'Evaton', 'Germiston', 'Hammanskraal', 'Heidelberg', 'Impumelelo', 'Irene', 'Isando', 'Johannesburg', 'Kagiso', 'Katlehong', 'Kempton Park', 'Khutsong', 'Kromdraai', 'Krugersdorp', 'KwaThema', 'Lenasia', 'Magaliesburg', 'Mamelodi', 'Meyerton', 'Midrand', 'Mohlakeng', 'Muldersdrift', 'Nigel', 'Pretoria', 'Randburg', 'Randfontein', 'Ratanda', 'Refilwe', 'Reiger Park', 'Roodepoort', 'Sandton', 'Sebokeng', 'Sharpeville', 'Soshanguve', 'Soweto', 'Springs', 'Tembisa', 'Thokoza', 'Tsakane', 'Vanderbijlpark', 'Vereeniging', 'Vosloorus', 'Wattville', 'Westonaria', 'Zithobeni'];
+    	$includes = ['alberton', 'alexandra', 'atteridgeville', 'bekkersdal', 'benoni', 'boipatong', 'boksburg', 'bophelong', 'brakpan', 'bronberg', 'bronkhorstspruit', 'carletonville', 'centurion', 'cullinan', 'daveyton', 'devon', 'duduza', 'edenvale', 'ekangala', 'evaton', 'germiston', 'hammanskraal', 'heidelberg', 'impumelelo', 'irene', 'isando', 'johannesburg', 'kagiso', 'katlehong', 'kempton park', 'khutsong', 'kromdraai', 'krugersdorp', 'kwathema', 'lenasia', 'magaliesburg', 'mamelodi', 'meyerton', 'midrand', 'mohlakeng', 'muldersdrift', 'nigel', 'pretoria', 'randburg', 'randfontein', 'ratanda', 'refilwe', 'reiger park', 'roodepoort', 'sandton', 'sebokeng', 'sharpeville', 'soshanguve', 'soweto', 'springs', 'tembisa', 'thokoza', 'tsakane', 'vanderbijlpark', 'vereeniging', 'vosloorus', 'wattville', 'westonaria', 'zithobeni'];
+    	if (str_contains(strtolower($name), $includes))
     	{
     		return true;
     	}

@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use jericho\PropertyFlip;
+use function Faker\numberBetween;
 
 class PropertyFlipTableSeeder extends Seeder
 {
@@ -43,5 +44,20 @@ class PropertyFlipTableSeeder extends Seeder
         $property_flip3->property_id = 3;
         $property_flip3->created_by_id = 1;
         $property_flip3->save();
+        
+        $faker = Faker\Factory::create();
+        foreach(range(1, 200) as $index)
+        {
+        	PropertyFlip::create([
+        			'reference_number' => $faker->numberBetween(1000, 9999),
+        			'title_deed_number' => $faker->name,
+        			'case_number' => $faker->name,
+        			'seller_id' => 1,
+        			'seller_status_id' => $faker->numberBetween(1, 4),
+        			'purchaser_id' => 1,
+        			'property_id' => $faker->numberBetween(1, 200),
+        			'created_by_id' => 1
+        	]);
+        }
     }
 }

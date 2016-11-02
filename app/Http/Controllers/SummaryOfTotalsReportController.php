@@ -3,8 +3,13 @@
 namespace jericho\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 use jericho\Http\Requests;
+use jericho\Property;
+use jericho\Util\Util;
+use DB;
 
 /**
  * Controller for generating the summary of totals report. The following totals is to be generated:
@@ -27,7 +32,12 @@ class SummaryOfTotalsReportController extends Controller
 	{
 		return view('reports.summary-of-totals', [
 				'from_date' => null,
-				'to_date' => null
+				'to_date' => null,
+				'total_properties' => null,
+				'totals_per_seller_status' => null,
+				'totals_per_area' => null,
+				'totals_per_greater_area' => null,
+				'generated' => false
 		]);
 	}
 	
@@ -73,19 +83,40 @@ class SummaryOfTotalsReportController extends Controller
 		}
 		
 		/* Calculate grand total */
-		$total_properties = Properties::whereBetween('created_at', [$from_date_query_parameter, $to_date_query_parameter])->count();
+		$total_properties = Property::whereBetween('created_at', [$from_date_query_parameter, $to_date_query_parameter])->count();
 		
 		/* Calculate totals per seller status */
 		$totals_per_seller_status = DB::table('property_flips')
 										->join('seller_statuses', 'property_flips.seller_status_id', 'seller_statuses.id')
-										->whereBetween('created_at', [$from_date_query_parameter, $to_date_query_parameter])
+										->whereBetween('property_flips.created_at', [$from_date_query_parameter, $to_date_query_parameter])
 										->select('seller_statuses.description as seller_status', DB::raw('count(*) as cnt'))
 										->groupBy('property_flips.seller_status_id')
 										->get();
 		
 		/* Calculate totals per area */
-		$totals_per_are
+		$totals_per_area = DB::table('properties')
+								->join('areas', 'properties.area_id', '=', 'areas.id')
+								->whereBetween('properties.created_at', [$from_date_query_parameter, $to_date_query_parameter])
+								->select('areas.name as area_name', DB::raw('count(*) as cnt'))
+								->groupBy('properties.area_id')
+								->get();
 		
 		/* Calculate totals per greater area */
+		$totals_per_greater_area = DB::table('properties')
+								->join('greater_areas', 'properties.greater_area_id', '=', 'greater_areas.id')
+								->whereBetween('properties.created_at', [$from_date_query_parameter, $to_date_query_parameter])
+								->select('greater_areas.name as greater_area_name', DB::raw('count(*) as cnt'))
+								->groupBy('properties.greater_area_id')
+								->get();
+		
+		return view('reports.summary-of-totals', [
+				'from_date' => $from_date,
+				'to_date' => $to_date,
+				'total_properties' => $total_properties,
+				'totals_per_seller_status' => $totals_per_seller_status,
+				'totals_per_area' => $totals_per_area,
+				'totals_per_greater_area' => $totals_per_greater_area,
+				'generated' => true
+		]);
 	}
 }

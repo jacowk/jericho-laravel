@@ -156,7 +156,7 @@
 								@endif
 								
 								@if (MenuDisplayValidator::canDisplaySummaryOfTotalsMenu())
-									<li><a href="#">Summary Of Totals</a></li>
+									<li><a href="{{ url('/summary-of-totals-report') }}">Summary Of Totals</a></li>
 								@endif
 							</ul>
 						</li>

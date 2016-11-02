@@ -11,6 +11,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(AreaTableSeeder::class);
+        $this->call(SuburbTableSeeder::class);
+        $this->call(GreaterAreaTableSeeder::class);
+        $this->call(PostalDataSeeder::class);
+        
     	$this->call(AuditsTableSeeder::class);
     	$this->call(UsersTableSeeder::class);
     	
@@ -24,7 +29,6 @@ class DatabaseSeeder extends Seeder
 		$this->call(LookupDocumentTypeTableSeeder::class);
 		$this->call(EstateAgentTableSeeder::class);
         $this->call(LookupEstateAgentTypeTableSeeder::class);
-        $this->call(GreaterAreaTableSeeder::class);
         $this->call(IssueTableSeeder::class);
         $this->call(IssueCommentTableSeeder::class);
         $this->call(LookupMaritalStatusTableSeeder::class);
@@ -39,8 +43,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ContactContractorTableSeeder::class);
         $this->call(ContactEstateAgentTableSeeder::class);
         $this->call(BankContactTableSeeder::class);
-        $this->call(AreaTableSeeder::class);
-        $this->call(SuburbTableSeeder::class);
         $this->call(PropertyFlipTableSeeder::class);
         $this->call(AttorneyPropertyFlipTableSeeder::class);
         $this->call(MilestoneTableSeeder::class);
@@ -67,6 +69,5 @@ class DatabaseSeeder extends Seeder
         $this->call(LookupIssueCategoryTableSeeder::class);
         $this->call(LookupIssueSeverityTableSeeder::class);
         
-//         $this->call(PostalDataSeeder::class);
     }
 }
