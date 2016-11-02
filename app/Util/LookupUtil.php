@@ -40,89 +40,89 @@ use DB;
  */
 class LookupUtil
 {
-	public static function retrieveLookupMilestoneTypes()
-	{
-		$lookup_milestone_types = LookupMilestoneType::all();
-		$milestone_types = array();
-		$milestone_types[-1] = "Select Milestone Type";
-		foreach($lookup_milestone_types as $milestone_type)
-		{
-			$milestone_types[$milestone_type->id] = $milestone_type->description;
-		}
-		return $milestone_types;
-	}
+// 	public static function retrieveLookupMilestoneTypes()
+// 	{
+// 		$lookup_milestone_types = LookupMilestoneType::all();
+// 		$milestone_types = array();
+// 		$milestone_types[-1] = "Select Milestone Type";
+// 		foreach($lookup_milestone_types as $milestone_type)
+// 		{
+// 			$milestone_types[$milestone_type->id] = $milestone_type->description;
+// 		}
+// 		return $milestone_types;
+// 	}
 	
-	public static function retrieveLookupEstateAgentTypes()
-	{
-		$lookup_estate_agent_types = LookupEstateAgentType::all();
-		$estate_agent_types = array();
-		$estate_agent_types[-1] = "Select Estate Agent Type";
-		foreach($lookup_estate_agent_types as $estate_agent_type)
-		{
-			$estate_agent_types[$estate_agent_type->id] = $estate_agent_type->description;
-		}
-		return $estate_agent_types;
-	}
+// 	public static function retrieveLookupEstateAgentTypes()
+// 	{
+// 		$lookup_estate_agent_types = LookupEstateAgentType::all();
+// 		$estate_agent_types = array();
+// 		$estate_agent_types[-1] = "Select Estate Agent Type";
+// 		foreach($lookup_estate_agent_types as $estate_agent_type)
+// 		{
+// 			$estate_agent_types[$estate_agent_type->id] = $estate_agent_type->description;
+// 		}
+// 		return $estate_agent_types;
+// 	}
 	
-	public static function retrieveLookupAttorneyTypes()
-	{
-		$lookup_attorney_types = LookupAttorneyType::all();
-		$attorney_types = array();
-		$attorney_types[-1] = "Select Attorney Type";
-		foreach($lookup_attorney_types as $attorney_type)
-		{
-			$attorney_types[$attorney_type->id] = $attorney_type->description;
-		}
-		return $attorney_types;
-	}
+// 	public static function retrieveLookupAttorneyTypes()
+// 	{
+// 		$lookup_attorney_types = LookupAttorneyType::all();
+// 		$attorney_types = array();
+// 		$attorney_types[-1] = "Select Attorney Type";
+// 		foreach($lookup_attorney_types as $attorney_type)
+// 		{
+// 			$attorney_types[$attorney_type->id] = $attorney_type->description;
+// 		}
+// 		return $attorney_types;
+// 	}
 	
-	public static function retrieveLookupContractorTypes()
-	{
-		$lookup_contractor_types = LookupContractorType::all();
-		$contractor_types = array();
-		$contractor_types[-1] = "Select Contractor Type";
-		foreach($lookup_contractor_types as $contractor_type)
-		{
-			$contractor_types[$contractor_type->id] = $contractor_type->description;
-		}
-		return $contractor_types;
-	}
+// 	public static function retrieveLookupContractorTypes()
+// 	{
+// 		$lookup_contractor_types = LookupContractorType::all();
+// 		$contractor_types = array();
+// 		$contractor_types[-1] = "Select Contractor Type";
+// 		foreach($lookup_contractor_types as $contractor_type)
+// 		{
+// 			$contractor_types[$contractor_type->id] = $contractor_type->description;
+// 		}
+// 		return $contractor_types;
+// 	}
 	
-	public static function retrieveLookupDocumentTypes()
-	{
-		$lookup_document_types = LookupDocumentType::all();
-		$document_types = array();
-		$document_types[-1] = "Select Document Type";
-		foreach($lookup_document_types as $document_type)
-		{
-			$document_types[$document_type->id] = $document_type->description;
-		}
-		return $document_types;
-	}
+// 	public static function retrieveLookupDocumentTypes()
+// 	{
+// 		$lookup_document_types = LookupDocumentType::all();
+// 		$document_types = array();
+// 		$document_types[-1] = "Select Document Type";
+// 		foreach($lookup_document_types as $document_type)
+// 		{
+// 			$document_types[$document_type->id] = $document_type->description;
+// 		}
+// 		return $document_types;
+// 	}
 	
-	public static function retrieveLookupTitles()
-	{
-		$lookup_titles = LookupTitle::all();
-		$titles = array();
-		$titles[-1] = "Select Title";
-		foreach($lookup_titles as $title)
-		{
-			$titles[$title->id] = $title->description;
-		}
-		return $titles;
-	}
+// 	public static function retrieveLookupTitles()
+// 	{
+// 		$lookup_titles = LookupTitle::all();
+// 		$titles = array();
+// 		$titles[-1] = "Select Title";
+// 		foreach($lookup_titles as $title)
+// 		{
+// 			$titles[$title->id] = $title->description;
+// 		}
+// 		return $titles;
+// 	}
 	
-	public static function retrieveLookupMaritalStatuses()
-	{
-		$lookup_marital_statuses = LookupMaritalStatus::all();
-		$marital_statuses = array();
-		$marital_statuses[-1] = "Select Marital Status";
-		foreach($lookup_marital_statuses as $marital_status)
-		{
-			$marital_statuses[$marital_status->id] = $marital_status->description;
-		}
-		return $marital_statuses;
-	}
+// 	public static function retrieveLookupMaritalStatuses()
+// 	{
+// 		$lookup_marital_statuses = LookupMaritalStatus::all();
+// 		$marital_statuses = array();
+// 		$marital_statuses[-1] = "Select Marital Status";
+// 		foreach($lookup_marital_statuses as $marital_status)
+// 		{
+// 			$marital_statuses[$marital_status->id] = $marital_status->description;
+// 		}
+// 		return $marital_statuses;
+// 	}
 	
 	public static function retrieveGreaterAreasLookup()
 	{
@@ -305,17 +305,17 @@ class LookupUtil
 	}
 	
 	/* Link estate agents to property flips */
-	public static function retrieveEstateAgents()
-	{
-		$lookup_estate_agents = EstateAgent::all();
-		$estate_agents = array();
-		$estate_agents[-1] = "Select Estate Agent";
-		foreach($lookup_estate_agents as $estate_agent)
-		{
-			$estate_agents[$estate_agent->id] = $estate_agent->name;
-		}
-		return $estate_agents;
-	}
+// 	public static function retrieveEstateAgents()
+// 	{
+// 		$lookup_estate_agents = EstateAgent::all();
+// 		$estate_agents = array();
+// 		$estate_agents[-1] = "Select Estate Agent";
+// 		foreach($lookup_estate_agents as $estate_agent)
+// 		{
+// 			$estate_agents[$estate_agent->id] = $estate_agent->name;
+// 		}
+// 		return $estate_agents;
+// 	}
 	
 	public static function retrieveContactEstateAgentsAjax($estate_agent_id)
 	{

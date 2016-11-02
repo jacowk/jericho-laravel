@@ -9,8 +9,8 @@ use jericho\Http\Requests;
 use jericho\Milestone;
 use jericho\PropertyFlip;
 use jericho\Util\Util;
-use jericho\Util\LookupUtil;
 use jericho\Util\TabConstants;
+use jericho\Lookup\MilestoneTypeLookupRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on milestones
@@ -29,7 +29,7 @@ class MilestoneController extends Controller
 	public function getAddMilestone(Request $request, $property_flip_id)
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::MILESTONES_TAB);
-		$lookup_milestone_types = LookupUtil::retrieveLookupMilestoneTypes();
+		$lookup_milestone_types = (new MilestoneTypeLookupRetriever())->execute();
 		return view('milestone.add-milestone', [
 				'property_flip_id' => $property_flip_id,
 				'lookup_milestone_types' => $lookup_milestone_types
@@ -80,7 +80,7 @@ class MilestoneController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::MILESTONES_TAB);
 		$milestone = Milestone::find($milestone_id);
-		$lookup_milestone_types = LookupUtil::retrieveLookupMilestoneTypes();
+		$lookup_milestone_types = (new MilestoneTypeLookupRetriever())->execute();
 		return view('milestone.update-milestone', [
 			'milestone' => $milestone,
 			'lookup_milestone_types' => $lookup_milestone_types

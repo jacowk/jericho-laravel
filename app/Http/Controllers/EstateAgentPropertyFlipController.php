@@ -18,6 +18,8 @@ use DB;
 use jericho\Util\TabConstants;
 use jericho\Audits\LinkEstateAgentPropertyFlipAuditor;
 use jericho\Audits\DeleteEstateAgentPropertyFlipAuditor;
+use jericho\Lookup\EstateAgentTypeLookupRetriever;
+use jericho\Lookup\EstateAgentLookupRetriever;
 
 /**
  * This class is a controller for linking the contacts of estate agents to property flips
@@ -38,8 +40,8 @@ class EstateAgentPropertyFlipController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::ESTATE_AGENTS_TAB);
 		$property_flip_id = Util::getQueryParameter($request->property_flip_id);
-		$estate_agents = LookupUtil::retrieveEstateAgents();
-		$lookup_estate_agent_types = LookupUtil::retrieveLookupEstateAgentTypes();
+		$estate_agents = (new EstateAgentLookupRetriever())->execute();
+		$lookup_estate_agent_types = (new EstateAgentTypeLookupRetriever())->execute();
 		$contacts = array();
 		$contacts['-1'] = "Select Estate Agent Contact";
 		return view ('property-flip.link-contact-estate-agent', [

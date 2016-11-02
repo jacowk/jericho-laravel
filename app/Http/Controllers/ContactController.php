@@ -23,6 +23,8 @@ use jericho\Audits\AddContactToAttorneyAuditor;
 use jericho\Audits\AddContactToBankAuditor;
 use jericho\Audits\AddContactToContractorAuditor;
 use jericho\Audits\AddContactToEstateAgentAuditor;
+use jericho\Lookup\TitleLookupRetriever;
+use jericho\Lookup\MaritalStatusLookupRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on contacts
@@ -98,8 +100,8 @@ class ContactController extends Controller
      */
     public function getAddContact(Request $request)
     {
-    	$lookup_titles = LookupUtil::retrieveLookupTitles();
-    	$lookup_marital_statuses = LookupUtil::retrieveLookupMaritalStatuses();
+    	$lookup_titles = (new TitleLookupRetriever())->execute();
+    	$lookup_marital_statuses = (new MaritalStatusLookupRetriever())->execute();
     	if (Util::isValidRequestVariable($request->model_name))
     	{
     		$model_name = $request->model_name;
@@ -202,8 +204,8 @@ class ContactController extends Controller
     public function getUpdateContact(Request $request, $contact_id)
     {
     	$contact = Contact::find($contact_id);
-    	$lookup_titles = LookupUtil::retrieveLookupTitles();
-    	$lookup_marital_statuses = LookupUtil::retrieveLookupMaritalStatuses();
+    	$lookup_titles = (new TitleLookupRetriever())->execute();
+    	$lookup_marital_statuses = (new MaritalStatusLookupRetriever())->execute();
     	if (Util::isValidRequestVariable($request->model_name))
     	{
     		$model_name = $request->model_name;

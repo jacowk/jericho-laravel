@@ -10,7 +10,7 @@ use jericho\Http\Requests;
 use jericho\ContractorService;
 use jericho\Contractor;
 use jericho\Util\Util;
-use jericho\Util\LookupUtil;
+use jericho\Lookup\ContractorTypeLookupRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on contractor services
@@ -28,7 +28,7 @@ class ContractorServiceController extends Controller
 	 */
 	public function getAddContractorService(Request $request, $contractor_id)
 	{
-		$contractor_types = LookupUtil::retrieveLookupContractorTypes();
+		$contractor_types = (new ContractorTypeLookupRetriever())->execute();
 		return view('contractor-service.add-contractor-service', [
 			'contractor_id' => $contractor_id,
 			'contractor_types' => $contractor_types
@@ -43,10 +43,6 @@ class ContractorServiceController extends Controller
 	 */
 	public function postDoAddContractorService(Request $request)
 	{
-// 		$this->validate($request, [
-// 				'service_description' => 'required',
-// 				'contractor_type_id' => 'required'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'service_description' => 'required',
 				'contractor_type_id' => 'required|not_in:-1',
@@ -84,7 +80,7 @@ class ContractorServiceController extends Controller
 	public function getUpdateContractorService(Request $request, $contractor_service_id)
 	{
 		$contractor_service = ContractorService::find($contractor_service_id);
-		$contractor_types = LookupUtil::retrieveLookupContractorTypes();
+		$contractor_types = (new ContractorTypeLookupRetriever())->execute();
 		return view('contractor-service.update-contractor-service', [
 			'contractor_service' => $contractor_service,
 			'contractor_types' => $contractor_types
@@ -100,17 +96,13 @@ class ContractorServiceController extends Controller
 	 */
 	public function postDoUpdateContractorService(Request $request, $contractor_service_id)
 	{
-// 		$this->validate($request, [
-// 				'service_description' => 'required',
-// 				'contractor_type_id' => 'required'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'service_description' => 'required',
 				'contractor_type_id' => 'required|not_in:-1',
 		]);
 		
 		if ($validator->fails()) {
-			$contractor_types = LookupUtil::retrieveLookupContractorTypes();
+			$contractor_types = (new ContractorTypeLookupRetriever())->execute();
 			$contractor_service = ContractorService::find($contractor_service_id);
 			return redirect()
 				->route('update-contractor-service', [

@@ -19,6 +19,7 @@ use DB;
 use jericho\Util\TabConstants;
 use jericho\Audits\LinkAttorneyPropertyFlipAuditor;
 use jericho\Audits\DeleteAttorneyPropertyFlipAuditor;
+use jericho\Lookup\AttorneyTypeLookupRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on property flips
@@ -40,7 +41,7 @@ class AttorneyPropertyFlipController extends Controller
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::ATTORNEYS_TAB);
 		$property_flip_id = Util::getQueryParameter($request->property_flip_id);
 		$attorneys = LookupUtil::retrieveAttorneys();
-		$lookup_attorney_types = LookupUtil::retrieveLookupAttorneyTypes();
+		$lookup_attorney_types = (new AttorneyTypeLookupRetriever())->execute();
 		$contacts = array();
 		$contacts['-1'] = "Select Attorney Contact";
 		return view ('property-flip.link-attorney-contact', [
