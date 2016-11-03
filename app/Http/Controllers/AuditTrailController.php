@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use jericho\Http\Requests;
 use OwenIt\Auditing\Facades\Auditing;
-use jericho\Util\LookupUtil;
 use jericho\Util\Util;
+use jericho\Lookup\UserLookupRetriever;
 use DB;
 use DateTime;
 
@@ -28,7 +28,7 @@ class AuditTrailController extends Controller
 	 */
 	public function getSearchAuditTrail()
 	{
-		$users = LookupUtil::retrieveUsersLookup();
+		$users = (new UserLookupRetriever())->execute();
 		/* Search criteria */
 		$user_id = "-1";
 		$from_date = null;
@@ -138,7 +138,7 @@ class AuditTrailController extends Controller
 					->paginate($user->pagination_size);
 		}
 		
-		$users = LookupUtil::retrieveUsersLookup();
+		$users = (new UserLookupRetriever())->execute();
 		return view('audit-trail.search-audit-trail', [
 			'audits' => $audits,
 			'users' => $users,

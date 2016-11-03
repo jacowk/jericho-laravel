@@ -10,7 +10,11 @@ use jericho\Http\Requests;
 use jericho\Issue;
 use jericho\IssueStatus;
 use jericho\Util\Util;
-use jericho\Util\LookupUtil;
+use jericho\Lookup\UserLookupRetriever;
+use jericho\Lookup\IssueComponentLookupRetriever;
+use jericho\Lookup\IssueCategoryLookupRetriever;
+use jericho\Lookup\IssueSeverityLookupRetriever;
+use jericho\Lookup\IssueStatusLookupRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on issues
@@ -28,8 +32,8 @@ class IssueController extends Controller
 	 */
 	public function getSearchIssue()
 	{
-		$users = LookupUtil::retrieveUsersLookup();
-		$issue_statuses = LookupUtil::retrieveIssueStatusLookup();
+		$users = (new UserLookupRetriever())->execute();
+		$issue_statuses = (new IssueStatusLookupRetriever)->execute();
 		return view('issue.search-issue', [
 			'users' => $users,
 			'issue_statuses' => $issue_statuses,
@@ -84,8 +88,8 @@ class IssueController extends Controller
 						->orderBy('created_at', 'desc')
 						->paginate($user->pagination_size);
 		/* Prepare screen parameters */
-		$users = LookupUtil::retrieveUsersLookup();
-		$issue_statuses = LookupUtil::retrieveIssueStatusLookup();
+		$users = (new UserLookupRetriever())->execute();;
+		$issue_statuses = (new IssueStatusLookupRetriever)->execute();
 		
 		/* Return to view */
 		return view('issue.search-issue', [
@@ -106,11 +110,12 @@ class IssueController extends Controller
 	 */
 	public function getAddIssue()
 	{
-		$users = LookupUtil::retrieveUsersLookup();
-		$issue_components = LookupUtil::retrieveLookupIssueComponents();
-		$issue_categories = LookupUtil::retrieveLookupIssueCategories();
-		$issue_severity_list = LookupUtil::retrieveLookupIssueSeverityList();
-		$issue_statuses = LookupUtil::retrieveIssueStatusLookup();
+		$users = (new UserLookupRetriever())->execute();
+		$issue_components = (new IssueComponentLookupRetriever)->execute();
+		$issue_categories = (new IssueCategoryLookupRetriever)->execute();
+		$issue_severity_list = (new IssueSeverityLookupRetriever)->execute();
+		$issue_statuses = (new IssueStatusLookupRetriever)->execute();
+		
 		return view('issue.add-issue', [
 			'users' => $users,
 			'issue_components' => $issue_components,
@@ -152,7 +157,7 @@ class IssueController extends Controller
 		$issue->created_by_id = $user->id;
 		$issue->save();
 		return redirect()->action('IssueController@getViewIssue', ['issue_Id' => $issue->id])
-		->with(['message' => 'Issue saved']);
+			->with(['message' => 'Issue saved']);
 	}
 	
 	/**
@@ -164,11 +169,12 @@ class IssueController extends Controller
 	 */
 	public function getUpdateIssue(Request $request, $issue_id)
 	{
-		$users = LookupUtil::retrieveUsersLookup();
-		$issue_components = LookupUtil::retrieveLookupIssueComponents();
-		$issue_categories = LookupUtil::retrieveLookupIssueCategories();
-		$issue_severity_list = LookupUtil::retrieveLookupIssueSeverityList();
-		$issue_statuses = LookupUtil::retrieveIssueStatusLookup();
+		$users = (new UserLookupRetriever())->execute();
+		$issue_components = (new IssueComponentLookupRetriever)->execute();
+		$issue_categories = (new IssueCategoryLookupRetriever)->execute();
+		$issue_severity_list = (new IssueSeverityLookupRetriever)->execute();
+		$issue_statuses = (new IssueStatusLookupRetriever)->execute();
+		
 		$issue = Issue::find($issue_id);
 		return view('issue.update-issue', [
 			'issue' => $issue,
@@ -211,7 +217,7 @@ class IssueController extends Controller
 		$issue->updated_by_id = $user->id;
 		$issue->save();
 		return redirect()->action('IssueController@getViewIssue', ['issue_Id' => $issue->id])
-		->with(['message' => 'Issue updated']);
+			->with(['message' => 'Issue updated']);
 	}
 	
 	/**

@@ -10,8 +10,8 @@ use jericho\Http\Requests;
 use jericho\Permission;
 use jericho\Role;
 use jericho\Util\Util;
-use jericho\Util\LookupUtil;
 use jericho\Audits\RoleToPermissionAuditor;
+use jericho\Lookup\RolesForCheckboxesRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on permissions
@@ -66,7 +66,7 @@ class PermissionController extends Controller
 	 */
 	public function getAddPermission()
 	{
-		$roles = LookupUtil::retrieveRolesForCheckboxes();
+		$roles = (new RolesForCheckboxesRetriever())->execute();
 		return view('permission.add-permission', [ 'roles' => $roles ]);
 	}
 	
@@ -108,7 +108,7 @@ class PermissionController extends Controller
 	public function getUpdatePermission(Request $request, $permission_id)
 	{
 		$permission = Permission::find($permission_id);
-		$roles = LookupUtil::retrieveRolesForCheckboxes($permission->roles);
+		$roles = (new RolesForCheckboxesRetriever($permission->roles))->execute();
 		return view('permission.update-permission', ['permission' => $permission, 'roles' => $roles]);
 	}
 	

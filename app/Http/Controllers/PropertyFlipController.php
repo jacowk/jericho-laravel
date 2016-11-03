@@ -8,9 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use jericho\Http\Requests;
 use jericho\PropertyFlip;
 use jericho\Property;
-use jericho\Contact;
 use jericho\Util\Util;
-use jericho\Util\LookupUtil;
 use jericho\Util\TabConstants;
 use jericho\LookupAttorneyType;
 use jericho\Milestone;
@@ -20,6 +18,14 @@ use Carbon\Carbon;
 use jericho\Accounts\AccountBalanceCalculator;
 use jericho\Accounts\AccountConstants;
 use jericho\Accounts\AccountViewDataGenerator;
+use jericho\Lookup\ContactLookupRetriever;
+use jericho\Lookup\FinanceStatusLookupRetriever;
+use jericho\Lookup\SellerStatusLookupRetriever;
+use jericho\Contacts\AttorneyContactRetriever;
+use jericho\Contacts\EstateAgentContactRetriever;
+use jericho\Contacts\BankContactRetriever;
+use jericho\Contacts\ContractorContactRetriever;
+use jericho\Contacts\InvestorContactRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on property_flips
@@ -69,9 +75,10 @@ class PropertyFlipController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::GENERAL_TAB);
 		$property = Property::find($property_id);
-		$contacts = LookupUtil::retrieveContactsLookup();
-		$finance_statuses = LookupUtil::retrieveFinanceStatusLookup();
-		$seller_statuses = LookupUtil::retrieveSellerStatusLookup();
+		$contacts = (new ContactLookupRetriever())->execute();
+		$finance_statuses = (new FinanceStatusLookupRetriever())->execute();
+		$seller_statuses = (new SellerStatusLookupRetriever())->execute();
+		
 		return view('property-flip.add-property-flip', [
 			'property' => $property,
 			'contacts' => $contacts,
@@ -129,9 +136,10 @@ class PropertyFlipController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::GENERAL_TAB);
 		$property_flip = PropertyFlip::find($property_flip_id);
-		$contacts = LookupUtil::retrieveContactsLookup();
-		$finance_statuses = LookupUtil::retrieveFinanceStatusLookup();
-		$seller_statuses = LookupUtil::retrieveSellerStatusLookup();
+		$contacts = (new ContactLookupRetriever())->execute();
+		$finance_statuses = (new FinanceStatusLookupRetriever())->execute();
+		$seller_statuses = (new SellerStatusLookupRetriever())->execute();
+		
 		return view('property-flip.update-property-flip', [
 			'property_flip' => $property_flip,
 			'contacts' => $contacts,
@@ -190,11 +198,11 @@ class PropertyFlipController extends Controller
 	{
 		$property_flip = PropertyFlip::find($property_flip_id);
 		$property = Property::find($property_flip->property_id);
-		$attorney_contacts = $this->populateAttorneys($property_flip);
-		$contact_estate_agents = $this->populateEstateAgents($property_flip);
-		$contact_contractors = $this->populateContractors($property_flip);
-		$bank_contacts = $this->populateBanks($property_flip);
-		$contact_investors = $this->populateInvestors($property_flip);
+		$attorney_contacts = (new AttorneyContactRetriever($property_flip))->execute();
+		$contact_estate_agents = (new EstateAgentContactRetriever($property_flip))->execute();
+		$contact_contractors = (new ContractorContactRetriever($property_flip))->execute();
+		$bank_contacts = (new BankContactRetriever($property_flip))->execute();
+		$contact_investors = (new InvestorContactRetriever($property_flip))->execute();
 		
 		$accountBalanceCalculator = new AccountBalanceCalculator();
 		$profit_loss_balance = $accountBalanceCalculator->calculate(AccountConstants::PROFIT_AND_LOSS_ACCOUNT, 
@@ -215,107 +223,5 @@ class PropertyFlipController extends Controller
 			'profit_loss_balance' => $profit_loss_balance,
 			'account_transactions' => $account_transactions
 		]);
-	}
-	
-	private function populateAttorneys($property_flip)
-	{
-		$attorney_contacts = DB::table('attorney_property_flip')
-						->join('contacts', 'contacts.id', '=' ,'attorney_property_flip.contact_id')
-						->join('property_flips', 'property_flips.id', '=', 'attorney_property_flip.property_flip_id')
-						->join('attorney_contact', 'attorney_contact.contact_id', '=', 'contacts.id')
-						->join('attorneys', 'attorneys.id', '=', 'attorney_contact.attorney_id')
-						->join('lookup_attorney_types', 'lookup_attorney_types.id', '=', 'attorney_property_flip.lookup_attorney_type_id')
-						->where('attorney_property_flip.property_flip_id', '=', $property_flip->id)
-						->select('attorneys.name as attorney_name', 
-								'contacts.firstname as contact_firstname',
-								'contacts.surname as contact_surname',
-								'contacts.work_email as contact_work_email',
-								'contacts.work_tel_no as contact_work_tel_no',
-								'contacts.cell_no as contact_cell_no',
-								'lookup_attorney_types.description as lookup_attorney_type',
-								'lookup_attorney_types.id as lookup_attorney_type_id',
-								'contacts.id as contact_id')
-						->get();
-		return $attorney_contacts;
-	}
-	
-	private function populateEstateAgents($property_flip)
-	{
-		$contact_estate_agents = DB::table('estate_agent_property_flip')
-						->join('contacts', 'contacts.id', '=' ,'estate_agent_property_flip.contact_id')
-						->join('property_flips', 'property_flips.id', '=', 'estate_agent_property_flip.property_flip_id')
-						->join('contact_estate_agent', 'contact_estate_agent.contact_id', '=', 'contacts.id')
-						->join('estate_agents', 'estate_agents.id', '=', 'contact_estate_agent.estate_agent_id')
-						->join('lookup_estate_agent_types', 'lookup_estate_agent_types.id', '=', 'estate_agent_property_flip.lookup_estate_agent_type_id')
-						->where('estate_agent_property_flip.property_flip_id', '=', $property_flip->id)
-						->select('estate_agents.name as estate_agent_name',
-								'contacts.firstname as contact_firstname',
-								'contacts.surname as contact_surname',
-								'contacts.work_email as contact_work_email',
-								'contacts.work_tel_no as contact_work_tel_no',
-								'contacts.cell_no as contact_cell_no',
-								'lookup_estate_agent_types.description as lookup_estate_agent_type',
-								'lookup_estate_agent_types.id as lookup_estate_agent_type_id',
-								'contacts.id as contact_id')
-								->get();
-		return $contact_estate_agents;
-	}
-	
-	private function populateContractors($property_flip)
-	{
-		$contact_contractors = DB::table('contractor_property_flip')
-						->join('contacts', 'contacts.id', '=' ,'contractor_property_flip.contact_id')
-						->join('property_flips', 'property_flips.id', '=', 'contractor_property_flip.property_flip_id')
-						->join('contact_contractor', 'contact_contractor.contact_id', '=', 'contacts.id')
-						->join('contractors', 'contractors.id', '=', 'contact_contractor.contractor_id')
-						->join('lookup_contractor_types', 'lookup_contractor_types.id', '=', 'contractor_property_flip.lookup_contractor_type_id')
-						->where('contractor_property_flip.property_flip_id', '=', $property_flip->id)
-						->select('contractors.name as contractor_name',
-								'contacts.firstname as contact_firstname',
-								'contacts.surname as contact_surname',
-								'contacts.work_email as contact_work_email',
-								'contacts.work_tel_no as contact_work_tel_no',
-								'contacts.cell_no as contact_cell_no',
-								'lookup_contractor_types.description as lookup_contractor_type',
-								'lookup_contractor_types.id as lookup_contractor_type_id',
-								'contacts.id as contact_id')
-								->get();
-		return $contact_contractors;
-	}
-	
-	private function populateBanks($property_flip)
-	{
-		$contact_banks = DB::table('bank_property_flip')
-						->join('contacts', 'contacts.id', '=' ,'bank_property_flip.contact_id')
-						->join('property_flips', 'property_flips.id', '=', 'bank_property_flip.property_flip_id')
-						->join('bank_contact', 'bank_contact.contact_id', '=', 'contacts.id')
-						->join('banks', 'banks.id', '=', 'bank_contact.bank_id')
-						->where('bank_property_flip.property_flip_id', '=', $property_flip->id)
-						->select('banks.name as bank_name',
-								'contacts.firstname as contact_firstname',
-								'contacts.surname as contact_surname',
-								'contacts.work_email as contact_work_email',
-								'contacts.work_tel_no as contact_work_tel_no',
-								'contacts.cell_no as contact_cell_no',
-								'contacts.id as contact_id')
-								->get();
-		return $contact_banks;
-	}
-	
-	private function populateInvestors($property_flip)
-	{
-		$contact_investors = DB::table('investor_property_flip')
-						->join('contacts', 'contacts.id', '=' ,'investor_property_flip.contact_id')
-						->join('property_flips', 'property_flips.id', '=', 'investor_property_flip.property_flip_id')
-						->where('investor_property_flip.property_flip_id', '=', $property_flip->id)
-						->select('contacts.firstname as contact_firstname',
-								'contacts.surname as contact_surname',
-								'contacts.work_email as contact_work_email',
-								'contacts.work_tel_no as contact_work_tel_no',
-								'contacts.cell_no as contact_cell_no',
-								'contacts.id as contact_id',
-								'investor_property_flip.investment_amount')
-								->get();
-		return $contact_investors;
 	}
 }

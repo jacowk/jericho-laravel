@@ -11,9 +11,10 @@ use jericho\Http\Requests;
 use jericho\User;
 use jericho\Util\Util;
 use jericho\Role;
-use jericho\Util\LookupUtil;
 use DB;
 use jericho\Audits\RoleToUserAuditor;
+use jericho\Lookup\RolesForCheckboxesRetriever;
+use jericho\Lookup\PaginationSizeLookupRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on users
@@ -69,8 +70,8 @@ class UserController extends Controller
 	 */
 	public function getAddUser()
 	{
-		$roles = LookupUtil::retrieveRolesForCheckboxes();
-		$pagination_size_options = LookupUtil::paginationSizeOptions();
+		$roles = (new RolesForCheckboxesRetriever())->execute();
+		$pagination_size_options = (new PaginationSizeLookupRetriever())->execute();
 		return view('user.add-user', [ 
 				'roles' => $roles, 
 				'pagination_size_options' => $pagination_size_options
@@ -122,8 +123,9 @@ class UserController extends Controller
 	public function getUpdateUser(Request $request, $user_id)
 	{
 		$user = User::find($user_id);
-		$roles = LookupUtil::retrieveRolesForCheckboxes($user->roles);
-		$pagination_size_options = LookupUtil::paginationSizeOptions();
+		$roles = (new RolesForCheckboxesRetriever($user->roles))->execute();
+		$pagination_size_options = (new PaginationSizeLookupRetriever())->execute();
+		
 		return view('user.update-user', [
 				'user' => $user, 
 				'roles' => $roles,
@@ -190,7 +192,7 @@ class UserController extends Controller
 	public function resetPassword(Request $request, $user_id)
 	{
 		$user = User::find($user_id);
-		$roles = LookupUtil::retrieveRolesForCheckboxes($user->roles);
+		$roles = (new RolesForCheckboxesRetriever($user->roles))->execute();
 		return view('user.reset-password', ['user' => $user]);
 	}
 	

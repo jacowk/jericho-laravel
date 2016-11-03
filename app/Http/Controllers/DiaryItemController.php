@@ -9,8 +9,9 @@ use Illuminate\Support\Facades\Validator;
 use jericho\Http\Requests;
 use jericho\DiaryItem;
 use jericho\Util\Util;
-use jericho\Util\LookupUtil;
 use jericho\Util\TabConstants;
+use jericho\Lookup\DiaryItemStatusLookupRetriever;
+use jericho\Lookup\UserLookupRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on diary items
@@ -29,7 +30,7 @@ class DiaryItemController extends Controller
 	public function getAddDiaryItem(Request $request, $property_flip_id)
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::DIARY_TAB);
-		$lookup_users = LookupUtil::retrieveUsersLookup();
+		$lookup_users = (new UserLookupRetriever())->execute();
 		return view('diary.add-diary-item', [
 			'property_flip_id' => $property_flip_id,
 			'lookup_users' => $lookup_users
@@ -62,7 +63,6 @@ class DiaryItemController extends Controller
 		$user = Auth::user();
 		$diary_item = new DiaryItem();
 		$diary_item->property_flip_id = Util::getNumericQueryParameter($request->property_flip_id);
-// 		$diary_item->allocated_user_id = Util::getNumericQueryParameter($request->allocated_user_id);
 		$diary_item->status_id = 1; /* Open */
 		$diary_item->followup_date = Util::getQueryParameter($request->followup_date);
 		$diary_item->followup_user_id = Util::getNumericQueryParameter($request->followup_user_id);
@@ -84,8 +84,8 @@ class DiaryItemController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::DIARY_TAB);
 		$diary_item = DiaryItem::find($diary_item_id);
-		$diary_item_statuses = LookupUtil::retrieveDiaryItemStatusLookup();
-		$lookup_users = LookupUtil::retrieveUsersLookup();
+		$diary_item_statuses = (new DiaryItemStatusLookupRetriever())->execute();
+		$lookup_users = (new UserLookupRetriever())->execute();
 		return view('diary.update-diary-item', [
 			'diary_item' => $diary_item,
 			'lookup_users' => $lookup_users,
@@ -103,11 +103,6 @@ class DiaryItemController extends Controller
 	public function postDoUpdateDiaryItem(Request $request, $diary_item_id)
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::DIARY_TAB);
-// 		$this->validate($request, [
-// 			'followup_date' => 'required',
-// 			'followup_user_id' => 'required',
-// 			'comments' => 'required'
-// 		]);
 		$validator = Validator::make($request->all(), [
 			'followup_date' => 'required',
 			'followup_user_id' => 'required|not_in:-1',
@@ -148,21 +143,4 @@ class DiaryItemController extends Controller
 				'diary_item' => $diary_item
 		]);
 	}
-	
-// 	/**
-// 	 * Function to allocate a diary item to the current user
-// 	 * 
-// 	 * @param Request $request
-// 	 * @param unknown $diary_item_id
-// 	 * @return \Illuminate\Http\RedirectResponse
-// 	 */
-// 	public function selfAllocateDiaryItem(Request $request, $diary_item_id)
-// 	{
-// 		$diary_item = DiaryItem::find($diary_item_id);
-// 		$user = Auth::user();
-// 		$diary_item->allocated_user_id = $user->id;
-// 		$diary_item->save();
-// 		return redirect()->action('DiaryItemController@getViewDiaryItem', ['diary_item_Id' => $diary_item->id])
-// 			->with(['message' => 'Diary Item allocated to yourself']);
-// 	}
 }

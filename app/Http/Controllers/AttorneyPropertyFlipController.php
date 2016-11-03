@@ -11,7 +11,6 @@ use jericho\Http\Requests;
 use jericho\PropertyFlip;
 use jericho\Contact;
 use jericho\Util\Util;
-use jericho\Util\LookupUtil;
 use jericho\Attorney;
 use Carbon\Carbon;
 use jericho\LookupAttorneyType;
@@ -20,6 +19,8 @@ use jericho\Util\TabConstants;
 use jericho\Audits\LinkAttorneyPropertyFlipAuditor;
 use jericho\Audits\DeleteAttorneyPropertyFlipAuditor;
 use jericho\Lookup\AttorneyTypeLookupRetriever;
+use jericho\Lookup\AttorneyLookupRetriever;
+use jericho\Lookup\AttorneyContactAjaxLookupRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on property flips
@@ -40,7 +41,7 @@ class AttorneyPropertyFlipController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::ATTORNEYS_TAB);
 		$property_flip_id = Util::getQueryParameter($request->property_flip_id);
-		$attorneys = LookupUtil::retrieveAttorneys();
+		$attorneys = (new AttorneyLookupRetriever())->execute();
 		$lookup_attorney_types = (new AttorneyTypeLookupRetriever())->execute();
 		$contacts = array();
 		$contacts['-1'] = "Select Attorney Contact";
@@ -135,7 +136,7 @@ class AttorneyPropertyFlipController extends Controller
 	public function postAjaxAttorneyContacts(Request $request)
 	{
 		$attorney_id = Util::getQueryParameter($request->attorney_id);
-		$attorney_contacts = LookupUtil::retrieveAttorneyContactsAjax($attorney_id);
+		$attorney_contacts = (new AttorneyContactAjaxLookupRetriever($attorney_id))->execute();
 		return json_encode($attorney_contacts);
 	}
 	

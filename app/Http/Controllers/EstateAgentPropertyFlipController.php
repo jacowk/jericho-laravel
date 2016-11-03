@@ -10,7 +10,6 @@ use jericho\Http\Requests;
 use jericho\PropertyFlip;
 use jericho\Contact;
 use jericho\Util\Util;
-use jericho\Util\LookupUtil;
 use jericho\EstateAgent;
 use Carbon\Carbon;
 use jericho\LookupEstateAgentType;
@@ -20,6 +19,7 @@ use jericho\Audits\LinkEstateAgentPropertyFlipAuditor;
 use jericho\Audits\DeleteEstateAgentPropertyFlipAuditor;
 use jericho\Lookup\EstateAgentTypeLookupRetriever;
 use jericho\Lookup\EstateAgentLookupRetriever;
+use jericho\Lookup\ContactEstateAgentAjaxLookupRetriever;
 
 /**
  * This class is a controller for linking the contacts of estate agents to property flips
@@ -130,7 +130,7 @@ class EstateAgentPropertyFlipController extends Controller
 	public function postAjaxContactEstateAgents(Request $request)
 	{
 		$estate_agent_id = Util::getQueryParameter($request->estate_agent_id);
-		$estate_agent_contacts = LookupUtil::retrieveContactEstateAgentsAjax($estate_agent_id);
+		$estate_agent_contacts = (new ContactEstateAgentAjaxLookupRetriever($estate_agent_id))->execute();
 		Util::writeToFile(json_encode($estate_agent_contacts));
 		return json_encode($estate_agent_contacts);
 	}

@@ -3,8 +3,39 @@ namespace jericho\Util;
 
 use Illuminate\Http\Request;
 
+/**
+ * This class contains general methods for validating and transforming data 
+ * 
+ * @author Jaco Koekemoer
+ *
+ */
 class Util
 {
+	/**
+	 * Write to a file. This is mainly used for debugging during development.
+	 *
+	 * @param unknown $value
+	 */
+	public static function writeToFile($value)
+	{
+		$filename = "C:\laravel_output.txt";
+		$file = fopen( $filename, "a" );
+		 
+		if( $file == false )
+		{
+			echo ( "Error in opening new file" );
+			exit();
+		}
+		fwrite( $file, "$value\n" );
+		fclose( $file );
+	}
+	
+	/**
+	 * Validate if a parameter is a valid string parameter
+	 * 
+	 * @param unknown $parameter
+	 * @return unknown|string
+	 */
 	public static function getQueryParameter($parameter)
 	{
 		if (Util::isValidRequestVariable($parameter))
@@ -14,24 +45,43 @@ class Util
 		return "";
 	}
 	
+	/**
+	 * Validate if a parameter is a valid numeric parameter
+	 * 
+	 * @param unknown $parameter
+	 * @return unknown|number
+	 */
 	public static function getNumericQueryParameter($parameter)
 	{
-		if (Util::isValidRequestVariable($parameter))
+		if (Util::isValidRequestVariable($parameter) && is_numeric($parameter))
 		{
 			return $parameter;
 		}
 		return 0;
 	}
 	
+	/**
+	 * Validate if a parameter is a valid date parameter
+	 * 
+	 * @param unknown $parameter
+	 * @return unknown|NULL
+	 */
 	public static function getDateQueryParameter($parameter)
 	{
-		if (Util::isValidRequestVariable($parameter))
+		if (Util::isValidRequestVariable($parameter) && strtotime($parameter))
 		{
 			return $parameter;
 		}
 		return null;
 	}
 	
+	/**
+	 * This method is used to ensure that if a value is selected via a combobox, that the value is not -1 
+	 * for a non selection 
+	 * 
+	 * @param unknown $requestVar
+	 * @return boolean
+	 */
 	public static function isValidSelectRequestVariable($requestVar)
 	{
 		if (Util::isValidRequestVariable($requestVar) && $requestVar > 0)
@@ -41,6 +91,12 @@ class Util
 		return false;
 	}
 	
+	/**
+	 * This method contains general validations for any type of variable
+	 * 
+	 * @param unknown $requestVar
+	 * @return boolean
+	 */
 	public static function isValidRequestVariable($requestVar)
 	{
 		if (isset($requestVar) && !is_null($requestVar) && strlen($requestVar) > 0)
@@ -50,26 +106,18 @@ class Util
 		return false;
 	}
 	
+	/**
+	 * Remove a variable from the session
+	 * 
+	 * @param Request $request
+	 * @param unknown $var_name
+	 */
 	public static function forgetSessionVariable(Request $request, $var_name)
 	{
 		if ($request->session->has($var_name))
 		{
 			$request->session->forget($var_name);
 		}
-	}
-	
-	public static function writeToFile($value)
-	{
-		$filename = "C:\laravel_output.txt";
-		$file = fopen( $filename, "a" );
-		   
-		if( $file == false )
-		{
-			echo ( "Error in opening new file" );
-			exit();
-		}
-		fwrite( $file, "$value\n" );
-		fclose( $file );
 	}
 	
 	/**
@@ -95,7 +143,7 @@ class Util
 	}
 	
 	/**
-	 * Convert a name, such as Add Bank to add_bank, which are then used on forms
+	 * Convert a name, such as Add Bank to add_bank, which are then used on forms as names
 	 * 
 	 * @param unknown $name
 	 * @return mixed
@@ -108,7 +156,10 @@ class Util
 	}
 	
 	/**
-	 * Process the currency values captured on screen.
+	 * Process the currency values captured on screen. Currency values, due to masking, is submitted as
+	 * R __ __2 000.00
+	 * This means that the 'R' in front, all spaces, and dashes should be stripped. On top of this, 
+	 * currency values are stored as cents in the database, so the value has to be multiplied by 100.
 	 * 
 	 * @param unknown $value
 	 * @return number
@@ -135,15 +186,15 @@ class Util
 	 */
 	public static function stripCurrencyCharacters($value)
 	{
-		$value = trim($value, 'R'); /* Strip R */
-		$value = trim($value); /* Strip white space */
+		$value = str_replace('R', '', $value); /* Strip R */
 		$value = str_replace(' ', '', $value); /* Strip white space in the middle */
-		$value = trim($value, '_'); /* Strip underscore */
+		$value = str_replace('_', '', $value); /* Strip underscore */
 		return $value;
 	}
 	
 	/**
-	 * Convert a parameter to a query parameter that can be used in the database for searches
+	 * Convert a parameter to a query parameter that can be used in the database for searches using like, so
+	 * it has to be '%something%'
 	 * 
 	 * @param unknown $parameter
 	 * @return string

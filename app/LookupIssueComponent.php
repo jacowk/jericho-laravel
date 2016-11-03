@@ -18,8 +18,8 @@ class LookupIssueComponent extends Model
 	protected $fillable = ['name', 'created_by_id', 'updated_by_id'];
 	
 	/* For invoke via reflection in auditing */
-	public function getName()
+	public function getDescription()
 	{
-		return $this->name;
+		return $this->description;
 	}
 }

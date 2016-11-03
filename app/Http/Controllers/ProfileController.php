@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use jericho\Http\Requests;
 use jericho\User;
-use jericho\Util\LookupUtil;
 use jericho\Util\Util;
 use DB;
 
@@ -48,7 +47,7 @@ class ProfileController extends Controller
 	public function getUpdateProfile(Request $request, $user_id)
 	{
 		$user = User::find($user_id);
-		$pagination_size_options = LookupUtil::paginationSizeOptions();
+		$pagination_size_options = (new PaginationSizeLookupRetriever())->execute();
 		return view('profile.update-profile', [
 				'user' => $user, 
 				'pagination_size_options' => $pagination_size_options

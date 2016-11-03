@@ -15,7 +15,6 @@ class GreaterAreaLookupRetriever implements Component
 {
 	public function execute()
 	{
-		Continue here
 		$table_greater_areas = GreaterArea::orderBy('name', 'asc')->get();
 		$greater_areas = array();
 		$greater_areas[-1] = "Select Greater Area";

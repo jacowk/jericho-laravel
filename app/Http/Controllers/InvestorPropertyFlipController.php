@@ -10,7 +10,6 @@ use jericho\Http\Requests;
 use jericho\PropertyFlip;
 use jericho\Contact;
 use jericho\Util\Util;
-use jericho\Util\LookupUtil;
 use jericho\Investor;
 use Carbon\Carbon;
 use jericho\LookupInvestorType;
@@ -18,6 +17,7 @@ use DB;
 use jericho\Util\TabConstants;
 use jericho\Audits\LinkInvestorPropertyFlipAuditor;
 use jericho\Audits\DeleteInvestorPropertyFlipAuditor;
+use jericho\Lookup\ContactLookupRetriever;
 
 /**
  * This class is a controller for linking the contacts of investors to property flips
@@ -38,7 +38,7 @@ class InvestorPropertyFlipController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::INVESTORS_TAB);
 		$property_flip_id = Util::getQueryParameter($request->property_flip_id);
-		$contacts = LookupUtil::retrieveContactsLookup();
+		$contacts = (new ContactLookupRetriever())->execute();
 		return view ('property-flip.link-contact-investor', [
 				'property_flip_id' => $property_flip_id,
 				'contacts' => $contacts

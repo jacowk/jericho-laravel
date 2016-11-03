@@ -91,7 +91,7 @@
 						@endforeach
 					@else
 						<tr>
-							<td colspan="7">No audits</td>
+							<td colspan="8">No audits</td>
 						</tr>
 					@endif
 				</tbody>

@@ -10,8 +10,9 @@ use jericho\Http\Requests;
 use jericho\Transaction;
 use jericho\PropertyFlip;
 use jericho\Util\Util;
-use jericho\Util\LookupUtil;
 use jericho\Util\TabConstants;
+use jericho\Lookup\AccountLookupRetriever;
+use jericho\Lookup\TransactionTypeLookupRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on transactions
@@ -30,8 +31,8 @@ class TransactionController extends Controller
 	public function getAddTransaction(Request $request, $property_flip_id)
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::TRANSACTIONS_TAB);
-		$accounts = LookupUtil::retrieveLookupAccounts();
-		$lookup_transaction_types = LookupUtil::retrieveLookupTransactionTypes();
+		$accounts = (new AccountLookupRetriever())->execute();
+		$lookup_transaction_types = (new TransactionTypeLookupRetriever())->execute();
 		return view('transaction.add-transaction', [
 			'property_flip_id' => $property_flip_id,
 			'accounts' => $accounts,
@@ -92,8 +93,8 @@ class TransactionController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::TRANSACTIONS_TAB);
 		$transaction = Transaction::find($transaction_id);
-		$accounts = LookupUtil::retrieveLookupAccounts();
-		$lookup_transaction_types = LookupUtil::retrieveLookupTransactionTypes();
+		$accounts = $accounts = (new AccountLookupRetriever())->execute();
+		$lookup_transaction_types = (new TransactionTypeLookupRetriever())->execute();
 		return view('transaction.update-transaction', [
 			'transaction' => $transaction,
 			'accounts' => $accounts,

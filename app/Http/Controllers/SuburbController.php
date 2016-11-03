@@ -11,8 +11,8 @@ use jericho\Http\Requests;
 use jericho\Suburb;
 use jericho\Area;
 use jericho\Util\Util;
-use jericho\Util\LookupUtil;
-use DB;
+use jericho\Lookup\AreaLookupRetriever;
+use jericho\Lookup\SuburbAjaxLookupRetriever;
 
 class SuburbController extends Controller
 {
@@ -23,7 +23,7 @@ class SuburbController extends Controller
 	 */
 	public function getSearchSuburb()
 	{
-		$areas = LookupUtil::retrieveAreasLookup();
+		$areas = (new AreaLookupRetriever())->execute();
 		return view('suburb.search-suburb', [
 			'name' => null,
 			'box_code' => null,
@@ -74,7 +74,7 @@ class SuburbController extends Controller
 			array_push($query_parameters, $area_id_query_parameter);
 		}
 		$suburbs = Suburb::where($query_parameters)->paginate($user->pagination_size);
-		$areas = LookupUtil::retrieveAreasLookup();
+		$areas = (new AreaLookupRetriever())->execute();
 		return view('suburb.search-suburb', [
 			'suburbs' => $suburbs,
 			'name' => $name,
@@ -92,7 +92,7 @@ class SuburbController extends Controller
 	 */
 	public function getAddSuburb()
 	{
-		$areas = LookupUtil::retrieveAreasLookup();
+		$areas = (new AreaLookupRetriever())->execute();
 		return view('suburb.add-suburb', ['areas' => $areas]);
 	}
 	
@@ -104,9 +104,6 @@ class SuburbController extends Controller
 	 */
 	public function postDoAddSuburb(Request $request)
 	{
-// 		$this->validate($request, [
-// 				'name' => 'required|unique:suburbs'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'name' => 'required|unique:suburbs',
 				'box_code' => 'numeric',
@@ -143,7 +140,7 @@ class SuburbController extends Controller
 	public function getUpdateSuburb(Request $request, $suburb_id)
 	{
 		$suburb = Suburb::find($suburb_id);
-		$areas = LookupUtil::retrieveAreasLookup();
+		$areas = (new AreaLookupRetriever())->execute();
 		return view('suburb.update-suburb', ['suburb' => $suburb, 'areas' => $areas]);
 	}
 	
@@ -156,9 +153,6 @@ class SuburbController extends Controller
 	 */
 	public function postDoUpdateSuburb(Request $request, $suburb_id)
 	{
-// 		$this->validate($request, [
-// 				'name' => 'required'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'name' => 'required',
 				'box_code' => 'numeric',
@@ -203,9 +197,6 @@ class SuburbController extends Controller
 	{
 		$area = $request->area;
 		$areas = Area::select('name')->where('name', 'like', '%' . $area . '%')->get();
-		
-// 		$areas = Area::where('name', 'like', '%' . $area . '%')
-// 				->orderBy('name', 'asc')->get();
 		$return_array = array();
 		foreach($areas as $area)
 		{
@@ -218,7 +209,7 @@ class SuburbController extends Controller
 	public function postAjaxRetrieveSuburbsForArea(Request $request)
 	{
 		$area_id = Util::getQueryParameter($request->area_id);
-		$suburbs_for_area = LookupUtil::retrieveSuburbsForAreaAjax($area_id);
+		$suburbs_for_area = (new SuburbAjaxLookupRetriever($area_id))->execute();
 		return json_encode($suburbs_for_area);
 	}
 }

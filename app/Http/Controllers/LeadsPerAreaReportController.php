@@ -14,6 +14,8 @@ use jericho\Suburb;
 use jericho\Util\Util;
 use jericho\Util\LookupUtil;
 use jericho\Util\TabConstants;
+use jericho\Lookup\AreaLookupRetriever;
+use jericho\Lookup\GreaterAreaLookupRetriever;
 use DB;
 
 /**
@@ -32,8 +34,8 @@ class LeadsPerAreaReportController extends Controller
 	 */
 	public function getLeadsPerAreaReport()
 	{
-		$areas = LookupUtil::retrieveAreasLookup();
-		$greater_areas = LookupUtil::retrieveGreaterAreasLookup();
+		$areas = (new AreaLookupRetriever())->execute();
+		$greater_areas = (new GreaterAreaLookupRetriever())->execute();
 		return view('reports.leads-per-area', [
 				'area_id' => null,
 				'greater_area_id' => null,
@@ -121,8 +123,8 @@ class LeadsPerAreaReportController extends Controller
 								'areas.name as area_name',
 								'greater_areas.name as greater_area_name')
 								->paginate($user->pagination_size);
-		$areas = LookupUtil::retrieveAreasLookup();
-		$greater_areas = LookupUtil::retrieveGreaterAreasLookup();
+		$areas = (new AreaLookupRetriever())->execute();
+		$greater_areas = (new GreaterAreaLookupRetriever())->execute();
 		return view('reports.leads-per-area', [
 				'from_date' => $from_date,
 				'to_date' => $to_date,

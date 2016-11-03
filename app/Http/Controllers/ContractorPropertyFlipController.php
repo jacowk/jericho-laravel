@@ -10,13 +10,15 @@ use jericho\Http\Requests;
 use jericho\PropertyFlip;
 use jericho\Contact;
 use jericho\Util\Util;
-use jericho\Util\LookupUtil;
 use jericho\Contractor;
 use Carbon\Carbon;
 use DB;
 use jericho\Util\TabConstants;
 use jericho\Audits\LinkContractorPropertyFlipAuditor;
 use jericho\Audits\DeleteContractorPropertyFlipAuditor;
+use jericho\Lookup\ContractorLookupRetriever;
+use jericho\Lookup\ContactContractorAjaxLookupRetriever;
+use jericho\Lookup\ContractorServiceTypeAjaxLookupRetriever;
 
 /**
  * This class is a controller for linking the contacts of contractors to property flips
@@ -37,7 +39,7 @@ class ContractorPropertyFlipController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::CONTRACTORS_TAB);
 		$property_flip_id = Util::getQueryParameter($request->property_flip_id);
-		$contractors = LookupUtil::retrieveContractors();
+		$contractors = (new ContractorLookupRetriever())->execute();
 		$lookup_contractor_types = array();
 		$lookup_contractor_types['-1'] = "Select Contractor Type";
 		$contacts = array();
@@ -128,7 +130,7 @@ class ContractorPropertyFlipController extends Controller
 	public function postAjaxContactContractors(Request $request)
 	{
 		$contractor_id = Util::getQueryParameter($request->contractor_id);
-		$contractor_contacts = LookupUtil::retrieveContactContractorsAjax($contractor_id);
+		$contractor_contacts = (new ContactContractorAjaxLookupRetriever($contractor_id))->execute();
 		return json_encode($contractor_contacts);
 	}
 	
@@ -141,7 +143,7 @@ class ContractorPropertyFlipController extends Controller
 	public function postAjaxContactContractorTypes(Request $request)
 	{
 		$contractor_id = Util::getQueryParameter($request->contractor_id);
-		$contractor_contact_types = LookupUtil::retrieveContactContractorTypesAjax($contractor_id);
+		$contractor_contact_types = (new ContractorServiceTypeAjaxLookupRetriever($contractor_id))->execute();
 		return json_encode($contractor_contact_types);
 	}
 	

@@ -12,8 +12,14 @@ use jericho\GreaterArea;
 use jericho\Area;
 use jericho\Suburb;
 use jericho\Util\Util;
-use jericho\Util\LookupUtil;
 use jericho\Util\TabConstants;
+use jericho\Lookup\SuburbLookupRetriever;
+use jericho\Lookup\AreaLookupRetriever;
+use jericho\Lookup\GreaterAreaLookupRetriever;
+use jericho\Lookup\SuburbAjaxLookupRetriever;
+use jericho\Lookup\PropertyTypeLookupRetriever;
+use jericho\Properties\PropertySearchResultRetriever;
+use jericho\PropertyFlips\PropertyFlipSearchResultRetriever;
 use DB;
 
 /**
@@ -32,10 +38,10 @@ class PropertyController extends Controller
 	 */
 	public function getSearchProperty()
 	{
-		$areas = LookupUtil::retrieveAreasLookup();
+		$areas = (new AreaLookupRetriever())->execute();
+		$greater_areas = (new GreaterAreaLookupRetriever())->execute();
 		$suburbs = array(); /* Retrieved via ajax */
 		$suburbs['-1'] = "Select Suburb";
-		$greater_areas = LookupUtil::retrieveGreaterAreasLookup();
 		return view('property.search-property', [
 			'property_id' => null,
 			'property_flip_id' => null,
@@ -126,50 +132,15 @@ class PropertyController extends Controller
 		if (Util::isValidRequestVariable($request->reference_number) || 
 				Util::isValidRequestVariable($request->property_flip_id)) /* Include join with property_flip */
 		{
-			$properties = DB::table('properties')
-							->join('property_flips', 'properties.id', '=', 'property_flips.property_id')
-							->join('suburbs', 'properties.suburb_id', '=', 'suburbs.id')
-							->join('areas', 'properties.area_id', '=', 'areas.id')
-							->join('greater_areas', 'properties.greater_area_id', '=', 'greater_areas.id')
-							->where($query_parameters)
-							->where(function ($query) use ($address_query_parameter) {
-									$query->where('address_line_1', 'like', $address_query_parameter)
-											->orWhere('address_line_2', 'like', $address_query_parameter)
-											->orWhere('address_line_3', 'like', $address_query_parameter)
-											->orWhere('address_line_4', 'like', $address_query_parameter)
-											->orWhere('address_line_5', 'like', $address_query_parameter);
-							})
-							->select('properties.*',
-									'property_flips.id as property_flip_id',
-									'property_flips.reference_number',
-									'suburbs.name as suburb_name',
-									'areas.name as area_name',
-									'greater_areas.name as greater_area_name')
-							->paginate($user->pagination_size);
+			$properties = (new PropertyFlipSearchResultRetriever($query_parameters, $address_query_parameter, $user))->execute();
 		}
 		else /* Exlude join with property_flip */
 		{
-			$properties = DB::table('properties')
-							->join('suburbs', 'properties.suburb_id', '=', 'suburbs.id')
-							->join('areas', 'properties.area_id', '=', 'areas.id')
-							->join('greater_areas', 'properties.greater_area_id', '=', 'greater_areas.id')
-							->where($query_parameters)
-							->where(function ($query) use ($address_query_parameter) {
-								$query->where('address_line_1', 'like', $address_query_parameter)
-								->orWhere('address_line_2', 'like', $address_query_parameter)
-								->orWhere('address_line_3', 'like', $address_query_parameter)
-								->orWhere('address_line_4', 'like', $address_query_parameter)
-								->orWhere('address_line_5', 'like', $address_query_parameter);
-							})
-							->select('properties.*',
-									'suburbs.name as suburb_name',
-									'areas.name as area_name',
-									'greater_areas.name as greater_area_name')
-							->paginate($user->pagination_size);
+			$properties = (new PropertySearchResultRetriever($query_parameters, $address_query_parameter, $user))->execute();
 		}			
-		$suburbs = LookupUtil::retrieveSuburbsLookup();
-		$areas = LookupUtil::retrieveAreasLookup();
-		$greater_areas = LookupUtil::retrieveGreaterAreasLookup();
+		$suburbs = (new SuburbLookupRetriever())->execute();
+		$areas = (new AreaLookupRetriever())->execute();
+		$greater_areas = (new GreaterAreaLookupRetriever())->execute();
 		return view('property.search-property', [
 			'properties' => $properties,
 			'property_id' => $property_id,
@@ -192,11 +163,11 @@ class PropertyController extends Controller
 	 */
 	public function getAddProperty()
 	{
-		$greater_areas = LookupUtil::retrieveGreaterAreasLookup();
-		$areas = LookupUtil::retrieveAreasLookup();
+		$areas = (new AreaLookupRetriever())->execute();
+		$greater_areas = (new GreaterAreaLookupRetriever())->execute();
 		$suburbs = array(); /* Retrieved via ajax */
 		$suburbs['-1'] = "Select Suburb";
-		$lookup_property_types = LookupUtil::retrieveLookupPropertyTypes();
+		$lookup_property_types = (new PropertyTypeLookupRetriever())->execute();
 		return view('property.add-property', [
 			'greater_areas' => $greater_areas,
 			'areas' => $areas,
@@ -256,10 +227,11 @@ class PropertyController extends Controller
 	public function getUpdateProperty(Request $request, $property_id)
 	{
 		$property = Property::find($property_id);
-		$greater_areas = LookupUtil::retrieveGreaterAreasLookup();
-		$areas = LookupUtil::retrieveAreasLookup();
-		$suburbs = LookupUtil::retrieveSuburbsForAreaAjax($property->area_id);
-		$lookup_property_types = LookupUtil::retrieveLookupPropertyTypes();
+		$areas = (new AreaLookupRetriever())->execute();
+		$greater_areas = (new GreaterAreaLookupRetriever())->execute();
+		$suburbs = (new SuburbAjaxLookupRetriever($property->area_id))->execute();
+		$lookup_property_types = (new PropertyTypeLookupRetriever())->execute();
+		
 		return view('property.update-property', [
 			'property' => $property,
 			'greater_areas' => $greater_areas,

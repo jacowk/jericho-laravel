@@ -10,13 +10,14 @@ use jericho\Http\Requests;
 use jericho\PropertyFlip;
 use jericho\Contact;
 use jericho\Util\Util;
-use jericho\Util\LookupUtil;
 use jericho\Bank;
 use Carbon\Carbon;
 use DB;
 use jericho\Util\TabConstants;
 use jericho\Audits\LinkBankPropertyFlipAuditor;
 use jericho\Audits\DeleteBankPropertyFlipAuditor;
+use jericho\Lookup\BankLookupRetriever;
+use jericho\Lookup\BankContactAjaxLookupRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on property flips
@@ -37,7 +38,7 @@ class BankPropertyFlipController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::BANKS_TAB);
 		$property_flip_id = Util::getQueryParameter($request->property_flip_id);
-		$banks = LookupUtil::retrieveBanks();
+		$banks = (new BankLookupRetriever())->execute();
 		$contacts = array();
 		$contacts['-1'] = "Select Bank Contact";
 		return view ('property-flip.link-bank-contact', [
@@ -122,8 +123,7 @@ class BankPropertyFlipController extends Controller
 	public function postAjaxBankContacts(Request $request)
 	{
 		$bank_id = Util::getQueryParameter($request->bank_id);
-		$bank_contacts = LookupUtil::retrieveBankContactsAjax($bank_id);
-		Util::writeToFile(json_encode($bank_contacts));
+		$bank_contacts = (new BankContactAjaxLookupRetriever($bank_id))->execute();
 		return json_encode($bank_contacts);
 	}
 	
