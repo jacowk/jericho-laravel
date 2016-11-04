@@ -466,6 +466,225 @@ class UtilTest extends TestCase
 	 */
 	public function testConvertToLikeQueryParameterWithValidParameter()
 	{
-		
+		$parameter = 'test';
+		$expected = '%test%';
+		$actual = Util::convertToLikeQueryParameter($parameter);
+		$this->assertEquals($expected, $actual);
+	}
+	
+	/**
+	 * Test conversion of a parameter to a empty query parameter
+	 */
+	public function testConvertToLikeQueryParameterWithEmptyParameter()
+	{
+		$parameter = '';
+		$expected = '%%';
+		$actual = Util::convertToLikeQueryParameter($parameter);
+		$this->assertEquals($expected, $actual);
+	}
+	
+	/**
+	 * Test conversion of a parameter to a null query parameter
+	 */
+	public function testConvertToLikeQueryParameterWithNullParameter()
+	{
+		$parameter = null;
+		$expected = '%%';
+		$actual = Util::convertToLikeQueryParameter($parameter);
+		$this->assertEquals($expected, $actual);
+	}
+	
+	/**
+	 * Test if a string contains another string with valid data
+	 */
+	public function testStringContainsWithValidData()
+	{
+		$string = 'This is a test';
+		$contains = 'test';
+		$expected = true;
+		$actual = Util::stringContains($string, $contains);
+		$this->assertEquals($expected, $actual);
+	}
+	
+	/**
+	 * Test if a string contains another string with null string
+	 */
+	public function testStringContainsWithNullString()
+	{
+		$string = null;
+		$contains = 'test';
+		$expected = false;
+		$actual = Util::stringContains($string, $contains);
+		$this->assertEquals($expected, $actual);
+	}
+
+	/**
+	 * Test if a string contains another string with null contains
+	 */
+	public function testStringContainsWithNullContains()
+	{
+		$string = 'This is a test';
+		$contains = null;
+		$expected = false;
+		$actual = Util::stringContains($string, $contains);
+		$this->assertEquals($expected, $actual);
+	}
+
+	/**
+	 * Test the copying of an array with numeric array
+	 */
+	public function testCopyArrayWithNumericArray()
+	{
+		$old_array = array(1, 2, 3, 4, 5);
+		$expected = $old_array;
+		$actual = Util::copyArray($old_array);
+		/* Test not null */
+		$this->assertNotNull($actual);
+		/* Test not empty */
+		$this->assertNotEmpty($actual);
+		/* Are the sizes equal */
+		$this->assertEquals(count($expected), count($actual));
+		/* Contains same elements */
+		for ($i = 0; $i < count($expected); $i++)
+		{
+			$this->assertEquals($expected[$i], $actual[$i]);
+		}
+	}
+
+	/**
+	 * Test the copying of an array with string array
+	 */
+	public function testCopyArrayWithStringArray()
+	{
+		$old_array = array('er', 'ol', 'uh', 'ip', 'era', 'age');
+		$expected = $old_array;
+		$actual = Util::copyArray($old_array);
+		/* Test not null */
+		$this->assertNotNull($actual);
+		/* Test not empty */
+		$this->assertNotEmpty($actual);
+		/* Are the sizes equal */
+		$this->assertEquals(count($expected), count($actual));
+		/* Contains same elements */
+		for ($i = 0; $i < count($expected); $i++)
+		{
+			$this->assertEquals($expected[$i], $actual[$i]);
+		}
+	}
+
+	/**
+	 * Test the copying of an array with empty array
+	 */
+	public function testCopyArrayWithEmptyArray()
+	{
+		$old_array = [];
+		$expected = $old_array;
+		$actual = Util::copyArray($old_array);
+		/* Are the sizes equal */
+		$this->assertEquals(count($expected), count($actual));
+		/* Must be empty */
+		$this->assertEmpty($actual);
+	}
+
+	/**
+	 * Test the copying of an array with null array
+	 */
+	public function testCopyArrayWithNullArray()
+	{
+		$old_array = null;
+		$expected = $old_array;
+		$actual = Util::copyArray($old_array);
+		/* Are the sizes equal */
+		$this->assertEquals(count($expected), count($actual));
+		/* Must be empty */
+		$this->assertEmpty($actual);
+	}
+	
+	/**
+	 * Test the validation of an array not null and not empty
+	 */
+	public function testIsArrayNotNullAndNotEmptyWithValidNumericArray()
+	{
+		$parameter = array(1, 2, 3, 4, 5, 6);
+		$expected = true;
+		$actual = Util::isArrayNotNullAndNotEmpty($parameter);
+		$this->assertEquals($expected, $actual);
+	}
+	
+	/**
+	 * Test the validation of an array not null and not empty
+	 */
+	public function testIsArrayNotNullAndNotEmptyWithValidStringArray()
+	{
+		$parameter = array('er', 'ol', 'uh', 'ip', 'era', 'age');
+		$expected = true;
+		$actual = Util::isArrayNotNullAndNotEmpty($parameter);
+		$this->assertEquals($expected, $actual);
+	}
+	
+	/**
+	 * Test the validation of an array not null and not empty
+	 */
+	public function testIsArrayNotNullAndNotEmptyWithEmptyArray()
+	{
+		$parameter = [];
+		$expected = false;
+		$actual = Util::isArrayNotNullAndNotEmpty($parameter);
+		$this->assertEquals($expected, $actual);
+	}
+	
+	/**
+	 * Test the validation of an array not null and not empty
+	 */
+	public function testIsArrayNotNullAndNotEmptyWithNullArray()
+	{
+		$parameter = null;
+		$expected = false;
+		$actual = Util::isArrayNotNullAndNotEmpty($parameter);
+		$this->assertEquals($expected, $actual);
+	}
+	
+	/**
+	 * Test the transformation of a variable name to a getter method name
+	 */
+	public function testTransformToGetterMethodWithValidData()
+	{
+		$parameter = 'hello_world';
+		$expected = 'getHelloWorld';
+		$actual = Util::transformToGetterMethod($parameter);
+		$this->assertEquals($expected, $actual);
+	}
+	
+	/**
+	 * Test the transformation of a variable name to a getter method name
+	 */
+	public function testTransformToGetterMethodVariation1()
+	{
+		$parameter = 'hello world';
+		$expected = 'getHelloWorld';
+		$actual = Util::transformToGetterMethod($parameter);
+		$this->assertEquals($expected, $actual);
+	}
+	
+	/**
+	 * Test the transformation of a variable name to a getter method name with empty parameter
+	 */
+	public function testTransformToGetterMethodWithEmptyParameter()
+	{
+		$parameter = '';
+		$expected = '';
+		$actual = Util::transformToGetterMethod($parameter);
+		$this->assertEquals($expected, $actual);
+	}
+	
+	/**
+	 * Test the transformation of a variable name to a getter method name with null parameter
+	 */
+	public function testTransformToGetterMethodWithNullParameter()
+	{
+		$parameter = null;
+		$expected = '';
+		$actual = Util::transformToGetterMethod($parameter);
+		$this->assertEquals($expected, $actual);
 	}
 }

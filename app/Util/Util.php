@@ -107,6 +107,21 @@ class Util
 	}
 	
 	/**
+	 * This method validates if an array is not null and empty
+	 * 
+	 * @param unknown $requestVar
+	 * @return boolean
+	 */
+	public static function isArrayNotNullAndNotEmpty($array)
+	{
+		if (!is_null($array) && !empty($array))
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	/**
 	 * Remove a variable from the session
 	 * 
 	 * @param Request $request
@@ -201,7 +216,11 @@ class Util
 	 */
 	public static function convertToLikeQueryParameter($parameter)
 	{
-		return '%' . $parameter . '%';
+		if (Util::isValidRequestVariable($parameter))
+		{
+			return '%' . $parameter . '%';
+		}
+		return '%%';
 	}
 	
 	/**
@@ -228,12 +247,16 @@ class Util
 	 */
 	public static function copyArray($old_array)
 	{
-		$new_array = array();
-		foreach($old_array as $item)
+		if (Util::isArrayNotNullAndNotEmpty($old_array))
 		{
-			array_push($new_array, $item);
+			$new_array = array();
+			foreach($old_array as $item)
+			{
+				array_push($new_array, $item);
+			}
+			return $new_array;
 		}
-		return $new_array;
+		return;
 	}
 	
 	/**
@@ -244,11 +267,15 @@ class Util
 	 */
 	public static function transformToGetterMethod($value)
 	{
-		$getter_name = str_replace('_', ' ', $value);
-		$getter_name = strtolower($getter_name);
-		$getter_name = ucwords($getter_name);
-		$getter_name = str_replace(' ', '', $getter_name);
-		$getter_name = 'get' . $getter_name;
-		return $getter_name;
+		if (Util::isValidRequestVariable($value))
+		{
+			$getter_name = str_replace('_', ' ', $value);
+			$getter_name = strtolower($getter_name);
+			$getter_name = ucwords($getter_name);
+			$getter_name = str_replace(' ', '', $getter_name);
+			$getter_name = 'get' . $getter_name;
+			return $getter_name;
+		}
+		return;
 	}
 }

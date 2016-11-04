@@ -10,10 +10,15 @@ namespace jericho\Util;
  */
 class JSONUtil
 {
+	/**
+	 * Convert JSON to HTML string
+	 * @param unknown $jsonValue
+	 * @return string
+	 */
 	public static function convertJSONToString($jsonValue)
 	{
-		$output = "";
-		if (Util::isValidRequestVariable($jsonValue))
+		$output = '';
+		if (Util::isValidRequestVariable($jsonValue) && JSONUtil::isJson($jsonValue))
 		{
 			if (!is_array($jsonValue))
 			{
@@ -52,6 +57,12 @@ class JSONUtil
 		return $output;
 	}
 	
+	/**
+	 * Test if a string is JSON format
+	 * 
+	 * @param unknown $string
+	 * @return boolean
+	 */
 	public static function isJson($string)
 	{
 	    return ((is_string($string) &&
