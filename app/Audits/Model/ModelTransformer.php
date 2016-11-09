@@ -49,7 +49,8 @@ use jericho\User;
 use jericho\Util\Util;
 
 /**
- * A class for transforming model id properties via reflection
+ * A class for transforming model id properties via reflection into appropriate descriptions that is meaningful
+ * to the front end user, and specifically for data that is audited.
  * 
  * @author Jaco Koekemoer
  * Date: 2016-10-31
@@ -57,24 +58,62 @@ use jericho\Util\Util;
  */
 class ModelTransformer
 {
+	/**
+	 * A method for performing transformation. The following parameters are used in the method signature:
+	 * 
+	 * $data is the array that is generated for auditing by the owen-it auditing package. An example of some of the 
+	 * entries in this array is as follows. Only "old" and "new" is required for this class:
+	 * 
+	 *  "old" => array:1 [
+	 *    "area_id" => 59
+	 *  ]
+	 *  "new" => array:1 [
+	 *    "area_id" => "46"
+	 *  ]
+	 *  
+	 *  "old" refers to the old value of the property of the model.
+	 *  "new" refers to the new value of the property of the model.
+	 * 
+	 * $key is the key in this array that is to be transformed from id to name or description. An example entry is "old.area_id", or "new.area_id"
+	 * $model_class_name refers to the model that is to be used to find the applicable id for. For example, if the $model_class_name is Area, then the Area model is used to find the id with. 
+	 * $property_array refers to the names of the properties in the model_class_name, which concatenated values will be used to replace the id with, in the $data array. For Users and Contacts, this can be firstname and surname, but for Area, it is a description or name.
+	 * Herewith an example array of $property_array:
+	 * 
+	 * array:1 [
+	 *  0 => "name"
+	 * ]
+	 * 
+	 * @param unknown $data
+	 * @param unknown $key
+	 * @param unknown $model_class_name
+	 * @param unknown $property_array
+	 * @return unknown
+	 */
 	public function transform($data, $key, $model_class_name, $property_array)
 	{
-		if (Arr::has($data, $key))
+		if (Util::isArrayNotNullAndNotEmpty($data) && 
+			Util::isArrayNotNullAndNotEmpty($property_array) &&
+			Util::isValidRequestVariable($key) &&
+			Util::isValidRequestVariable($model_class_name))
 		{
-			$model_class_name = 'jericho\\' . str_replace(' ', '', $model_class_name);
-			$object = call_user_func($model_class_name . '::find', Arr::get($data, $key));
-			if (!is_null($object))
+			if (Arr::has($data, $key))
 			{
-				$value = '';
-				foreach ($property_array as $property)
+				$model_class_name = 'jericho\\' . str_replace(' ', '', $model_class_name);
+				$object = call_user_func($model_class_name . '::find', Arr::get($data, $key));
+				if (!is_null($object))
 				{
-					$reflector = new ReflectionClass($object);
-					$value .= $reflector->getMethod(Util::transformToGetterMethod($property))->invoke($object) . ' ';
+					$value = '';
+					foreach ($property_array as $property)
+					{
+						$reflector = new ReflectionClass($object);
+						$value .= $reflector->getMethod(Util::transformToGetterMethod($property))->invoke($object) . ' ';
+					}
+					Arr::set($data, $key, $value);
 				}
-				Arr::set($data, $key, $value);
 			}
+			return $data;
 		}
-		return $data;
+		return array();
 	}
 }
 

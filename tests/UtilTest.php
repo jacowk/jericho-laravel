@@ -687,4 +687,48 @@ class UtilTest extends TestCase
 		$actual = Util::transformToGetterMethod($parameter);
 		$this->assertEquals($expected, $actual);
 	}
+	
+	/**
+	 * Test if two arrays are equal
+	 */
+	public function testAreArraysEqualWithNumericArraysEqual()
+	{
+		$array1 = [1, 2, 3, 4];
+		$array2 = [1, 2, 3, 4];
+		$result = Util::areArraysEqual($array1, $array2);
+		$this->assertTrue($result);
+	}
+	
+	/**
+	 * Test if two arrays are equal
+	 */
+	public function testAreArraysEqualWithNumericArraysNotEqual()
+	{
+		$array1 = [1, 3, 4];
+		$array2 = [1, 2, 3, 4];
+		$result = Util::areArraysEqual($array1, $array2);
+		$this->assertFalse($result);
+	}
+	
+	/**
+	 * Test if two arrays are equal
+	 */
+	public function testAreArraysEqualWithStringArraysEqual()
+	{
+		$array1 = ['dog', 'cat', 'mouse', 'fish'];
+		$array2 = ['dog', 'cat', 'mouse', 'fish'];
+		$result = Util::areArraysEqual($array1, $array2);
+		$this->assertTrue($result);
+	}
+	
+	/**
+	 * Test if two arrays are equal
+	 */
+	public function testAreArraysEqualWithStringArraysNotEqual()
+	{
+		$array1 = ['dog', 'cat', 'mouse'];
+		$array2 = ['dog', 'cat', 'mouse', 'fish'];
+		$result = Util::areArraysEqual($array1, $array2);
+		$this->assertFalse($result);
+	}
 }

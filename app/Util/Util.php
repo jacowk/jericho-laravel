@@ -278,4 +278,18 @@ class Util
 		}
 		return;
 	}
+	
+	/**
+	 * Validate if two arrays are equal
+	 * 
+	 * @param unknown $array1
+	 * @param unknown $array2
+	 * @return boolean
+	 */
+	public static function areArraysEqual($array1, $array2)
+	{
+		return is_array($array1) && is_array($array2) &&
+			count($array1) == count($array2) &&
+			array_diff($array1, $array2) === array_diff($array2, $array1);
+	}
 }
