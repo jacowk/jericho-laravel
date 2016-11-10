@@ -731,4 +731,24 @@ class UtilTest extends TestCase
 		$result = Util::areArraysEqual($array1, $array2);
 		$this->assertFalse($result);
 	}
+	
+	/**
+	 * Test if a model name in string is valid
+	 */
+	public function testIsValidModelWithValidModel()
+	{
+		$model_class_name = 'Contact';
+		$actual = Util::isValidModel($model_class_name);
+		$this->assertTrue($actual);
+	}
+	
+	/**
+	 * Test if a model name in string is valid
+	 */
+	public function testIsValidModelWithInvalidModel()
+	{
+ 		$model_class_name = 'Dummy';
+		$actual = Util::isValidModel($model_class_name);
+		$this->assertFalse($actual);
+	}
 }

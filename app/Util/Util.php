@@ -2,6 +2,8 @@
 namespace jericho\Util;
 
 use Illuminate\Http\Request;
+use ReflectionClass;
+use Exception;
 
 /**
  * This class contains general methods for validating and transforming data 
@@ -289,7 +291,30 @@ class Util
 	public static function areArraysEqual($array1, $array2)
 	{
 		return is_array($array1) && is_array($array2) &&
-			count($array1) == count($array2) &&
-			array_diff($array1, $array2) === array_diff($array2, $array1);
+			count($array1) == count($array2);
+		
+// 		return is_array($array1) && is_array($array2) &&
+// 			count($array1) == count($array2) &&
+// 			array_diff($array1, $array2) === array_diff($array2, $array1);
+	}
+	
+	/**
+	 * Validate if a model name, provided as string, is valid
+	 * 
+	 * @param unknown $model_name
+	 * $return boolean
+	 */
+	public static function isValidModel($model_class_name)
+	{
+		try
+		{
+			$reflector = new ReflectionClass('jericho\\' . $model_class_name);
+			$reflector->newInstance();
+			return true;
+		}
+		catch(Exception $e)
+		{
+			return false;
+		}
 	}
 }

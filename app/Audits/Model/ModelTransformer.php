@@ -3,6 +3,7 @@ namespace jericho\Audits\Model;
 
 use Illuminate\Support\Arr;
 use ReflectionClass;
+use Exception;
 use jericho\Account;
 use jericho\Area;
 use jericho\Attorney;
@@ -91,24 +92,35 @@ class ModelTransformer
 	 */
 	public function transform($data, $key, $model_class_name, $property_array)
 	{
-		if (Util::isArrayNotNullAndNotEmpty($data) && 
-			Util::isArrayNotNullAndNotEmpty($property_array) &&
-			Util::isValidRequestVariable($key) &&
-			Util::isValidRequestVariable($model_class_name))
+		if (Util::isArrayNotNullAndNotEmpty($data))
 		{
-			if (Arr::has($data, $key))
+			if (Util::isArrayNotNullAndNotEmpty($property_array) &&
+				Util::isValidRequestVariable($key) &&
+				Util::isValidRequestVariable($model_class_name) &&
+				Util::isValidModel($model_class_name))
 			{
-				$model_class_name = 'jericho\\' . str_replace(' ', '', $model_class_name);
-				$object = call_user_func($model_class_name . '::find', Arr::get($data, $key));
-				if (!is_null($object))
+				if (Arr::has($data, $key))
 				{
-					$value = '';
-					foreach ($property_array as $property)
+					$model_class_name = 'jericho\\' . str_replace(' ', '', $model_class_name);
+					$object = call_user_func($model_class_name . '::find', Arr::get($data, $key));
+					if (!is_null($object))
 					{
-						$reflector = new ReflectionClass($object);
-						$value .= $reflector->getMethod(Util::transformToGetterMethod($property))->invoke($object) . ' ';
+						$value = '';
+						foreach ($property_array as $property)
+						{
+							$reflector = new ReflectionClass($object);
+							try
+							{
+								$value .= $reflector->getMethod(Util::transformToGetterMethod($property))->invoke($object) . ' ';
+							}
+							catch (Exception $e)
+							{
+								/* If any of the properties to be called from the model is not present, do not perform any key replacement */
+								return $data;
+							}
+						}
+						Arr::set($data, $key, $value);
 					}
-					Arr::set($data, $key, $value);
 				}
 			}
 			return $data;

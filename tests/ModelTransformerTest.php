@@ -117,7 +117,30 @@ class ModelTransformerTest extends TestCase
 		$contact = Contact::find($new_attribute_value);
 		$this->assertEquals(trim($contact->firstname . ' ' . $contact->surname), trim($new_value));
     }
-     
+    
+    public function testTransformWithInvalidPropertyToCall()
+    {
+    	/* Prepare to create a $data array */
+    	$attribute_name = 'area_id';
+    	$old_attribute_value = 59;
+    	$new_attribute_value = 46;
+    	/* Create the $data array */
+    	$data = $this->getData($attribute_name, $old_attribute_value, $new_attribute_value);
+    	/* Prepare the rest of the parameters for the ModelTransformer */
+    	$key = 'old.area_id';
+    	$model_class_name = 'Area';
+    	$property_array = ['invalid'];
+    	/* Instantiate the ModelTransformer */
+    	$model_transformer = new ModelTransformer();
+    	/* Call the ModelTransformer */
+    	$data = $model_transformer->transform($data, $key, $model_class_name, $property_array);
+    	/* Validate not null */
+    	$this->assertNotNull($data);
+    	/* Validate not null and not empty */
+    	$this->assertNotNull($data);
+    	$this->assertNotEmpty($data);
+    }
+    
     public function testTransformWithInvalidKey()
     {
     	/* Prepare to create a $data array */
@@ -136,6 +159,27 @@ class ModelTransformerTest extends TestCase
     	$return_data = $model_transformer->transform($data, $key, $model_class_name, $property_array);
     	/* Validate $data and $return_data is equal */    	
     	$this->assertTrue(Util::areArraysEqual($data, $return_data));
+    }
+    
+    public function testTransformWithInvalidModelClassName()
+    {
+    	/* Prepare to create a $data array */
+    	$attribute_name = 'contact_id';
+    	$old_attribute_value = 1;
+    	$new_attribute_value = 2;
+    	/* Create the $data array */
+    	$data = $this->getData($attribute_name, $old_attribute_value, $new_attribute_value);
+    	/* Prepare the rest of the parameters for the ModelTransformer */
+    	$key = 'new.area_id';
+    	$model_class_name = 'Invalid';
+    	$property_array = ['firstname', 'surname'];
+    	/* Instantiate the ModelTransformer */
+    	$model_transformer = new ModelTransformer();
+    	/* Call the ModelTransformer */
+    	$return_data = $model_transformer->transform($data, $key, $model_class_name, $property_array);
+    	/* Validate $data and $return_data is equal */    	
+    	$this->assertNotNull($data);
+    	$this->assertNotEmpty($data);
     }
 
     public function testTransformWithNullDataArray()
@@ -195,7 +239,8 @@ class ModelTransformerTest extends TestCase
     	/* Call the ModelTransformer */
     	$data = $model_transformer->transform($data, $key, $model_class_name, $property_array);
     	/* Validate not null */
-    	$this->assertEmpty($data);
+    	$this->assertNotNull($data);
+    	$this->assertNotEmpty($data);
     }
 
     public function testTransformWithEmptyKey()
@@ -215,7 +260,8 @@ class ModelTransformerTest extends TestCase
     	/* Call the ModelTransformer */
     	$data = $model_transformer->transform($data, $key, $model_class_name, $property_array);
     	/* Validate not null */
-    	$this->assertEmpty($data);
+    	$this->assertNotNull($data);
+    	$this->assertNotEmpty($data);
     }
 
     public function testTransformWithNullModelClassName()
@@ -235,7 +281,8 @@ class ModelTransformerTest extends TestCase
     	/* Call the ModelTransformer */
     	$data = $model_transformer->transform($data, $key, $model_class_name, $property_array);
     	/* Validate not null */
-    	$this->assertEmpty($data);
+    	$this->assertNotNull($data);
+    	$this->assertNotEmpty($data);
     }
 
     public function testTransformWithEmptyModelClassName()
@@ -255,7 +302,8 @@ class ModelTransformerTest extends TestCase
     	/* Call the ModelTransformer */
     	$data = $model_transformer->transform($data, $key, $model_class_name, $property_array);
     	/* Validate not null */
-    	$this->assertEmpty($data);
+    	$this->assertNotNull($data);
+    	$this->assertNotEmpty($data);
     }
 
     public function testTransformWithNullPropertyArray()
@@ -275,7 +323,8 @@ class ModelTransformerTest extends TestCase
     	/* Call the ModelTransformer */
     	$data = $model_transformer->transform($data, $key, $model_class_name, $property_array);
     	/* Validate not null */
-    	$this->assertEmpty($data);
+    	$this->assertNotNull($data);
+    	$this->assertNotEmpty($data);
     }
 
     public function testTransformWithEmptyPropertyArray()
@@ -295,7 +344,8 @@ class ModelTransformerTest extends TestCase
     	/* Call the ModelTransformer */
     	$data = $model_transformer->transform($data, $key, $model_class_name, $property_array);
     	/* Validate not null */
-    	$this->assertEmpty($data);
+    	$this->assertNotNull($data);
+    	$this->assertNotEmpty($data);
     }
     
     private function getData($attribute_name, $old_attribute_value, $new_attribute_value)
