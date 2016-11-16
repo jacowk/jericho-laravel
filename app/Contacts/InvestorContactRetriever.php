@@ -3,6 +3,7 @@ namespace jericho\Contacts;
 
 use jericho\Component\Component;
 use DB;
+use Exception;
 
 /**
  * This component is used to retrieve contacts for investors by property flip.
@@ -20,6 +21,10 @@ class InvestorContactRetriever implements Component
 
 	public function execute()
 	{
+		if ($this->property_flip == null)
+		{
+			throw new Exception('A property flip must be provided to retrieve contacts for investors for a property flip');
+		}
 		$contact_investors = DB::table('investor_property_flip')
 						->join('contacts', 'contacts.id', '=' ,'investor_property_flip.contact_id')
 						->join('property_flips', 'property_flips.id', '=', 'investor_property_flip.property_flip_id')

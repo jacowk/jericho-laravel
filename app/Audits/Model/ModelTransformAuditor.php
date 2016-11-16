@@ -16,14 +16,17 @@ class ModelTransformAuditor
 	{
 		$modelTransformer = new ModelTransformer();
 		$old_new = array('old', 'new');
-		foreach ($transformations as $key => $value)
+		if ($transformations != null)
 		{
-			foreach ($old_new as $array_value)
+			foreach ($transformations as $key => $value)
 			{
-				$transform_key = $array_value . '.' . $key;
-				if (Arr::has($data, $transform_key))
+				foreach ($old_new as $array_value)
 				{
-					$data = $modelTransformer->transform($data, $transform_key, $value[0], $value[1]);
+					$transform_key = $array_value . '.' . $key;
+					if (Arr::has($data, $transform_key))
+					{
+						$data = $modelTransformer->transform($data, $transform_key, $value[0], $value[1]);
+					}
 				}
 			}
 		}

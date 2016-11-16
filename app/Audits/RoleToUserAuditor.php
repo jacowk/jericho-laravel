@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use OwenIt\Auditing\Auditing;
 use Carbon\Carbon;
 use Ramsey\Uuid\Uuid;
-use jericho\Permissions\ArrayFilter;
+use jericho\Permissions\PermissionArrayFilter;
 
 /**
  * This class is used to log audits when roles are added to a attorney. Used in UserController.
@@ -47,7 +47,7 @@ class RoleToUserAuditor implements Auditor
 	{
 		if ($this->old_roles)
 		{
-			$filtered_old_roles = (new ArrayFilter())->filter($this->old_roles, $this->new_roles);
+			$filtered_old_roles = (new PermissionArrayFilter())->filter($this->old_roles, $this->new_roles);
 			if ($filtered_old_roles)
 			{
 				$old_audit = 'Removed the user from the following roles:<br/>' .
@@ -65,7 +65,7 @@ class RoleToUserAuditor implements Auditor
 	{
 		if ($this->new_roles)
 		{
-			$filtered_new_roles = (new ArrayFilter())->filter($this->new_roles, $this->old_roles);
+			$filtered_new_roles = (new PermissionArrayFilter())->filter($this->new_roles, $this->old_roles);
 			if ($filtered_new_roles)
 			{
 				$new_audit = 'Added the user to the following roles:<br/>' .

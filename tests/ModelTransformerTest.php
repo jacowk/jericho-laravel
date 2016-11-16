@@ -61,7 +61,7 @@ class ModelTransformerTest extends TestCase
     	$data = $model_transformer->transform($data, $key, $model_class_name, $property_array);
     	/* Validate not null */
     	$this->assertNotNull($data);
-    	/* Validate the transformation of the old area id */
+    	/* Validate the transformation of the new area id */
     	$new_array = $data['new'];
     	$new_value = $new_array[$attribute_name];
 		$area = Area::find($new_attribute_value);
@@ -348,6 +348,14 @@ class ModelTransformerTest extends TestCase
     	$this->assertNotEmpty($data);
     }
     
+    /**
+     * Get an associative array
+     * 
+     * @param unknown $attribute_name
+     * @param unknown $old_attribute_value
+     * @param unknown $new_attribute_value
+     * @return string[]|number[]|unknown[][]|\Carbon\Carbon[]
+     */
     private function getData($attribute_name, $old_attribute_value, $new_attribute_value)
     {
     	$data = array();
