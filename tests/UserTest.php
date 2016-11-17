@@ -11,7 +11,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
  * Date: 2016-10-14
  *
  */
-class UserTest extends TestCase
+class UserTest extends AbstractUnitTest
 {
 	
 	public function testDummyTest()
@@ -67,6 +67,7 @@ class UserTest extends TestCase
 // 	    	->type('Dough', 'surname')
 // 	    	->type('jason.dough@test.com', 'email')
 // 	    	->type('password', 'password')
+// 	    	->type('password_confirmation', 'password')
 // 	    	->press('Add User')
 	    	
 // 	    	->see('User saved');
@@ -93,6 +94,7 @@ class UserTest extends TestCase
 // 	    	->type($surname, 'surname')
 // 	    	->type($email, 'email')
 // 	    	->type('password', 'password')
+// 	    	->type('password_confirmation', 'password')
 // 	    	->press('Add User')
 	    	
 // 	    	->visit('/search-user')
@@ -123,11 +125,13 @@ class UserTest extends TestCase
 // 	    	->type($surname, 'surname')
 // 	    	->type($email, 'email')
 // 	    	->type('password', 'password')
+// 	    	->type('password_confirmation', 'password')
 // 	    	->press('Add User')
 	    	
 // 	    	->visit('/search-user')
 // 	    	->type($firstname, 'firstname')
 // 	    	->press('Search')
+// 	    	->see($email)
 // 	    	->click('View')
 // 	    	->see('View User');
 //     }
@@ -153,11 +157,13 @@ class UserTest extends TestCase
 // 	    	->type($surname, 'surname')
 // 	    	->type($email, 'email')
 // 	    	->type('password', 'password')
+// 	    	->type('password_confirmation', 'password')
 // 	    	->press('Add User')
 	    	
 // 	    	->visit('/search-user')
 // 	    	->type($firstname, 'firstname')
 // 	    	->press('Search')
+// 	    	->see($email)
 // 	    	->click('View')
 	    	
 // 	    	->press('Update User')
@@ -190,12 +196,14 @@ class UserTest extends TestCase
 // 	    	->type($surname, 'surname')
 // 	    	->type($email, 'email')
 // 	    	->type('password', 'password')
+// 	    	->type('password_confirmation', 'password')
 // 	    	->press('Add User')
 	    	
 // 	    	->visit('/search-user')
 // 	    	->type($firstname, 'firstname')
 // 	    	->type($surname, 'surname')
 // 	    	->press('Search')
+// 	    	->see($email)
 	    	
 // 	    	->click('Update')
 // 	    	->type('Updated', 'surname')

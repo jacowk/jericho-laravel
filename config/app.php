@@ -242,6 +242,7 @@ return [
     	'Form' => Collective\Html\FormFacade::class,
     	'Html' => Collective\Html\HtmlFacade::class,
     	'TabConstants' => jericho\Util\TabConstants::class,
+    	'RoleValidator' => jericho\Roles\RoleValidator::class,
     	'PermissionValidator' => jericho\Permissions\PermissionValidator::class,
 		'PermissionConstants' => jericho\Permissions\PermissionConstants::class,
     	'MenuDisplayValidator' => jericho\Menus\MenuDisplayValidator::class,

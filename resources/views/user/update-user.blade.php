@@ -55,9 +55,9 @@
 				<div class="col-sm-10">
 					@if ($roles)
 						@foreach($roles as $id => $name)
-							@if (PermissionValidator::isUserInSuperUserRole() && $name['html_name'] === 'super_user')
+							@if (RoleValidator::isUserInSuperUserRole() && $name['html_name'] === 'super_user')
 								{{ Form::checkbox($name['html_name'], $id, $name['role_selected'], ['class' => 'field']) }} {{ $name['name'] }}<br>
-							@elseif (!PermissionValidator::isUserInSuperUserRole() && $name['html_name'] === 'super_user')
+							@elseif (!RoleValidator::isUserInSuperUserRole() && $name['html_name'] === 'super_user')
 								{{-- Do not display the role --}}
 							@else
 								{{ Form::checkbox($name['html_name'], $id, $name['role_selected'], ['class' => 'field']) }} {{ $name['name'] }}<br>

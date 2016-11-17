@@ -44,9 +44,9 @@
 			</div>
 			
 			<div class="form-group">
-				{{  Form::label('password_confirm', 'Confirm Password' , array('class' => 'col-sm-2 control-label')) }}
+				{{  Form::label('password_confirmation', 'Confirm Password' , array('class' => 'col-sm-2 control-label')) }}
 				<div class="col-sm-10">
-					{{  Form::password('password_confirm', array('class' => 'form-control', 'placeholder' => 'Confirm Password')) }}
+					{{  Form::password('password_confirmation', array('class' => 'form-control', 'placeholder' => 'Confirm Password')) }}
 				</div>
 			</div>
 			
@@ -58,24 +58,13 @@
 			</div>
 			
 			<div class="form-group">
-				{{  Form::label('is_super_user', 'Is Super User', array('class' => 'col-sm-2 control-label')) }}
-				<div class="col-sm-10">
-					@if (PermissionValidator::isUserInSuperUserRole())
-						The user is a super user
-					@else
-						The user is not a super user
-					@endif
-				</div>
-			</div>
-			
-			<div class="form-group">
 				{{  Form::label('roles', 'Roles', array('class' => 'col-sm-2 control-label')) }}
 				<div class="col-sm-10">
 					@if ($roles)
 						@foreach($roles as $id => $name)
-							@if (PermissionValidator::isUserInSuperUserRole() && $name['html_name'] === 'super_user')
+							@if (RoleValidator::isUserInSuperUserRole() && $name['html_name'] === 'super_user')
 								{{ Form::checkbox($name['html_name'], $id, null, ['class' => 'field']) }} {{ $name['name'] }}<br>
-							@elseif (!PermissionValidator::isUserInSuperUserRole() && $name['html_name'] === 'super_user')
+							@elseif (!RoleValidator::isUserInSuperUserRole() && $name['html_name'] === 'super_user')
 								{{-- Do not display the role --}}
 							@else
 								{{ Form::checkbox($name['html_name'], $id, null, ['class' => 'field']) }} {{ $name['name'] }}<br>
