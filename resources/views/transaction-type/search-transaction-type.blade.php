@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-	Search Transaction Typees
+	Search Transaction Types
 @endsection
 
 @section('content')

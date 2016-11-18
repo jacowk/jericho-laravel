@@ -87,7 +87,7 @@ class GreaterAreaController extends Controller
 		$greater_area->created_by_id = $user->id;
 		$greater_area->save();
 		return redirect()->action('GreaterAreaController@getViewGreaterArea', ['greater_area_Id' => $greater_area->id])
-		->with(['message' => 'GreaterArea saved']);
+		->with(['message' => 'Greater Area saved']);
 	}
 	
 	/**

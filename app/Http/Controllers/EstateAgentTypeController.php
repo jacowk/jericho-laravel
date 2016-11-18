@@ -76,9 +76,6 @@ class EstateAgentTypeController extends Controller
 	 */
 	public function postDoAddEstateAgentType(Request $request)
 	{
-// 		$this->validate($request, [
-// 				'description' => 'required|unique:lookup_estate_agent_types'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'description' => 'required|unique:lookup_estate_agent_types'
 		]);
@@ -95,7 +92,7 @@ class EstateAgentTypeController extends Controller
 		$estate_agent_type->created_by_id = $user->id;
 		$estate_agent_type->save();
 		return redirect()->action('EstateAgentTypeController@getViewEstateAgentType', ['estate_agent_type_Id' => $estate_agent_type->id])
-			->with(['message' => 'EstateAgent Type saved']);
+			->with(['message' => 'Estate Agent Type saved']);
 	}
 	
 	/**
@@ -120,9 +117,6 @@ class EstateAgentTypeController extends Controller
 	 */
 	public function postDoUpdateEstateAgentType(Request $request, $estate_agent_type_id)
 	{
-// 		$this->validate($request, [
-// 				'description' => 'required'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'description' => 'required'
 		]);
@@ -139,7 +133,7 @@ class EstateAgentTypeController extends Controller
 		$estate_agent_type->updated_by_id = $user->id;
 		$estate_agent_type->save();
 		return redirect()->action('EstateAgentTypeController@getViewEstateAgentType', ['estate_agent_type_Id' => $estate_agent_type->id])
-		->with(['message' => 'EstateAgent Type updated']);
+		->with(['message' => 'Estate Agent Type updated']);
 	}
 	
 	/**

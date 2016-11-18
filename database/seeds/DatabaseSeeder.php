@@ -68,6 +68,5 @@ class DatabaseSeeder extends Seeder
         $this->call(LookupIssueComponentTableSeeder::class);
         $this->call(LookupIssueCategoryTableSeeder::class);
         $this->call(LookupIssueSeverityTableSeeder::class);
-        
     }
 }

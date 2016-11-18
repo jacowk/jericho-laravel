@@ -1,5 +1,4 @@
 <?php
-use ReflectionObject;
 
 /**
  * 
@@ -17,16 +16,22 @@ class AbstractUnitTest extends TestCase
 	
 	public function tearDown()
 	{
-// 		$refl = new ReflectionObject($this);
-// 		foreach ($refl->getProperties() as $prop) {
-// 			if (!$prop->isStatic() && 0 !== strpos($prop->getDeclaringClass()->getName(), 'PHPUnit_')) {
-// 				$prop->setAccessible(true);
-// 				$prop->setValue($this, null);
-// 			}
-// 		}
+		$this->beforeApplicationDestroyed(function () {
+			DB::disconnect();
+		});
 		
 		parent::tearDown();
 		// 		Mockery::close();
+	}
+	
+	/**
+	 * A basic test example.
+	 *
+	 * @return void
+	 */
+	public function testExample()
+	{
+		$this->assertTrue(true);
 	}
 	
 }

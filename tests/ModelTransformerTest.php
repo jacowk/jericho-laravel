@@ -22,7 +22,7 @@ class ModelTransformerTest extends TestCase
     {
     	/* Prepare to create a $data array */
     	$attribute_name = 'area_id';
-    	$old_attribute_value = 59;
+    	$old_attribute_value = 58;
     	$new_attribute_value = 46;
     	/* Create the $data array */
     	$data = $this->getData($attribute_name, $old_attribute_value, $new_attribute_value);
@@ -47,7 +47,7 @@ class ModelTransformerTest extends TestCase
     {
     	/* Prepare to create a $data array */
     	$attribute_name = 'area_id';
-    	$old_attribute_value = 59;
+    	$old_attribute_value = 58;
     	$new_attribute_value = 46;
     	/* Create the $data array */
     	$data = $this->getData($attribute_name, $old_attribute_value, $new_attribute_value);
@@ -122,7 +122,7 @@ class ModelTransformerTest extends TestCase
     {
     	/* Prepare to create a $data array */
     	$attribute_name = 'area_id';
-    	$old_attribute_value = 59;
+    	$old_attribute_value = 58;
     	$new_attribute_value = 46;
     	/* Create the $data array */
     	$data = $this->getData($attribute_name, $old_attribute_value, $new_attribute_value);

@@ -54,7 +54,7 @@ class EstateAgentTest extends AbstractUnitTest
 	 */
 	public function testDoAddEstateAgentThenSearchEstateAgent()
 	{
-		$name = 'Test EstateAgent';
+		$name = 'Test Estate Agent';
 		 
 		$this->visit('/')
 			->visit('/login')
@@ -105,7 +105,7 @@ class EstateAgentTest extends AbstractUnitTest
 	 */
 	public function testAddEstateAgentThenViewEstateAgentThenUpdateEstateAgent()
 	{
-		$name = 'Test EstateAgent';
+		$name = 'Test Estate Agent';
 		 
 		$this->visit('/')
 			->visit('/login')
@@ -124,12 +124,12 @@ class EstateAgentTest extends AbstractUnitTest
 			->see($name)
 			->click('View')
 		
-			->press('Update EstateAgent')
-			->see('Update EstateAgent')
+			->press('Update Estate Agent')
+			->see('Update Estate Agent')
 			->see($name)
 			 
 			->type($name . ' Updated', 'name')
-			->press('Update EstateAgent')
+			->press('Update Estate Agent')
 			->see('Estate Agent updated')
 			->see($name . ' Updated');
 	}
@@ -139,7 +139,7 @@ class EstateAgentTest extends AbstractUnitTest
 	 */
 	public function testAddEstateAgentThenSearchEstateAgentThenUpdateEstateAgent()
 	{
-		$name = 'Test EstateAgent';
+		$name = 'Test Estate Agent';
 	
 		$this->visit('/')
 			->visit('/login')
@@ -148,7 +148,7 @@ class EstateAgentTest extends AbstractUnitTest
 			->press('Login')
 			->visit('/search-estate-agent')
 		
-			->press('Add EstateAgent')
+			->press('Add Estate Agent')
 			->type($name, 'name')
 			->press('Add Estate Agent')
 		
@@ -158,11 +158,11 @@ class EstateAgentTest extends AbstractUnitTest
 			->see($name)
 		
 			->click('Update')
-			->see('Update EstateAgent')
+			->see('Update Estate Agent')
 			->see($name)
 			
 			->type($name . ' Updated', 'name')
-			->press('Update EstateAgent')
+			->press('Update Estate Agent')
 			->see('Estate Agent updated')
 			->see($name . ' Updated');
 	}
