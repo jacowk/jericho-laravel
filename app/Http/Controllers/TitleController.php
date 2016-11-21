@@ -76,9 +76,6 @@ class TitleController extends Controller
 	 */
 	public function postDoAddTitle(Request $request)
 	{
-// 		$this->validate($request, [
-// 				'description' => 'required|unique:lookup_titles'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'description' => 'required|unique:lookup_titles'
 		]);
@@ -120,9 +117,6 @@ class TitleController extends Controller
 	 */
 	public function postDoUpdateTitle(Request $request, $title_id)
 	{
-// 		$this->validate($request, [
-// 				'description' => 'required'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'description' => 'required'
 		]);

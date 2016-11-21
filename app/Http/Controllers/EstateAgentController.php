@@ -76,9 +76,6 @@ class EstateAgentController extends Controller
      */
     public function postDoAddEstateAgent(Request $request)
     {
-//     	$this->validate($request, [
-//     	 	'name' => 'required|unique:estate_agents'
-//     	]);
     	$validator = Validator::make($request->all(), [
     			'name' => 'required|unique:estate_agents'
     	]);
@@ -120,9 +117,6 @@ class EstateAgentController extends Controller
      */
     public function postDoUpdateEstateAgent(Request $request, $estate_agent_id)
     {
-//     	$this->validate($request, [
-//     		'name' => 'required'
-//     	]);
     	$validator = Validator::make($request->all(), [
     			'name' => 'required'
     	]);

@@ -75,10 +75,6 @@ class AreaController extends Controller
 	 */
 	public function postDoAddArea(Request $request)
 	{
-// 		$this->validate($request, [
-// 				'name' => 'required|unique:areas'
-// 		]);
-		
 		$validator = Validator::make($request->all(), [
 				'name' => 'required|unique:areas'
 		]);
@@ -121,9 +117,6 @@ class AreaController extends Controller
 	 */
 	public function postDoUpdateArea(Request $request, $area_id)
 	{
-// 		$this->validate($request, [
-// 				'name' => 'required'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'name' => 'required'
 		]);

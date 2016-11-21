@@ -37,7 +37,7 @@ class InvestorPropertyFlipController extends Controller
 	public function postLinkContactInvestor(Request $request)
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::INVESTORS_TAB);
-		$property_flip_id = Util::getQueryParameter($request->property_flip_id);
+		$property_flip_id = Util::getNumericQueryParameter($request->property_flip_id);
 		$contacts = (new ContactLookupRetriever())->execute();
 		return view ('property-flip.link-contact-investor', [
 				'property_flip_id' => $property_flip_id,
@@ -67,8 +67,8 @@ class InvestorPropertyFlipController extends Controller
 				->with('property_flip_id', $request->property_flip_id);
 		}
 		$user = Auth::user();
-		$property_flip_id = Util::getQueryParameter($request->property_flip_id);
-		$contact_id = Util::getQueryParameter($request->contact_id);
+		$property_flip_id = Util::getNumericQueryParameter($request->property_flip_id);
+		$contact_id = Util::getNumericQueryParameter($request->contact_id);
 		$investment_amount = Util::processCurrencyValue($request->investment_amount);
 		$property_flip = PropertyFlip::find($property_flip_id);
 		$contact = Contact::find($contact_id);
@@ -119,8 +119,8 @@ class InvestorPropertyFlipController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::INVESTORS_TAB);
 		$user = Auth::user();
-		$property_flip_id = Util::getQueryParameter($request->property_flip_id);
-		$contact_id = Util::getQueryParameter($request->contact_id);
+		$property_flip_id = Util::getNumericQueryParameter($request->property_flip_id);
+		$contact_id = Util::getNumericQueryParameter($request->contact_id);
 		$property_flip = PropertyFlip::find($property_flip_id);
 		$contact = Contact::find($contact_id);
 		DB::table('investor_property_flip')

@@ -105,7 +105,7 @@ class UserController extends Controller
 		$new_user->surname = Util::getQueryParameter($request->surname);
 		$new_user->email = Util::getQueryParameter($request->email);
 		$new_user->password = bcrypt(Util::getQueryParameter($request->password));
-		$new_user->pagination_size = 10;
+		$new_user->pagination_size = Util::getNumericQueryParameter($request->pagination_size);
 		$new_user->created_by_id = $user->id;
 		$new_user->save();
 		$this->processRoles($request, $new_user);
@@ -160,6 +160,7 @@ class UserController extends Controller
 		$update_user->firstname = Util::getQueryParameter($request->firstname);
 		$update_user->surname = Util::getQueryParameter($request->surname);
 		$update_user->email = Util::getQueryParameter($request->email);
+		$update_user->pagination_size = Util::getNumericQueryParameter($request->pagination_size);
 		$update_user->updated_by_id = $user->id;
 		$update_user->save();
 		$this->processRolesForUpdate($request, $update_user);
@@ -211,8 +212,8 @@ class UserController extends Controller
 	
 		if ($validator->fails()) {
 			return redirect()
-			->route('reset-password', ['user_id' => $user_id])
-			->withErrors($validator);
+				->route('reset-password', ['user_id' => $user_id])
+				->withErrors($validator);
 		}
 	
 		$user = Auth::user();

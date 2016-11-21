@@ -76,9 +76,6 @@ class MilestoneTypeController extends Controller
 	 */
 	public function postDoAddMilestoneType(Request $request)
 	{
-// 		$this->validate($request, [
-// 				'description' => 'required|unique:lookup_milestone_types'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'description' => 'required|unique:lookup_milestone_types'
 		]);
@@ -120,9 +117,6 @@ class MilestoneTypeController extends Controller
 	 */
 	public function postDoUpdateMilestoneType(Request $request, $milestone_type_id)
 	{
-// 		$this->validate($request, [
-// 				'description' => 'required'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'description' => 'required'
 		]);

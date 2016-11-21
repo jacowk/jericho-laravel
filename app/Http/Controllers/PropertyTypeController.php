@@ -76,9 +76,6 @@ class PropertyTypeController extends Controller
 	 */
 	public function postDoAddPropertyType(Request $request)
 	{
-// 		$this->validate($request, [
-// 				'description' => 'required|unique:lookup_property_types'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'description' => 'required|unique:lookup_property_types'
 		]);
@@ -120,9 +117,6 @@ class PropertyTypeController extends Controller
 	 */
 	public function postDoUpdatePropertyType(Request $request, $property_type_id)
 	{
-// 		$this->validate($request, [
-// 				'description' => 'required'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'description' => 'required'
 		]);

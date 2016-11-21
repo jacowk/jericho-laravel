@@ -204,13 +204,13 @@ class PropertyController extends Controller
 		$property->address_line_3 = Util::getQueryParameter($request->address_line_3);
 		$property->address_line_4 = Util::getQueryParameter($request->address_line_4);
 		$property->address_line_5 = Util::getQueryParameter($request->address_line_5);
-		$property->suburb_id = Util::getQueryParameter($request->suburb_id);
-		$property->area_id = Util::getQueryParameter($request->area_id);
-		$property->greater_area_id = Util::getQueryParameter($request->greater_area_id);
+		$property->suburb_id = Util::getNumericQueryParameter($request->suburb_id);
+		$property->area_id = Util::getNumericQueryParameter($request->area_id);
+		$property->greater_area_id = Util::getNumericQueryParameter($request->greater_area_id);
 		$property->portion_number = Util::getNumericQueryParameter($request->portion_number);
 		$property->erf_number = Util::getNumericQueryParameter($request->erf_number);
 		$property->size = Util::getNumericQueryParameter($request->size);
-		$property->lookup_property_type_id = Util::getQueryParameter($request->lookup_property_type_id);
+		$property->lookup_property_type_id = Util::getNumericQueryParameter($request->lookup_property_type_id);
 		$property->created_by_id = $user->id;
 		$property->save();
 		return redirect()->action('PropertyController@getViewProperty', ['property_Id' => $property->id])
@@ -270,13 +270,13 @@ class PropertyController extends Controller
 		$property->address_line_3 = Util::getQueryParameter($request->address_line_3);
 		$property->address_line_4 = Util::getQueryParameter($request->address_line_4);
 		$property->address_line_5 = Util::getQueryParameter($request->address_line_5);
-		$property->suburb_id = Util::getQueryParameter($request->suburb_id);
-		$property->area_id = Util::getQueryParameter($request->area_id);
-		$property->greater_area_id = Util::getQueryParameter($request->greater_area_id);
+		$property->suburb_id = Util::getNumericQueryParameter($request->suburb_id);
+		$property->area_id = Util::getNumericQueryParameter($request->area_id);
+		$property->greater_area_id = Util::getNumericQueryParameter($request->greater_area_id);
 		$property->portion_number = Util::getQueryParameter($request->portion_number);
 		$property->erf_number = Util::getQueryParameter($request->erf_number);
 		$property->size = Util::getQueryParameter($request->size);
-		$property->lookup_property_type_id = Util::getQueryParameter($request->lookup_property_type_id);
+		$property->lookup_property_type_id = Util::getNumericQueryParameter($request->lookup_property_type_id);
 		$property->updated_by_id = $user->id;
 		$property->save();
 		return redirect()->action('PropertyController@getViewProperty', ['property_Id' => $property->id])

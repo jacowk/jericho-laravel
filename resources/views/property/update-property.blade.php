@@ -59,21 +59,27 @@
 			<div class="form-group">
 				{{  Form::label('area_id', 'Area', array('class' => 'col-sm-2 control-label')) }}
 				<div class="col-sm-10">
-					{{  Form::select('area_id', $areas, $property->area->id, ['class' => 'form-control']) }}
+					@if ($property->area)
+						{{  Form::select('area_id', $areas, $property->area->id, ['class' => 'form-control']) }}
+					@endif
 				</div>
 			</div>
 			
 			<div class="form-group">
 				{{  Form::label('suburb_id', 'Suburb', array('class' => 'col-sm-2 control-label')) }}
 				<div class="col-sm-10">
-					{{  Form::select('suburb_id', $suburbs, $property->suburb->id, ['class' => 'form-control']) }}
+					@if ($property->suburb)
+						{{  Form::select('suburb_id', $suburbs, $property->suburb->id, ['class' => 'form-control']) }}
+					@endif
 				</div>
 			</div>
 			
 			<div class="form-group">
 				{{  Form::label('greater_area_id', 'Greater Area', array('class' => 'col-sm-2 control-label')) }}
 				<div class="col-sm-10">
-					{{  Form::select('greater_area_id', $greater_areas, $property->greater_area->id, ['class' => 'form-control']) }}
+					@if ($property->greater_area)
+						{{  Form::select('greater_area_id', $greater_areas, $property->greater_area->id, ['class' => 'form-control']) }}
+					@endif
 				</div>
 			</div>
 			

@@ -122,7 +122,7 @@ class SuburbController extends Controller
 		$suburb->name = Util::getQueryParameter($request->name);
 		$suburb->box_code = Util::getQueryParameter($request->box_code);
 		$suburb->street_code = Util::getQueryParameter($request->street_code);
-		$suburb->area_id = Util::getQueryParameter($request->area_id);
+		$suburb->area_id = Util::getNumericQueryParameter($request->area_id);
 		$suburb->created_by_id = $user->id;
 		$area = Area::find($suburb->area_id);
 		$area->suburbs()->save($suburb);
@@ -171,7 +171,7 @@ class SuburbController extends Controller
 		$suburb->name = Util::getQueryParameter($request->name);
 		$suburb->box_code = Util::getQueryParameter($request->box_code);
 		$suburb->street_code = Util::getQueryParameter($request->street_code);
-		$suburb->area_id = Util::getQueryParameter($request->area_id);
+		$suburb->area_id = Util::getNumericQueryParameter($request->area_id);
 		$suburb->updated_by_id = $user->id;
 		$suburb->save();
 		return redirect()->action('SuburbController@getViewSuburb', ['suburb_Id' => $suburb->id])

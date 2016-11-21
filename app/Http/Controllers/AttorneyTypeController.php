@@ -76,10 +76,6 @@ class AttorneyTypeController extends Controller
 	 */
 	public function postDoAddAttorneyType(Request $request)
 	{
-// 		$this->validate($request, [
-// 				'description' => 'required|unique:lookup_attorney_types'
-// 		]);
-		
 		$validator = Validator::make($request->all(), [
 				'description' => 'required|unique:lookup_attorney_types'
 		]);
@@ -122,9 +118,6 @@ class AttorneyTypeController extends Controller
 	 */
 	public function postDoUpdateAttorneyType(Request $request, $attorney_type_id)
 	{
-// 		$this->validate($request, [
-// 				'description' => 'required'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'description' => 'required'
 		]);

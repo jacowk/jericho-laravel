@@ -76,10 +76,6 @@ class MaritalStatusController extends Controller
 	 */
 	public function postDoAddMaritalStatus(Request $request)
 	{
-// 		$this->validate($request, [
-// 				'description' => 'required|unique:lookup_marital_statuses'
-// 		]);
-
 		$validator = Validator::make($request->all(), [
 				'description' => 'required|unique:lookup_marital_statuses'
 		]);
@@ -121,9 +117,6 @@ class MaritalStatusController extends Controller
 	 */
 	public function postDoUpdateMaritalStatus(Request $request, $marital_status_id)
 	{
-// 		$this->validate($request, [
-// 				'description' => 'required'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'description' => 'required'
 		]);

@@ -76,9 +76,6 @@ class ContractorTypeController extends Controller
 	 */
 	public function postDoAddContractorType(Request $request)
 	{
-// 		$this->validate($request, [
-// 				'description' => 'required|unique:lookup_contractor_types'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'description' => 'required|unique:lookup_contractor_types'
 		]);
@@ -120,9 +117,6 @@ class ContractorTypeController extends Controller
 	 */
 	public function postDoUpdateContractorType(Request $request, $contractor_type_id)
 	{
-// 		$this->validate($request, [
-// 				'description' => 'required'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'description' => 'required'
 		]);

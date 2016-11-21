@@ -76,9 +76,6 @@ class AttorneyController extends Controller
      */
     public function postDoAddAttorney(Request $request)
     {
-//     	$this->validate($request, [
-//     	 	'name' => 'required|unique:attorneys'
-//     	]);
     	$validator = Validator::make($request->all(), [
     			'name' => 'required|unique:attorneys'
     	]);
@@ -120,9 +117,6 @@ class AttorneyController extends Controller
      */
     public function postDoUpdateAttorney(Request $request, $attorney_id)
     {
-//     	$this->validate($request, [
-//     		'name' => 'required'
-//     	]);
     	$validator = Validator::make($request->all(), [
     			'name' => 'required'
     	]);

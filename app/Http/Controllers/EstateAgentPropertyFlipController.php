@@ -39,7 +39,7 @@ class EstateAgentPropertyFlipController extends Controller
 	public function postLinkContactEstateAgent(Request $request)
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::ESTATE_AGENTS_TAB);
-		$property_flip_id = Util::getQueryParameter($request->property_flip_id);
+		$property_flip_id = Util::getNumericQueryParameter($request->property_flip_id);
 		$estate_agents = (new EstateAgentLookupRetriever())->execute();
 		$lookup_estate_agent_types = (new EstateAgentTypeLookupRetriever())->execute();
 		$contacts = array();
@@ -75,10 +75,10 @@ class EstateAgentPropertyFlipController extends Controller
 				->with('property_flip_id', $request->property_flip_id);
 		}
 		$user = Auth::user();
-		$property_flip_id = Util::getQueryParameter($request->property_flip_id);
-		$estate_agent_id = Util::getQueryParameter($request->estate_agent_id);
-		$contact_id = Util::getQueryParameter($request->contact_id);
-		$lookup_estate_agent_type_id = Util::getQueryParameter($request->lookup_estate_agent_type_id);
+		$property_flip_id = Util::getNumericQueryParameter($request->property_flip_id);
+		$estate_agent_id = Util::getNumericQueryParameter($request->estate_agent_id);
+		$contact_id = Util::getNumericQueryParameter($request->contact_id);
+		$lookup_estate_agent_type_id = Util::getNumericQueryParameter($request->lookup_estate_agent_type_id);
 		$property_flip = PropertyFlip::find($property_flip_id);
 		$estate_agent = EstateAgent::find($estate_agent_id);
 		$contact = Contact::find($contact_id);
@@ -129,7 +129,7 @@ class EstateAgentPropertyFlipController extends Controller
 	 */
 	public function postAjaxContactEstateAgents(Request $request)
 	{
-		$estate_agent_id = Util::getQueryParameter($request->estate_agent_id);
+		$estate_agent_id = Util::getNumericQueryParameter($request->estate_agent_id);
 		$estate_agent_contacts = (new ContactEstateAgentAjaxLookupRetriever($estate_agent_id))->execute();
 		Util::writeToFile(json_encode($estate_agent_contacts));
 		return json_encode($estate_agent_contacts);
@@ -144,9 +144,9 @@ class EstateAgentPropertyFlipController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::ESTATE_AGENTS_TAB);
 		$user = Auth::user();
-		$property_flip_id = Util::getQueryParameter($request->property_flip_id);
+		$property_flip_id = Util::getNumericQueryParameter($request->property_flip_id);
 		$contact_id = Util::getQueryParameter($request->contact_id);
-		$lookup_estate_agent_type_id = Util::getQueryParameter($request->lookup_estate_agent_type_id);
+		$lookup_estate_agent_type_id = Util::getNumericQueryParameter($request->lookup_estate_agent_type_id);
 		$property_flip = PropertyFlip::find($property_flip_id);
 		$contact = Contact::find($contact_id);
 		DB::table('estate_agent_property_flip')

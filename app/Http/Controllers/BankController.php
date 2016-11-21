@@ -75,9 +75,6 @@ class BankController extends Controller
      */
     public function postDoAddBank(Request $request)
     {
-//     	$this->validate($request, [
-//     	 	'name' => 'required|unique:banks'
-//     	]);
     	$validator = Validator::make($request->all(), [
     			'name' => 'required|unique:banks'
     	]);
@@ -119,9 +116,6 @@ class BankController extends Controller
      */
     public function postDoUpdateBank(Request $request, $bank_id)
     {
-//     	$this->validate($request, [
-//     			'name' => 'required'
-//     	]);
     	$validator = Validator::make($request->all(), [
     			'name' => 'required'
     	]);

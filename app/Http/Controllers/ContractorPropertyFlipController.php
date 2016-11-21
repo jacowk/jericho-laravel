@@ -75,10 +75,10 @@ class ContractorPropertyFlipController extends Controller
 				->with('property_flip_id', $request->property_flip_id);
 		}
 		$user = Auth::user();
-		$property_flip_id = Util::getQueryParameter($request->property_flip_id);
-		$contractor_id = Util::getQueryParameter($request->contractor_id);
-		$contact_id = Util::getQueryParameter($request->contact_id);
-		$lookup_contractor_type_id = Util::getQueryParameter($request->lookup_contractor_type_id);
+		$property_flip_id = Util::getNumericQueryParameter($request->property_flip_id);
+		$contractor_id = Util::getNumericQueryParameter($request->contractor_id);
+		$contact_id = Util::getNumericQueryParameter($request->contact_id);
+		$lookup_contractor_type_id = Util::getNumericQueryParameter($request->lookup_contractor_type_id);
 		$property_flip = PropertyFlip::find($property_flip_id);
 		$contractor = Contractor::find($contractor_id);
 		$contact = Contact::find($contact_id);
@@ -156,9 +156,9 @@ class ContractorPropertyFlipController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::CONTRACTORS_TAB);
 		$user = Auth::user();
-		$property_flip_id = Util::getQueryParameter($request->property_flip_id);
-		$contact_id = Util::getQueryParameter($request->contact_id);
-		$lookup_contractor_type_id = Util::getQueryParameter($request->lookup_contractor_type_id);
+		$property_flip_id = Util::getNumericQueryParameter($request->property_flip_id);
+		$contact_id = Util::getNumericQueryParameter($request->contact_id);
+		$lookup_contractor_type_id = Util::getNumericQueryParameter($request->lookup_contractor_type_id);
 		$property_flip = PropertyFlip::find($property_flip_id);
 		$contact = Contact::find($contact_id);
 		DB::table('contractor_property_flip')

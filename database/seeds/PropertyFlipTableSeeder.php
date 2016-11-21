@@ -49,7 +49,7 @@ class PropertyFlipTableSeeder extends Seeder
         foreach(range(1, 200) as $index)
         {
         	PropertyFlip::create([
-        			'reference_number' => $faker->numberBetween(1000, 9999),
+        			'reference_number' => $faker->numberBetween(2000, 9999),
         			'title_deed_number' => $faker->name,
         			'case_number' => $faker->name,
         			'seller_id' => 1,

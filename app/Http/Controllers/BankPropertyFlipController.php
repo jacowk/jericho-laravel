@@ -37,7 +37,7 @@ class BankPropertyFlipController extends Controller
 	public function postLinkBankContact(Request $request)
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::BANKS_TAB);
-		$property_flip_id = Util::getQueryParameter($request->property_flip_id);
+		$property_flip_id = Util::getNumericQueryParameter($request->property_flip_id);
 		$banks = (new BankLookupRetriever())->execute();
 		$contacts = array();
 		$contacts['-1'] = "Select Bank Contact";
@@ -71,9 +71,9 @@ class BankPropertyFlipController extends Controller
 			->with('property_flip_id', $request->property_flip_id);
 		}
 		$user = Auth::user();
-		$property_flip_id = Util::getQueryParameter($request->property_flip_id);
-		$bank_id = Util::getQueryParameter($request->bank_id);
-		$contact_id = Util::getQueryParameter($request->contact_id);
+		$property_flip_id = Util::getNumericQueryParameter($request->property_flip_id);
+		$bank_id = Util::getNumericQueryParameter($request->bank_id);
+		$contact_id = Util::getNumericQueryParameter($request->contact_id);
 		$property_flip = PropertyFlip::find($property_flip_id);
 		$bank = Bank::find($bank_id);
 		$contact = Contact::find($contact_id);
@@ -136,8 +136,8 @@ class BankPropertyFlipController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::BANKS_TAB);
 		$user = Auth::user();
-		$property_flip_id = Util::getQueryParameter($request->property_flip_id);
-		$contact_id = Util::getQueryParameter($request->contact_id);
+		$property_flip_id = Util::getNumericQueryParameter($request->property_flip_id);
+		$contact_id = Util::getNumericQueryParameter($request->contact_id);
 		$property_flip = PropertyFlip::find($property_flip_id);
 		$contact = Contact::find($contact_id);
 		DB::table('bank_property_flip')

@@ -67,10 +67,6 @@ class GreaterAreaController extends Controller
 	 */
 	public function postDoAddGreaterArea(Request $request)
 	{
-// 		$this->validate($request, [
-// 				'name' => 'required|unique:greater_areas'
-// 		]);
-		
 		$validator = Validator::make($request->all(), [
 				'name' => 'required|unique:greater_areas'
 		]);
@@ -112,9 +108,6 @@ class GreaterAreaController extends Controller
 	 */
 	public function postDoUpdateGreaterArea(Request $request, $greater_area_id)
 	{
-// 		$this->validate($request, [
-// 				'name' => 'required'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'name' => 'required'
 		]);

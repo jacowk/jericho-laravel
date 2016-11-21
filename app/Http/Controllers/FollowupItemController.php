@@ -41,9 +41,6 @@ class FollowupItemController extends Controller
 	 */
 	public function postDoAddFollowupItem(Request $request)
 	{
-// 		$this->validate($request, [
-// 				'comments' => 'required'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'comments' => 'required'
 		]);
@@ -88,9 +85,6 @@ class FollowupItemController extends Controller
 	 */
 	public function postDoUpdateFollowupItem(Request $request, $followup_item_id)
 	{
-// 		$this->validate($request, [
-// 				'comments' => 'required'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'comments' => 'required'
 		]);

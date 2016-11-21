@@ -41,9 +41,6 @@ class DiaryItemCommentController extends Controller
 	 */
 	public function postDoAddDiaryItemComment(Request $request)
 	{
-// 		$this->validate($request, [
-// 				'comments' => 'required'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'comment' => 'required'
 		]);
@@ -88,9 +85,6 @@ class DiaryItemCommentController extends Controller
 	 */
 	public function postDoUpdateDiaryItemComment(Request $request, $diary_item_comment_id)
 	{
-// 		$this->validate($request, [
-// 				'comments' => 'required'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'comment' => 'required'
 		]);

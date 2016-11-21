@@ -16,6 +16,7 @@ class AbstractUnitTest extends TestCase
 	
 	public function tearDown()
 	{
+		/* The following 3 lines of code are required to sort out the "Too many connections error" */
 		$this->beforeApplicationDestroyed(function () {
 			DB::disconnect();
 		});

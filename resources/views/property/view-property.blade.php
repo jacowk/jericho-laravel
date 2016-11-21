@@ -38,15 +38,27 @@
 				</tr>
 				<tr>
 					<th class="col-sm-3 text-right">Area</th>
-					<td>{{ $property->area->name }}</td>						
+					<td>
+						@if ($property->area)
+							{{ $property->area->name }}
+						@endif
+					</td>						
 				</tr>
 				<tr>
 					<th class="col-sm-3 text-right">Suburb</th>
-					<td>{{ $property->suburb->name }}</td>						
+					<td>
+						@if ($property->area)
+							{{ $property->area->name }}
+						@endif
+					</td>						
 				</tr>
 				<tr>
 					<th class="col-sm-3 text-right">Greater Area</th>
-					<td>{{ $property->greater_area->name }}</td>						
+					<td>
+						@if ($property->greater_area)
+							{{ $property->greater_area->name }}
+						@endif
+					</td>						
 				</tr>
 				<tr>
 					<th class="col-sm-3 text-right">Portion Number</th>

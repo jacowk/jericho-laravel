@@ -74,10 +74,6 @@ class AccountController extends Controller
 	 */
 	public function postDoAddAccount(Request $request)
 	{
-// 		$this->validate($request, [
-// 				'name' => 'required|unique:accounts'
-// 		]);
-		
 		$validator = Validator::make($request->all(), [
 				'name' => 'required|unique:accounts'
 		]);
@@ -120,9 +116,6 @@ class AccountController extends Controller
 	 */
 	public function postDoUpdateAccount(Request $request, $account_id)
 	{
-// 		$this->validate($request, [
-// 				'name' => 'required'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'name' => 'required'
 		]);

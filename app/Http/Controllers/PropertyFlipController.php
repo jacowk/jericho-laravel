@@ -112,17 +112,17 @@ class PropertyFlipController extends Controller
 		$property_flip->reference_number = Util::getQueryParameter($request->reference_number);
 		$property_flip->title_deed_number = Util::getQueryParameter($request->title_deed_number);
 		$property_flip->case_number = Util::getQueryParameter($request->case_number);
-		$property_flip->seller_id = Util::getQueryParameter($request->seller_id);
+		$property_flip->seller_id = Util::getNumericQueryParameter($request->seller_id);
 		$property_flip->selling_price = Util::processCurrencyValue($request->selling_price);
-		$property_flip->purchaser_id = Util::getQueryParameter($request->purchaser_id);
+		$property_flip->purchaser_id = Util::getNumericQueryParameter($request->purchaser_id);
 		$property_flip->purchase_price = Util::processCurrencyValue($request->purchase_price);
-		$property_flip->finance_status_id = Util::getQueryParameter($request->finance_status_id);
-		$property_flip->seller_status_id = Util::getQueryParameter($request->seller_status_id);
-		$property_flip->property_id = Util::getQueryParameter($request->property_id);
+		$property_flip->finance_status_id = Util::getNumericQueryParameter($request->finance_status_id);
+		$property_flip->seller_status_id = Util::getNumericQueryParameter($request->seller_status_id);
+		$property_flip->property_id = Util::getNumericQueryParameter($request->property_id);
 		$property_flip->created_by_id = $user->id;
 		$property_flip->save();
 		return redirect()->action('PropertyFlipController@getViewPropertyFlip', ['property_flip_Id' => $property_flip->id])
-			->with(['message' => 'PropertyFlip saved']);
+			->with(['message' => 'Property Flip saved']);
 	}
 	
 	/**
@@ -159,7 +159,7 @@ class PropertyFlipController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::GENERAL_TAB);
 		$validator = Validator::make($request->all(), [
-			'reference_number' => 'required|numeric',
+			'reference_number' => 'required|numeric|unique:property_flips,reference_number,' . $property_flip_id,
 			'property_id' => 'required',
 		]);
 		
@@ -174,17 +174,17 @@ class PropertyFlipController extends Controller
 		$property_flip->reference_number = Util::getQueryParameter($request->reference_number);
 		$property_flip->title_deed_number = Util::getQueryParameter($request->title_deed_number);
 		$property_flip->case_number = Util::getQueryParameter($request->case_number);
-		$property_flip->seller_id = Util::getQueryParameter($request->seller_id);
+		$property_flip->seller_id = Util::getNumericQueryParameter($request->seller_id);
 		$property_flip->selling_price = Util::processCurrencyValue($request->selling_price);
-		$property_flip->purchaser_id = Util::getQueryParameter($request->purchaser_id);
+		$property_flip->purchaser_id = Util::getNumericQueryParameter($request->purchaser_id);
 		$property_flip->purchase_price = Util::processCurrencyValue($request->purchase_price);
-		$property_flip->finance_status_id = Util::getQueryParameter($request->finance_status_id);
-		$property_flip->seller_status_id = Util::getQueryParameter($request->seller_status_id);
-		$property_flip->property_id = Util::getQueryParameter($request->property_id);
+		$property_flip->finance_status_id = Util::getNumericQueryParameter($request->finance_status_id);
+		$property_flip->seller_status_id = Util::getNumericQueryParameter($request->seller_status_id);
+		$property_flip->property_id = Util::getNumericQueryParameter($request->property_id);
 		$property_flip->updated_by_id = $user->id;
 		$property_flip->save();
 		return redirect()->action('PropertyFlipController@getViewPropertyFlip', ['property_flip_Id' => $property_flip->id])
-			->with(['message' => 'PropertyFlip updated']);
+			->with(['message' => 'Property Flip updated']);
 	}
 	
 	/**

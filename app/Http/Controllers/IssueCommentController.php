@@ -41,9 +41,6 @@ class IssueCommentController extends Controller
 	 */
 	public function postDoAddIssueComment(Request $request)
 	{
-// 		$this->validate($request, [
-// 				'description' => 'required'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'comment' => 'required'
 		]);
@@ -88,9 +85,6 @@ class IssueCommentController extends Controller
 	 */
 	public function postDoUpdateIssueComment(Request $request, $issue_comment_id)
 	{
-// 		$this->validate($request, [
-// 				'description' => 'required'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'comment' => 'required'
 		]);

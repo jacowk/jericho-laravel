@@ -72,8 +72,8 @@ class DocumentController extends Controller
 		$generated_filename = Util::generateFilename($user->id, $client_original_extension);
 		$mime_type = $request->file('uploaded_file')->getClientMimeType();
 		$real_path = $request->file('uploaded_file')->getRealPath();
-		$document_type_id = $request->document_type_id;
-		$property_flip_id = $request->property_flip_id;
+		$document_type_id = Util::getNumericQueryParameter($request->document_type_id);
+		$property_flip_id = Util::getNumericQueryParameter($request->property_flip_id);
 		
 		/* Upload file */
 		$generated_path = Storage::putFileAs('documents', new File($real_path), $generated_filename);

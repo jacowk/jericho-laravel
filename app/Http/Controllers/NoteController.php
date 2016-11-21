@@ -43,9 +43,6 @@ class NoteController extends Controller
 	public function postDoAddNote(Request $request)
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::NOTES_TAB);
-// 		$this->validate($request, [
-// 				'description' => 'required'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'description' => 'required'
 		]);
@@ -92,9 +89,6 @@ class NoteController extends Controller
 	public function postDoUpdateNote(Request $request, $note_id)
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::NOTES_TAB);
-// 		$this->validate($request, [
-// 				'description' => 'required'
-// 		]);
 		$validator = Validator::make($request->all(), [
 				'description' => 'required'
 		]);

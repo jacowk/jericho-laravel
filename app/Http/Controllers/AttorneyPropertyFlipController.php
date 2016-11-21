@@ -40,7 +40,7 @@ class AttorneyPropertyFlipController extends Controller
 	public function postLinkAttorneyContact(Request $request)
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::ATTORNEYS_TAB);
-		$property_flip_id = Util::getQueryParameter($request->property_flip_id);
+		$property_flip_id = Util::getNumericQueryParameter($request->property_flip_id);
 		$attorneys = (new AttorneyLookupRetriever())->execute();
 		$lookup_attorney_types = (new AttorneyTypeLookupRetriever())->execute();
 		$contacts = array();
@@ -78,10 +78,10 @@ class AttorneyPropertyFlipController extends Controller
 		}
 		
 		$user = Auth::user();
-		$property_flip_id = Util::getQueryParameter($request->property_flip_id);
-		$attorney_id = Util::getQueryParameter($request->attorney_id);
-		$contact_id = Util::getQueryParameter($request->contact_id);
-		$lookup_attorney_type_id = Util::getQueryParameter($request->lookup_attorney_type_id);
+		$property_flip_id = Util::getNumericQueryParameter($request->property_flip_id);
+		$attorney_id = Util::getNumericQueryParameter($request->attorney_id);
+		$contact_id = Util::getNumericQueryParameter($request->contact_id);
+		$lookup_attorney_type_id = Util::getNumericQueryParameter($request->lookup_attorney_type_id);
 		$property_flip = PropertyFlip::find($property_flip_id);
 		$attorney = Attorney::find($attorney_id);
 		$contact = Contact::find($contact_id);
@@ -149,9 +149,9 @@ class AttorneyPropertyFlipController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::ATTORNEYS_TAB);
 		$user = Auth::user();
-		$property_flip_id = Util::getQueryParameter($request->property_flip_id);
-		$contact_id = Util::getQueryParameter($request->contact_id);
-		$lookup_attorney_type_id = Util::getQueryParameter($request->lookup_attorney_type_id);
+		$property_flip_id = Util::getNumericQueryParameter($request->property_flip_id);
+		$contact_id = Util::getNumericQueryParameter($request->contact_id);
+		$lookup_attorney_type_id = Util::getNumericQueryParameter($request->lookup_attorney_type_id);
 		$property_flip = PropertyFlip::find($property_flip_id);
 		$contact = Contact::find($contact_id);
 		DB::table('attorney_property_flip')

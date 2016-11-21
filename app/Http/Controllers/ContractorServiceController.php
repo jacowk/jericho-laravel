@@ -59,7 +59,7 @@ class ContractorServiceController extends Controller
 		$user = Auth::user();
 		$contractor_service = new ContractorService();
 		$contractor_service->service_description = Util::getQueryParameter($request->service_description);
-		$contractor_service->contractor_type_id = Util::getQueryParameter($request->contractor_type_id);
+		$contractor_service->contractor_type_id = Util::getNumericQueryParameter($request->contractor_type_id);
 		$contractor_service->contractor_id = Util::getQueryParameter($request->contractor_id);
 		$contractor_service->created_by_id = $user->id;
 		
@@ -113,7 +113,7 @@ class ContractorServiceController extends Controller
 		$user = Auth::user();
 		$contractor_service = ContractorService::find($contractor_service_id);
 		$contractor_service->service_description = Util::getQueryParameter($request->service_description);
-		$contractor_service->contractor_type_id = Util::getQueryParameter($request->contractor_type_id);
+		$contractor_service->contractor_type_id = Util::getNumericQueryParameter($request->contractor_type_id);
 		$contractor_service->updated_by_id = $user->id;
 		$contractor_service->save();
 		return redirect()->action('ContractorController@getViewContractor', [

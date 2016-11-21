@@ -24,17 +24,17 @@ class PropertyFlipSearchResultRetriever implements Component
 	{
 		$address_query_parameter = $this->address_query_parameter;
 		$properties = DB::table('properties')
-						->join('property_flips', 'properties.id', '=', 'property_flips.property_id')
-						->join('suburbs', 'properties.suburb_id', '=', 'suburbs.id')
-						->join('areas', 'properties.area_id', '=', 'areas.id')
-						->join('greater_areas', 'properties.greater_area_id', '=', 'greater_areas.id')
+						->leftJoin('property_flips', 'properties.id', '=', 'property_flips.property_id')
+						->leftJoin('suburbs', 'properties.suburb_id', '=', 'suburbs.id')
+						->leftJoin('areas', 'properties.area_id', '=', 'areas.id')
+						->leftJoin('greater_areas', 'properties.greater_area_id', '=', 'greater_areas.id')
 						->where($this->query_parameters)
 						->where(function ($query) use ($address_query_parameter) {
-							$query->where('address_line_1', 'like', $address_query_parameter)
-							->orWhere('address_line_2', 'like', $address_query_parameter)
-							->orWhere('address_line_3', 'like', $address_query_parameter)
-							->orWhere('address_line_4', 'like', $address_query_parameter)
-							->orWhere('address_line_5', 'like', $address_query_parameter);
+							$query->where('properties.address_line_1', 'like', $address_query_parameter)
+							->orWhere('properties.address_line_2', 'like', $address_query_parameter)
+							->orWhere('properties.address_line_3', 'like', $address_query_parameter)
+							->orWhere('properties.address_line_4', 'like', $address_query_parameter)
+							->orWhere('properties.address_line_5', 'like', $address_query_parameter);
 						})
 						->select('properties.*',
 								'property_flips.id as property_flip_id',
