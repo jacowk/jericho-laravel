@@ -42,6 +42,7 @@ class AttorneyPropertyFlipTest extends TestCase
     		->see('Documents')
     		->see('Diary')
     		->see('Transactions')
+    		
     		->click('Attorneys') //Attorney tab
     		->see('Firstname')
     		->see('Surname')
