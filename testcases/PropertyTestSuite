@@ -9,6 +9,10 @@
 <table id="suiteTable" cellpadding="1" cellspacing="1" border="1" class="selenium"><tbody>
 <tr><td><b>Test Suite</b></td></tr>
 <tr><td><a href="PropertyTestSuite.html">Add Property Test Case</a></td></tr>
+<tr><td><a href="AddSearchPropertyTestCase.html">Add and Search Property</a></td></tr>
+<tr><td><a href="AddSearchUpdatePropertyTestCase.html">AddSearchUpdatePropertyTestCase</a></td></tr>
+<tr><td><a href="AddUpdatePropertyTestCase.html">AddUpdatePropertyTestCase</a></td></tr>
+<tr><td><a href="AddViewPropertyTestCase.html">AddAndViewPropertyTestCase</a></td></tr>
 </tbody></table>
 </body>
 </html>

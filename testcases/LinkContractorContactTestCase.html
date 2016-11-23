@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:8000/" />
+<title>Link Contractor Contact Test Case</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Link Contractor Contact Test Case</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=email</td>
+	<td>jaco.wk@gmail.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=password</td>
+	<td>password</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Third Parties</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Contractors</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=form &gt; input.btn.btn-default</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=name</td>
+	<td>ABC Contractor</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=input.btn.btn-default</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=form &gt; input.btn.btn-default</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=contractor_type_id</td>
+	<td>label=Builder</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=service_description</td>
+	<td>This guy is a builder</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=input.btn.btn-default</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Add Contact']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=title_id</td>
+	<td>label=Mr</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=firstname</td>
+	<td>Builder</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=surname</td>
+	<td>Sixpack</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=marital_status_id</td>
+	<td>label=Married</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=input.btn.btn-default</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Properties</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=reference_number</td>
+	<td>1597</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=input.btn.btn-default</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=View</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=View</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//a[contains(text(),'Contractors')])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=#contractors &gt; div.container &gt; div.row &gt; form.form-horizontal &gt; div.form-group &gt; div.col-sm-10 &gt; input.btn.btn-default</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=contractor_id</td>
+	<td>label=ABC Contractor</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=contact_id</td>
+	<td>label=Builder Sixpack</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=lookup_contractor_type_id</td>
+	<td>label=Builder</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=input.btn.btn-default</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>css=div.alert.alert-success</td>
+	<td>Contractor Contact linked</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//div[@id='contractors']/div/div[2]/table/tbody/tr/td</td>
+	<td>ABC Contractor</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//div[@id='contractors']/div/div[2]/table/tbody/tr/td[4]</td>
+	<td>builder.sixpack@busy.co.za</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Logout</td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>
