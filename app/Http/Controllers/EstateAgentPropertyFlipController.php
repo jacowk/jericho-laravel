@@ -131,7 +131,6 @@ class EstateAgentPropertyFlipController extends Controller
 	{
 		$estate_agent_id = Util::getNumericQueryParameter($request->estate_agent_id);
 		$estate_agent_contacts = (new ContactEstateAgentAjaxLookupRetriever($estate_agent_id))->execute();
-		Util::writeToFile(json_encode($estate_agent_contacts));
 		return json_encode($estate_agent_contacts);
 	}
 	

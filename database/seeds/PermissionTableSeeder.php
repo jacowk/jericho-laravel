@@ -60,7 +60,7 @@ class PermissionTableSeeder extends Seeder
     			$permission->name = $formatted_name;
     			$permission->created_by_id = 1;
     			$permission->save();
-    			$this->writeToFile($permission_name, $formatted_name);
+    			$this->writeToLog($permission_name, $formatted_name);
     		}
     	}
     	
@@ -91,7 +91,7 @@ class PermissionTableSeeder extends Seeder
     		$permission->name = $formatted_name;
     		$permission->created_by_id = 1;
     		$permission->save();
-    		$this->writeToFile($permission_name, $formatted_name);
+    		$this->writeToLog($permission_name, $formatted_name);
     	}
     }
     
@@ -103,8 +103,8 @@ class PermissionTableSeeder extends Seeder
     	return $formatted_name;
     }
     
-    private function writeToFile($permission_name, $formatted_name)
+    private function writeToLog($permission_name, $formatted_name)
     {
-    	Util::writeToFile('const ' . $permission_name . ' = ' . '\'' . $formatted_name . '\';');
+    	Util::writeToLog('const ' . $permission_name . ' = ' . '\'' . $formatted_name . '\';');
     }
 }

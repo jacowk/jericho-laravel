@@ -18,9 +18,9 @@ class Util
 	 *
 	 * @param unknown $value
 	 */
-	public static function writeToFile($value)
+	public static function writeToLog($value)
 	{
-		$filename = "C:\laravel_output.txt";
+		$filename = "log/jericho.log";
 		$file = fopen( $filename, "a" );
 		 
 		if( $file == false )

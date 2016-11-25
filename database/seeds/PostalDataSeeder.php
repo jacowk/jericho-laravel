@@ -21,14 +21,14 @@ class PostalDataSeeder extends Seeder
      */
     public function run()
     {
-        $load_data = false;
+        $load_data = true;
         
         if ($load_data)
         {
         	Suburb::truncate();
         	Area::truncate();
         	
-        	$file_name = 'C:\postalcodes.csv';
+        	$file_name = 'data/postalcodes.csv';
         	$postalcode_file = fopen($file_name, 'r');
         	
         	if (($handle = fopen($file_name, "r")) !== FALSE)
@@ -43,12 +43,12 @@ class PostalDataSeeder extends Seeder
         			
         			if (!Util::isValidRequestVariable($suburb_name) && !Util::isValidRequestVariable($area_name))
         			{
-        				Util::writeToFile('Postal data empty: ' . implode(',', $input_array));
+        				Util::writeToLog('Postal data empty: ' . implode(',', $input_array));
         				continue;
         			}
         			if ($suburb_name === '-' || $area_name === '-')
         			{
-        				Util::writeToFile('Postal data with dash: ' . implode(',', $input_array));
+        				Util::writeToLog('Postal data with dash: ' . implode(',', $input_array));
         				continue;
         			}
         			
@@ -110,7 +110,7 @@ class PostalDataSeeder extends Seeder
     
     private function include($name)
     {
-    	Util::writeToFile($name);
+    	Util::writeToLog($name);
     	//$includes = ['Alberton', 'Alexandra', 'Atteridgeville', 'Bekkersdal', 'Benoni', 'Boipatong', 'Boksburg', 'Bophelong', 'Brakpan', 'Bronberg', 'Bronkhorstspruit', 'Carletonville', 'Centurion', 'Cullinan', 'Daveyton', 'Devon', 'Duduza', 'Edenvale', 'Ekangala', 'Evaton', 'Germiston', 'Hammanskraal', 'Heidelberg', 'Impumelelo', 'Irene', 'Isando', 'Johannesburg', 'Kagiso', 'Katlehong', 'Kempton Park', 'Khutsong', 'Kromdraai', 'Krugersdorp', 'KwaThema', 'Lenasia', 'Magaliesburg', 'Mamelodi', 'Meyerton', 'Midrand', 'Mohlakeng', 'Muldersdrift', 'Nigel', 'Pretoria', 'Randburg', 'Randfontein', 'Ratanda', 'Refilwe', 'Reiger Park', 'Roodepoort', 'Sandton', 'Sebokeng', 'Sharpeville', 'Soshanguve', 'Soweto', 'Springs', 'Tembisa', 'Thokoza', 'Tsakane', 'Vanderbijlpark', 'Vereeniging', 'Vosloorus', 'Wattville', 'Westonaria', 'Zithobeni'];
     	$includes = ['alberton', 'alexandra', 'atteridgeville', 'bekkersdal', 'benoni', 'boipatong', 'boksburg', 'bophelong', 'brakpan', 'bronberg', 'bronkhorstspruit', 'carletonville', 'centurion', 'cullinan', 'daveyton', 'devon', 'duduza', 'edenvale', 'ekangala', 'evaton', 'germiston', 'hammanskraal', 'heidelberg', 'impumelelo', 'irene', 'isando', 'johannesburg', 'kagiso', 'katlehong', 'kempton park', 'khutsong', 'kromdraai', 'krugersdorp', 'kwathema', 'lenasia', 'magaliesburg', 'mamelodi', 'meyerton', 'midrand', 'mohlakeng', 'muldersdrift', 'nigel', 'pretoria', 'randburg', 'randfontein', 'ratanda', 'refilwe', 'reiger park', 'roodepoort', 'sandton', 'sebokeng', 'sharpeville', 'soshanguve', 'soweto', 'springs', 'tembisa', 'thokoza', 'tsakane', 'vanderbijlpark', 'vereeniging', 'vosloorus', 'wattville', 'westonaria', 'zithobeni'];
     	if (str_contains(strtolower($name), $includes))
