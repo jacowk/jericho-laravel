@@ -24,90 +24,90 @@
 		<!-- Attorney Tab -->
 		@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_PROPERTY_FLIP_ATTORNEYS))
 			@if (Session::has(TabConstants::ACTIVE_TAB) && Session::get(TabConstants::ACTIVE_TAB) == TabConstants::ATTORNEYS_TAB)
-				<li role="presentation" class="active"><a href="#attorneys" aria-controls="attorneys" role="tab" data-toggle="tab">Attorneys</a></li>
+				<li role="presentation" class="active"><a id="attorneys-tab" href="#attorneys" aria-controls="attorneys" role="tab" data-toggle="tab">Attorneys</a></li>
 			@else
-				<li role="presentation"><a href="#attorneys" aria-controls="attorneys" role="tab" data-toggle="tab">Attorneys</a></li>
+				<li role="presentation"><a id="attorneys-tab" href="#attorneys" aria-controls="attorneys" role="tab" data-toggle="tab">Attorneys</a></li>
 			@endif
 		@endif
 		
 		<!-- Estate Agent Tab -->
 		@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_PROPERTY_FLIP_ESTATE_AGENTS))
 			@if (Session::has(TabConstants::ACTIVE_TAB) && Session::get(TabConstants::ACTIVE_TAB) == TabConstants::ESTATE_AGENTS_TAB)
-				<li role="presentation" class="active"><a href="#estate-agents" aria-controls="estate-agents" role="tab" data-toggle="tab">Estate Agents</a></li>
+				<li role="presentation" class="active"><a id="estate-agents-tab" href="#estate-agents" aria-controls="estate-agents" role="tab" data-toggle="tab">Estate Agents</a></li>
 			@else
-				<li role="presentation"><a href="#estate-agents" aria-controls="estate-agents" role="tab" data-toggle="tab">Estate Agents</a></li>
+				<li role="presentation"><a id="estate-agents-tab" href="#estate-agents" aria-controls="estate-agents" role="tab" data-toggle="tab">Estate Agents</a></li>
 			@endif
 		@endif
 		
 		<!-- Contractors Tab -->
 		@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_PROPERTY_FLIP_CONTRACTORS))
 			@if (Session::has(TabConstants::ACTIVE_TAB) && Session::get(TabConstants::ACTIVE_TAB) == TabConstants::CONTRACTORS_TAB)
-				<li role="presentation" class="active"><a href="#contractors" aria-controls="contractors" role="tab" data-toggle="tab">Contractors</a></li>
+				<li role="presentation" class="active"><a id="contractors-tab" href="#contractors" aria-controls="contractors" role="tab" data-toggle="tab">Contractors</a></li>
 			@else
-				<li role="presentation"><a href="#contractors" aria-controls="contractors" role="tab" data-toggle="tab">Contractors</a></li>
+				<li role="presentation"><a id="contractors-tab" href="#contractors" aria-controls="contractors" role="tab" data-toggle="tab">Contractors</a></li>
 			@endif
 		@endif
 		
 		<!-- Banks Tab -->
 		@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_PROPERTY_FLIP_BANKS))
 			@if (Session::has(TabConstants::ACTIVE_TAB) && Session::get(TabConstants::ACTIVE_TAB) == TabConstants::BANKS_TAB)
-				<li role="presentation" class="active"><a href="#banks" aria-controls="banks" role="tab" data-toggle="tab">Banks</a></li>
+				<li role="presentation" class="active"><a id="banks-tab" href="#banks" aria-controls="banks" role="tab" data-toggle="tab">Banks</a></li>
 			@else
-				<li role="presentation"><a href="#banks" aria-controls="banks" role="tab" data-toggle="tab">Banks</a></li>
+				<li role="presentation"><a id="banks-tab" href="#banks" aria-controls="banks" role="tab" data-toggle="tab">Banks</a></li>
 			@endif
 		@endif
 		
 		<!-- Investors Tab -->
 		@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_PROPERTY_FLIP_INVESTORS))
 			@if (Session::has(TabConstants::ACTIVE_TAB) && Session::get(TabConstants::ACTIVE_TAB) == TabConstants::INVESTORS_TAB)
-				<li role="presentation" class="active"><a href="#investors" aria-controls="investors" role="tab" data-toggle="tab">Investors</a></li>
+				<li role="presentation" class="active"><a id="investors-tab" href="#investors" aria-controls="investors" role="tab" data-toggle="tab">Investors</a></li>
 			@else
-				<li role="presentation"><a href="#investors" aria-controls="investors" role="tab" data-toggle="tab">Investors</a></li>
+				<li role="presentation"><a id="investors-tab" href="#investors" aria-controls="investors" role="tab" data-toggle="tab">Investors</a></li>
 			@endif
 		@endif
 		
 		<!-- Milestones Tab -->
 		@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_MILESTONE))
 			@if (Session::has(TabConstants::ACTIVE_TAB) && Session::get(TabConstants::ACTIVE_TAB) == TabConstants::MILESTONES_TAB)
-				<li role="presentation" class="active"><a href="#milestones" aria-controls="milestones" role="tab" data-toggle="tab">Milestones</a></li>
+				<li role="presentation" class="active"><a id="milestones-tab" href="#milestones" aria-controls="milestones" role="tab" data-toggle="tab">Milestones</a></li>
 			@else
-				<li role="presentation"><a href="#milestones" aria-controls="milestones" role="tab" data-toggle="tab">Milestones</a></li>
+				<li role="presentation"><a id="milestones-tab" href="#milestones" aria-controls="milestones" role="tab" data-toggle="tab">Milestones</a></li>
 			@endif
 		@endif
 		
 		<!-- Notes Tab -->
 		@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_NOTE))
 			@if (Session::has(TabConstants::ACTIVE_TAB) && Session::get(TabConstants::ACTIVE_TAB) == TabConstants::NOTES_TAB)
-				<li role="presentation" class="active"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
+				<li role="presentation" class="active"><a id="notes-tab" href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
 			@else
-				<li role="presentation"><a href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
+				<li role="presentation"><a id="notes-tab" href="#notes" aria-controls="notes" role="tab" data-toggle="tab">Notes</a></li>
 			@endif
 		@endif
 		
 		<!-- Documents Tab -->
 		@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_DOCUMENT))
 			@if (Session::has(TabConstants::ACTIVE_TAB) && Session::get(TabConstants::ACTIVE_TAB) == TabConstants::DOCUMENTS_TAB)
-				<li role="presentation" class="active"><a href="#documents" aria-controls="documents" role="tab" data-toggle="tab">Documents</a></li>
+				<li role="presentation" class="active"><a id="documents-tab" href="#documents" aria-controls="documents" role="tab" data-toggle="tab">Documents</a></li>
 			@else
-				<li role="presentation"><a href="#documents" aria-controls="documents" role="tab" data-toggle="tab">Documents</a></li>
+				<li role="presentation"><a id="documents-tab" href="#documents" aria-controls="documents" role="tab" data-toggle="tab">Documents</a></li>
 			@endif
 		@endif
 		
 		<!-- Diary Tab -->
 		@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_DIARY_ITEM))
 			@if (Session::has(TabConstants::ACTIVE_TAB) && Session::get(TabConstants::ACTIVE_TAB) == TabConstants::DIARY_TAB)
-				<li role="presentation" class="active"><a href="#diary" aria-controls="diary" role="tab" data-toggle="tab">Diary</a></li>
+				<li role="presentation" class="active"><a id="diary-tab" href="#diary" aria-controls="diary" role="tab" data-toggle="tab">Diary</a></li>
 			@else
-				<li role="presentation"><a href="#diary" aria-controls="diary" role="tab" data-toggle="tab">Diary</a></li>
+				<li role="presentation"><a id="diary-tab" href="#diary" aria-controls="diary" role="tab" data-toggle="tab">Diary</a></li>
 			@endif
 		@endif
 		
 		<!-- Transactions Tab -->
 		@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_TRANSACTION))
 			@if (Session::has(TabConstants::ACTIVE_TAB) && Session::get(TabConstants::ACTIVE_TAB) == TabConstants::TRANSACTIONS_TAB)
-				<li role="presentation" class="active"><a href="#transactions" aria-controls="transactions" role="tab" data-toggle="tab">Transactions</a></li>
+				<li role="presentation" class="active"><a id="transactions-tab" href="#transactions" aria-controls="transactions" role="tab" data-toggle="tab">Transactions</a></li>
 			@else
-				<li role="presentation"><a href="#transactions" aria-controls="transactions" role="tab" data-toggle="tab">Transactions</a></li>
+				<li role="presentation"><a id="transactions-tab" href="#transactions" aria-controls="transactions" role="tab" data-toggle="tab">Transactions</a></li>
 			@endif
 		@endif
 	</ul>

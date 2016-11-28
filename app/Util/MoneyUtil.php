@@ -61,10 +61,12 @@ class MoneyUtil
 	{
 		setlocale(LC_MONETARY, 'en_ZA');
 		/* UNIX specific */
-// 		return money_format('%.2n', $value);
+		$formatted_value = money_format('%.2n', $value);
+		$formatted_value = 'R' . str_replace('.', ',',  $formatted_value);
+		return $formatted_value;
 
 		/* Windows specific */
-		$fmt = new NumberFormatter('en_ZA', NumberFormatter::CURRENCY); 
-		return $fmt->format($value);
+// 		$fmt = new NumberFormatter('en_ZA', NumberFormatter::CURRENCY); 
+// 		return $fmt->format($value);
 	}
 }

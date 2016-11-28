@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use jericho\Audits\Model\ModelTransformAuditor;
 use Carbon\Carbon;
 use jericho\Area;
+use jericho\Suburb;
 use jericho\Contact;
 use jericho\Util\ModelTypeConstants;
 
@@ -21,11 +22,14 @@ class ModelTransformAuditorTest extends TestCase
     public function testAuditWithOldArea()
     {
         /* Prepare to create a $data array */
+    	$helderkruin_suburb = Suburb::where('name', 'like', 'Helderkruin')->first();
+    	$old_area = Area::find($helderkruin_suburb->area_id);
+    	$new_area = Area::find($helderkruin_suburb->area_id + 1);;
     	$attribute_name = 'area_id';
-    	$old_attribute_value = 58;
-    	$new_attribute_value = 46;
+    	$old_attribute_value = $old_area->id;
+    	$new_attribute_value = $new_area->id;
     	/* Create the $data array */
-    	$data = $this->getData($attribute_name, $old_attribute_value, $new_attribute_value);
+    	$data = $this->getData($attribute_name, $old_attribute_value, $new_attribute_value, $helderkruin_suburb);
     	/* Prepare transformations */
     	$transformations = [
     			'area_id' => array(ModelTypeConstants::AREA, array('name')),
@@ -45,11 +49,14 @@ class ModelTransformAuditorTest extends TestCase
     public function testAuditWithNewArea()
     {
         /* Prepare to create a $data array */
+    	$helderkruin_suburb = Suburb::where('name', 'like', 'Helderkruin')->first();
+    	$old_area = Area::find($helderkruin_suburb->area_id);
+    	$new_area = Area::find($helderkruin_suburb->area_id + 1);
     	$attribute_name = 'area_id';
-    	$old_attribute_value = 58;
-    	$new_attribute_value = 46;
+    	$old_attribute_value = $old_area->id;
+    	$new_attribute_value = $new_area->id;
     	/* Create the $data array */
-    	$data = $this->getData($attribute_name, $old_attribute_value, $new_attribute_value);
+    	$data = $this->getData($attribute_name, $old_area->id, $new_area->id, $helderkruin_suburb);
     	/* Prepare transformations */
     	$transformations = [
     			'area_id' => array(ModelTypeConstants::AREA, array('name')),
@@ -69,11 +76,14 @@ class ModelTransformAuditorTest extends TestCase
     public function testAuditWithNullTransformations()
     {
         /* Prepare to create a $data array */
+    	$helderkruin_suburb = Suburb::where('name', 'like', 'Helderkruin')->first();
+    	$old_area = Area::find($helderkruin_suburb->area_id);
+    	$new_area = Area::find($helderkruin_suburb->area_id + 1);
     	$attribute_name = 'area_id';
-    	$old_attribute_value = 58;
-    	$new_attribute_value = 46;
+    	$old_attribute_value = $old_area->id;
+    	$new_attribute_value = $new_area->id;
     	/* Create the $data array */
-    	$data = $this->getData($attribute_name, $old_attribute_value, $new_attribute_value);
+    	$data = $this->getData($attribute_name, $old_attribute_value, $new_attribute_value, $helderkruin_suburb);
     	/* Prepare transformations */
     	$transformations = null;
     	/* Call method tested */
@@ -90,11 +100,14 @@ class ModelTransformAuditorTest extends TestCase
     public function testAuditWithInvalidProperty()
     {
         /* Prepare to create a $data array */
+    	$helderkruin_suburb = Suburb::where('name', 'like', 'Helderkruin')->first();
+    	$old_area = Area::find($helderkruin_suburb->area_id);
+    	$new_area = Area::find($helderkruin_suburb->area_id + 1);
     	$attribute_name = 'area_id';
-    	$old_attribute_value = 58;
-    	$new_attribute_value = 46;
+    	$old_attribute_value = $old_area->id;
+    	$new_attribute_value = $new_area->id;
     	/* Create the $data array */
-    	$data = $this->getData($attribute_name, $old_attribute_value, $new_attribute_value);
+    	$data = $this->getData($attribute_name, $old_attribute_value, $new_attribute_value, $helderkruin_suburb);
     	/* Prepare transformations */
     	$transformations = [
     			'area_id' => array(ModelTypeConstants::AREA, array('invalid')), //The invalid property
@@ -113,11 +126,14 @@ class ModelTransformAuditorTest extends TestCase
     public function testAuditWithInvalidKey()
     {
         /* Prepare to create a $data array */
+    	$helderkruin_suburb = Suburb::where('name', 'like', 'Helderkruin')->first();
+    	$old_area = Area::find($helderkruin_suburb->area_id);
+    	$new_area = Area::find($helderkruin_suburb->area_id + 1);
     	$attribute_name = 'area_id';
-    	$old_attribute_value = 58;
-    	$new_attribute_value = 46;
+    	$old_attribute_value = $old_area->id;
+    	$new_attribute_value = $new_area->id;
     	/* Create the $data array */
-    	$data = $this->getData($attribute_name, $old_attribute_value, $new_attribute_value);
+    	$data = $this->getData($attribute_name, $old_attribute_value, $new_attribute_value, $helderkruin_suburb);
     	/* Prepare transformations */
     	$transformations = [
     			'invalid' => array(ModelTypeConstants::AREA, array('name')), //The invalid key
@@ -136,11 +152,14 @@ class ModelTransformAuditorTest extends TestCase
     public function testAuditWithEmptyKey()
     {
         /* Prepare to create a $data array */
+    	$helderkruin_suburb = Suburb::where('name', 'like', 'Helderkruin')->first();
+    	$old_area = Area::find($helderkruin_suburb->area_id);
+    	$new_area = Area::find($helderkruin_suburb->area_id + 1);
     	$attribute_name = 'area_id';
-    	$old_attribute_value = 58;
-    	$new_attribute_value = 46;
+    	$old_attribute_value = $old_area->id;
+    	$new_attribute_value = $new_area->id;
     	/* Create the $data array */
-    	$data = $this->getData($attribute_name, $old_attribute_value, $new_attribute_value);
+    	$data = $this->getData($attribute_name, $old_attribute_value, $new_attribute_value, $helderkruin_suburb);
     	/* Prepare transformations */
     	$transformations = [
     			'' => array(ModelTypeConstants::AREA, array('name')), //The invalid key
@@ -156,11 +175,14 @@ class ModelTransformAuditorTest extends TestCase
     public function testAuditWithInvalidModelClassName()
     {
         /* Prepare to create a $data array */
+    	$helderkruin_suburb = Suburb::where('name', 'like', 'Helderkruin')->first();
+    	$old_area = Area::find($helderkruin_suburb->area_id);
+    	$new_area = Area::find($helderkruin_suburb->area_id + 1);
     	$attribute_name = 'area_id';
-    	$old_attribute_value = 58;
-    	$new_attribute_value = 46;
+    	$old_attribute_value = $old_area->id;
+    	$new_attribute_value = $new_area->id;
     	/* Create the $data array */
-    	$data = $this->getData($attribute_name, $old_attribute_value, $new_attribute_value);
+    	$data = $this->getData($attribute_name, $old_attribute_value, $new_attribute_value, $helderkruin_suburb);
     	/* Prepare transformations */
     	$transformations = [
     			'area_id' => array('InvalidClassName', array('name')), //The invalid class name
@@ -179,9 +201,12 @@ class ModelTransformAuditorTest extends TestCase
     public function testAuditWithNullDataArray()
     {
         /* Prepare to create a $data array */
+    	$helderkruin_suburb = Suburb::where('name', 'like', 'Helderkruin')->first();
+    	$old_area = Area::find($helderkruin_suburb->area_id);
+    	$new_area = Area::find($helderkruin_suburb->area_id + 1);
     	$attribute_name = 'area_id';
-    	$old_attribute_value = 58;
-    	$new_attribute_value = 46;
+    	$old_attribute_value = $old_area->id;
+    	$new_attribute_value = $new_area->id;
     	/* Create the $data array */
     	$data = null;
     	/* Prepare transformations */
@@ -198,9 +223,12 @@ class ModelTransformAuditorTest extends TestCase
     public function testAuditWithEmptyDataArray()
     {
         /* Prepare to create a $data array */
+    	$helderkruin_suburb = Suburb::where('name', 'like', 'Helderkruin')->first();
+    	$old_area = Area::find($helderkruin_suburb->area_id);
+    	$new_area = Area::find($helderkruin_suburb->area_id + 1);
     	$attribute_name = 'area_id';
-    	$old_attribute_value = 58;
-    	$new_attribute_value = 46;
+    	$old_attribute_value = $old_area->id;
+    	$new_attribute_value = $new_area->id;
     	/* Create the $data array */
     	$data = array();
     	/* Prepare transformations */
@@ -220,8 +248,9 @@ class ModelTransformAuditorTest extends TestCase
     	$attribute_name = 'contact_id';
     	$old_attribute_value = 1;
     	$new_attribute_value = 2;
+    	$contact = Contact::find(1);
     	/* Create the $data array */
-    	$data = $this->getData($attribute_name, $old_attribute_value, $new_attribute_value);
+    	$data = $this->getData($attribute_name, $old_attribute_value, $new_attribute_value, $contact);
     	/* Prepare transformations */
     	$transformations = [
     			'contact_id' => array(ModelTypeConstants::CONTACT, array('firstname', 'surname')),
@@ -244,8 +273,9 @@ class ModelTransformAuditorTest extends TestCase
     	$attribute_name = 'contact_id';
     	$old_attribute_value = 1;
     	$new_attribute_value = 2;
+    	$contact = Contact::find(1);
     	/* Create the $data array */
-    	$data = $this->getData($attribute_name, $old_attribute_value, $new_attribute_value);
+    	$data = $this->getData($attribute_name, $old_attribute_value, $new_attribute_value, $contact);
     	/* Prepare transformations */
     	$transformations = [
     			'contact_id' => array(ModelTypeConstants::CONTACT, array('firstname', 'surname')),
@@ -262,7 +292,7 @@ class ModelTransformAuditorTest extends TestCase
     	$this->assertEquals(trim($contact->firstname . ' ' . $contact->surname), trim($new_value));
     }
     
-    private function getData($attribute_name, $old_attribute_value, $new_attribute_value)
+    private function getData($attribute_name, $old_attribute_value, $new_attribute_value, $auditable)
     {
     	$data = array();
     	$data['id'] = "1fa4da59-b6f0-4f54-9562-81c6c340d1d6";
@@ -273,7 +303,7 @@ class ModelTransformAuditorTest extends TestCase
     			$attribute_name => $new_attribute_value
     	];
     	$data['type'] = "updated";
-    	$data['auditable_id'] = 4382;
+    	$data['auditable_id'] = $auditable->id;
     	$data['auditable_type'] = "jericho\Suburb";
     	$data['user_id'] = 1;
     	$data['route'] = "http://localhost:8000/do-update-suburb/4382";

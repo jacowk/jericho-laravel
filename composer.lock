@@ -1304,16 +1304,16 @@
         },
         {
             "name": "owen-it/laravel-auditing",
-            "version": "3.1.9",
+            "version": "3.1.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/owen-it/laravel-auditing.git",
-                "reference": "fa2ad64268ce99cd22cb51a5b2597a63da9c94c3"
+                "reference": "90d0827df729e142d6c804b4411470717ba6f9cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/owen-it/laravel-auditing/zipball/fa2ad64268ce99cd22cb51a5b2597a63da9c94c3",
-                "reference": "fa2ad64268ce99cd22cb51a5b2597a63da9c94c3",
+                "url": "https://api.github.com/repos/owen-it/laravel-auditing/zipball/90d0827df729e142d6c804b4411470717ba6f9cc",
+                "reference": "90d0827df729e142d6c804b4411470717ba6f9cc",
                 "shasum": ""
             },
             "require": {
@@ -1367,7 +1367,7 @@
                 "observer",
                 "register"
             ],
-            "time": "2016-11-24 08:53:39"
+            "time": "2016-11-24 13:21:56"
         },
         {
             "name": "paragonie/random_compat",
@@ -2926,16 +2926,16 @@
         },
         {
             "name": "phpdocumentor/type-resolver",
-            "version": "0.2",
+            "version": "0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/TypeResolver.git",
-                "reference": "b39c7a5b194f9ed7bd0dd345c751007a41862443"
+                "reference": "e224fb2ea2fba6d3ad6fdaef91cd09a172155ccb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/b39c7a5b194f9ed7bd0dd345c751007a41862443",
-                "reference": "b39c7a5b194f9ed7bd0dd345c751007a41862443",
+                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/e224fb2ea2fba6d3ad6fdaef91cd09a172155ccb",
+                "reference": "e224fb2ea2fba6d3ad6fdaef91cd09a172155ccb",
                 "shasum": ""
             },
             "require": {
@@ -2969,7 +2969,7 @@
                     "email": "me@mikevanriel.com"
                 }
             ],
-            "time": "2016-06-10 07:14:17"
+            "time": "2016-11-25 06:54:22"
         },
         {
             "name": "phpspec/prophecy",
