@@ -73,7 +73,7 @@
 				<div class="form-group">
 					{{  Form::open(array('route' => array('view-property-flip', $diary_item->property_flip->id), 'class' => 'form-horizontal')) }}
 						{{ Form::token() }}
-						{{ Form::submit('Back to View Property', array('class' => 'btn btn-default')) }}
+						{{ Form::submit('Back to View Property Flip', array('class' => 'btn btn-default')) }}
 					{{  Form::close() }}
 				</div>
 				

@@ -27,7 +27,7 @@
 						@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_NOTE))
 							<td><a href="{{ route('update-note', ['note_id' => $note->id]) }}">Update</a></td>
 						@endif
-						<td><a href="{{ route('view-note', ['note_id' => $note->id]) }}">View</a></td>
+						<td><a id="view-note" href="{{ route('view-note', ['note_id' => $note->id]) }}">View</a></td>
 					</tr>
 					@endforeach
 				@else

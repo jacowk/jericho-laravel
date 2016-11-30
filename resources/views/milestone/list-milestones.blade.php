@@ -33,7 +33,7 @@
 						@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_MILESTONE))
 							<td><a href="{{ route('update-milestone', ['milestone_id' => $milestone->id]) }}">Update</a></td>
 						@endif
-						<td><a href="{{ route('view-milestone', ['milestone_id' => $milestone->id]) }}">View</a></td>
+						<td><a id="view-milestone" href="{{ route('view-milestone', ['milestone_id' => $milestone->id]) }}">View</a></td>
 					</tr>
 					@endforeach
 				@else

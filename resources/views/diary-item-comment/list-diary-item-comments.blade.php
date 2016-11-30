@@ -25,9 +25,9 @@
 						<td>{{ $diary_item_comment->comment }}</td>
 						<td>{{ $diary_item_comment->created_at }}</td>
 						@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_DIARY_ITEM_COMMENT))
-							<td><a href="{{ route('update-diary-item-comment', ['diary_item_comment_id' => $diary_item_comment->id]) }}">Update</a></td>
+							<td><a id="update-diary-item-comment" href="{{ route('update-diary-item-comment', ['diary_item_comment_id' => $diary_item_comment->id]) }}">Update</a></td>
 						@endif
-						<td><a href="{{ route('view-diary-item-comment', ['diary_item_comment_id' => $diary_item_comment->id]) }}">View</a></td>
+						<td><a id="view-diary-item-comment" href="{{ route('view-diary-item-comment', ['diary_item_comment_id' => $diary_item_comment->id]) }}">View</a></td>
 					</tr>
 					@endforeach
 				@else

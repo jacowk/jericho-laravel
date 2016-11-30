@@ -25,9 +25,9 @@
 						<td>{{ $followup_item->comments }}</td>
 						<td>{{ $followup_item->created_at }}</td>
 						@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_FOLLOWUP_ITEM))
-							<td><a href="{{ route('update-followup-item', ['followup_item_id' => $followup_item->id]) }}">Update</a></td>
+							<td><a id="update-followup-item" href="{{ route('update-followup-item', ['followup_item_id' => $followup_item->id]) }}">Update</a></td>
 						@endif
-						<td><a href="{{ route('view-followup-item', ['followup_item_id' => $followup_item->id]) }}">View</a></td>
+						<td><a id="view-followup-item" href="{{ route('view-followup-item', ['followup_item_id' => $followup_item->id]) }}">View</a></td>
 					</tr>
 					@endforeach
 				@else

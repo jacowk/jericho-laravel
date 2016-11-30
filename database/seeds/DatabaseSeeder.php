@@ -11,7 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-    	$test = false; /* false is production */
+    	$test = true; /* false is production */
     	if ($test)
     	{
 	        $this->call(AreaTableSeeder::class);

@@ -31,7 +31,7 @@
 						@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_DIARY_ITEM))
 							<td><a href="{{ route('update-diary-item', ['diary_item_id' => $diary_item->id]) }}">Update</a></td>
 						@endif
-						<td><a href="{{ route('view-diary-item', ['diary_item_id' => $diary_item->id]) }}">View</a></td>
+						<td><a id="view-diary-item" href="{{ route('view-diary-item', ['diary_item_id' => $diary_item->id]) }}">View</a></td>
 					</tr>
 					@endforeach
 				@else

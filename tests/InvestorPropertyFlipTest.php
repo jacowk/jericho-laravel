@@ -3,21 +3,27 @@
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Carbon\Carbon;
 use jericho\Property;
 use jericho\PropertyFlip;
+use jericho\Contact;
 
 /**
- * Unit test for testing adding attorneys to a property flip functionality
+ * Unit test for testing adding investors to a property flip functionality
  *
  * @author Jaco Koekemoer
- * Date: 2016-11-21
+ * Date: 2016-11-30
  *
  */
-class AttorneyPropertyFlipTest extends TestCase
+class InvestorPropertyFlipTest extends TestCase
 {
-    public function testLinkAttorneyContact()
+	/**
+	 * Test linking an investor to a property flip
+	 */
+    public function testInvestorPropertyFlip()
     {
     	$property_flip_id = $this->createPropertyFlip();
+    	$contact_id = $this->createContact();
     	
     	$this->visit('/')
 	    	->visit('/login')
@@ -26,41 +32,34 @@ class AttorneyPropertyFlipTest extends TestCase
 	    	->press('Login')
 	    	->see('Home')
 	    	->visit('/search-property')
-	    		
+	    	 
 	    	->type($property_flip_id, 'property_flip_id')
 	    	->press('Search')
 	    	->click('View') //View Property
+	    	 
+	    	->click('View') //View Property Flip
+	    	->see('View Property Flip')
+	    	->see('General')
+	    	->see('Investors')
+	    	
+	    	->click('investors-tab')
+	    	->see('Investors')
+	    	->press('Link Investor Contact')
+	    	
+	    	->select($contact_id, 'contact_id')
+	    	->type('1000000', 'investment_amount')
+	    	->press('Link Investor Contact')
     	
-    		->click('View') //View Property Flip
-    		->see('View Property Flip')
-    		->see('General')
-    		->see('Attorneys')
-    		->see('Estate Agents')
-    		->see('Contractors')
-    		->see('Banks')
+    		->see('Property Flip')
     		->see('Investors')
-    		->see('Milestones')
-    		->see('Notes')
-    		->see('Documents')
-    		->see('Diary')
-    		->see('Transactions')
-    		
-    		->click('attorneys-tab') //Attorney tab
-    		->see('Firstname')
-    		->see('Surname')
-    		->press('Link Attorney Contact')
-    		->select(1, 'attorney_id');
-    	//TODO: Having issues with ajax
-//     	sleep(1);
-    	
-//     	$this->select(1, 'contact_id')
-//     		->select(1, 'lookup_attorney_type_id')
-//     		->press('Link Attorney Contact')
-//     		->see('View Property Flip')
-//     		->see('Attorneys')
-//     		->see('Test Attorney 0');
+    		->see('Jack')
+    		->see('Sixpack');
     }
     
+    /**
+     * Create a property for this test
+     * @return Property
+     */
     private function createProperty()
     {
     	$address_line_1 = 'Test address line 1000';
@@ -71,7 +70,7 @@ class AttorneyPropertyFlipTest extends TestCase
     	$size = 50;
     	$lookup_property_type_id = 1;
     	$created_by_id = 1;
-    	 
+    
     	$property = new Property();
     	$property->address_line_1 = $address_line_1;
     	$property->area_id = $area_id;
@@ -85,20 +84,25 @@ class AttorneyPropertyFlipTest extends TestCase
     	return $property->id;
     }
     
+    /**
+     * Create a property flip for this test
+     * 
+     * @return property flip id
+     */
     private function createPropertyFlip()
     {
     	$reference_number = 1000;
-		$title_deed_number = 1000;
-		$case_number = 'A1234';
-		$seller_id = 1;
-		$selling_price = 100000.00;
-		$purchaser_id = 1;
-		$purchase_price = 100000.00;
-		$finance_status_id = 1;
-		$seller_status_id = 1;
-		$property_id = $this->createProperty();
-		$created_by_id = 1;
-    	
+    	$title_deed_number = 1000;
+    	$case_number = 'A1234';
+    	$seller_id = 1;
+    	$selling_price = 100000.00;
+    	$purchaser_id = 1;
+    	$purchase_price = 100000.00;
+    	$finance_status_id = 1;
+    	$seller_status_id = 1;
+    	$property_id = $this->createProperty();
+    	$created_by_id = 1;
+    	 
     	$property_flip = new PropertyFlip();
     	$property_flip->reference_number = $reference_number;
     	$property_flip->title_deed_number = $title_deed_number;
@@ -113,5 +117,51 @@ class AttorneyPropertyFlipTest extends TestCase
     	$property_flip->created_by_id = $created_by_id;
     	$property_flip->save();
     	return $property_flip->id;
+    }
+    
+    /**
+     * Create a contact for this test
+     */
+    private function createContact()
+    {
+    	/*
+		title_id
+		firstname
+		surname
+		home_tel_no
+		work_tel_no
+		cell_no
+		fax_no
+		personal_email
+		work_email
+		id_number
+		passport_number
+		marital_status_id
+		tax_number
+		sa_citizen
+		created_by_id
+		updated_by_id
+		deleted_by_id
+		created_at
+
+    	*/
+    	$title_id = 1;
+    	$firstname = 'Jack';
+    	$surname = 'Sixpack';
+    	$work_tel_no = '(011) 555 4444';
+    	$work_email = 'jack.sixpack@test.co.za';
+    	$created_by_id = 1;
+    	$created_at = new Carbon();
+    	
+    	$contact = Contact::create([
+    		'title_id' => $title_id,
+    		'firstname' => $firstname,
+    		'surname' => $surname,
+    		'work_tel_no' => $work_tel_no,
+    		'work_email' => $work_email,
+    		'created_by_id' => $created_by_id,
+    		'created_at' => $created_at
+    	]);
+    	return $contact->id;
     }
 }

@@ -57,9 +57,9 @@
 							<td>{{ MoneyUtil::toRandsAndFormat($transaction->debit_amount) }}</td>
 							<td>{{ MoneyUtil::toRandsAndFormat($transaction->credit_amount) }}</td>
 							@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_TRANSACTION))
-								<td><a href="{{ route('update-transaction', ['transaction_id' => $transaction->id]) }}">Update</a></td>
+								<td><a id="update-transaction" href="{{ route('update-transaction', ['transaction_id' => $transaction->id]) }}">Update</a></td>
 							@endif
-							<td><a href="{{ route('view-transaction', ['transaction_id' => $transaction->id]) }}">View</a></td>
+							<td><a id="view-transaction" href="{{ route('view-transaction', ['transaction_id' => $transaction->id]) }}">View</a></td>
 						</tr>
 						@endforeach
 						<tr>

@@ -24,7 +24,7 @@ class ProductionUserTableSeeder extends Seeder
         $user->firstname = "Web";
         $user->surname = "Master";
         $user->email = "jaco.wk@gmail.com";
-        $user->password = bcrypt("J3r1ch0");
+        $user->password = bcrypt("password");
         $user->pagination_size = 10;
         $user->created_by_id = 1;
         $user->save();
