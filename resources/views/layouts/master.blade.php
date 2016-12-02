@@ -15,6 +15,8 @@
 	    <!-- <script type="text/javascript" src="{{ URL::asset('js/app.js') }}"></script> -->
 	    
 	    <script type="text/javascript" src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
+	    <script type="text/javascript" src="{{ URL::asset('js/bootstrap-theme.min.js') }}"></script>
+	    
 	    <script type="text/javascript" src="{{ URL::asset('js/jquery-ui.min.js') }}"></script>
 	    <script type="text/javascript" src="{{ URL::asset('js/run_prettify.js') }}"></script>
 	    <script type="text/javascript" src="{{ URL::asset('js/jquery.bootstrap-duallistbox.js') }}"></script>
