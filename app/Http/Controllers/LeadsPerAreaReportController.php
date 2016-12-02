@@ -17,6 +17,7 @@ use jericho\Util\TabConstants;
 use jericho\Lookup\AreaLookupRetriever;
 use jericho\Lookup\GreaterAreaLookupRetriever;
 use DB;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * A controller for generating an "Leads Per Area" report
@@ -65,7 +66,7 @@ class LeadsPerAreaReportController extends Controller
 			->withInput();
 		}
 	
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$query_parameters = array();
 		$from_date_query_parameter = null;
 		$to_date_query_parameter = null;

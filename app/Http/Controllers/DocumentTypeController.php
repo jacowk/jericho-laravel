@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use jericho\Http\Requests;
 use jericho\LookupDocumentType;
 use jericho\Util\Util;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on document types
@@ -39,7 +40,7 @@ class DocumentTypeController extends Controller
 	 */
 	public function postDoSearchDocumentType(Request $request)
 	{
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$description = null;
 		if (Util::isValidRequestVariable($request->description))
 		{
@@ -86,7 +87,7 @@ class DocumentTypeController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$document_type = new LookupDocumentType();
 		$document_type->description = Util::getQueryParameter($request->description);
 		$document_type->created_by_id = $user->id;
@@ -127,7 +128,7 @@ class DocumentTypeController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$document_type = LookupDocumentType::find($document_type_id);
 		$document_type->description = Util::getQueryParameter($request->description);
 		$document_type->updated_by_id = $user->id;

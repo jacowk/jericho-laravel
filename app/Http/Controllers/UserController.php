@@ -15,6 +15,7 @@ use DB;
 use jericho\Audits\RoleToUserAuditor;
 use jericho\Lookup\RolesForCheckboxesRetriever;
 use jericho\Lookup\PaginationSizeLookupRetriever;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on users
@@ -46,7 +47,7 @@ class UserController extends Controller
 	 */
 	public function postDoSearchUser(Request $request)
 	{
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$firstname = Util::getQueryParameter($request->firstname);
 		$surname = Util::getQueryParameter($request->surname);
 		$users = User::where([
@@ -99,7 +100,7 @@ class UserController extends Controller
 				->withErrors($validator)
 				->withInput(Input::except('password'));
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$new_user = new User();
 		$new_user->firstname = Util::getQueryParameter($request->firstname);
 		$new_user->surname = Util::getQueryParameter($request->surname);
@@ -155,7 +156,7 @@ class UserController extends Controller
 				->withInput(Input::except('password'));
 		}
 		
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$update_user = User::find($user_id);
 		$update_user->firstname = Util::getQueryParameter($request->firstname);
 		$update_user->surname = Util::getQueryParameter($request->surname);
@@ -216,7 +217,7 @@ class UserController extends Controller
 				->withErrors($validator);
 		}
 	
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$update_user = User::find($user_id);
 		$update_user->password = bcrypt($request->password);
 		$update_user->updated_by_id = $user->id;

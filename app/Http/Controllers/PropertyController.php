@@ -21,6 +21,7 @@ use jericho\Lookup\PropertyTypeLookupRetriever;
 use jericho\Properties\PropertySearchResultRetriever;
 use jericho\PropertyFlips\PropertyFlipSearchResultRetriever;
 use DB;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on propertys
@@ -64,7 +65,7 @@ class PropertyController extends Controller
 	 */
 	public function postDoSearchProperty(Request $request)
 	{
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$address = null;
 		$query_parameters = array();
 		
@@ -197,7 +198,7 @@ class PropertyController extends Controller
 				->withInput();
 		}
 		
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$property = new Property();
 		$property->address_line_1 = Util::getQueryParameter($request->address_line_1);
 		$property->address_line_2 = Util::getQueryParameter($request->address_line_2);
@@ -263,7 +264,7 @@ class PropertyController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$property = Property::find($property_id);
 		$property->address_line_1 = Util::getQueryParameter($request->address_line_1);
 		$property->address_line_2 = Util::getQueryParameter($request->address_line_2);

@@ -21,6 +21,7 @@ use jericho\Audits\DeleteAttorneyPropertyFlipAuditor;
 use jericho\Lookup\AttorneyTypeLookupRetriever;
 use jericho\Lookup\AttorneyLookupRetriever;
 use jericho\Lookup\AttorneyContactAjaxLookupRetriever;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on property flips
@@ -77,7 +78,7 @@ class AttorneyPropertyFlipController extends Controller
 				->with('property_flip_id', $request->property_flip_id);
 		}
 		
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$property_flip_id = Util::getNumericQueryParameter($request->property_flip_id);
 		$attorney_id = Util::getNumericQueryParameter($request->attorney_id);
 		$contact_id = Util::getNumericQueryParameter($request->contact_id);
@@ -148,7 +149,7 @@ class AttorneyPropertyFlipController extends Controller
 	public function postDoLinkAttorneyContactDelete(Request $request)
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::ATTORNEYS_TAB);
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$property_flip_id = Util::getNumericQueryParameter($request->property_flip_id);
 		$contact_id = Util::getNumericQueryParameter($request->contact_id);
 		$lookup_attorney_type_id = Util::getNumericQueryParameter($request->lookup_attorney_type_id);

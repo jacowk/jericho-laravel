@@ -18,6 +18,7 @@ use jericho\Audits\LinkBankPropertyFlipAuditor;
 use jericho\Audits\DeleteBankPropertyFlipAuditor;
 use jericho\Lookup\BankLookupRetriever;
 use jericho\Lookup\BankContactAjaxLookupRetriever;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on property flips
@@ -70,7 +71,7 @@ class BankPropertyFlipController extends Controller
 			->withInput()
 			->with('property_flip_id', $request->property_flip_id);
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$property_flip_id = Util::getNumericQueryParameter($request->property_flip_id);
 		$bank_id = Util::getNumericQueryParameter($request->bank_id);
 		$contact_id = Util::getNumericQueryParameter($request->contact_id);
@@ -135,7 +136,7 @@ class BankPropertyFlipController extends Controller
 	public function postDoLinkBankContactDelete(Request $request)
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::BANKS_TAB);
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$property_flip_id = Util::getNumericQueryParameter($request->property_flip_id);
 		$contact_id = Util::getNumericQueryParameter($request->contact_id);
 		$property_flip = PropertyFlip::find($property_flip_id);

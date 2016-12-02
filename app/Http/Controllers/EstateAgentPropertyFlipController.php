@@ -20,6 +20,7 @@ use jericho\Audits\DeleteEstateAgentPropertyFlipAuditor;
 use jericho\Lookup\EstateAgentTypeLookupRetriever;
 use jericho\Lookup\EstateAgentLookupRetriever;
 use jericho\Lookup\ContactEstateAgentAjaxLookupRetriever;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for linking the contacts of estate agents to property flips
@@ -74,7 +75,7 @@ class EstateAgentPropertyFlipController extends Controller
 				->withInput()
 				->with('property_flip_id', $request->property_flip_id);
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$property_flip_id = Util::getNumericQueryParameter($request->property_flip_id);
 		$estate_agent_id = Util::getNumericQueryParameter($request->estate_agent_id);
 		$contact_id = Util::getNumericQueryParameter($request->contact_id);
@@ -142,7 +143,7 @@ class EstateAgentPropertyFlipController extends Controller
 	public function postDoLinkContactEstateAgentDelete(Request $request)
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::ESTATE_AGENTS_TAB);
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$property_flip_id = Util::getNumericQueryParameter($request->property_flip_id);
 		$contact_id = Util::getQueryParameter($request->contact_id);
 		$lookup_estate_agent_type_id = Util::getNumericQueryParameter($request->lookup_estate_agent_type_id);

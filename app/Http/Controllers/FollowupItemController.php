@@ -11,6 +11,7 @@ use jericho\DiaryItem;
 use jericho\FollowupItem;
 use jericho\PropertyFlip;
 use jericho\Util\Util;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on followup items
@@ -51,7 +52,7 @@ class FollowupItemController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$followup_item = new FollowupItem();
 		$followup_item->comments = Util::getQueryParameter($request->comments);
 		$followup_item->created_by_id = $user->id;
@@ -95,7 +96,7 @@ class FollowupItemController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$followup_item = FollowupItem::find($followup_item_id);
 		$followup_item->comments = Util::getQueryParameter($request->comments);
 		$followup_item->updated_by_id = $user->id;

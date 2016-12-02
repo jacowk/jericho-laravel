@@ -15,6 +15,7 @@ use jericho\Util\Util;
 use jericho\Util\LookupUtil;
 use jericho\Util\TabConstants;
 use DB;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * A controller for generating a "Leads To Sales" report
@@ -57,7 +58,7 @@ class LeadsToSalesReportController extends Controller
 			->withInput();
 		}
 		
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$from_date_query_parameter = null;
 		$to_date_query_parameter = null;
 		

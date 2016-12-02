@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use jericho\Http\Requests;
 use jericho\LookupTitle;
 use jericho\Util\Util;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on titles
@@ -39,7 +40,7 @@ class TitleController extends Controller
 	 */
 	public function postDoSearchTitle(Request $request)
 	{
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$description = null;
 		if (Util::isValidRequestVariable($request->description))
 		{
@@ -86,7 +87,7 @@ class TitleController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$title = new LookupTitle();
 		$title->description = Util::getQueryParameter($request->description);
 		$title->created_by_id = $user->id;
@@ -127,7 +128,7 @@ class TitleController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$title = LookupTitle::find($title_id);
 		$title->description = Util::getQueryParameter($request->description);
 		$title->updated_by_id = $user->id;

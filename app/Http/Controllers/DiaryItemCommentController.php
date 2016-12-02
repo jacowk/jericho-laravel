@@ -11,6 +11,7 @@ use jericho\DiaryItem;
 use jericho\DiaryItemComment;
 use jericho\PropertyFlip;
 use jericho\Util\Util;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on diay item comments
@@ -51,7 +52,7 @@ class DiaryItemCommentController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$diary_item_comment = new DiaryItemComment();
 		$diary_item_comment->comment = Util::getQueryParameter($request->comment);
 		$diary_item_comment->created_by_id = $user->id;
@@ -95,7 +96,7 @@ class DiaryItemCommentController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$diary_item_comment = DiaryItemComment::find($diary_item_comment_id);
 		$diary_item_comment->comment = Util::getQueryParameter($request->comment);
 		$diary_item_comment->updated_by_id = $user->id;

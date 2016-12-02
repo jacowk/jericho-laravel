@@ -11,6 +11,7 @@ use jericho\PropertyFlip;
 use jericho\Util\Util;
 use jericho\Util\TabConstants;
 use jericho\Lookup\MilestoneTypeLookupRetriever;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on milestones
@@ -57,7 +58,7 @@ class MilestoneController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$milestone = new Milestone();
 		$milestone->effective_date = Util::getDateQueryParameter($request->effective_date);
 		$milestone->milestone_type_id = Util::getNumericQueryParameter($request->milestone_type_id);
@@ -108,7 +109,7 @@ class MilestoneController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$milestone = Milestone::find($milestone_id);
 		$milestone->effective_date = Util::getDateQueryParameter($request->effective_date);
 		$milestone->milestone_type_id = Util::getNumericQueryParameter($request->milestone_type_id);

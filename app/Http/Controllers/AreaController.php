@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use jericho\Http\Requests;
 use jericho\Area;
 use jericho\Util\Util;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on areas
@@ -39,7 +40,7 @@ class AreaController extends Controller
 	 */
 	public function postDoSearchArea(Request $request)
 	{
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$name = null;
 		if (Util::isValidRequestVariable($request->name))
 		{
@@ -86,7 +87,7 @@ class AreaController extends Controller
 				->withInput();
 		}
 		
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$area = new Area();
 		$area->name = Util::getQueryParameter($request->name);
 		$area->created_by_id = $user->id;
@@ -127,7 +128,7 @@ class AreaController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$area = Area::find($area_id);
 		$area->name = Util::getQueryParameter($request->name);
 		$area->updated_by_id = $user->id;

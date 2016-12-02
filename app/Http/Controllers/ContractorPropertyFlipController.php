@@ -19,6 +19,7 @@ use jericho\Audits\DeleteContractorPropertyFlipAuditor;
 use jericho\Lookup\ContractorLookupRetriever;
 use jericho\Lookup\ContactContractorAjaxLookupRetriever;
 use jericho\Lookup\ContractorServiceTypeAjaxLookupRetriever;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for linking the contacts of contractors to property flips
@@ -74,7 +75,7 @@ class ContractorPropertyFlipController extends Controller
 				->withInput()
 				->with('property_flip_id', $request->property_flip_id);
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$property_flip_id = Util::getNumericQueryParameter($request->property_flip_id);
 		$contractor_id = Util::getNumericQueryParameter($request->contractor_id);
 		$contact_id = Util::getNumericQueryParameter($request->contact_id);
@@ -155,7 +156,7 @@ class ContractorPropertyFlipController extends Controller
 	public function postDoLinkContactContractorDelete(Request $request)
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::CONTRACTORS_TAB);
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$property_flip_id = Util::getNumericQueryParameter($request->property_flip_id);
 		$contact_id = Util::getNumericQueryParameter($request->contact_id);
 		$lookup_contractor_type_id = Util::getNumericQueryParameter($request->lookup_contractor_type_id);

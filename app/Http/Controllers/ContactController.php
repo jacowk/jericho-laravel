@@ -25,6 +25,7 @@ use jericho\Audits\AddContactToContractorAuditor;
 use jericho\Audits\AddContactToEstateAgentAuditor;
 use jericho\Lookup\TitleLookupRetriever;
 use jericho\Lookup\MaritalStatusLookupRetriever;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on contacts
@@ -57,7 +58,7 @@ class ContactController extends Controller
      */
     public function postDoSearchContact(Request $request)
     {
-    	$user = Auth::user();
+    	$user = (new AuthUserRetriever())->retrieveUser();
     	$model_name = ModelConstants::NONE_MODEL_NAME;
     	$model_id = 0;
     	$query_parameters = array();
@@ -159,7 +160,7 @@ class ContactController extends Controller
     	
 //     	DB::transaction(function (Request $request) {
     		/* Create and store the Contact */
-    		$user = Auth::user();
+    		$user = (new AuthUserRetriever())->retrieveUser();
     		$contact = new Contact();
     		$contact = $this->populateContactObject($request, $contact);
     		$contact->created_by_id = $user->id;
@@ -261,7 +262,7 @@ class ContactController extends Controller
     			->with('model_id', $request->model_id)
     			->with('model_name', $request->model_name);
     	}
-    	$user = Auth::user();
+    	$user = (new AuthUserRetriever())->retrieveUser();
     	$contact = Contact::find($contact_id);
     	$contact = $this->populateContactObject($request, $contact);
     	$contact->updated_by_id = $user->id;

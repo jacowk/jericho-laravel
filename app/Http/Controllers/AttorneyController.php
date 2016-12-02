@@ -11,6 +11,7 @@ use jericho\Attorney;
 use jericho\User;
 use jericho\Util\ModelConstants;
 use jericho\Util\Util;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on attorneys
@@ -41,7 +42,7 @@ class AttorneyController extends Controller
      */
     public function postDoSearchAttorney(Request $request)
     {
-    	$user = Auth::user();
+    	$user = (new AuthUserRetriever())->retrieveUser();
     	$name = null;
     	if (Util::isValidRequestVariable($request->name))
     	{
@@ -86,7 +87,7 @@ class AttorneyController extends Controller
     		->withErrors($validator)
     		->withInput();
     	}
-    	$user = Auth::user();
+    	$user = (new AuthUserRetriever())->retrieveUser();
     	$attorney = new Attorney();
     	$attorney->name = Util::getQueryParameter($request->name);
     	$attorney->created_by_id = $user->id;
@@ -127,7 +128,7 @@ class AttorneyController extends Controller
 	    		->withErrors($validator)
 	    		->withInput();
     	}
-    	$user = Auth::user();
+    	$user = (new AuthUserRetriever())->retrieveUser();
     	$attorney = Attorney::find($attorney_id);
     	$attorney->name = Util::getQueryParameter($request->name);
     	$attorney->updated_by_id = $user->id;

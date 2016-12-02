@@ -12,6 +12,7 @@ use jericho\Permission;
 use jericho\Util\Util;
 use jericho\Audits\PermissionToRoleAuditor;
 use jericho\Lookup\PermissionsForCheckboxesRetriever;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on roles
@@ -42,7 +43,7 @@ class RoleController extends Controller
 	 */
 	public function postDoSearchRole(Request $request)
 	{
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$name = null;
 		if (Util::isValidRequestVariable($request->name))
 		{
@@ -88,7 +89,7 @@ class RoleController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$role = new Role();
 		$role->name = Util::getQueryParameter($request->name);
 		$role->created_by_id = $user->id;
@@ -131,7 +132,7 @@ class RoleController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$role = Role::find($role_id);
 		$role->name = Util::getQueryParameter($request->name);
 		$role->updated_by_id = $user->id;

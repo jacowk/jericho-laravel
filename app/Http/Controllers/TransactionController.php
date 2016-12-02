@@ -13,6 +13,7 @@ use jericho\Util\Util;
 use jericho\Util\TabConstants;
 use jericho\Lookup\AccountLookupRetriever;
 use jericho\Lookup\TransactionTypeLookupRetriever;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on transactions
@@ -65,7 +66,7 @@ class TransactionController extends Controller
 				->withInput();
 		}
 		
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$transaction = new Transaction();
 		$transaction->effective_date = Util::getDateQueryParameter($request->effective_date);
 		$transaction->description = Util::getQueryParameter($request->description);
@@ -127,7 +128,7 @@ class TransactionController extends Controller
 			->withInput();
 		}
 		
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$transaction = Transaction::find($transaction_id);
 		$transaction->effective_date = Util::getDateQueryParameter($request->effective_date);
 		$transaction->description = Util::getQueryParameter($request->description);

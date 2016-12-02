@@ -10,6 +10,7 @@ use jericho\Http\Requests;
 use jericho\Bank;
 use jericho\Util\ModelConstants;
 use jericho\Util\Util;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on banks
@@ -40,7 +41,7 @@ class BankController extends Controller
      */
     public function postDoSearchBank(Request $request)
     {
-    	$user = Auth::user();
+    	$user = (new AuthUserRetriever())->retrieveUser();
     	$name = null;
     	if (Util::isValidRequestVariable($request->name))
     	{
@@ -85,7 +86,7 @@ class BankController extends Controller
 	    		->withErrors($validator)
 	    		->withInput();
     	}
-    	$user = Auth::user();
+    	$user = (new AuthUserRetriever())->retrieveUser();
     	$bank = new Bank();
     	$bank->name = Util::getQueryParameter($request->name);
     	$bank->created_by_id = $user->id;
@@ -126,7 +127,7 @@ class BankController extends Controller
 	    		->withErrors($validator)
 	    		->withInput();
     	}
-    	$user = Auth::user();
+    	$user = (new AuthUserRetriever())->retrieveUser();
     	$bank = Bank::find($bank_id);
     	$bank->name = Util::getQueryParameter($request->name);
     	$bank->updated_by_id = $user->id;

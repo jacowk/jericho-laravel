@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use jericho\Util\Util;
 use jericho\Http\Requests;
 use jericho\GreaterArea;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 class GreaterAreaController extends Controller
 {
@@ -32,7 +33,7 @@ class GreaterAreaController extends Controller
 	 */
 	public function postDoSearchGreaterArea(Request $request)
 	{
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$name = null;
 		if (Util::isValidRequestVariable($request->name))
 		{
@@ -77,7 +78,7 @@ class GreaterAreaController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$greater_area = new GreaterArea();
 		$greater_area->name = Util::getQueryParameter($request->name);
 		$greater_area->created_by_id = $user->id;
@@ -118,7 +119,7 @@ class GreaterAreaController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$greater_area = GreaterArea::find($greater_area_id);
 		$greater_area->name = Util::getQueryParameter($request->name);
 		$greater_area->updated_by_id = $user->id;

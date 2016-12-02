@@ -11,6 +11,7 @@ use jericho\EstateAgent;
 use jericho\User;
 use jericho\Util\ModelConstants;
 use jericho\Util\Util;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on estate agents
@@ -41,7 +42,7 @@ class EstateAgentController extends Controller
      */
     public function postDoSearchEstateAgent(Request $request)
     {
-    	$user = Auth::user();
+    	$user = (new AuthUserRetriever())->retrieveUser();
     	$name = null;
     	if (Util::isValidRequestVariable($request->name))
     	{
@@ -86,7 +87,7 @@ class EstateAgentController extends Controller
 	    		->withErrors($validator)
 	    		->withInput();
     	}
-    	$user = Auth::user();
+    	$user = (new AuthUserRetriever())->retrieveUser();
     	$estate_agent = new EstateAgent();
     	$estate_agent->name = Util::getQueryParameter($request->name);
     	$estate_agent->created_by_id = $user->id;
@@ -127,7 +128,7 @@ class EstateAgentController extends Controller
 	    		->withErrors($validator)
 	    		->withInput();
     	}
-    	$user = Auth::user();
+    	$user = (new AuthUserRetriever())->retrieveUser();
     	$estate_agent = EstateAgent::find($estate_agent_id);
     	$estate_agent->name = Util::getQueryParameter($request->name);
     	$estate_agent->updated_by_id = $user->id;

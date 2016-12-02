@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-	500 Error
+	403 Error
 @endsection
 
 @section('content')

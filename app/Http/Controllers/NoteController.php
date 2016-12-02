@@ -11,6 +11,7 @@ use jericho\Note;
 use jericho\PropertyFlip;
 use jericho\Util\Util;
 use jericho\Util\TabConstants;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on notes
@@ -53,7 +54,7 @@ class NoteController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$note = new Note();
 		$note->description = Util::getQueryParameter($request->description);
 		$note->created_by_id = $user->id;
@@ -99,7 +100,7 @@ class NoteController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$note = Note::find($note_id);
 		$note->description = Util::getQueryParameter($request->description);
 		$note->updated_by_id = $user->id;

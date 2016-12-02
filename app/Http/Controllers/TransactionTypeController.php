@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use jericho\Http\Requests;
 use jericho\LookupTransactionType;
 use jericho\Util\Util;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on marital statuses
@@ -39,7 +40,7 @@ class TransactionTypeController extends Controller
 	 */
 	public function postDoSearchTransactionType(Request $request)
 	{
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$description = null;
 		if (Util::isValidRequestVariable($request->description))
 		{
@@ -86,7 +87,7 @@ class TransactionTypeController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$transaction_type = new LookupTransactionType();
 		$transaction_type->description = Util::getQueryParameter($request->description);
 		$transaction_type->created_by_id = $user->id;
@@ -127,7 +128,7 @@ class TransactionTypeController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$transaction_type = LookupTransactionType::find($transaction_type_id);
 		$transaction_type->description = Util::getQueryParameter($request->description);
 		$transaction_type->updated_by_id = $user->id;

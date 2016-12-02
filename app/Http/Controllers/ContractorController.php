@@ -11,6 +11,7 @@ use jericho\Contractor;
 use jericho\User;
 use jericho\Util\ModelConstants;
 use jericho\Util\Util;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on contractors
@@ -41,7 +42,7 @@ class ContractorController extends Controller
      */
     public function postDoSearchContractor(Request $request)
     {
-    	$user = Auth::user();
+    	$user = (new AuthUserRetriever())->retrieveUser();
     	$name = null;
     	if (Util::isValidRequestVariable($request->name))
     	{
@@ -86,7 +87,7 @@ class ContractorController extends Controller
 	    		->withErrors($validator)
 	    		->withInput();
     	}
-    	$user = Auth::user();
+    	$user = (new AuthUserRetriever())->retrieveUser();
     	$contractor = new Contractor();
     	$contractor->name = Util::getQueryParameter($request->name);
     	$contractor->created_by_id = $user->id;
@@ -127,7 +128,7 @@ class ContractorController extends Controller
 	    		->withErrors($validator)
 	    		->withInput();
     	}
-    	$user = Auth::user();
+    	$user = (new AuthUserRetriever())->retrieveUser();
     	$contractor = Contractor::find($contractor_id);
     	$contractor->name = Util::getQueryParameter($request->name);
     	$contractor->updated_by_id = $user->id;

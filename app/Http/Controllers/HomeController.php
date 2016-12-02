@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
 use DateTime;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 class HomeController extends Controller
 {
@@ -26,7 +27,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-    	$user = Auth::user();
+    	$user = (new AuthUserRetriever())->retrieveUser();
     	$this_morning = new DateTime('today');
     	$tomorrow_morning = new DateTime('tomorrow');
     	

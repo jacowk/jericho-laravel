@@ -13,6 +13,7 @@ use jericho\Area;
 use jericho\Util\Util;
 use jericho\Lookup\AreaLookupRetriever;
 use jericho\Lookup\SuburbAjaxLookupRetriever;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 class SuburbController extends Controller
 {
@@ -42,7 +43,7 @@ class SuburbController extends Controller
 	 */
 	public function postDoSearchSuburb(Request $request)
 	{
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$name = null;
 		$box_code = null;
 		$street_code = null;
@@ -117,7 +118,7 @@ class SuburbController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$suburb = new Suburb();
 		$suburb->name = Util::getQueryParameter($request->name);
 		$suburb->box_code = Util::getQueryParameter($request->box_code);
@@ -166,7 +167,7 @@ class SuburbController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$suburb = Suburb::find($suburb_id);
 		$suburb->name = Util::getQueryParameter($request->name);
 		$suburb->box_code = Util::getQueryParameter($request->box_code);

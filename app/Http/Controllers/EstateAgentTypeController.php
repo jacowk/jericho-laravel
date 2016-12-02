@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use jericho\Http\Requests;
 use jericho\LookupEstateAgentType;
 use jericho\Util\Util;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on marital statuses
@@ -39,7 +40,7 @@ class EstateAgentTypeController extends Controller
 	 */
 	public function postDoSearchEstateAgentType(Request $request)
 	{
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$description = null;
 		if (Util::isValidRequestVariable($request->description))
 		{
@@ -86,7 +87,7 @@ class EstateAgentTypeController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$estate_agent_type = new LookupEstateAgentType();
 		$estate_agent_type->description = Util::getQueryParameter($request->description);
 		$estate_agent_type->created_by_id = $user->id;
@@ -127,7 +128,7 @@ class EstateAgentTypeController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$estate_agent_type = LookupEstateAgentType::find($estate_agent_type_id);
 		$estate_agent_type->description = Util::getQueryParameter($request->description);
 		$estate_agent_type->updated_by_id = $user->id;

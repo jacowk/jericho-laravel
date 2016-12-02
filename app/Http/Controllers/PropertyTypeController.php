@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use jericho\Http\Requests;
 use jericho\LookupPropertyType;
 use jericho\Util\Util;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on property types
@@ -39,7 +40,7 @@ class PropertyTypeController extends Controller
 	 */
 	public function postDoSearchPropertyType(Request $request)
 	{
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$description = null;
 		if (Util::isValidRequestVariable($request->description))
 		{
@@ -86,7 +87,7 @@ class PropertyTypeController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$property_type = new LookupPropertyType();
 		$property_type->description = Util::getQueryParameter($request->description);
 		$property_type->created_by_id = $user->id;
@@ -127,7 +128,7 @@ class PropertyTypeController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$property_type = LookupPropertyType::find($property_type_id);
 		$property_type->description = Util::getQueryParameter($request->description);
 		$property_type->updated_by_id = $user->id;

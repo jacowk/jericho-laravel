@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use jericho\Http\Requests;
 use jericho\LookupMilestoneType;
 use jericho\Util\Util;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on milestone types
@@ -39,7 +40,7 @@ class MilestoneTypeController extends Controller
 	 */
 	public function postDoSearchMilestoneType(Request $request)
 	{
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$description = null;
 		if (Util::isValidRequestVariable($request->description))
 		{
@@ -86,7 +87,7 @@ class MilestoneTypeController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$milestone_type = new LookupMilestoneType();
 		$milestone_type->description = Util::getQueryParameter($request->description);
 		$milestone_type->created_by_id = $user->id;
@@ -127,7 +128,7 @@ class MilestoneTypeController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$milestone_type = LookupMilestoneType::find($milestone_type_id);
 		$milestone_type->description = Util::getQueryParameter($request->description);
 		$milestone_type->updated_by_id = $user->id;

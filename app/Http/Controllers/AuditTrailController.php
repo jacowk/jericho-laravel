@@ -11,6 +11,7 @@ use jericho\Util\Util;
 use jericho\Lookup\UserLookupRetriever;
 use DB;
 use DateTime;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This controller is for performing searches on audits
@@ -101,7 +102,7 @@ class AuditTrailController extends Controller
 			$to_date_query_parameter = DateTime::createFromFormat('Y-m-d H:i:s', '2100-12-31 23:59:59');
 		}
 		
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		if (Util::isValidSelectRequestVariable($request->user_id))
 		{
 			$audits = DB::table('audits')

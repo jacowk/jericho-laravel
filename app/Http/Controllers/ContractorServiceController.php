@@ -11,6 +11,7 @@ use jericho\ContractorService;
 use jericho\Contractor;
 use jericho\Util\Util;
 use jericho\Lookup\ContractorTypeLookupRetriever;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on contractor services
@@ -56,7 +57,7 @@ class ContractorServiceController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$contractor_service = new ContractorService();
 		$contractor_service->service_description = Util::getQueryParameter($request->service_description);
 		$contractor_service->contractor_type_id = Util::getNumericQueryParameter($request->contractor_type_id);
@@ -110,7 +111,7 @@ class ContractorServiceController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$contractor_service = ContractorService::find($contractor_service_id);
 		$contractor_service->service_description = Util::getQueryParameter($request->service_description);
 		$contractor_service->contractor_type_id = Util::getNumericQueryParameter($request->contractor_type_id);

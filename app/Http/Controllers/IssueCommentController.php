@@ -11,6 +11,7 @@ use jericho\IssueComment;
 use jericho\Issue;
 use jericho\Util\Util;
 use jericho\Util\TabConstants;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on issue comments
@@ -51,7 +52,7 @@ class IssueCommentController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$issue_comment = new IssueComment();
 		$issue_comment->comment = Util::getQueryParameter($request->comment);
 		$issue_comment->created_by_id = $user->id;
@@ -95,7 +96,7 @@ class IssueCommentController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$issue_comment = IssueComment::find($issue_comment_id);
 		$issue_comment->comment = Util::getQueryParameter($request->comment);
 		$issue_comment->updated_by_id = $user->id;

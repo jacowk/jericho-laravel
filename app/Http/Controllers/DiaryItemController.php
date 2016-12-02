@@ -12,6 +12,7 @@ use jericho\Util\Util;
 use jericho\Util\TabConstants;
 use jericho\Lookup\DiaryItemStatusLookupRetriever;
 use jericho\Lookup\UserLookupRetriever;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on diary items
@@ -60,7 +61,7 @@ class DiaryItemController extends Controller
 				->withInput();
 		}
 		
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$diary_item = new DiaryItem();
 		$diary_item->property_flip_id = Util::getNumericQueryParameter($request->property_flip_id);
 		$diary_item->status_id = 1; /* Open */
@@ -116,7 +117,7 @@ class DiaryItemController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$diary_item = DiaryItem::find($diary_item_id);
 		$diary_item->status_id = Util::getNumericQueryParameter($request->status_id);
 		$diary_item->followup_date = Util::getQueryParameter($request->followup_date);

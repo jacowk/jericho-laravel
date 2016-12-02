@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use jericho\Http\Requests;
 use jericho\Util\Util;
 use jericho\Account;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on accounts
@@ -39,16 +40,19 @@ class AccountController extends Controller
 	 */
 	public function postDoSearchAccount(Request $request)
 	{
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$name = null;
 		if (Util::isValidRequestVariable($request->name))
 		{
 			$name = $request->name;
-			$accounts = Account::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->paginate($user->pagination_size);
+			$accounts = Account::where('name', 'like', '%' . $name . '%')
+							->orderBy('name', 'asc')
+							->paginate($user->pagination_size);
 		}
 		else
 		{
-			$accounts = Account::orderBy('name', 'asc')->paginate($user->pagination_size);
+			$accounts = Account::orderBy('name', 'asc')
+							->paginate($user->pagination_size);
 		}
 		return view('account.search-account', [
 				'accounts' => $accounts,
@@ -85,7 +89,7 @@ class AccountController extends Controller
 				->withInput();
 		}
 		
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$account = new Account();
 		$account->name = Util::getQueryParameter($request->name);
 		$account->created_by_id = $user->id;
@@ -126,7 +130,7 @@ class AccountController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$account = Account::find($account_id);
 		$account->name = Util::getQueryParameter($request->name);
 		$account->updated_by_id = $user->id;

@@ -15,6 +15,7 @@ use jericho\Lookup\IssueComponentLookupRetriever;
 use jericho\Lookup\IssueCategoryLookupRetriever;
 use jericho\Lookup\IssueSeverityLookupRetriever;
 use jericho\Lookup\IssueStatusLookupRetriever;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on issues
@@ -52,7 +53,7 @@ class IssueController extends Controller
 	 */
 	public function postDoSearchIssue(Request $request)
 	{
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$id = null;
 		$created_by_id = null;
 		$assigned_to_id = null;
@@ -146,7 +147,7 @@ class IssueController extends Controller
 		}
 		
 		$new_status = IssueStatus::where('description', 'like', 'New')->first();
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$issue = new Issue();
 		$issue->assigned_to_id = Util::getNumericQueryParameter($request->assigned_to_id);
 		$issue->lookup_issue_component_id = Util::getNumericQueryParameter($request->lookup_issue_component_id);
@@ -206,7 +207,7 @@ class IssueController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$issue = Issue::find($issue_id);
 		$issue->assigned_to_id = Util::getNumericQueryParameter($request->assigned_to_id);
 		$issue->lookup_issue_component_id = Util::getNumericQueryParameter($request->lookup_issue_component_id);

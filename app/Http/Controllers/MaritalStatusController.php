@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use jericho\Http\Requests;
 use jericho\LookupMaritalStatus;
 use jericho\Util\Util;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on marital statuses
@@ -39,7 +40,7 @@ class MaritalStatusController extends Controller
 	 */
 	public function postDoSearchMaritalStatus(Request $request)
 	{
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$description = null;
 		if (Util::isValidRequestVariable($request->description))
 		{
@@ -86,7 +87,7 @@ class MaritalStatusController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$marital_status = new LookupMaritalStatus();
 		$marital_status->description = Util::getQueryParameter($request->description);
 		$marital_status->created_by_id = $user->id;
@@ -127,7 +128,7 @@ class MaritalStatusController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$marital_status = LookupMaritalStatus::find($marital_status_id);
 		$marital_status->description = Util::getQueryParameter($request->description);
 		$marital_status->updated_by_id = $user->id;

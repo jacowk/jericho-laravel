@@ -5,7 +5,7 @@ namespace jericho\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use jericho\Exceptions\Custom\DocumentNotPresentException;
+use jericho\Exceptions\Custom\CustomException;
 
 class Handler extends ExceptionHandler
 {
@@ -45,14 +45,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-//     	switch ($exception)
-//     	{
-//     		case ($exception instanceof DocumentNotPresentException)
-//     		{
-//     			return $this->render($request, $exception);
-//     		}
-//     	}
-        return parent::render($request, $exception);
+    	return response()->view('errors.500', [
+    			'exception' => $exception
+    	], 500);
+//         return parent::render($request, $exception);
     }
 
     /**

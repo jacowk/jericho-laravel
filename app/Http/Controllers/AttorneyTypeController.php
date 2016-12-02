@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use jericho\Http\Requests;
 use jericho\LookupAttorneyType;
 use jericho\Util\Util;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on attorney types
@@ -39,7 +40,7 @@ class AttorneyTypeController extends Controller
 	 */
 	public function postDoSearchAttorneyType(Request $request)
 	{
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$description = null;
 		if (Util::isValidRequestVariable($request->description))
 		{
@@ -87,7 +88,7 @@ class AttorneyTypeController extends Controller
 				->withInput();
 		}
 		
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$attorney_type = new LookupAttorneyType();
 		$attorney_type->description = Util::getQueryParameter($request->description);
 		$attorney_type->created_by_id = $user->id;
@@ -128,7 +129,7 @@ class AttorneyTypeController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$attorney_type = LookupAttorneyType::find($attorney_type_id);
 		$attorney_type->description = Util::getQueryParameter($request->description);
 		$attorney_type->updated_by_id = $user->id;

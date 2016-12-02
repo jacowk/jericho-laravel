@@ -15,6 +15,7 @@ use jericho\Properties\TotalPerGreaterAreaRetriever;
 use jericho\Properties\TotalPropertiesRetriever;
 use DB;
 use PDF;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * Controller for generating the summary of totals report. The following totals is to be generated:
@@ -65,7 +66,7 @@ class SummaryOfTotalsReportController extends Controller
 				->withInput();
 		}
 		
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$from_date_query_parameter = null;
 		$to_date_query_parameter = null;
 		
@@ -128,7 +129,7 @@ class SummaryOfTotalsReportController extends Controller
 			->withInput();
 		}
 		
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$from_date_query_parameter = null;
 		$to_date_query_parameter = null;
 		

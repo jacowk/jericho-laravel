@@ -26,6 +26,7 @@ use jericho\Contacts\EstateAgentContactRetriever;
 use jericho\Contacts\BankContactRetriever;
 use jericho\Contacts\ContractorContactRetriever;
 use jericho\Contacts\InvestorContactRetriever;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on property_flips
@@ -107,7 +108,7 @@ class PropertyFlipController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$property_flip = new PropertyFlip();
 		$property_flip->reference_number = Util::getQueryParameter($request->reference_number);
 		$property_flip->title_deed_number = Util::getQueryParameter($request->title_deed_number);
@@ -169,7 +170,7 @@ class PropertyFlipController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$property_flip = PropertyFlip::find($property_flip_id);
 		$property_flip->reference_number = Util::getQueryParameter($request->reference_number);
 		$property_flip->title_deed_number = Util::getQueryParameter($request->title_deed_number);

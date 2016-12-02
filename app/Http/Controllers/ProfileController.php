@@ -10,6 +10,7 @@ use jericho\Http\Requests;
 use jericho\User;
 use jericho\Util\Util;
 use DB;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on a user profile. A user profile is really a
@@ -31,7 +32,7 @@ class ProfileController extends Controller
 	 */
 	public function getViewProfile(Request $request)
 	{
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		return view('profile.view-profile', [
 				'user' => $user
 		]);
@@ -77,7 +78,7 @@ class ProfileController extends Controller
 				->withInput();
 		}
 		
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$update_user = User::find($user_id);
 		$update_user->firstname = Util::getQueryParameter($request->firstname);
 		$update_user->surname = Util::getQueryParameter($request->surname);

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use jericho\Http\Requests;
 use jericho\LookupContractorType;
 use jericho\Util\Util;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on contractor types
@@ -39,7 +40,7 @@ class ContractorTypeController extends Controller
 	 */
 	public function postDoSearchContractorType(Request $request)
 	{
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$description = null;
 		if (Util::isValidRequestVariable($request->description))
 		{
@@ -86,7 +87,7 @@ class ContractorTypeController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$contractor_type = new LookupContractorType();
 		$contractor_type->description = Util::getQueryParameter($request->description);
 		$contractor_type->created_by_id = $user->id;
@@ -127,7 +128,7 @@ class ContractorTypeController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		$contractor_type = LookupContractorType::find($contractor_type_id);
 		$contractor_type->description = Util::getQueryParameter($request->description);
 		$contractor_type->updated_by_id = $user->id;

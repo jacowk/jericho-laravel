@@ -19,7 +19,9 @@
 			<button data-toggle="collapse" data-target="#demo">View Technical Error</button>
 			
 			<div id="demo" class="collapse">
+			<pre>
 			{{ $exception->getTraceAsString() }}
+			</pre>
 			</div>
 		</div>
 	</div>

@@ -16,6 +16,7 @@ use jericho\Util\Util;
 use jericho\Util\TabConstants;
 use DB;
 use jericho\Lookup\DocumentTypeLookupRetriever;
+use jericho\Http\Controllers\Auth\AuthUserRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on documents
@@ -62,7 +63,7 @@ class DocumentController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		
 		/* Get request variables */
 		$file = $request->file('uploaded_file');
@@ -142,7 +143,7 @@ class DocumentController extends Controller
 				->withErrors($validator)
 				->withInput();
 		}
-		$user = Auth::user();
+		$user = (new AuthUserRetriever())->retrieveUser();
 		
 		$document = Document::find($document_id);
 		$document->description = Util::getQueryParameter($request->description);
