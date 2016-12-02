@@ -90,7 +90,7 @@ class UserController extends Controller
 			'firstname' => 'required',
 			'surname' => 'required',
 			'email' => 'required|email|unique:users',
-			'password' => 'required|min:6|confirmed'
+			'password' => 'required|min:8|confirmed|case_diff|numbers|letters|symbols'
 		]);
 		
 		if ($validator->fails()) {

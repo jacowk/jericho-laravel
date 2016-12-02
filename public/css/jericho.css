@@ -5,7 +5,7 @@
 	text-transform: capitalize;
 }
 
-body.en
+.nav-default
 {
-	font-size: 10px;
+	background-color: #8abdf6;
 }

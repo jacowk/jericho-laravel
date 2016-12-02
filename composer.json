@@ -10,7 +10,8 @@
         "laravelcollective/html": "^5.3",
         "doctrine/dbal": "^2.5",
         "owen-it/laravel-auditing": "^3.1",
-        "barryvdh/laravel-dompdf": "^0.7.0"
+        "barryvdh/laravel-dompdf": "^0.7.0",
+        "schuppo/password-strength": "~1.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

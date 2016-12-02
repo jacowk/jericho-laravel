@@ -193,6 +193,11 @@ return [
     	 * DomPDF
     	 */
     	Barryvdh\DomPDF\ServiceProvider::class,
+    	
+    	/*
+    	 * schuppo/PasswordStrengthPackage
+    	 */
+    	\Schuppo\PasswordStrength\PasswordStrengthServiceProvider::class,
     ],
 
     /*
