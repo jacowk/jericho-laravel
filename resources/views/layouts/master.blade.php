@@ -12,7 +12,9 @@
 	    
 	    <!-- Scripts -->
 	    <script type="text/javascript" src="{{ URL::asset('js/jquery-3.1.0.min.js') }}"></script>
-	    <script type="text/javascript" src="{{ URL::asset('js/app.js') }}"></script>
+	    <!-- <script type="text/javascript" src="{{ URL::asset('js/app.js') }}"></script> -->
+	    
+	    <script type="text/javascript" src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
 	    <script type="text/javascript" src="{{ URL::asset('js/jquery-ui.min.js') }}"></script>
 	    <script type="text/javascript" src="{{ URL::asset('js/run_prettify.js') }}"></script>
 	    <script type="text/javascript" src="{{ URL::asset('js/jquery.bootstrap-duallistbox.js') }}"></script>
@@ -24,7 +26,10 @@
 	    <link href="{{ URL::asset('css/jquery-ui.theme.min.css') }}" rel="stylesheet">
 	    <link href="{{ URL::asset('css/jquery-ui.structure.min.css') }}" rel="stylesheet">
 	    <link href="{{ URL::asset('css/jquery-ui.min.css') }}" rel="stylesheet">
-	    <link href="{{ URL::asset('css/app.css') }}" rel="stylesheet">
+	    
+	    <!-- <link href="{{ URL::asset('css/app.css') }}" rel="stylesheet"> -->
+	    <link href="{{ URL::asset('css/bootstrap.min.css') }}" rel="stylesheet">
+	    
 	    <link href="{{ URL::asset('css/prettify.min.css') }}" rel="stylesheet">
 	    <link href="{{ URL::asset('css/bootstrap-duallistbox.css') }}" rel="stylesheet">
 	    <link href="{{ URL::asset('css/jquery.datetimepicker.min.css') }}" rel="stylesheet">

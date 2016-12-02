@@ -22,7 +22,7 @@ class TotalPerGreaterAreaRetriever implements Component
 	public function execute()
 	{
 		$totals_per_greater_area = DB::table('properties')
-									->join('greater_areas', 'properties.greater_area_id', '=', 'greater_areas.id')
+									->leftJoin('greater_areas', 'properties.greater_area_id', '=', 'greater_areas.id')
 									->whereBetween('properties.created_at', [$this->from_date, $this->to_date])
 									->select('greater_areas.name as greater_area_name', DB::raw('count(*) as cnt'))
 									->groupBy('properties.greater_area_id')

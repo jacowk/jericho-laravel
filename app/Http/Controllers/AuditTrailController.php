@@ -105,7 +105,7 @@ class AuditTrailController extends Controller
 		if (Util::isValidSelectRequestVariable($request->user_id))
 		{
 			$audits = DB::table('audits')
-					->join('users', 'audits.user_id', '=', 'users.id')
+					->leftJoin('users', 'audits.user_id', '=', 'users.id')
 					->where($query_parameters)
 					->whereBetween('audits.created_at', [$from_date_query_parameter, $to_date_query_parameter])
 					->select('audits.created_at',
@@ -123,7 +123,7 @@ class AuditTrailController extends Controller
 		else
 		{
 			$audits = DB::table('audits')
-					->join('users', 'audits.user_id', '=', 'users.id')
+					->leftJoin('users', 'audits.user_id', '=', 'users.id')
 					->whereBetween('audits.created_at', [$from_date_query_parameter, $to_date_query_parameter])
 					->select('audits.created_at',
 							'users.firstname',

@@ -26,11 +26,11 @@ class EstateAgentContactRetriever implements Component
 			throw new Exception('A property flip must be provided to retrieve contacts for estate agents for a property flip');
 		}
 		$contact_estate_agents = DB::table('estate_agent_property_flip')
-						->join('contacts', 'contacts.id', '=' ,'estate_agent_property_flip.contact_id')
-						->join('property_flips', 'property_flips.id', '=', 'estate_agent_property_flip.property_flip_id')
-						->join('contact_estate_agent', 'contact_estate_agent.contact_id', '=', 'contacts.id')
-						->join('estate_agents', 'estate_agents.id', '=', 'contact_estate_agent.estate_agent_id')
-						->join('lookup_estate_agent_types', 'lookup_estate_agent_types.id', '=', 'estate_agent_property_flip.lookup_estate_agent_type_id')
+						->leftJoin('contacts', 'contacts.id', '=' ,'estate_agent_property_flip.contact_id')
+						->leftJoin('property_flips', 'property_flips.id', '=', 'estate_agent_property_flip.property_flip_id')
+						->leftJoin('contact_estate_agent', 'contact_estate_agent.contact_id', '=', 'contacts.id')
+						->leftJoin('estate_agents', 'estate_agents.id', '=', 'contact_estate_agent.estate_agent_id')
+						->leftJoin('lookup_estate_agent_types', 'lookup_estate_agent_types.id', '=', 'estate_agent_property_flip.lookup_estate_agent_type_id')
 						->where('estate_agent_property_flip.property_flip_id', '=', $this->property_flip->id)
 						->select('estate_agents.name as estate_agent_name',
 								'contacts.firstname as contact_firstname',

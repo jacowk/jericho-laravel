@@ -26,10 +26,10 @@ class BankContactRetriever implements Component
 			throw new Exception('A property flip must be provided to retrieve contacts for banks for a property flip');
 		}
 		$contact_banks = DB::table('bank_property_flip')
-						->join('contacts', 'contacts.id', '=' ,'bank_property_flip.contact_id')
-						->join('property_flips', 'property_flips.id', '=', 'bank_property_flip.property_flip_id')
-						->join('bank_contact', 'bank_contact.contact_id', '=', 'contacts.id')
-						->join('banks', 'banks.id', '=', 'bank_contact.bank_id')
+						->leftJoin('contacts', 'contacts.id', '=' ,'bank_property_flip.contact_id')
+						->leftJoin('property_flips', 'property_flips.id', '=', 'bank_property_flip.property_flip_id')
+						->leftJoin('bank_contact', 'bank_contact.contact_id', '=', 'contacts.id')
+						->leftJoin('banks', 'banks.id', '=', 'bank_contact.bank_id')
 						->where('bank_property_flip.property_flip_id', '=', $this->property_flip->id)
 						->select('banks.name as bank_name',
 								'contacts.firstname as contact_firstname',

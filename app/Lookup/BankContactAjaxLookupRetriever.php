@@ -21,7 +21,7 @@ class BankContactAjaxLookupRetriever implements Component
 	public function execute()
 	{
 		$lookup_bank_contacts = DB::table('bank_contact')
-				->join('contacts', 'contacts.id', '=' ,'bank_contact.contact_id')
+				->leftJoin('contacts', 'contacts.id', '=' ,'bank_contact.contact_id')
 				->where('bank_contact.bank_id', '=', $this->bank_id)
 				->select('contacts.id',
 						'contacts.firstname',

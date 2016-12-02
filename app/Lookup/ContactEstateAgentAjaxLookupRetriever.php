@@ -21,7 +21,7 @@ class ContactEstateAgentAjaxLookupRetriever implements Component
 	public function execute()
 	{
 		$lookup_contact_estate_agents = DB::table('contact_estate_agent')
-			->join('contacts', 'contacts.id', '=' ,'contact_estate_agent.contact_id')
+			->leftJoin('contacts', 'contacts.id', '=' ,'contact_estate_agent.contact_id')
 			->where('contact_estate_agent.estate_agent_id', '=', $this->estate_agent_id)
 			->select('contacts.id',
 					'contacts.firstname',

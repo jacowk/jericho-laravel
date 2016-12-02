@@ -26,11 +26,11 @@ class AttorneyContactRetriever implements Component
 			throw new Exception('A property flip must be provided to retrieve contacts for attorneys for a property flip');
 		}
 		$attorney_contacts = DB::table('attorney_property_flip')
-						->join('contacts', 'contacts.id', '=' ,'attorney_property_flip.contact_id')
-						->join('property_flips', 'property_flips.id', '=', 'attorney_property_flip.property_flip_id')
-						->join('attorney_contact', 'attorney_contact.contact_id', '=', 'contacts.id')
-						->join('attorneys', 'attorneys.id', '=', 'attorney_contact.attorney_id')
-						->join('lookup_attorney_types', 'lookup_attorney_types.id', '=', 'attorney_property_flip.lookup_attorney_type_id')
+						->leftJoin('contacts', 'contacts.id', '=' ,'attorney_property_flip.contact_id')
+						->leftJoin('property_flips', 'property_flips.id', '=', 'attorney_property_flip.property_flip_id')
+						->leftJoin('attorney_contact', 'attorney_contact.contact_id', '=', 'contacts.id')
+						->leftJoin('attorneys', 'attorneys.id', '=', 'attorney_contact.attorney_id')
+						->leftJoin('lookup_attorney_types', 'lookup_attorney_types.id', '=', 'attorney_property_flip.lookup_attorney_type_id')
 						->where('attorney_property_flip.property_flip_id', '=', $this->property_flip->id)
 						->select('attorneys.name as attorney_name', 
 								'contacts.firstname as contact_firstname',

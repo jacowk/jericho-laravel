@@ -22,7 +22,7 @@ class TotalPerAreaRetriever implements Component
 	public function execute()
 	{
 		$totals_per_area = DB::table('properties')
-								->join('areas', 'properties.area_id', '=', 'areas.id')
+								->leftJoin('areas', 'properties.area_id', '=', 'areas.id')
 								->whereBetween('properties.created_at', [$this->from_date, $this->to_date])
 								->select('areas.name as area_name', DB::raw('count(*) as cnt'))
 								->groupBy('properties.area_id')

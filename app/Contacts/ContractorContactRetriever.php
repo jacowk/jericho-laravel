@@ -26,11 +26,11 @@ class ContractorContactRetriever implements Component
 			throw new Exception('A property flip must be provided to retrieve contacts for contractors for a property flip');
 		}
 		$contact_contractors = DB::table('contractor_property_flip')
-						->join('contacts', 'contacts.id', '=' ,'contractor_property_flip.contact_id')
-						->join('property_flips', 'property_flips.id', '=', 'contractor_property_flip.property_flip_id')
-						->join('contact_contractor', 'contact_contractor.contact_id', '=', 'contacts.id')
-						->join('contractors', 'contractors.id', '=', 'contact_contractor.contractor_id')
-						->join('lookup_contractor_types', 'lookup_contractor_types.id', '=', 'contractor_property_flip.lookup_contractor_type_id')
+						->leftJoin('contacts', 'contacts.id', '=' ,'contractor_property_flip.contact_id')
+						->leftJoin('property_flips', 'property_flips.id', '=', 'contractor_property_flip.property_flip_id')
+						->leftJoin('contact_contractor', 'contact_contractor.contact_id', '=', 'contacts.id')
+						->leftJoin('contractors', 'contractors.id', '=', 'contact_contractor.contractor_id')
+						->leftJoin('lookup_contractor_types', 'lookup_contractor_types.id', '=', 'contractor_property_flip.lookup_contractor_type_id')
 						->where('contractor_property_flip.property_flip_id', '=', $this->property_flip->id)
 						->select('contractors.name as contractor_name',
 								'contacts.firstname as contact_firstname',

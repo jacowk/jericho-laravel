@@ -109,10 +109,10 @@ class LeadsPerAreaReportController extends Controller
 		}
 	
 		$properties = DB::table('properties')
-						->join('property_flips', 'properties.id', '=', 'property_flips.property_id')
-						->join('suburbs', 'properties.suburb_id', '=', 'suburbs.id')
-						->join('areas', 'properties.area_id', '=', 'areas.id')
-						->join('greater_areas', 'properties.greater_area_id', '=', 'greater_areas.id')
+						->leftJoin('property_flips', 'properties.id', '=', 'property_flips.property_id')
+						->leftJoin('suburbs', 'properties.suburb_id', '=', 'suburbs.id')
+						->leftJoin('areas', 'properties.area_id', '=', 'areas.id')
+						->leftJoin('greater_areas', 'properties.greater_area_id', '=', 'greater_areas.id')
 						->whereBetween('property_flips.created_at', [$from_date_query_parameter, $to_date_query_parameter])
 						->where($query_parameters)
 						->select('properties.*',

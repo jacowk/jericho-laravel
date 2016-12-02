@@ -22,7 +22,7 @@ class AttorneyContactAjaxLookupRetriever implements Component
 	public function execute()
 	{
 		$lookup_attorney_contacts = DB::table('attorney_contact')
-			->join('contacts', 'contacts.id', '=' ,'attorney_contact.contact_id')
+			->leftJoin('contacts', 'contacts.id', '=' ,'attorney_contact.contact_id')
 			->where('attorney_contact.attorney_id', '=', $this->attorney_id)
 			->select('contacts.id',
 					'contacts.firstname',

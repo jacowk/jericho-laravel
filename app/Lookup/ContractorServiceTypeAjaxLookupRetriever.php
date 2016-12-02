@@ -21,7 +21,7 @@ class ContractorServiceTypeAjaxLookupRetriever implements Component
 	public function execute()
 	{
 		$lookup_contact_contractors = DB::table('contractor_services')
-				->join('lookup_contractor_types', 'lookup_contractor_types.id', '=', 'contractor_services.contractor_type_id')
+				->leftJoin('lookup_contractor_types', 'lookup_contractor_types.id', '=', 'contractor_services.contractor_type_id')
 				->where('contractor_services.contractor_id', '=', $this->contractor_id)
 				->select('lookup_contractor_types.id', 'lookup_contractor_types.description')
 				->get();

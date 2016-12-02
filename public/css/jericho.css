@@ -4,3 +4,8 @@
 {
 	text-transform: capitalize;
 }
+
+body.en
+{
+	font-size: 10px;
+}
