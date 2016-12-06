@@ -10,6 +10,8 @@ use jericho\Http\Requests;
 use jericho\LookupAttorneyType;
 use jericho\Util\Util;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on attorney types
@@ -107,6 +109,7 @@ class AttorneyTypeController extends Controller
 	public function getUpdateAttorneyType(Request $request, $attorney_type_id)
 	{
 		$attorney_type = LookupAttorneyType::find($attorney_type_id);
+		(new UpdateObjectValidator())->validate($attorney_type, 'attorney type', $attorney_type_id);
 		return view('attorney-type.update-attorney-type', ['attorney_type' => $attorney_type]);
 	}
 	
@@ -131,6 +134,7 @@ class AttorneyTypeController extends Controller
 		}
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$attorney_type = LookupAttorneyType::find($attorney_type_id);
+		(new UpdateObjectValidator())->validate($attorney_type, 'attorney type', $attorney_type_id);
 		$attorney_type->description = Util::getQueryParameter($request->description);
 		$attorney_type->updated_by_id = $user->id;
 		$attorney_type->save();
@@ -148,6 +152,7 @@ class AttorneyTypeController extends Controller
 	public function getViewAttorneyType(Request $request, $attorney_type_id)
 	{
 		$attorney_type = LookupAttorneyType::find($attorney_type_id);
+		(new ViewObjectValidator())->validate($attorney_type, 'attorney type', $attorney_type_id);
 		return view('attorney-type.view-attorney-type', [
 				'attorney_type' => $attorney_type
 		]);

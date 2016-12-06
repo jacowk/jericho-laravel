@@ -12,6 +12,8 @@ use jericho\User;
 use jericho\Util\ModelConstants;
 use jericho\Util\Util;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on contractors
@@ -106,6 +108,7 @@ class ContractorController extends Controller
     public function getUpdateContractor(Request $request, $contractor_id)
     {
     	$contractor = Contractor::find($contractor_id);
+    	(new  UpdateObjectValidator())->validate($contractor, 'contractor', $contractor_id);
     	return view('contractor.update-contractor', ['contractor' => $contractor]);
     }
     
@@ -130,6 +133,7 @@ class ContractorController extends Controller
     	}
     	$user = (new AuthUserRetriever())->retrieveUser();
     	$contractor = Contractor::find($contractor_id);
+    	(new  UpdateObjectValidator())->validate($contractor, 'contractor', $contractor_id);
     	$contractor->name = Util::getQueryParameter($request->name);
     	$contractor->updated_by_id = $user->id;
     	$contractor->save();
@@ -147,6 +151,7 @@ class ContractorController extends Controller
     public function getViewContractor(Request $request, $contractor_id)
     {
     	$contractor = Contractor::find($contractor_id);
+    	(new  ViewObjectValidator())->validate($contractor, 'contractor', $contractor_id);
     	$contacts = $contractor->contacts()->get();
     	return view('contractor.view-contractor', [
     		'contractor' => $contractor, 

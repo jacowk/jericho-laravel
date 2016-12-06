@@ -10,6 +10,8 @@ use jericho\Http\Requests;
 use jericho\LookupDocumentType;
 use jericho\Util\Util;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on document types
@@ -106,6 +108,7 @@ class DocumentTypeController extends Controller
 	public function getUpdateDocumentType(Request $request, $document_type_id)
 	{
 		$document_type = LookupDocumentType::find($document_type_id);
+		(new UpdateObjectValidator())->validate($document_type, 'document type', $document_type_id);
 		return view('document-type.update-document-type', ['document_type' => $document_type]);
 	}
 	
@@ -130,6 +133,7 @@ class DocumentTypeController extends Controller
 		}
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$document_type = LookupDocumentType::find($document_type_id);
+		(new UpdateObjectValidator())->validate($document_type, 'document type', $document_type_id);
 		$document_type->description = Util::getQueryParameter($request->description);
 		$document_type->updated_by_id = $user->id;
 		$document_type->save();
@@ -147,6 +151,7 @@ class DocumentTypeController extends Controller
 	public function getViewDocumentType(Request $request, $document_type_id)
 	{
 		$document_type = LookupDocumentType::find($document_type_id);
+		(new ViewObjectValidator())->validate($document_type, 'document type', $document_type_id);
 		return view('document-type.view-document-type', [
 				'document_type' => $document_type
 		]);

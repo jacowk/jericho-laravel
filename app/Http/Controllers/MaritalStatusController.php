@@ -10,6 +10,8 @@ use jericho\Http\Requests;
 use jericho\LookupMaritalStatus;
 use jericho\Util\Util;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on marital statuses
@@ -106,6 +108,7 @@ class MaritalStatusController extends Controller
 	public function getUpdateMaritalStatus(Request $request, $marital_status_id)
 	{
 		$marital_status = LookupMaritalStatus::find($marital_status_id);
+		(new UpdateObjectValidator())->validate($marital_status, 'marital status', $marital_status_id);
 		return view('marital-status.update-marital-status', ['marital_status' => $marital_status]);
 	}
 	
@@ -130,6 +133,7 @@ class MaritalStatusController extends Controller
 		}
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$marital_status = LookupMaritalStatus::find($marital_status_id);
+		(new UpdateObjectValidator())->validate($marital_status, 'marital status', $marital_status_id);
 		$marital_status->description = Util::getQueryParameter($request->description);
 		$marital_status->updated_by_id = $user->id;
 		$marital_status->save();
@@ -147,6 +151,7 @@ class MaritalStatusController extends Controller
 	public function getViewMaritalStatus(Request $request, $marital_status_id)
 	{
 		$marital_status = LookupMaritalStatus::find($marital_status_id);
+		(new ViewObjectValidator())->validate($marital_status, 'marital status', $marital_status_id);
 		return view('marital-status.view-marital-status', [
 				'marital_status' => $marital_status
 		]);

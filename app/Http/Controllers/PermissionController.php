@@ -13,6 +13,8 @@ use jericho\Util\Util;
 use jericho\Audits\RoleToPermissionAuditor;
 use jericho\Lookup\RolesForCheckboxesRetriever;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on permissions
@@ -109,6 +111,7 @@ class PermissionController extends Controller
 	public function getUpdatePermission(Request $request, $permission_id)
 	{
 		$permission = Permission::find($permission_id);
+		(new UpdateObjectValidator())->validate($permission, 'permission', $permission_id);
 		$roles = (new RolesForCheckboxesRetriever($permission->roles))->execute();
 		return view('permission.update-permission', ['permission' => $permission, 'roles' => $roles]);
 	}
@@ -134,6 +137,7 @@ class PermissionController extends Controller
 		}
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$permission = Permission::find($permission_id);
+		(new UpdateObjectValidator())->validate($permission, 'permission', $permission_id);
 		$permission->name = Util::getQueryParameter($request->name);
 		$permission->updated_by_id = $user->id;
 		$permission->save();
@@ -152,6 +156,7 @@ class PermissionController extends Controller
 	public function getViewPermission(Request $request, $permission_id)
 	{
 		$permission = Permission::find($permission_id);
+		(new ViewObjectValidator())->validate($permission, 'permission', $permission_id);
 		return view('permission.view-permission', [
 				'permission' => $permission
 		]);

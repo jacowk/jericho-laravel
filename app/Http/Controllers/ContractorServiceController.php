@@ -12,6 +12,8 @@ use jericho\Contractor;
 use jericho\Util\Util;
 use jericho\Lookup\ContractorTypeLookupRetriever;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on contractor services
@@ -81,6 +83,7 @@ class ContractorServiceController extends Controller
 	public function getUpdateContractorService(Request $request, $contractor_service_id)
 	{
 		$contractor_service = ContractorService::find($contractor_service_id);
+		(new UpdateObjectValidator())->validate($contractor_service, 'contractor service', $contractor_service_id);
 		$contractor_types = (new ContractorTypeLookupRetriever())->execute();
 		return view('contractor-service.update-contractor-service', [
 			'contractor_service' => $contractor_service,
@@ -113,6 +116,7 @@ class ContractorServiceController extends Controller
 		}
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$contractor_service = ContractorService::find($contractor_service_id);
+		(new UpdateObjectValidator())->validate($contractor_service, 'contractor service', $contractor_service_id);
 		$contractor_service->service_description = Util::getQueryParameter($request->service_description);
 		$contractor_service->contractor_type_id = Util::getNumericQueryParameter($request->contractor_type_id);
 		$contractor_service->updated_by_id = $user->id;
@@ -133,6 +137,7 @@ class ContractorServiceController extends Controller
 	public function getViewContractorService(Request $request, $contractor_service_id)
 	{
 		$contractor_service = ContractorService::find($contractor_service_id);
+		(new ViewObjectValidator())->validate($contractor_service, 'contractor service', $contractor_service_id);
 		return view('contractor-service.view-contractor-service', [
 				'contractor_service' => $contractor_service
 		]);

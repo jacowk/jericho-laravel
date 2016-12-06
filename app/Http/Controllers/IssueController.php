@@ -16,6 +16,8 @@ use jericho\Lookup\IssueCategoryLookupRetriever;
 use jericho\Lookup\IssueSeverityLookupRetriever;
 use jericho\Lookup\IssueStatusLookupRetriever;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on issues
@@ -177,6 +179,7 @@ class IssueController extends Controller
 		$issue_statuses = (new IssueStatusLookupRetriever)->execute();
 		
 		$issue = Issue::find($issue_id);
+		(new UpdateObjectValidator())->validate($issue, 'issue', $issue_id);
 		return view('issue.update-issue', [
 			'issue' => $issue,
 			'users' => $users,
@@ -209,6 +212,7 @@ class IssueController extends Controller
 		}
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$issue = Issue::find($issue_id);
+		(new UpdateObjectValidator())->validate($issue, 'issue', $issue_id);
 		$issue->assigned_to_id = Util::getNumericQueryParameter($request->assigned_to_id);
 		$issue->lookup_issue_component_id = Util::getNumericQueryParameter($request->lookup_issue_component_id);
 		$issue->lookup_issue_category_id = Util::getNumericQueryParameter($request->lookup_issue_category_id);
@@ -231,6 +235,7 @@ class IssueController extends Controller
 	public function getViewIssue(Request $request, $issue_id)
 	{
 		$issue = Issue::find($issue_id);
+		(new ViewObjectValidator())->validate($issue, 'issue', $issue_id);
 		return view('issue.view-issue', [
 				'issue' => $issue
 		]);

@@ -12,6 +12,8 @@ use jericho\Util\Util;
 use jericho\Util\TabConstants;
 use jericho\Lookup\MilestoneTypeLookupRetriever;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on milestones
@@ -81,6 +83,7 @@ class MilestoneController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::MILESTONES_TAB);
 		$milestone = Milestone::find($milestone_id);
+		(new UpdateObjectValidator())->validate($milestone, 'milestone', $milestone_id);
 		$lookup_milestone_types = (new MilestoneTypeLookupRetriever())->execute();
 		return view('milestone.update-milestone', [
 			'milestone' => $milestone,
@@ -111,6 +114,7 @@ class MilestoneController extends Controller
 		}
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$milestone = Milestone::find($milestone_id);
+		(new UpdateObjectValidator())->validate($milestone, 'milestone', $milestone_id);
 		$milestone->effective_date = Util::getDateQueryParameter($request->effective_date);
 		$milestone->milestone_type_id = Util::getNumericQueryParameter($request->milestone_type_id);
 		$milestone->updated_by_id = $user->id;
@@ -130,6 +134,7 @@ class MilestoneController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::MILESTONES_TAB);
 		$milestone = Milestone::find($milestone_id);
+		(new ViewObjectValidator())->validate($milestone, 'milestone', $milestone_id);
 		return view('milestone.view-milestone', [
 				'milestone' => $milestone
 		]);

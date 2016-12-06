@@ -5,12 +5,13 @@ namespace jericho;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * A model representing a seller status
- * 
+ * A model representing a property status
+ *
  * @author Jaco Koekemoer
+ * Date: 2016-12-06
  *
  */
-class SellerStatus extends Model
+class PropertyStatus extends Model
 {
 	/* For invocation via reflection in auditing */
 	public function getDescription()

@@ -12,6 +12,8 @@ use jericho\User;
 use jericho\Util\ModelConstants;
 use jericho\Util\Util;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on attorneys
@@ -106,6 +108,7 @@ class AttorneyController extends Controller
     public function getUpdateAttorney(Request $request, $attorney_id)
     {
     	$attorney = Attorney::find($attorney_id);
+    	(new UpdateObjectValidator())->validate($attorney, 'attorney', $attorney_id);
     	return view('attorney.update-attorney', ['attorney' => $attorney]);
     }
     
@@ -130,6 +133,7 @@ class AttorneyController extends Controller
     	}
     	$user = (new AuthUserRetriever())->retrieveUser();
     	$attorney = Attorney::find($attorney_id);
+    	(new UpdateObjectValidator())->validate($attorney, 'attorney', $attorney_id);
     	$attorney->name = Util::getQueryParameter($request->name);
     	$attorney->updated_by_id = $user->id;
     	$attorney->save();
@@ -147,6 +151,7 @@ class AttorneyController extends Controller
     public function getViewAttorney(Request $request, $attorney_id)
     {
     	$attorney = Attorney::find($attorney_id);
+    	(new ViewObjectValidator())->validate($attorney, 'attorney', $attorney_id);
     	$contacts = $attorney->contacts()->get();
     	return view('attorney.view-attorney', [
     		'attorney' => $attorney, 

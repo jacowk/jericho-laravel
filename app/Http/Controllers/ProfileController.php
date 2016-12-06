@@ -11,6 +11,8 @@ use jericho\User;
 use jericho\Util\Util;
 use DB;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on a user profile. A user profile is really a
@@ -48,6 +50,7 @@ class ProfileController extends Controller
 	public function getUpdateProfile(Request $request, $user_id)
 	{
 		$user = User::find($user_id);
+		(new UpdateObjectValidator())->validate($user, 'user', $user_id);
 		$pagination_size_options = (new PaginationSizeLookupRetriever())->execute();
 		return view('profile.update-profile', [
 				'user' => $user, 
@@ -80,6 +83,7 @@ class ProfileController extends Controller
 		
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$update_user = User::find($user_id);
+		(new UpdateObjectValidator())->validate($update_user, 'user', $user_id);
 		$update_user->firstname = Util::getQueryParameter($request->firstname);
 		$update_user->surname = Util::getQueryParameter($request->surname);
 		$update_user->email = Util::getQueryParameter($request->email);

@@ -10,6 +10,8 @@ use jericho\Http\Requests;
 use jericho\LookupPropertyType;
 use jericho\Util\Util;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on property types
@@ -106,6 +108,7 @@ class PropertyTypeController extends Controller
 	public function getUpdatePropertyType(Request $request, $property_type_id)
 	{
 		$property_type = LookupPropertyType::find($property_type_id);
+		(new UpdateObjectValidator())->validate($property_type, 'property type', $property_type_id);
 		return view('property-type.update-property-type', ['property_type' => $property_type]);
 	}
 	
@@ -130,6 +133,7 @@ class PropertyTypeController extends Controller
 		}
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$property_type = LookupPropertyType::find($property_type_id);
+		(new UpdateObjectValidator())->validate($property_type, 'property type', $property_type_id);
 		$property_type->description = Util::getQueryParameter($request->description);
 		$property_type->updated_by_id = $user->id;
 		$property_type->save();
@@ -147,6 +151,7 @@ class PropertyTypeController extends Controller
 	public function getViewPropertyType(Request $request, $property_type_id)
 	{
 		$property_type = LookupPropertyType::find($property_type_id);
+		(new ViewObjectValidator())->validate($property_type, 'property type', $property_type_id);
 		return view('property-type.view-property-type', [
 				'property_type' => $property_type
 		]);

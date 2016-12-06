@@ -11,8 +11,25 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
  * Date: 2016-11-17
  *
  */
-class RoleTest extends AbstractUnitTest
+class RoleTest extends TestCase
 {
+	public function setUp()
+	{
+		parent::setUp();
+		$this->artisan('db:seed');
+	}
+	
+	public function tearDown()
+	{
+		/* The following 3 lines of code are required to sort out the "Too many connections error" */
+		$this->beforeApplicationDestroyed(function () {
+			DB::disconnect();
+		});
+	
+			parent::tearDown();
+			// 		Mockery::close();
+	}
+	
     /**
 	 * Test logging in, and navigating to the Search Role page
 	 *

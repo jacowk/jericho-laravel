@@ -12,6 +12,8 @@ use jericho\Issue;
 use jericho\Util\Util;
 use jericho\Util\TabConstants;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on issue comments
@@ -74,6 +76,7 @@ class IssueCommentController extends Controller
 	public function getUpdateIssueComment(Request $request, $issue_comment_id)
 	{
 		$issue_comment = IssueComment::find($issue_comment_id);
+		(new UpdateObjectValidator())->validate($issue_comment, 'issue comment', $issue_comment_id);
 		return view('issue-comment.update-issue-comment', ['issue_comment' => $issue_comment]);
 	}
 	
@@ -98,6 +101,7 @@ class IssueCommentController extends Controller
 		}
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$issue_comment = IssueComment::find($issue_comment_id);
+		(new UpdateObjectValidator())->validate($issue_comment, 'issue comment', $issue_comment_id);
 		$issue_comment->comment = Util::getQueryParameter($request->comment);
 		$issue_comment->updated_by_id = $user->id;
 		$issue_comment->save();
@@ -115,6 +119,7 @@ class IssueCommentController extends Controller
 	public function getViewIssueComment(Request $request, $issue_comment_id)
 	{
 		$issue_comment = IssueComment::find($issue_comment_id);
+		(new ViewObjectValidator())->validate($issue_comment, 'issue comment', $issue_comment_id);
 		return view('issue-comment.view-issue-comment', [
 				'issue_comment' => $issue_comment
 		]);

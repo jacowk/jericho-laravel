@@ -14,6 +14,8 @@ use jericho\Util\Util;
 use jericho\Lookup\AreaLookupRetriever;
 use jericho\Lookup\SuburbAjaxLookupRetriever;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 class SuburbController extends Controller
 {
@@ -141,6 +143,7 @@ class SuburbController extends Controller
 	public function getUpdateSuburb(Request $request, $suburb_id)
 	{
 		$suburb = Suburb::find($suburb_id);
+		(new UpdateObjectValidator())->validate($suburb, 'suburb', $suburb_id);
 		$areas = (new AreaLookupRetriever())->execute();
 		return view('suburb.update-suburb', ['suburb' => $suburb, 'areas' => $areas]);
 	}
@@ -169,6 +172,7 @@ class SuburbController extends Controller
 		}
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$suburb = Suburb::find($suburb_id);
+		(new UpdateObjectValidator())->validate($suburb, 'suburb', $suburb_id);
 		$suburb->name = Util::getQueryParameter($request->name);
 		$suburb->box_code = Util::getQueryParameter($request->box_code);
 		$suburb->street_code = Util::getQueryParameter($request->street_code);
@@ -189,6 +193,7 @@ class SuburbController extends Controller
 	public function getViewSuburb(Request $request, $suburb_id)
 	{
 		$suburb = Suburb::find($suburb_id);
+		(new ViewObjectValidator())->validate($suburb, 'suburb', $suburb_id);
 		return view('suburb.view-suburb', [
 				'suburb' => $suburb
 		]);

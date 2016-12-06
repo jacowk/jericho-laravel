@@ -11,8 +11,24 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
  * Date: 2016-10-14
  *
  */
-class UserTest extends AbstractUnitTest
+class UserTest extends TestCase
 {
+	public function setUp()
+	{
+		parent::setUp();
+		$this->artisan('db:seed');
+	}
+	
+	public function tearDown()
+	{
+		/* The following 3 lines of code are required to sort out the "Too many connections error" */
+		$this->beforeApplicationDestroyed(function () {
+			DB::disconnect();
+		});
+	
+			parent::tearDown();
+			// 		Mockery::close();
+	}
 	
 	public function testDummyTest()
 	{

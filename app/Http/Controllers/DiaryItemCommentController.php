@@ -12,6 +12,8 @@ use jericho\DiaryItemComment;
 use jericho\PropertyFlip;
 use jericho\Util\Util;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on diay item comments
@@ -74,6 +76,7 @@ class DiaryItemCommentController extends Controller
 	public function getUpdateDiaryItemComment(Request $request, $diary_item_comment_id)
 	{
 		$diary_item_comment = DiaryItemComment::find($diary_item_comment_id);
+		(new UpdateObjectValidator())->validate($diary_item_comment, 'diary item comment', $diary_item_comment_id);
 		return view('diary-item-comment.update-diary-item-comment', ['diary_item_comment' => $diary_item_comment]);
 	}
 	
@@ -98,6 +101,7 @@ class DiaryItemCommentController extends Controller
 		}
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$diary_item_comment = DiaryItemComment::find($diary_item_comment_id);
+		(new UpdateObjectValidator())->validate($diary_item_comment, 'diary item comment', $diary_item_comment_id);
 		$diary_item_comment->comment = Util::getQueryParameter($request->comment);
 		$diary_item_comment->updated_by_id = $user->id;
 		$diary_item_comment->save();
@@ -115,6 +119,7 @@ class DiaryItemCommentController extends Controller
 	public function getViewDiaryItemComment(Request $request, $diary_item_comment_id)
 	{
 		$diary_item_comment = DiaryItemComment::find($diary_item_comment_id);
+		(new ViewObjectValidator())->validate($diary_item_comment, 'diary item comment', $diary_item_comment_id);
 		return view('diary-item-comment.view-diary-item-comment', [
 			'diary_item_comment' => $diary_item_comment
 		]);

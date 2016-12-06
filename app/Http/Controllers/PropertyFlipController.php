@@ -21,12 +21,15 @@ use jericho\Accounts\AccountViewDataGenerator;
 use jericho\Lookup\ContactLookupRetriever;
 use jericho\Lookup\FinanceStatusLookupRetriever;
 use jericho\Lookup\SellerStatusLookupRetriever;
+use jericho\Lookup\PropertyStatusLookupRetriever;
 use jericho\Contacts\AttorneyContactRetriever;
 use jericho\Contacts\EstateAgentContactRetriever;
 use jericho\Contacts\BankContactRetriever;
 use jericho\Contacts\ContractorContactRetriever;
 use jericho\Contacts\InvestorContactRetriever;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on property_flips
@@ -79,12 +82,14 @@ class PropertyFlipController extends Controller
 		$contacts = (new ContactLookupRetriever())->execute();
 		$finance_statuses = (new FinanceStatusLookupRetriever())->execute();
 		$seller_statuses = (new SellerStatusLookupRetriever())->execute();
+		$property_statuses = (new PropertyStatusLookupRetriever())->execute();
 		
 		return view('property-flip.add-property-flip', [
 			'property' => $property,
 			'contacts' => $contacts,
 			'finance_statuses' => $finance_statuses,
-			'seller_statuses' => $seller_statuses
+			'seller_statuses' => $seller_statuses,
+			'property_statuses' => $property_statuses
 		]);
 	}
 	
@@ -119,6 +124,7 @@ class PropertyFlipController extends Controller
 		$property_flip->purchase_price = Util::processCurrencyValue($request->purchase_price);
 		$property_flip->finance_status_id = Util::getNumericQueryParameter($request->finance_status_id);
 		$property_flip->seller_status_id = Util::getNumericQueryParameter($request->seller_status_id);
+		$property_flip->property_status_id = Util::getNumericQueryParameter($request->property_status_id);
 		$property_flip->property_id = Util::getNumericQueryParameter($request->property_id);
 		$property_flip->created_by_id = $user->id;
 		$property_flip->save();
@@ -137,15 +143,18 @@ class PropertyFlipController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::GENERAL_TAB);
 		$property_flip = PropertyFlip::find($property_flip_id);
+		(new UpdateObjectValidator())->validate($property_flip, 'property flip', $property_flip_id);
 		$contacts = (new ContactLookupRetriever())->execute();
 		$finance_statuses = (new FinanceStatusLookupRetriever())->execute();
 		$seller_statuses = (new SellerStatusLookupRetriever())->execute();
+		$property_statuses = (new PropertyStatusLookupRetriever())->execute();
 		
 		return view('property-flip.update-property-flip', [
 			'property_flip' => $property_flip,
 			'contacts' => $contacts,
 			'finance_statuses' => $finance_statuses,
-			'seller_statuses' => $seller_statuses
+			'seller_statuses' => $seller_statuses,
+			'property_statuses' => $property_statuses
 		]);
 	}
 	
@@ -172,6 +181,7 @@ class PropertyFlipController extends Controller
 		}
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$property_flip = PropertyFlip::find($property_flip_id);
+		(new UpdateObjectValidator())->validate($property_flip, 'property flip', $property_flip_id);
 		$property_flip->reference_number = Util::getQueryParameter($request->reference_number);
 		$property_flip->title_deed_number = Util::getQueryParameter($request->title_deed_number);
 		$property_flip->case_number = Util::getQueryParameter($request->case_number);
@@ -181,6 +191,7 @@ class PropertyFlipController extends Controller
 		$property_flip->purchase_price = Util::processCurrencyValue($request->purchase_price);
 		$property_flip->finance_status_id = Util::getNumericQueryParameter($request->finance_status_id);
 		$property_flip->seller_status_id = Util::getNumericQueryParameter($request->seller_status_id);
+		$property_flip->property_status_id = Util::getNumericQueryParameter($request->property_status_id);
 		$property_flip->property_id = Util::getNumericQueryParameter($request->property_id);
 		$property_flip->updated_by_id = $user->id;
 		$property_flip->save();
@@ -198,6 +209,7 @@ class PropertyFlipController extends Controller
 	public function getViewPropertyFlip(Request $request, $property_flip_id)
 	{
 		$property_flip = PropertyFlip::find($property_flip_id);
+		(new ViewObjectValidator())->validate($property_flip, 'property flip', $property_flip_id);
 		$property = Property::find($property_flip->property_id);
 		$attorney_contacts = (new AttorneyContactRetriever($property_flip))->execute();
 		$contact_estate_agents = (new EstateAgentContactRetriever($property_flip))->execute();

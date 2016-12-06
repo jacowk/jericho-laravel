@@ -12,6 +12,8 @@ use jericho\PropertyFlip;
 use jericho\Util\Util;
 use jericho\Util\TabConstants;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on notes
@@ -77,6 +79,7 @@ class NoteController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::NOTES_TAB);
 		$note = Note::find($note_id);
+		(new UpdateObjectValidator())->validate($note, 'note', $note_id);
 		return view('note.update-note', ['note' => $note]);
 	}
 	
@@ -102,6 +105,7 @@ class NoteController extends Controller
 		}
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$note = Note::find($note_id);
+		(new UpdateObjectValidator())->validate($note, 'note', $note_id);
 		$note->description = Util::getQueryParameter($request->description);
 		$note->updated_by_id = $user->id;
 		$note->save();
@@ -120,6 +124,7 @@ class NoteController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::NOTES_TAB);
 		$note = Note::find($note_id);
+		(new ViewObjectValidator())->validate($note, 'note', $note_id);
 		return view('note.view-note', [
 				'note' => $note
 		]);

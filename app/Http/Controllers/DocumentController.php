@@ -17,6 +17,8 @@ use jericho\Util\TabConstants;
 use DB;
 use jericho\Lookup\DocumentTypeLookupRetriever;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on documents
@@ -117,6 +119,7 @@ class DocumentController extends Controller
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::DOCUMENTS_TAB);
 		$document_types = (new DocumentTypeLookupRetriever())->execute();
 		$document = Document::find($document_id);
+		(new UpdateObjectValidator())->validate($document, 'document', $document_id);
 		return view('document.update-document', [
 			'document' => $document,
 			'document_types' => $document_types
@@ -146,6 +149,7 @@ class DocumentController extends Controller
 		$user = (new AuthUserRetriever())->retrieveUser();
 		
 		$document = Document::find($document_id);
+		(new UpdateObjectValidator())->validate($document, 'document', $document_id);
 		$document->description = Util::getQueryParameter($request->description);
 		$document->document_type_id = Util::getNumericQueryParameter($request->document_type_id);
 		$document->updated_by_id = $user->id;
@@ -195,6 +199,7 @@ class DocumentController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::DOCUMENTS_TAB);
 		$document = Document::find($document_id);
+		(new ViewObjectValidator())->validate($document, 'document', $document_id);
 		$direct_url = Storage::url('app/' . $document->generated_filename);
 		return view('document.view-document', [
 				'document' => $document,

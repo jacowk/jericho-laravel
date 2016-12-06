@@ -10,6 +10,8 @@ use jericho\Http\Requests;
 use jericho\Util\Util;
 use jericho\Account;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on accounts
@@ -108,6 +110,7 @@ class AccountController extends Controller
 	public function getUpdateAccount(Request $request, $account_id)
 	{
 		$account = Account::find($account_id);
+		(new UpdateObjectValidator())->validate($account, 'account', $account_id);
 		return view('account.update-account', ['account' => $account]);
 	}
 	
@@ -132,6 +135,7 @@ class AccountController extends Controller
 		}
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$account = Account::find($account_id);
+		(new UpdateObjectValidator())->validate($account, 'account', $account_id);
 		$account->name = Util::getQueryParameter($request->name);
 		$account->updated_by_id = $user->id;
 		$account->save();
@@ -149,6 +153,7 @@ class AccountController extends Controller
 	public function getViewAccount(Request $request, $account_id)
 	{
 		$account = Account::find($account_id);
+		(new ViewObjectValidator())->validate($account, 'account', $account_id);
 		return view('account.view-account', [
 				'account' => $account
 		]);

@@ -10,6 +10,8 @@ use jericho\Http\Requests;
 use jericho\LookupMilestoneType;
 use jericho\Util\Util;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on milestone types
@@ -106,6 +108,7 @@ class MilestoneTypeController extends Controller
 	public function getUpdateMilestoneType(Request $request, $milestone_type_id)
 	{
 		$milestone_type = LookupMilestoneType::find($milestone_type_id);
+		(new UpdateObjectValidator())->validate($milestone_type, 'milestone type', $milestone_type_id);
 		return view('milestone-type.update-milestone-type', ['milestone_type' => $milestone_type]);
 	}
 	
@@ -130,6 +133,7 @@ class MilestoneTypeController extends Controller
 		}
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$milestone_type = LookupMilestoneType::find($milestone_type_id);
+		(new UpdateObjectValidator())->validate($milestone_type, 'milestone type', $milestone_type_id);
 		$milestone_type->description = Util::getQueryParameter($request->description);
 		$milestone_type->updated_by_id = $user->id;
 		$milestone_type->save();
@@ -147,6 +151,7 @@ class MilestoneTypeController extends Controller
 	public function getViewMilestoneType(Request $request, $milestone_type_id)
 	{
 		$milestone_type = LookupMilestoneType::find($milestone_type_id);
+		(new ViewObjectValidator())->validate($milestone_type, 'milestone type', $milestone_type_id);
 		return view('milestone-type.view-milestone-type', [
 				'milestone_type' => $milestone_type
 		]);

@@ -80,6 +80,13 @@
 			</div>
 			
 			<div class="form-group">
+				{{ Form::label('property_status_id', 'Property Status', array('class' => 'col-sm-2 control-label')) }}
+				<div class="col-sm-10">
+					{{  Form::select('property_status_id', $property_statuses, '', ['class' => 'form-control']) }}
+				</div>
+			</div>
+			
+			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					{{ Form::submit('Add Property Flip', array('class' => 'btn btn-default')) }}
 				</div>

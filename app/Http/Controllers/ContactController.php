@@ -26,6 +26,8 @@ use jericho\Audits\AddContactToEstateAgentAuditor;
 use jericho\Lookup\TitleLookupRetriever;
 use jericho\Lookup\MaritalStatusLookupRetriever;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on contacts
@@ -205,6 +207,7 @@ class ContactController extends Controller
     public function getUpdateContact(Request $request, $contact_id)
     {
     	$contact = Contact::find($contact_id);
+    	(new UpdateObjectValidator())->validate($contact, 'contact', $contact_id);
     	$lookup_titles = (new TitleLookupRetriever())->execute();
     	$lookup_marital_statuses = (new MaritalStatusLookupRetriever())->execute();
     	if (Util::isValidRequestVariable($request->model_name))
@@ -264,6 +267,7 @@ class ContactController extends Controller
     	}
     	$user = (new AuthUserRetriever())->retrieveUser();
     	$contact = Contact::find($contact_id);
+    	(new UpdateObjectValidator())->validate($contact, 'contact', $contact_id);
     	$contact = $this->populateContactObject($request, $contact);
     	$contact->updated_by_id = $user->id;
     	$contact->save();
@@ -323,6 +327,7 @@ class ContactController extends Controller
     	
     	/* Prepare some data */
     	$contact = Contact::find($contact_id);
+    	(new ViewObjectValidator())->validate($contact, 'contact', $contact_id);
     	$model_view_route = $this->getModelViewRoute($model_name, $model_id);
     	$model_id_name = $this->getModelIdName($model_name);
     	$link_description = $this->getLinkDescription($model_name);

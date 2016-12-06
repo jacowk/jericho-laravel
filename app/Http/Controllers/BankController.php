@@ -11,6 +11,8 @@ use jericho\Bank;
 use jericho\Util\ModelConstants;
 use jericho\Util\Util;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on banks
@@ -105,6 +107,7 @@ class BankController extends Controller
     public function getUpdateBank(Request $request, $bank_id)
     {
     	$bank = Bank::find($bank_id);
+    	(new UpdateObjectValidator())->validate($bank, 'bank', $bank_id);
     	return view('bank.update-bank', ['bank' => $bank]);
     }
     
@@ -129,6 +132,7 @@ class BankController extends Controller
     	}
     	$user = (new AuthUserRetriever())->retrieveUser();
     	$bank = Bank::find($bank_id);
+    	(new UpdateObjectValidator())->validate($bank, 'bank', $bank_id);
     	$bank->name = Util::getQueryParameter($request->name);
     	$bank->updated_by_id = $user->id;
     	$bank->save();
@@ -146,6 +150,7 @@ class BankController extends Controller
     public function getViewBank(Request $request, $bank_id)
     {
     	$bank = Bank::find($bank_id);
+    	(new ViewObjectValidator())->validate($bank, 'bank', $bank_id);
     	$contacts = $bank->contacts()->get();
     	return view('bank.view-bank', [
     			'bank' => $bank,

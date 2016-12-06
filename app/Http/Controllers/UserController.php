@@ -16,6 +16,8 @@ use jericho\Audits\RoleToUserAuditor;
 use jericho\Lookup\RolesForCheckboxesRetriever;
 use jericho\Lookup\PaginationSizeLookupRetriever;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on users
@@ -124,6 +126,7 @@ class UserController extends Controller
 	public function getUpdateUser(Request $request, $user_id)
 	{
 		$user = User::find($user_id);
+		(new UpdateObjectValidator())->validate($user, 'user', $user_id);
 		$roles = (new RolesForCheckboxesRetriever($user->roles))->execute();
 		$pagination_size_options = (new PaginationSizeLookupRetriever())->execute();
 		
@@ -158,6 +161,7 @@ class UserController extends Controller
 		
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$update_user = User::find($user_id);
+		(new UpdateObjectValidator())->validate($update_user, 'user', $user_id);
 		$update_user->firstname = Util::getQueryParameter($request->firstname);
 		$update_user->surname = Util::getQueryParameter($request->surname);
 		$update_user->email = Util::getQueryParameter($request->email);
@@ -179,6 +183,7 @@ class UserController extends Controller
 	public function getViewUser(Request $request, $user_id)
 	{
 		$user = User::find($user_id);
+		(new ViewObjectValidator())->validate($update_user, 'user', $user_id);
 		return view('user.view-user', [
 				'user' => $user
 		]);

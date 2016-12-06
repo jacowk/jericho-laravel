@@ -10,6 +10,8 @@ use jericho\Http\Requests;
 use jericho\Area;
 use jericho\Util\Util;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on areas
@@ -106,6 +108,7 @@ class AreaController extends Controller
 	public function getUpdateArea(Request $request, $area_id)
 	{
 		$area = Area::find($area_id);
+		(new UpdateObjectValidator())->validate($area, 'area', $area_id);
 		return view('area.update-area', ['area' => $area]);
 	}
 	
@@ -130,6 +133,7 @@ class AreaController extends Controller
 		}
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$area = Area::find($area_id);
+		(new UpdateObjectValidator())->validate($area, 'area', $area_id);
 		$area->name = Util::getQueryParameter($request->name);
 		$area->updated_by_id = $user->id;
 		$area->save();
@@ -147,6 +151,7 @@ class AreaController extends Controller
 	public function getViewArea(Request $request, $area_id)
 	{
 		$area = Area::find($area_id);
+		(new ViewObjectValidator())->validate($area, 'area', $area_id);
 		return view('area.view-area', [
 				'area' => $area
 		]);

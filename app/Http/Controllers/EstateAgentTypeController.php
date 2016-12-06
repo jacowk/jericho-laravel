@@ -10,6 +10,8 @@ use jericho\Http\Requests;
 use jericho\LookupEstateAgentType;
 use jericho\Util\Util;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on marital statuses
@@ -106,6 +108,7 @@ class EstateAgentTypeController extends Controller
 	public function getUpdateEstateAgentType(Request $request, $estate_agent_type_id)
 	{
 		$estate_agent_type = LookupEstateAgentType::find($estate_agent_type_id);
+		(new UpdateObjectValidator())->validate($estate_agent_type, 'estate agent type', $estate_agent_type_id);
 		return view('estate-agent-type.update-estate-agent-type', ['estate_agent_type' => $estate_agent_type]);
 	}
 	
@@ -130,6 +133,7 @@ class EstateAgentTypeController extends Controller
 		}
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$estate_agent_type = LookupEstateAgentType::find($estate_agent_type_id);
+		(new UpdateObjectValidator())->validate($estate_agent_type, 'estate agent type', $estate_agent_type_id);
 		$estate_agent_type->description = Util::getQueryParameter($request->description);
 		$estate_agent_type->updated_by_id = $user->id;
 		$estate_agent_type->save();
@@ -147,6 +151,7 @@ class EstateAgentTypeController extends Controller
 	public function getViewEstateAgentType(Request $request, $estate_agent_type_id)
 	{
 		$estate_agent_type = LookupEstateAgentType::find($estate_agent_type_id);
+		(new ViewObjectValidator())->validate($estate_agent_type, 'estate agent type', $estate_agent_type_id);
 		return view('estate-agent-type.view-estate-agent-type', [
 				'estate_agent_type' => $estate_agent_type
 		]);

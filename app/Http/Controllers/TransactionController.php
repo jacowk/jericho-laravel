@@ -14,6 +14,8 @@ use jericho\Util\TabConstants;
 use jericho\Lookup\AccountLookupRetriever;
 use jericho\Lookup\TransactionTypeLookupRetriever;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on transactions
@@ -94,6 +96,7 @@ class TransactionController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::TRANSACTIONS_TAB);
 		$transaction = Transaction::find($transaction_id);
+		(new UpdateObjectValidator())->validate($transaction, 'transaction', $transaction_id);
 		$accounts = $accounts = (new AccountLookupRetriever())->execute();
 		$lookup_transaction_types = (new TransactionTypeLookupRetriever())->execute();
 		return view('transaction.update-transaction', [
@@ -130,6 +133,7 @@ class TransactionController extends Controller
 		
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$transaction = Transaction::find($transaction_id);
+		(new UpdateObjectValidator())->validate($transaction, 'transaction', $transaction_id);
 		$transaction->effective_date = Util::getDateQueryParameter($request->effective_date);
 		$transaction->description = Util::getQueryParameter($request->description);
 		$transaction->reference = Util::getQueryParameter($request->reference);
@@ -154,6 +158,7 @@ class TransactionController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::TRANSACTIONS_TAB);
 		$transaction = Transaction::find($transaction_id);
+		(new ViewObjectValidator())->validate($transaction, 'transaction', $transaction_id);
 		return view('transaction.view-transaction', [
 				'transaction' => $transaction
 		]);

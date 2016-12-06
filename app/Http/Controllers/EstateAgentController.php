@@ -12,6 +12,8 @@ use jericho\User;
 use jericho\Util\ModelConstants;
 use jericho\Util\Util;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on estate agents
@@ -106,6 +108,7 @@ class EstateAgentController extends Controller
     public function getUpdateEstateAgent(Request $request, $estate_agent_id)
     {
     	$estate_agent = EstateAgent::find($estate_agent_id);
+    	(new UpdateObjectValidator())->validate($estate_agent, 'estate agent', $estate_agent_id);
     	return view('estate-agent.update-estate-agent', ['estate_agent' => $estate_agent]);
     }
     
@@ -130,6 +133,7 @@ class EstateAgentController extends Controller
     	}
     	$user = (new AuthUserRetriever())->retrieveUser();
     	$estate_agent = EstateAgent::find($estate_agent_id);
+    	(new UpdateObjectValidator())->validate($estate_agent, 'estate agent', $estate_agent_id);
     	$estate_agent->name = Util::getQueryParameter($request->name);
     	$estate_agent->updated_by_id = $user->id;
     	$estate_agent->save();
@@ -147,6 +151,7 @@ class EstateAgentController extends Controller
     public function getViewEstateAgent(Request $request, $estate_agent_id)
     {
     	$estate_agent = EstateAgent::find($estate_agent_id);
+    	(new ViewObjectValidator())->validate($estate_agent, 'estate agent', $estate_agent_id);
     	$contacts = $estate_agent->contacts()->get();
     	return view('estate-agent.view-estate-agent', [
     			'estate_agent' => $estate_agent,

@@ -13,6 +13,8 @@ use jericho\Util\TabConstants;
 use jericho\Lookup\DiaryItemStatusLookupRetriever;
 use jericho\Lookup\UserLookupRetriever;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on diary items
@@ -85,6 +87,7 @@ class DiaryItemController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::DIARY_TAB);
 		$diary_item = DiaryItem::find($diary_item_id);
+		(new UpdateObjectValidator())->validate($diary_item, 'diary item', $diary_item_id);
 		$diary_item_statuses = (new DiaryItemStatusLookupRetriever())->execute();
 		$lookup_users = (new UserLookupRetriever())->execute();
 		return view('diary.update-diary-item', [
@@ -119,6 +122,7 @@ class DiaryItemController extends Controller
 		}
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$diary_item = DiaryItem::find($diary_item_id);
+		(new UpdateObjectValidator())->validate($diary_item, 'diary item', $diary_item_id);
 		$diary_item->status_id = Util::getNumericQueryParameter($request->status_id);
 		$diary_item->followup_date = Util::getQueryParameter($request->followup_date);
 		$diary_item->followup_user_id = Util::getNumericQueryParameter($request->followup_user_id);
@@ -140,6 +144,7 @@ class DiaryItemController extends Controller
 	{
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::DIARY_TAB);
 		$diary_item = DiaryItem::find($diary_item_id);
+		(new ViewObjectValidator())->validate($diary_item, 'diary item', $diary_item_id);
 		return view('diary.view-diary-item', [
 				'diary_item' => $diary_item
 		]);

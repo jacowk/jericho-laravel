@@ -10,6 +10,8 @@ use jericho\Http\Requests;
 use jericho\LookupTransactionType;
 use jericho\Util\Util;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on marital statuses
@@ -106,6 +108,7 @@ class TransactionTypeController extends Controller
 	public function getUpdateTransactionType(Request $request, $transaction_type_id)
 	{
 		$transaction_type = LookupTransactionType::find($transaction_type_id);
+		(new UpdateObjectValidator())->validate($transaction_type, 'transaction type', $transaction_type_id);
 		return view('transaction-type.update-transaction-type', ['transaction_type' => $transaction_type]);
 	}
 	
@@ -130,6 +133,7 @@ class TransactionTypeController extends Controller
 		}
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$transaction_type = LookupTransactionType::find($transaction_type_id);
+		(new UpdateObjectValidator())->validate($transaction_type, 'transaction type', $transaction_type_id);
 		$transaction_type->description = Util::getQueryParameter($request->description);
 		$transaction_type->updated_by_id = $user->id;
 		$transaction_type->save();
@@ -147,6 +151,7 @@ class TransactionTypeController extends Controller
 	public function getViewTransactionType(Request $request, $transaction_type_id)
 	{
 		$transaction_type = LookupTransactionType::find($transaction_type_id);
+		(new ViewObjectValidator())->validate($transaction_type, 'transaction type', $transaction_type_id);
 		return view('transaction-type.view-transaction-type', [
 				'transaction_type' => $transaction_type
 		]);

@@ -12,6 +12,8 @@ use jericho\FollowupItem;
 use jericho\PropertyFlip;
 use jericho\Util\Util;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on followup items
@@ -74,6 +76,7 @@ class FollowupItemController extends Controller
 	public function getUpdateFollowupItem(Request $request, $followup_item_id)
 	{
 		$followup_item = FollowupItem::find($followup_item_id);
+		(new UpdateObjectValidator())->validate($followup_item, 'followup item', $followup_item_id);
 		return view('followup.update-followup-item', ['followup_item' => $followup_item]);
 	}
 	
@@ -98,6 +101,7 @@ class FollowupItemController extends Controller
 		}
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$followup_item = FollowupItem::find($followup_item_id);
+		(new UpdateObjectValidator())->validate($followup_item, 'followup item', $followup_item_id);
 		$followup_item->comments = Util::getQueryParameter($request->comments);
 		$followup_item->updated_by_id = $user->id;
 		$followup_item->save();
@@ -115,6 +119,7 @@ class FollowupItemController extends Controller
 	public function getViewFollowupItem(Request $request, $followup_item_id)
 	{
 		$followup_item = FollowupItem::find($followup_item_id);
+		(new ViewObjectValidator())->validate($followup_item, 'followup item', $followup_item_id);
 		return view('followup.view-followup-item', [
 			'followup_item' => $followup_item
 		]);

@@ -18,10 +18,15 @@ use jericho\Lookup\AreaLookupRetriever;
 use jericho\Lookup\GreaterAreaLookupRetriever;
 use jericho\Lookup\SuburbAjaxLookupRetriever;
 use jericho\Lookup\PropertyTypeLookupRetriever;
+use jericho\Lookup\FinanceStatusLookupRetriever;
+use jericho\Lookup\SellerStatusLookupRetriever;
+use jericho\Lookup\PropertyStatusLookupRetriever;
 use jericho\Properties\PropertySearchResultRetriever;
 use jericho\PropertyFlips\PropertyFlipSearchResultRetriever;
 use DB;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on propertys
@@ -43,6 +48,9 @@ class PropertyController extends Controller
 		$greater_areas = (new GreaterAreaLookupRetriever())->execute();
 		$suburbs = array(); /* Retrieved via ajax */
 		$suburbs['-1'] = "Select Suburb";
+		$finance_statuses = (new FinanceStatusLookupRetriever())->execute();
+		$seller_statuses = (new SellerStatusLookupRetriever())->execute();
+		$property_statuses = (new PropertyStatusLookupRetriever())->execute();
 		return view('property.search-property', [
 			'property_id' => null,
 			'property_flip_id' => null,
@@ -51,9 +59,15 @@ class PropertyController extends Controller
 			'area_id' => null,
 			'greater_area_id' => null,
 			'reference_number' => null,
+			'finance_status_id' => null,
+			'seller_status_id' => null,
+			'property_status_id' => null,
 			'suburbs' => $suburbs,
 			'areas' => $areas,
-			'greater_areas' => $greater_areas
+			'greater_areas' => $greater_areas,
+			'finance_statuses' => $finance_statuses,
+			'seller_statuses' => $seller_statuses,
+			'property_statuses' => $property_statuses
 		]);
 	}
 	
@@ -78,6 +92,9 @@ class PropertyController extends Controller
 		$greater_area_id = null;
 		$reference_number = null;
 		$address_query_parameter = null;
+		$finance_status_id = null;
+		$seller_status_id = null;
+		$property_status_id = null;
 		
 		/* The address is used as part of an orWhere clause in the query builder */
 		if (Util::isValidRequestVariable($request->address))
@@ -129,9 +146,30 @@ class PropertyController extends Controller
 			$reference_number_query_parameter = ['property_flips.reference_number', '=', $reference_number];
 			array_push($query_parameters, $reference_number_query_parameter);
 		}
+		if (Util::isValidSelectRequestVariable($request->finance_status_id))
+		{
+			$finance_status_id = $request->finance_status_id;
+			$finance_status_id_query_parameter = ['property_flips.finance_status_id', '=', $finance_status_id];
+			array_push($query_parameters, $finance_status_id_query_parameter);
+		}
+		if (Util::isValidSelectRequestVariable($request->seller_status_id))
+		{
+			$seller_status_id = $request->seller_status_id;
+			$seller_status_id_query_parameter = ['property_flips.seller_status_id', '=', $seller_status_id];
+			array_push($query_parameters, $seller_status_id_query_parameter);
+		}
+		if (Util::isValidSelectRequestVariable($request->property_status_id))
+		{
+			$property_status_id = $request->property_status_id;
+			$property_status_id_query_parameter = ['property_flips.property_status_id', '=', $property_status_id];
+			array_push($query_parameters, $property_status_id_query_parameter);
+		}
 		
 		if (Util::isValidRequestVariable($request->reference_number) || 
-				Util::isValidRequestVariable($request->property_flip_id)) /* Include join with property_flip */
+				Util::isValidRequestVariable($request->property_flip_id) ||
+				Util::isValidRequestVariable($request->finance_status_id) ||
+				Util::isValidRequestVariable($request->seller_status_id) ||
+				Util::isValidRequestVariable($request->property_status_id)) /* Include join with property_flip */
 		{
 			$properties = (new PropertyFlipSearchResultRetriever($query_parameters, $address_query_parameter, $user))->execute();
 		}
@@ -142,6 +180,9 @@ class PropertyController extends Controller
 		$suburbs = (new SuburbLookupRetriever())->execute();
 		$areas = (new AreaLookupRetriever())->execute();
 		$greater_areas = (new GreaterAreaLookupRetriever())->execute();
+		$finance_statuses = (new FinanceStatusLookupRetriever())->execute();
+		$seller_statuses = (new SellerStatusLookupRetriever())->execute();
+		$property_statuses = (new PropertyStatusLookupRetriever())->execute();
 		return view('property.search-property', [
 			'properties' => $properties,
 			'property_id' => $property_id,
@@ -150,10 +191,16 @@ class PropertyController extends Controller
 			'suburb_id' => $suburb_id,
 			'area_id' => $area_id,
 			'greater_area_id' => $greater_area_id,
+			'finance_status_id' => $finance_status_id,
+			'seller_status_id' => $seller_status_id,
+			'property_status_id' => $property_status_id,
 			'reference_number' => $reference_number,
 			'suburbs' => $suburbs,
 			'areas' => $areas,
-			'greater_areas' => $greater_areas
+			'greater_areas' => $greater_areas,
+			'finance_statuses' => $finance_statuses,
+			'seller_statuses' => $seller_statuses,
+			'property_statuses' => $property_statuses
 		]);
 	}
 	
@@ -228,6 +275,7 @@ class PropertyController extends Controller
 	public function getUpdateProperty(Request $request, $property_id)
 	{
 		$property = Property::find($property_id);
+		(new UpdateObjectValidator())->validate($property, 'property', $property_id);
 		$areas = (new AreaLookupRetriever())->execute();
 		$greater_areas = (new GreaterAreaLookupRetriever())->execute();
 		$suburbs = (new SuburbAjaxLookupRetriever($property->area_id))->execute();
@@ -266,6 +314,7 @@ class PropertyController extends Controller
 		}
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$property = Property::find($property_id);
+		(new UpdateObjectValidator())->validate($property, 'property', $property_id);
 		$property->address_line_1 = Util::getQueryParameter($request->address_line_1);
 		$property->address_line_2 = Util::getQueryParameter($request->address_line_2);
 		$property->address_line_3 = Util::getQueryParameter($request->address_line_3);
@@ -298,6 +347,7 @@ class PropertyController extends Controller
 			$request->session()->remove(TabConstants::ACTIVE_TAB);
 		}
 		$property = Property::find($property_id);
+		(new ViewObjectValidator())->validate($property, 'property', $property_id);
 		return view('property.view-property', [
 				'property' => $property
 		]);

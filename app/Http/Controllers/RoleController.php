@@ -13,6 +13,8 @@ use jericho\Util\Util;
 use jericho\Audits\PermissionToRoleAuditor;
 use jericho\Lookup\PermissionsForCheckboxesRetriever;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on roles
@@ -109,6 +111,7 @@ class RoleController extends Controller
 	public function getUpdateRole(Request $request, $role_id)
 	{
 		$role = Role::find($role_id);
+		(new UpdateObjectValidator())->validate($role, 'role', $role_id);
 		$permissions = (new PermissionsForCheckboxesRetriever($role->permissions))->execute();
 		return view('role.update-role', ['role' => $role, 'permissions' => $permissions]);
 	}
@@ -134,6 +137,7 @@ class RoleController extends Controller
 		}
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$role = Role::find($role_id);
+		(new UpdateObjectValidator())->validate($role, 'role', $role_id);
 		$role->name = Util::getQueryParameter($request->name);
 		$role->updated_by_id = $user->id;
 		$role->save();
@@ -152,6 +156,7 @@ class RoleController extends Controller
 	public function getViewRole(Request $request, $role_id)
 	{
 		$role = Role::find($role_id);
+		(new ViewObjectValidator())->validate($role, 'role', $role_id);
 		return view('role.view-role', [
 				'role' => $role
 		]);

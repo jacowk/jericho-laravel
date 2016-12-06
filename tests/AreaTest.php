@@ -12,8 +12,25 @@ use jericho\Area;
  * Date: 2016-11-18
  *
  */
-class AreaTest extends AbstractUnitTest
+class AreaTest extends TestCase
 {
+	public function setUp()
+	{
+		parent::setUp();
+		$this->artisan('db:seed');
+	}
+	
+	public function tearDown()
+	{
+		/* The following 3 lines of code are required to sort out the "Too many connections error" */
+		$this->beforeApplicationDestroyed(function () {
+			DB::disconnect();
+		});
+	
+			parent::tearDown();
+			// 		Mockery::close();
+	}
+	
     /**
 	 * Test logging in, and navigating to the Search Area page
 	 *

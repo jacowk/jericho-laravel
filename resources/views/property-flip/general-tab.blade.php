@@ -130,6 +130,16 @@
 					@endif
 				</td>
 			</tr>
+			<tr>
+				<th class="col-sm-3 text-right">Property Status</th>
+				<td>
+					@if ($property_flip->property_status)
+						{{ $property_flip->property_status->description }}
+					@else
+						No property status
+					@endif
+				</td>
+			</tr>
 			@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_AUDIT_FIELDS))
 				<tr>
 					<th class="col-sm-3 text-right">Created By</th>

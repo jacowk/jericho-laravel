@@ -10,6 +10,8 @@ use jericho\Util\Util;
 use jericho\Http\Requests;
 use jericho\GreaterArea;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 class GreaterAreaController extends Controller
 {
@@ -97,6 +99,7 @@ class GreaterAreaController extends Controller
 	public function getUpdateGreaterArea(Request $request, $greater_area_id)
 	{
 		$greater_area = GreaterArea::find($greater_area_id);
+		(new UpdateObjectValidator())->validate($greater_area, 'greater area', $greater_area_id);
 		return view('greater-area.update-greater-area', ['greater_area' => $greater_area]);
 	}
 	
@@ -121,6 +124,7 @@ class GreaterAreaController extends Controller
 		}
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$greater_area = GreaterArea::find($greater_area_id);
+		(new UpdateObjectValidator())->validate($greater_area, 'greater area', $greater_area_id);
 		$greater_area->name = Util::getQueryParameter($request->name);
 		$greater_area->updated_by_id = $user->id;
 		$greater_area->save();
@@ -138,6 +142,7 @@ class GreaterAreaController extends Controller
 	public function getViewGreaterArea(Request $request, $greater_area_id)
 	{
 		$greater_area = GreaterArea::find($greater_area_id);
+		(new ViewObjectValidator())->validate($greater_area, 'greater area', $greater_area_id);
 		return view('greater-area.view-greater-area', [
 				'greater_area' => $greater_area
 		]);

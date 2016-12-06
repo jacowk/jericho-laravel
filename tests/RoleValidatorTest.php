@@ -24,8 +24,13 @@ class RoleValidatorTest extends TestCase
 	
 	public function tearDown()
 	{
-		$this->artisan('db:seed');
-		parent::tearDown();
+		/* The following 3 lines of code are required to sort out the "Too many connections error" */
+		$this->beforeApplicationDestroyed(function () {
+			DB::disconnect();
+		});
+	
+			parent::tearDown();
+			// 		Mockery::close();
 	}
 	
 	public function testIsUserInSuperUserRoleWithUserInSuperUserRole()

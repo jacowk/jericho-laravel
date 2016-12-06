@@ -10,6 +10,8 @@ use jericho\Http\Requests;
 use jericho\LookupTitle;
 use jericho\Util\Util;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on titles
@@ -106,6 +108,7 @@ class TitleController extends Controller
 	public function getUpdateTitle(Request $request, $title_id)
 	{
 		$title = LookupTitle::find($title_id);
+		(new UpdateObjectValidator())->validate($title, 'title', $title_id);
 		return view('title.update-title', ['title' => $title]);
 	}
 	
@@ -130,6 +133,7 @@ class TitleController extends Controller
 		}
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$title = LookupTitle::find($title_id);
+		(new UpdateObjectValidator())->validate($title, 'title', $title_id);
 		$title->description = Util::getQueryParameter($request->description);
 		$title->updated_by_id = $user->id;
 		$title->save();
@@ -147,6 +151,7 @@ class TitleController extends Controller
 	public function getViewTitle(Request $request, $title_id)
 	{
 		$title = LookupTitle::find($title_id);
+		(new ViewObjectValidator())->validate($title, 'title', $title_id);
 		return view('title.view-title', [
 				'title' => $title
 		]);

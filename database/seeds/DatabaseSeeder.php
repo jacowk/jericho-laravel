@@ -71,6 +71,7 @@ class DatabaseSeeder extends Seeder
 	        $this->call(LookupIssueComponentTableSeeder::class);
 	        $this->call(LookupIssueCategoryTableSeeder::class);
 	        $this->call(LookupIssueSeverityTableSeeder::class);
+	        $this->call(PropertyStatusTableSeeder::class);
     	}
     	else
     	{
@@ -96,6 +97,7 @@ class DatabaseSeeder extends Seeder
     		$this->call(ProductionIssueStatusTableSeeder::class);
     		$this->call(ProductionDiaryItemStatusTableSeeder::class);
     		$this->call(ProductionFinanceStatusTableSeeder::class);
+    		$this->call(ProductionPropertyStatusTableSeeder::class);
     	}
     }
 }

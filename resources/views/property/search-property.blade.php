@@ -6,65 +6,90 @@
 
 @section('content')
 	<div class="container">
+		<button class="btn btn-default" data-toggle="collapse" data-target="#search-criteria">View Search Criteria</button>
+		
 		<div class="row">
-			{{ Form::open(array('route' => 'do-search-property', 'class' => 'form-horizontal')) }}
-				{{ Form::token() }}
-				
-				<div class="form-group">
-					{{ Form::label('property_id', 'Property ID', array('class' => 'col-sm-2 control-label')) }}
-					<div class="col-sm-10"> 
-						{{ Form::text('property_id', $property_id, array('class' => 'form-control', 'placeholder' => 'Property ID')) }}
+			<div id="search-criteria" class="collapse">
+				{{ Form::open(array('route' => 'do-search-property', 'class' => 'form-horizontal')) }}
+					{{ Form::token() }}
+					
+					<div class="form-group">
+						{{ Form::label('property_id', 'Property ID', array('class' => 'col-sm-2 control-label')) }}
+						<div class="col-sm-10"> 
+							{{ Form::text('property_id', $property_id, array('class' => 'form-control', 'placeholder' => 'Property ID')) }}
+						</div>
 					</div>
-				</div>
-				
-				<div class="form-group">
-					{{ Form::label('propert_flip_id', 'Property Flip ID', array('class' => 'col-sm-2 control-label')) }}
-					<div class="col-sm-10"> 
-						{{ Form::text('property_flip_id', $property_flip_id, array('class' => 'form-control', 'placeholder' => 'Property Flip ID')) }}
+					
+					<div class="form-group">
+						{{ Form::label('propert_flip_id', 'Property Flip ID', array('class' => 'col-sm-2 control-label')) }}
+						<div class="col-sm-10"> 
+							{{ Form::text('property_flip_id', $property_flip_id, array('class' => 'form-control', 'placeholder' => 'Property Flip ID')) }}
+						</div>
 					</div>
-				</div>
-				
-				<div class="form-group">
-					{{ Form::label('reference_number', 'Reference Number', array('class' => 'col-sm-2 control-label')) }}
-					<div class="col-sm-10"> 
-						{{ Form::text('reference_number', $reference_number, array('class' => 'form-control', 'placeholder' => 'Reference Number')) }}
+					
+					<div class="form-group">
+						{{ Form::label('reference_number', 'Reference Number', array('class' => 'col-sm-2 control-label')) }}
+						<div class="col-sm-10"> 
+							{{ Form::text('reference_number', $reference_number, array('class' => 'form-control', 'placeholder' => 'Reference Number')) }}
+						</div>
 					</div>
-				</div>
-				
-				<div class="form-group">
-					{{ Form::label('address', 'Address', array('class' => 'col-sm-2 control-label')) }}
-					<div class="col-sm-10"> 
-						{{ Form::text('address', $address, array('class' => 'form-control', 'placeholder' => 'Address')) }}
+					
+					<div class="form-group">
+						{{ Form::label('address', 'Address', array('class' => 'col-sm-2 control-label')) }}
+						<div class="col-sm-10"> 
+							{{ Form::text('address', $address, array('class' => 'form-control', 'placeholder' => 'Address')) }}
+						</div>
 					</div>
-				</div>
-				
-				<div class="form-group">
-					{{ Form::label('area_id', 'Area', array('class' => 'col-sm-2 control-label')) }}
-					<div class="col-sm-10"> 
-						{{ Form::select('area_id', $areas, $area_id, ['class' => 'form-control']) }}
+					
+					<div class="form-group">
+						{{ Form::label('area_id', 'Area', array('class' => 'col-sm-2 control-label')) }}
+						<div class="col-sm-10"> 
+							{{ Form::select('area_id', $areas, $area_id, ['class' => 'form-control']) }}
+						</div>
 					</div>
-				</div>
-				
-				<div class="form-group">
-					{{ Form::label('suburb_id', 'Suburb', array('class' => 'col-sm-2 control-label')) }}
-					<div class="col-sm-10"> 
-						{{ Form::select('suburb_id', $suburbs, $suburb_id, ['class' => 'form-control']) }}
+					
+					<div class="form-group">
+						{{ Form::label('suburb_id', 'Suburb', array('class' => 'col-sm-2 control-label')) }}
+						<div class="col-sm-10"> 
+							{{ Form::select('suburb_id', $suburbs, $suburb_id, ['class' => 'form-control']) }}
+						</div>
 					</div>
-				</div>
-				
-				<div class="form-group">
-					{{ Form::label('greater_area_id', 'Greater Area', array('class' => 'col-sm-2 control-label')) }}
-					<div class="col-sm-10"> 
-						{{ Form::select('greater_area_id', $greater_areas, $greater_area_id, ['class' => 'form-control']) }}
+					
+					<div class="form-group">
+						{{ Form::label('greater_area_id', 'Greater Area', array('class' => 'col-sm-2 control-label')) }}
+						<div class="col-sm-10"> 
+							{{ Form::select('greater_area_id', $greater_areas, $greater_area_id, ['class' => 'form-control']) }}
+						</div>
 					</div>
-				</div>
-				
-				<div class="form-group">
-					<div class="col-sm-offset-2 col-sm-10"> 
-						{{ Form::submit('Search', array('class' => 'btn btn-default')) }}
+					
+					<div class="form-group">
+						{{ Form::label('finance_status_id', 'Finance Status', array('class' => 'col-sm-2 control-label')) }}
+						<div class="col-sm-10"> 
+							{{ Form::select('finance_status_id', $finance_statuses, $finance_status_id, ['class' => 'form-control']) }}
+						</div>
 					</div>
-				</div>
-			{{ Form::close() }}
+					
+					<div class="form-group">
+						{{ Form::label('seller_status_id', 'Seller Status', array('class' => 'col-sm-2 control-label')) }}
+						<div class="col-sm-10"> 
+							{{ Form::select('seller_status_id', $seller_statuses, $seller_status_id, ['class' => 'form-control']) }}
+						</div>
+					</div>
+					
+					<div class="form-group">
+						{{ Form::label('property_status_id', 'Property Status', array('class' => 'col-sm-2 control-label')) }}
+						<div class="col-sm-10"> 
+							{{ Form::select('property_status_id', $property_statuses, $property_status_id, ['class' => 'form-control']) }}
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10"> 
+							{{ Form::submit('Search', array('class' => 'btn btn-default')) }}
+						</div>
+					</div>
+				{{ Form::close() }}
+			</div>
 		</div>
 	</div><br/>
 	<div class="container">
@@ -127,7 +152,7 @@
 						@endforeach
 					@else
 						<tr>
-							<td colspan="7">No properties</td>
+							<td colspan="9">No properties</td>
 						</tr>
 					@endif
 				</tbody>

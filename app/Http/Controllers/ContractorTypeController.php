@@ -10,6 +10,8 @@ use jericho\Http\Requests;
 use jericho\LookupContractorType;
 use jericho\Util\Util;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
+use jericho\Validation\UpdateObjectValidator;
+use jericho\Validation\ViewObjectValidator;
 
 /**
  * This class is a controller for performing CRUD operations on contractor types
@@ -106,6 +108,7 @@ class ContractorTypeController extends Controller
 	public function getUpdateContractorType(Request $request, $contractor_type_id)
 	{
 		$contractor_type = LookupContractorType::find($contractor_type_id);
+		(new UpdateObjectValidator())->validate($contractor_type, 'contractor type', $contractor_type_id);
 		return view('contractor-type.update-contractor-type', ['contractor_type' => $contractor_type]);
 	}
 	
@@ -130,6 +133,7 @@ class ContractorTypeController extends Controller
 		}
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$contractor_type = LookupContractorType::find($contractor_type_id);
+		(new UpdateObjectValidator())->validate($contractor_type, 'contractor type', $contractor_type_id);
 		$contractor_type->description = Util::getQueryParameter($request->description);
 		$contractor_type->updated_by_id = $user->id;
 		$contractor_type->save();
@@ -147,6 +151,7 @@ class ContractorTypeController extends Controller
 	public function getViewContractorType(Request $request, $contractor_type_id)
 	{
 		$contractor_type = LookupContractorType::find($contractor_type_id);
+		(new ViewObjectValidator())->validate($contractor_type, 'contractor type', $contractor_type_id);
 		return view('contractor-type.view-contractor-type', [
 				'contractor_type' => $contractor_type
 		]);
