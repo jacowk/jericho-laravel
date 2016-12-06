@@ -135,24 +135,8 @@
 								Reports <span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu" role="menu">
-								@if (MenuDisplayValidator::canDisplayLeadsToSalesMenu())
-									<li><a href="{{ url('/leads-to-sales-report') }}">Leads to Sales</a></li>
-								@endif
-								
-								@if (MenuDisplayValidator::canDisplayAmountOfLeadsActionedMenu())
-									<li><a href="#">Amount of Leads Actioned</a></li>
-								@endif
-								
-								@if (MenuDisplayValidator::canDisplayLeadsPerAreaMenu())
-									<li><a href="{{ url('/leads-per-area-report') }}">Leads per Area</a></li>
-								@endif
-								
-								@if (MenuDisplayValidator::canDisplayProfitAndLossByDateMenu())
-									<li><a href="#">Profit and Loss by Date</a></li>
-								@endif
-								
-								@if (MenuDisplayValidator::canDisplayTotalsPerStatusMenu())
-									<li><a href="#">Totals per Status</a></li>
+								@if (MenuDisplayValidator::canDisplayProfitAndLossMenu())
+									<li><a href="#">Profit and Loss</a></li>
 								@endif
 								
 								@if (MenuDisplayValidator::canDisplaySummaryOfTotalsMenu())

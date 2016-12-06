@@ -121,11 +121,7 @@ class PermissionConstants
 	const VIEW_PROPERTY_FLIP_BANKS = 'View Property Flip Banks';
 	const DOWNLOAD_DOCUMENT = 'Download Document';
 // 	const SELF_ALLOCATE_DIARY_ITEM = 'Self Allocate Diary Item';
-	const VIEW_LEADS_TO_SALES_REPORT = 'View Leads To Sales Report';
-	const VIEW_AMOUNT_OF_LEADS_ACTIONED_REPORT = 'View Amount Of Leads Actioned Report';
-	const VIEW_LEADS_PER_AREA_REPORT = 'View Leads Per Area Report';
-	const VIEW_PROFIT_AND_LOSS_BY_DATE_REPORT = 'View Profit And Loss By Date Report';
-	const VIEW_TOTALS_PER_STATUS_REPORT = 'View Totals Per Status Report';
+	const VIEW_PROFIT_AND_LOSS_REPORT = 'View Profit And Loss Report';
 	const VIEW_SUMMARY_OF_TOTALS_REPORT = 'View Summary Of Totals Report'; 
 	const VIEW_AUDIT_TRAIL = 'View Audit Trail';
 	const VIEW_AUDIT_FIELDS = 'View Audit Fields'; /* Refering to create and update fields */

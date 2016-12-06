@@ -159,43 +159,16 @@ class MenuDisplayValidator
 	/* Main menu */
 	public static function canDisplayReportsMenu()
 	{
-		return MenuDisplayValidator::canDisplayLeadsToSalesMenu() ||
-			MenuDisplayValidator::canDisplayAmountOfLeadsActionedMenu() ||
-			MenuDisplayValidator::canDisplayLeadsPerAreaMenu() ||
-			MenuDisplayValidator::canDisplayProfitAndLossByDateMenu() ||
-			MenuDisplayValidator::canDisplayTotalsPerStatusMenu() ||
+		return MenuDisplayValidator::canDisplayProfitAndLossByDateMenu() ||
 			MenuDisplayValidator::canDisplaySummaryOfTotalsMenu();
 	}
 	
 	/* Submenu of Reports menu */
-	public static function canDisplayLeadsToSalesMenu()
+	public static function canDisplayProfitAndLossMenu()
 	{
-		return PermissionValidator::hasPermission(PermissionConstants::VIEW_LEADS_TO_SALES_REPORT);
+		return PermissionValidator::hasPermission(PermissionConstants::VIEW_PROFIT_AND_LOSS_REPORT);
 	}
 	
-	/* Submenu of Reports menu */
-	public static function canDisplayAmountOfLeadsActionedMenu()
-	{
-		return PermissionValidator::hasPermission(PermissionConstants::VIEW_AMOUNT_OF_LEADS_ACTIONED_REPORT);
-	}
-	
-	/* Submenu of Reports menu */
-	public static function canDisplayLeadsPerAreaMenu()
-	{
-		return PermissionValidator::hasPermission(PermissionConstants::VIEW_LEADS_PER_AREA_REPORT);
-	}
-	
-	/* Submenu of Reports menu */
-	public static function canDisplayProfitAndLossByDateMenu()
-	{
-		return PermissionValidator::hasPermission(PermissionConstants::VIEW_PROFIT_AND_LOSS_BY_DATE_REPORT);
-	}
-	
-	/* Submenu of Reports menu */
-	public static function canDisplayTotalsPerStatusMenu()
-	{
-		return PermissionValidator::hasPermission(PermissionConstants::VIEW_TOTALS_PER_STATUS_REPORT);
-	}
 	/* Submenu of Reports menu */
 	public static function canDisplaySummaryOfTotalsMenu()
 	{

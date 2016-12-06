@@ -130,7 +130,7 @@ class SummaryOfTotalsReportController extends Controller
 		]);
 		
 		if ($validator->fails()) {
-			return redirect('summary-of-totals-report')
+			return redirect('summary-of-totals')
 			->withErrors($validator)
 			->withInput();
 		}
