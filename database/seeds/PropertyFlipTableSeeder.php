@@ -54,6 +54,7 @@ class PropertyFlipTableSeeder extends Seeder
         			'case_number' => $faker->name,
         			'seller_id' => 1,
         			'seller_status_id' => $faker->numberBetween(1, 4),
+        			'property_status_id' => $faker->numberBetween(1, 2),
         			'purchaser_id' => 1,
         			'property_id' => $faker->numberBetween(1, 200),
         			'created_by_id' => 1

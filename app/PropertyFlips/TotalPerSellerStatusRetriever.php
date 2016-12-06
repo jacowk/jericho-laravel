@@ -24,7 +24,7 @@ class TotalPerSellerStatusRetriever implements Component
 		$totals_per_seller_status = DB::table('property_flips')
 										->leftJoin('seller_statuses', 'property_flips.seller_status_id', 'seller_statuses.id')
 										->whereBetween('property_flips.created_at', [$this->from_date, $this->to_date])
-										->select('seller_statuses.description as seller_status', DB::raw('count(*) as cnt'))
+										->select (DB::raw('if(seller_statuses.description is null, "No status", seller_statuses.description) as seller_status'), DB::raw('count(*) as cnt'))
 										->groupBy('property_flips.seller_status_id')
 										->get();
 		return $totals_per_seller_status;

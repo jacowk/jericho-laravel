@@ -46,6 +46,28 @@
 					</tbody>
 				@endif
 				
+				@if (!empty($totals_per_property_status) && count($totals_per_property_status) > 0)
+					<thead>
+						<tr>
+							<th class="table-heading" colspan="2">Totals per Property Status</th>
+						</tr>
+					</thead>
+					<thead>
+						<tr>
+							<th>Status</th>
+							<th>Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach($totals_per_property_status as $total)
+							<tr>
+								<td>{{ $total->property_status }}</td>
+								<td>{{ $total->cnt }}</td>
+							</tr>
+						@endforeach
+					</tbody>
+				@endif
+				
 				@if (!empty($totals_per_greater_area) && count($totals_per_greater_area) > 0)
 					<thead>
 						<tr>

@@ -10,6 +10,7 @@ use jericho\Http\Requests;
 use jericho\Property;
 use jericho\Util\Util;
 use jericho\PropertyFlips\TotalPerSellerStatusRetriever;
+use jericho\PropertyFlips\TotalPerPropertyStatusRetriever;
 use jericho\Properties\TotalPerAreaRetriever;
 use jericho\Properties\TotalPerGreaterAreaRetriever;
 use jericho\Properties\TotalPropertiesRetriever;
@@ -41,6 +42,7 @@ class SummaryOfTotalsReportController extends Controller
 				'to_date' => null,
 				'total_properties' => null,
 				'totals_per_seller_status' => null,
+				'totals_per_property_status' => null,
 				'totals_per_area' => null,
 				'totals_per_greater_area' => null,
 				'generated' => false
@@ -94,6 +96,9 @@ class SummaryOfTotalsReportController extends Controller
 		/* Calculate totals per seller status */
 		$totals_per_seller_status = (new TotalPerSellerStatusRetriever($from_date_query_parameter, $to_date_query_parameter))->execute();
 		
+		/* Calculate totals per property status */
+		$totals_per_property_status = (new TotalPerPropertyStatusRetriever($from_date_query_parameter, $to_date_query_parameter))->execute();
+		
 		/* Calculate totals per area */
 		$totals_per_area = (new TotalPerAreaRetriever($from_date_query_parameter, $to_date_query_parameter))->execute();
 		
@@ -105,6 +110,7 @@ class SummaryOfTotalsReportController extends Controller
 				'to_date' => $to_date,
 				'total_properties' => $total_properties,
 				'totals_per_seller_status' => $totals_per_seller_status,
+				'totals_per_property_status' => $totals_per_property_status,
 				'totals_per_area' => $totals_per_area,
 				'totals_per_greater_area' => $totals_per_greater_area,
 				'generated' => true
@@ -157,6 +163,9 @@ class SummaryOfTotalsReportController extends Controller
 		/* Calculate totals per seller status */
 		$totals_per_seller_status = (new TotalPerSellerStatusRetriever($from_date_query_parameter, $to_date_query_parameter))->execute();
 		
+		/* Calculate totals per property status */
+		$totals_per_property_status = (new TotalPerPropertyStatusRetriever($from_date_query_parameter, $to_date_query_parameter))->execute();
+		
 		/* Calculate totals per area */
 		$totals_per_area = (new TotalPerAreaRetriever($from_date_query_parameter, $to_date_query_parameter))->execute();
 		
@@ -169,6 +178,7 @@ class SummaryOfTotalsReportController extends Controller
 				'to_date' => $to_date,
 				'total_properties' => $total_properties,
 				'totals_per_seller_status' => $totals_per_seller_status,
+				'totals_per_property_status' => $totals_per_property_status,
 				'totals_per_area' => $totals_per_area,
 				'totals_per_greater_area' => $totals_per_greater_area
 		]);
