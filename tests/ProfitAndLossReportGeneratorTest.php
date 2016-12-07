@@ -4,6 +4,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use jericho\Reports\ProfitAndLossReportGenerator;
+use jericho\User;
 
 /**
  * A unit test class for testing ProfitAndLossReportGenerator methods
@@ -21,26 +22,26 @@ class ProfitAndLossReportGeneratorTest extends TestCase
     	$query_parameters = array();
     	 
     	/* Prepare query parameters */
-    	$date_from = null;
-    	$date_to = null;
+//     	$from_date = date_create_from_format('Y-m-d H:i:s', '2016-12-01 00:00:00');
+//     	$to_date = date_create_from_format('Y-m-d H:i:s', '2016-12-20 23:59:59');
+
+    	$from_date = '2016-12-01 00:00:00';
+    	$to_date = '2016-12-20 23:59:59';
     	
     	/* From Date */
-    	if (Util::isValidRequestVariable($request->from_date))
-    	{
-    		$from_date = $request->from_date;
-    		$from_date_query_parameter = $from_date;
-    		array_push($query_parameters, $from_date_query_parameter);
-    	}
-    	 
+    	$from_date_query_parameter = ['property_flips.created_at', '>=',  $from_date];
+    	array_push($query_parameters, $from_date_query_parameter);
+    	
     	/* To Date */
-    	if (Util::isValidRequestVariable($request->to_date))
-    	{
-    		$to_date = $request->to_date;
-    		$to_date_query_parameter = $to_date;
-    		array_push($query_parameters, $to_date_query_parameter);
-    	}
+    	$to_date_query_parameter = ['property_flips.created_at', '<=', $to_date];
+    	array_push($query_parameters, $to_date_query_parameter);
     	
-    	$data = (new ProfitAndLossReportGenerator($query_parameters))->execute();
+    	/* Find the user */
+    	$user = User::find(1);
     	
+    	/* Generate the report data */
+    	$data = (new ProfitAndLossReportGenerator($query_parameters, $user))->generate();
+    	
+    	$this->assertNotNull($data);
     }
 }

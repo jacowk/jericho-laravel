@@ -136,7 +136,7 @@
 							</a>
 							<ul class="dropdown-menu" role="menu">
 								@if (MenuDisplayValidator::canDisplayProfitAndLossMenu())
-									<li><a href="#">Profit and Loss</a></li>
+									<li><a href="{{ url('/profit-and-loss-report') }}">Profit and Loss</a></li>
 								@endif
 								
 								@if (MenuDisplayValidator::canDisplaySummaryOfTotalsMenu())

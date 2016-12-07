@@ -49,7 +49,7 @@
 		th
 		{
 			font-family: sans-serif;
-			font-size: 12px;
+			font-size: 10px;
 			font-weight: bold;
 			text-align: left;
 		}
@@ -57,7 +57,7 @@
 		.table-heading
 		{
 			font-family: sans-serif;
-			font-size: 12px;
+			font-size: 10px;
 			font-weight: bold;
 			text-align: center;
 		}
@@ -65,7 +65,8 @@
 		td
 		{
 			font-family: sans-serif;
-			font-size: 12px;
+			font-size: 10px;
+			vertical-align: text-top;
 		}
 	</style>
 	<body>

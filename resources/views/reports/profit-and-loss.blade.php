@@ -47,38 +47,62 @@
 				<table class="table table-bordered table-striped table-hover table-condensed">
 					<thead>
 						<tr>
-							<th class="col-sm-1 text-center" colspan="2">Total Number Of Leads</th>
+							<th class="col-sm-1 text-center">Reference Number</th>
+							<th class="col-sm-1 text-center">Address</th>
+							<th class="col-sm-1 text-center">Area</th>
+							<th class="col-sm-1 text-center">Suburb</th>
+							<th class="col-sm-1 text-center">Greater Area</th>
+							<th class="col-sm-1 text-center">Profit</th>
+							<th class="col-sm-1 text-center">Loss</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>Total number of leads caputured</td>
-							<td>{{ $total_properties }}</td>
-						</tr>
-					</tbody>
-					
-					@if (!empty($totals_per_seller_status) && count($totals_per_seller_status) > 0)
-						<thead>
-							<tr>
-								<th class="col-sm-1 text-center" colspan="2">Totals per Seller Status</th>
-							</tr>
-						</thead>
-						<thead>
-							<tr>
-								<th class="col-sm-1 text-center">Status</th>
-								<th class="col-sm-1 text-center">Total</th>
-							</tr>
-						</thead>
-						<tbody>
-							@foreach($totals_per_seller_status as $total)
+						@if (!empty($report_data) && count($report_data) > 0)
+							@for ($i = 0; $i < count($report_data); $i++)
 								<tr>
-									<td>{{ $total->seller_status }}</td>
-									<td>{{ $total->cnt }}</td>
+									<td>{{ $report_data[$i]['property']->reference_number }}</td>
+									<td>
+										@if ($report_data[$i]['property']->address_line_1 != null)
+											{{ $report_data[$i]['property']->address_line_1 }}<br>
+										@endif
+										@if ($report_data[$i]['property']->address_line_2 != null)
+											{{ $report_data[$i]['property']->address_line_2 }}<br>
+										@endif
+										@if ($report_data[$i]['property']->address_line_3 != null)
+											{{ $report_data[$i]['property']->address_line_3 }}<br>
+										@endif
+										@if ($report_data[$i]['property']->address_line_4 != null)
+											{{ $report_data[$i]['property']->address_line_4 }}<br>
+										@endif
+										@if ($report_data[$i]['property']->address_line_5 != null)
+											{{ $report_data[$i]['property']->address_line_5 }}<br>
+										@endif
+									</td>
+									<td>{{ $report_data[$i]['property']->area_name }}</td>
+									<td>{{ $report_data[$i]['property']->suburb_name }}</td>
+									<td>{{ $report_data[$i]['property']->greater_area_name }}</td>
+									@if ($report_data[$i]['profit_loss_balance'] > 0)
+										<td>
+											{{ MoneyUtil::toRandsAndFormat($report_data[$i]['profit_loss_balance']) }}
+										</td>
+										<td></td>
+									@elseif ($report_data[$i]['profit_loss_balance'] < 0)
+										<td></td>
+										<td>
+											{{ MoneyUtil::toRandsAndFormat($report_data[$i]['profit_loss_balance']) }}
+										</td>
+									@else
+										<td>Break even</td>
+										<td></td>
+									@endif
 								</tr>
-							@endforeach
-						</tbody>
-					@endif
-					
+							@endfor
+						@else
+							<tr>
+								<td colspan="7">No data found</td>
+							</tr>
+						@endif
+					</tbody>
 				</table>
 			</div>
 		</div>

@@ -159,7 +159,7 @@ class MenuDisplayValidator
 	/* Main menu */
 	public static function canDisplayReportsMenu()
 	{
-		return MenuDisplayValidator::canDisplayProfitAndLossByDateMenu() ||
+		return MenuDisplayValidator::canDisplayProfitAndLossMenu() ||
 			MenuDisplayValidator::canDisplaySummaryOfTotalsMenu();
 	}
 	

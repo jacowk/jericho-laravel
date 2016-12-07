@@ -104,6 +104,12 @@ class PermissionConstants
 	const ADD_USER = 'Add User';
 	const UPDATE_USER = 'Update User';
 	const VIEW_USER = 'View User';
+	const ADD_ISSUE = 'Add Issue';
+	const UPDATE_ISSUE = 'Update Issue';
+	const VIEW_ISSUE = 'View Issue';
+	const ADD_ISSUE_COMMENT = 'Add Issue Comment';
+	const UPDATE_ISSUE_COMMENT = 'Update Issue Comment';
+	const VIEW_ISSUE_COMMENT = 'View Issue Comment';
 	const LINK_ATTORNEY_CONTACT = 'Link Attorney Contact';
 	const DELETE_ATTORNEY_CONTACT_LINK = 'Delete Attorney Contact Link';
 	const VIEW_PROPERTY_FLIP_ATTORNEYS = 'View Property Flip Attorneys';
@@ -120,17 +126,10 @@ class PermissionConstants
 	const DELETE_BANK_CONTACT_LINK = 'Delete Bank Contact Link';
 	const VIEW_PROPERTY_FLIP_BANKS = 'View Property Flip Banks';
 	const DOWNLOAD_DOCUMENT = 'Download Document';
-// 	const SELF_ALLOCATE_DIARY_ITEM = 'Self Allocate Diary Item';
 	const VIEW_PROFIT_AND_LOSS_REPORT = 'View Profit And Loss Report';
-	const VIEW_SUMMARY_OF_TOTALS_REPORT = 'View Summary Of Totals Report'; 
+	const VIEW_SUMMARY_OF_TOTALS_REPORT = 'View Summary Of Totals Report';
 	const VIEW_AUDIT_TRAIL = 'View Audit Trail';
-	const VIEW_AUDIT_FIELDS = 'View Audit Fields'; /* Refering to create and update fields */
-	const ADD_ISSUE = 'Add Issue';
-	const UPDATE_ISSUE = 'Update Issue';
-	const VIEW_ISSUE = 'View Issue';
-	const ADD_ISSUE_COMMENT = 'Add Issue Comment';
-	const UPDATE_ISSUE_COMMENT = 'Update Issue Comment';
-	const VIEW_ISSUE_COMMENT = 'View Issue Comment';
+	const VIEW_AUDIT_FIELDS = 'View Audit Fields';
 	const RESET_PASSWORD = 'Reset Password';
 	const UPDATE_PROFILE = 'Update Profile';
 }

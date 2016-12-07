@@ -7,3 +7,14 @@
 	font-weight: bold;
 	text-align: center;
 }
+
+.table-cell-heading
+{
+	font-size: 10px;
+}
+
+.table-cell-content
+{
+	font-size: 10px;
+	vertical-align: text-top;
+}
