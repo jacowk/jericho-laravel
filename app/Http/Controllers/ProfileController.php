@@ -13,6 +13,7 @@ use DB;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
 use jericho\Validation\UpdateObjectValidator;
 use jericho\Validation\ViewObjectValidator;
+use jericho\Lookup\PaginationSizeLookupRetriever;
 
 /**
  * This class is a controller for performing CRUD operations on a user profile. A user profile is really a

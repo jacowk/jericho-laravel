@@ -132,4 +132,19 @@ class PermissionConstants
 	const VIEW_AUDIT_FIELDS = 'View Audit Fields';
 	const RESET_PASSWORD = 'Reset Password';
 	const UPDATE_PROFILE = 'Update Profile';
+	const ADD_FINANCE_STATUS = 'Add Finance Status';
+	const UPDATE_FINANCE_STATUS = 'Update Finance Status';
+	const VIEW_FINANCE_STATUS = 'View Finance Status';
+	const ADD_SELLER_STATUS = 'Add Seller Status';
+	const UPDATE_SELLER_STATUS = 'Update Seller Status';
+	const VIEW_SELLER_STATUS = 'View Seller Status';
+	const ADD_PROPERTY_STATUS = 'Add Property Status';
+	const UPDATE_PROPERTY_STATUS = 'Update Property Status';
+	const VIEW_PROPERTY_STATUS = 'View Property Status';
+	const ADD_SELLING_PRICE = 'Add Selling Price';
+	const UPDATE_SELLING_PRICE = 'Update Selling Price';
+	const VIEW_SELLING_PRICE = 'View Selling Price';
+	const ADD_PURCHASE_PRICE = 'Add Purchase Price';
+	const UPDATE_PURCHASE_PRICE = 'Update Purchase Price';
+	const VIEW_PURCHASE_PRICE = 'View Purchase Price';
 }

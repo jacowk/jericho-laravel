@@ -44,19 +44,23 @@
 				</div>
 			</div>
 			
-			<div class="form-group">
-				{{  Form::label('selling_price', 'Selling Price', array('class' => 'col-sm-2 control-label')) }}
-				<div class="col-sm-10">
-					{{  Form::text('selling_price', $property_flip->selling_price, array('class' => 'form-control', 'placeholder' => 'Selling Price')) }}
+			@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_SELLING_PRICE))
+				<div class="form-group">
+					{{  Form::label('selling_price', 'Selling Price', array('class' => 'col-sm-2 control-label')) }}
+					<div class="col-sm-10">
+						{{  Form::text('selling_price', $property_flip->selling_price, array('class' => 'form-control', 'placeholder' => 'Selling Price')) }}
+					</div>
 				</div>
-			</div>
+			@endif
 			
-			<div class="form-group">
-				{{ Form::label('seller_status_id', 'Seller Status', array('class' => 'col-sm-2 control-label')) }}
-				<div class="col-sm-10">
-					{{  Form::select('seller_status_id', $seller_statuses, $property_flip->seller_status_id, ['class' => 'form-control']) }}
+			@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_SELLER_STATUS))
+				<div class="form-group">
+					{{ Form::label('seller_status_id', 'Seller Status', array('class' => 'col-sm-2 control-label')) }}
+					<div class="col-sm-10">
+						{{  Form::select('seller_status_id', $seller_statuses, $property_flip->seller_status_id, ['class' => 'form-control']) }}
+					</div>
 				</div>
-			</div>
+			@endif
 			
 			<div class="form-group">
 				{{  Form::label('purchaser_id', 'Purchaser', array('class' => 'col-sm-2 control-label')) }}
@@ -65,26 +69,32 @@
 				</div>
 			</div>
 			
-			<div class="form-group">
-				{{  Form::label('purchase_price', 'Purchase Price', array('class' => 'col-sm-2 control-label')) }}
-				<div class="col-sm-10">
-					{{  Form::text('purchase_price', $property_flip->purchase_price, array('class' => 'form-control', 'placeholder' => 'Purchase Price')) }}
+			@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_PURCHASE_PRICE))
+				<div class="form-group">
+					{{  Form::label('purchase_price', 'Purchase Price', array('class' => 'col-sm-2 control-label')) }}
+					<div class="col-sm-10">
+						{{  Form::text('purchase_price', $property_flip->purchase_price, array('class' => 'form-control', 'placeholder' => 'Purchase Price')) }}
+					</div>
 				</div>
-			</div>
+			@endif
 			
-			<div class="form-group">
-				{{ Form::label('finance_status_id', 'Finance Status', array('class' => 'col-sm-2 control-label')) }}
-				<div class="col-sm-10">
-					{{  Form::select('finance_status_id', $finance_statuses, $property_flip->finance_status_id, ['class' => 'form-control']) }}
+			@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_FINANCE_STATUS))
+				<div class="form-group">
+					{{ Form::label('finance_status_id', 'Finance Status', array('class' => 'col-sm-2 control-label')) }}
+					<div class="col-sm-10">
+						{{  Form::select('finance_status_id', $finance_statuses, $property_flip->finance_status_id, ['class' => 'form-control']) }}
+					</div>
 				</div>
-			</div>
+			@endif
 			
-			<div class="form-group">
-				{{ Form::label('property_status_id', 'Property Status', array('class' => 'col-sm-2 control-label')) }}
-				<div class="col-sm-10">
-					{{  Form::select('property_status_id', $property_statuses, $property_flip->property_status_id, ['class' => 'form-control']) }}
+			@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_PROPERTY_STATUS))
+				<div class="form-group">
+					{{ Form::label('property_status_id', 'Property Status', array('class' => 'col-sm-2 control-label')) }}
+					<div class="col-sm-10">
+						{{  Form::select('property_status_id', $property_statuses, $property_flip->property_status_id, ['class' => 'form-control']) }}
+					</div>
 				</div>
-			</div>
+			@endif
 			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">

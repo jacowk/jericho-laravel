@@ -94,20 +94,24 @@
 					@endif
 				</td>						
 			</tr>
-			<tr>
-				<th class="col-sm-3 text-right">Selling Price</th>
-				<td>{{ MoneyUtil::toRandsAndFormat($property_flip->selling_price) }}</td>
-			</tr>
-			<tr>
-				<th class="col-sm-3 text-right">Seller Status</th>
-				<td>
-					@if ($property_flip->seller_status)
-						{{ $property_flip->seller_status->description }}
-					@else
-						No seller status
-					@endif
-				</td>
-			</tr>
+			@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_SELLING_PRICE))
+				<tr>
+					<th class="col-sm-3 text-right">Selling Price</th>
+					<td>{{ MoneyUtil::toRandsAndFormat($property_flip->selling_price) }}</td>
+				</tr>
+			@endif
+			@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_SELLER_STATUS))
+				<tr>
+					<th class="col-sm-3 text-right">Seller Status</th>
+					<td>
+						@if ($property_flip->seller_status)
+							{{ $property_flip->seller_status->description }}
+						@else
+							No seller status
+						@endif
+					</td>
+				</tr>
+			@endif
 			<tr>
 				<th class="col-sm-3 text-right">Purchaser</th>
 				<td>
@@ -116,30 +120,36 @@
 					@endif
 				</td>						
 			</tr>
-			<tr>
-				<th class="col-sm-3 text-right">Purchase Price</th>
-				<td>{{ MoneyUtil::toRandsAndFormat($property_flip->purchase_price) }}</td>
-			</tr>
-			<tr>
-				<th class="col-sm-3 text-right">Finance Status</th>
-				<td>
-					@if ($property_flip->finance_status)
-						{{ $property_flip->finance_status->description }}
-					@else
-						No finance status
-					@endif
-				</td>
-			</tr>
-			<tr>
-				<th class="col-sm-3 text-right">Property Status</th>
-				<td>
-					@if ($property_flip->property_status)
-						{{ $property_flip->property_status->description }}
-					@else
-						No property status
-					@endif
-				</td>
-			</tr>
+			@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_PURCHASE_PRICE))
+				<tr>
+					<th class="col-sm-3 text-right">Purchase Price</th>
+					<td>{{ MoneyUtil::toRandsAndFormat($property_flip->purchase_price) }}</td>
+				</tr>
+			@endif
+			@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_FINANCE_STATUS))
+				<tr>
+					<th class="col-sm-3 text-right">Finance Status</th>
+					<td>
+						@if ($property_flip->finance_status)
+							{{ $property_flip->finance_status->description }}
+						@else
+							No finance status
+						@endif
+					</td>
+				</tr>
+			@endif
+			@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_PROPERTY_STATUS))
+				<tr>
+					<th class="col-sm-3 text-right">Property Status</th>
+					<td>
+						@if ($property_flip->property_status)
+							{{ $property_flip->property_status->description }}
+						@else
+							No property status
+						@endif
+					</td>
+				</tr>
+			@endif
 			@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_AUDIT_FIELDS))
 				<tr>
 					<th class="col-sm-3 text-right">Created By</th>

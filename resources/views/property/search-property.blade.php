@@ -116,7 +116,10 @@
 						@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_PROPERTY))
 							<th class="col-sm-1 text-center">Update</th>
 						@endif
-						<th class="col-sm-1 text-center">View</th>
+						<th class="col-sm-1 text-center">View Property</th>
+						@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_PROPERTY_FLIP))
+							<th class="col-sm-1 text-center">View Property Flip</th>
+						@endif
 					</tr>
 				</thead>
 				<tbody>
@@ -148,11 +151,18 @@
 								<td><a href="{{ route('update-property', ['property_id' => $property->id]) }}">Update</a></td>
 							@endif
 							<td><a href="{{ route('view-property', ['property_id' => $property->id]) }}">View</a></td>
+							@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_PROPERTY_FLIP))
+								<td>
+									@if (!empty($property->property_flip_id))
+										<a href="{{ route('view-property-flip', ['property_flip_id' => $property->property_flip_id]) }}">View</a>
+									@endif
+								</td>
+							@endif
 						</tr>
 						@endforeach
 					@else
 						<tr>
-							<td colspan="9">No properties</td>
+							<td colspan="10">No properties</td>
 						</tr>
 					@endif
 				</tbody>
