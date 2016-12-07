@@ -202,5 +202,17 @@
 				{{  Form::close() }}
 			</div>
 		@endif
+		@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_PROPERTY_FLIP_REPORT))
+			<div class="form-group">
+				{{  Form::open(array('route' => array('download-property-flip-report-pdf', $property_flip->id), 'class' => 'form-horizontal')) }}
+					{{  Form::token() }}
+					<div class="form-group">
+						<div class="col-sm-10">
+							{{ Form::submit('Download Property Flip Report', array('class' => 'btn btn-default')) }}
+						</div>
+					</div>
+				{{  Form::close() }}
+			</div>
+		@endif
 	</div>
 </div>

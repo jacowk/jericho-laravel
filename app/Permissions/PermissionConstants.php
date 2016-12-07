@@ -147,4 +147,5 @@ class PermissionConstants
 	const ADD_PURCHASE_PRICE = 'Add Purchase Price';
 	const UPDATE_PURCHASE_PRICE = 'Update Purchase Price';
 	const VIEW_PURCHASE_PRICE = 'View Purchase Price';
+	const VIEW_PROPERTY_FLIP_REPORT = 'View Property Flip Report';
 }

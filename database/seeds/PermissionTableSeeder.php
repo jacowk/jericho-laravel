@@ -84,6 +84,7 @@ class PermissionTableSeeder extends Seeder
     			'ADD_PROPERTY_STATUS', 'UPDATE_PROPERTY_STATUS', 'VIEW_PROPERTY_STATUS',
     			'ADD_SELLING_PRICE', 'UPDATE_SELLING_PRICE', 'VIEW_SELLING_PRICE',
     			'ADD_PURCHASE_PRICE', 'UPDATE_PURCHASE_PRICE', 'VIEW_PURCHASE_PRICE',
+    			'VIEW_PROPERTY_FLIP_REPORT'
     	);
     	foreach($add_permissions_array as $permission_name)
     	{

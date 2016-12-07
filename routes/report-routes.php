@@ -36,5 +36,12 @@ Route::group(['middleware' => 'auth'], function() {
 				'as' => 'download-summary-of-totals-report-pdf'
 		]);
 	});
+	
+	Route::group(['middleware' => 'permission:' . PermissionConstants::VIEW_PROPERTY_FLIP_REPORT], function() {
+		Route::post('/download-property-flip-report-pdf/{property_flip_id}', [
+				'uses' => 'PropertyFlipReportController@downloadPDF',
+				'as' => 'download-property-flip-report-pdf'
+		]);
+	});
 
 });
