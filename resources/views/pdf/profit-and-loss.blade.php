@@ -64,6 +64,19 @@
 								@endif
 							</tr>
 						@endfor
+						<tr>
+							<td colspan="5" style="align: right;">
+								@if ($report_total > 0)
+									Total Profit
+								@elseif ($report_total < 0)
+									Total Loss
+								@else
+									Break Even
+								@endif
+							</td>
+							<td>{{ MoneyUtil::toRandsAndFormat($report_total) }}</td>
+							<td></td>
+						</tr>
 					@else
 						<tr>
 							<td colspan="7">No data found</td>

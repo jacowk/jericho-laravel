@@ -20,6 +20,10 @@ class ProfitAndLossReportGenerator
 {
 	public function __construct($query_parameters, $user = null)
 	{
+		if ($query_parameters == null || count($query_parameters) == 0)
+		{
+			throw new Exception("Report parameters was not specified");
+		}
 		$this->query_parameters = $query_parameters;
 		if ($user == null)
 		{

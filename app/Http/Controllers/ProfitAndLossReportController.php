@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 
 use jericho\Http\Requests;
 use jericho\Reports\ProfitAndLossReportGenerator;
+use jericho\Reports\ProfitAndLossReportTotalCalculator;
 use jericho\Util\Util;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
 use PDF;
@@ -25,11 +26,7 @@ class ProfitAndLossReportController extends Controller
     	return view('reports.profit-and-loss', [
     			'from_date' => null,
     			'to_date' => null,
-    			'total_properties' => null,
-    			'totals_per_seller_status' => null,
-    			'totals_per_property_status' => null,
-    			'totals_per_area' => null,
-    			'totals_per_greater_area' => null,
+    			'report_data' => null,
     			'generated' => false
     	]);
     }
@@ -74,11 +71,17 @@ class ProfitAndLossReportController extends Controller
     	
     	/* Generate report data */
     	$report_data = (new ProfitAndLossReportGenerator($query_parameters))->generate();
+    	if ($report_data == null)
+    	{
+    		throw new Exception("Report could not be generated");
+    	}
+    	$report_total = (new ProfitAndLossReportTotalCalculator($report_data))->calculate();
     	
     	return view('reports.profit-and-loss', [
     			'from_date' => $from_date,
     			'to_date' => $to_date,
     			'report_data' => $report_data,
+    			'report_total' => $report_total,
     			'generated' => true
     	]);
     }
@@ -128,12 +131,18 @@ class ProfitAndLossReportController extends Controller
     	 
     	/* Generate report data */
     	$report_data = (new ProfitAndLossReportGenerator($query_parameters))->generate();
+    	if ($report_data == null)
+    	{
+    		throw new Exception("PDF could not be generated");
+    	}
+    	$report_total = (new ProfitAndLossReportTotalCalculator($report_data))->calculate();
     
     	/* Download PDF */
     	$pdf = PDF::loadView('pdf.profit-and-loss', [
     			'from_date' => $from_date,
     			'to_date' => $to_date,
-    			'report_data' => $report_data
+    			'report_data' => $report_data,
+    			'report_total' => $report_total
     	]);
     	return $pdf->download('profit-and-loss.pdf');
     }
