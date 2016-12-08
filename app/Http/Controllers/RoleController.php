@@ -15,6 +15,8 @@ use jericho\Lookup\PermissionsForCheckboxesRetriever;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
 use jericho\Validation\UpdateObjectValidator;
 use jericho\Validation\ViewObjectValidator;
+use jericho\Lookup\RoleLookupRetriever;
+use jericho\Roles\RolePermissionCopier;
 
 /**
  * This class is a controller for performing CRUD operations on roles
@@ -50,11 +52,11 @@ class RoleController extends Controller
 		if (Util::isValidRequestVariable($request->name))
 		{
 			$name = $request->name;
-			$roles = Role::where('name', 'like', '%' . $name . '%')->orderBy('name', 'asc')->paginate($user->pagination_size);
+			$roles = Role::where('name', 'like', '%' . $name . '%')->orderBy('id', 'asc')->paginate($user->pagination_size);
 		}
 		else
 		{
-			$roles = Role::orderBy('name', 'asc')->paginate($user->pagination_size);
+			$roles = Role::orderBy('id', 'asc')->paginate($user->pagination_size);
 		}
 		return view('role.search-role', [
 			'roles' => $roles,
@@ -157,8 +159,10 @@ class RoleController extends Controller
 	{
 		$role = Role::find($role_id);
 		(new ViewObjectValidator())->validate($role, 'role', $role_id);
+		$permissions = $role->permissions()->orderBy('name', 'asc')->get();
 		return view('role.view-role', [
-				'role' => $role
+				'role' => $role,
+				'permissions' => $permissions
 		]);
 	}
 	
@@ -208,4 +212,62 @@ class RoleController extends Controller
 		/* Add new permissions */
 		$this->processPermissions($request, $role, $old_permissions);
 	}
+	
+	/**
+	 * Copy all permissions from another role to the current role 
+	 * 
+	 * @param Request $request
+	 * @param unknown $role_id
+	 */
+	public function getCopyRolePermissions(Request $request, $role_id)
+	{
+		$role = Role::find($role_id);
+		(new UpdateObjectValidator())->validate($role, 'role', $role_id);
+		
+		/* Extract a list of all roles, which permissions should be copied */
+		$roles = (new RoleLookupRetriever())->execute();
+		return view('role.copy-role-permissions', [ 
+			'roles' => $roles,
+			'role' => $role
+		]);
+	}
+	
+	/**
+	 * Copy all permissions from another role to the current role
+	 * 
+	 * @param Request $request
+	 * @param unknown $role_id
+	 */
+	public function postDoCopyRolePermissions(Request $request, $role_id)
+	{
+		$validator = Validator::make($request->all(), [
+				'selected_role_id' => 'required'
+		]);
+		
+		if ($validator->fails()) {
+			return redirect()
+				->route('copy-role-permissions', ['role_id' => $role_id])
+				->withErrors($validator)
+				->withInput();
+		}
+		$user = (new AuthUserRetriever())->retrieveUser();
+		$role = Role::find($role_id);
+		(new UpdateObjectValidator())->validate($role, 'role', $role_id);
+		
+		$selected_role_id = Util::getNumericQueryParameter($request->selected_role_id);
+		$selected_role = Role::find($selected_role_id);
+		(new UpdateObjectValidator())->validate($role, 'selected role', $selected_role_id);
+		
+		/* copy the roles here */
+		$old_permissions = $role->permissions()->get();
+		$new_permissions = $selected_role->permissions()->get();
+		(new RolePermissionCopier($selected_role, $role))->copyRolePermissions();
+		
+		/* Auditing */
+		(new PermissionToRoleAuditor($request, Auth::user(), $role, $new_permissions, $old_permissions))->log();
+		
+		return redirect()->action('RoleController@getViewRole', ['role_Id' => $role->id])
+			->with(['message' => 'Permissions copied']);
+	}
+	
 }

@@ -26,7 +26,7 @@
 					<th class="col-sm-3 text-right">Permissions</th>
 					<td>
 						@if ($role->permissions)
-							@foreach($role->permissions as $permission)
+							@foreach($permissions as $permission)
 								{{ $permission->name }}<br>
 							@endforeach
 						@else
@@ -80,6 +80,17 @@
 						<div class="form-group">
 							<div class="col-sm-10">
 								{{ Form::submit('Update Role', array('class' => 'btn btn-default')) }}
+							</div>
+						</div>
+					{{  Form::close() }}
+				</div>
+				
+				<div class="form-group">
+					{{  Form::open(array('route' => array('copy-role-permissions', $role->id), 'class' => 'form-horizontal')) }}
+						{{  Form::token() }}
+						<div class="form-group">
+							<div class="col-sm-10">
+								{{ Form::submit('Copy Role Permissions', array('class' => 'btn btn-default')) }}
 							</div>
 						</div>
 					{{  Form::close() }}

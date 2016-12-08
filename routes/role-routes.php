@@ -72,6 +72,17 @@ Route::group(['middleware' => 'auth'], function() {
 				'uses' => 'RoleController@postDoUpdateRole',
 				'as' => 'do-update-role'
 		]);
+		
+		/* Copy role permissions */
+		Route::post('/copy-role-permissions/{role_id}', [
+				'uses' => 'RoleController@getCopyRolePermissions',
+				'as' => 'copy-role-permissions'
+		]);
+		
+		Route::post('/do-copy-role-permissions/{role_id}', [
+				'uses' => 'RoleController@postDoCopyRolePermissions',
+				'as' => 'do-copy-role-permissions'
+		]);
 	});
-
+	
 });

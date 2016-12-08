@@ -4,6 +4,7 @@ namespace jericho\Lookup;
 use jericho\Component\Component;
 use jericho\Permission;
 use jericho\Util\Util;
+use DB;
 
 /**
  * A component for retrieving permissions to be used for checkboxes in a view
@@ -21,7 +22,14 @@ class PermissionsForCheckboxesRetriever implements Component
 	
 	public function execute()
 	{
-		$lookup_permissions = Permission::all();
+		/* DB is used to ensure that the list is returned in ascending order */
+// 		$lookup_permissions = DB::table('permissions')
+// 								->select('id', 'name')
+// 								->orderBy('name', 'asc')
+// 								->get();
+		
+		$lookup_permissions = Permission::orderBy('name', 'asc')->get();
+								
 		$permissions = array();
 		foreach($lookup_permissions as $permission)
 		{

@@ -60,7 +60,10 @@ class DatabaseSeeder extends Seeder
 	        $this->call(ContractorServiceTableSeeder::class);
 	        $this->call(ContractorPropertyFlipTableSeeder::class);
 	        $this->call(BankPropertyFlipTableSeeder::class);
+	        
+	        $this->call(LookupPermissionTypeTableSeeder::class);
 	        $this->call(PermissionTableSeeder::class);
+	        
 	        $this->call(RoleUserTableSeeder::class);
 	        $this->call(PermissionRoleTableSeeder::class);
 	        $this->call(LookupPropertyTypeTableSeeder::class);

@@ -21,7 +21,7 @@ class PostalDataSeeder extends Seeder
      */
     public function run()
     {
-        $load_data = false;
+        $load_data = true;
         
         if ($load_data)
         {

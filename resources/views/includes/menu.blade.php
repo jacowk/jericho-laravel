@@ -38,10 +38,10 @@
 						<li><a href="{{ url('/search-property') }}">Properties</a></li>
 					@endif
 					
-					@if (MenuDisplayValidator::canDisplayLookupsMenu())
+					@if (MenuDisplayValidator::canDisplaySetupMenu())
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-								Lookups <span class="caret"></span>
+								Setup <span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu" role="menu">
 								@if (MenuDisplayValidator::canDisplayAccountsMenu())

@@ -25,6 +25,11 @@ class Permission extends Model
 		return $this->belongsToMany('jericho\Role');
 	}
 	
+	public function permission_type()
+	{
+		return $this->belongsTo('jericho\LookupPermissionType', 'permission_type_id');
+	}
+	
 	public function created_by()
 	{
 		return $this->belongsTo('jericho\User', 'created_by_id');

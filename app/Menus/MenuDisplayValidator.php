@@ -21,7 +21,7 @@ class MenuDisplayValidator
 	}
 	
 	/* Main Menu */
-	public static function canDisplayLookupsMenu()
+	public static function canDisplaySetupMenu()
 	{
 		return MenuDisplayValidator::canDisplayAccountsMenu() ||
 			MenuDisplayValidator::canDisplayGreaterAreasMenu() ||

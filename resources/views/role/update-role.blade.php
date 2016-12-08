@@ -31,7 +31,11 @@
 			<div class="form-group">
 				{{  Form::label('permissions', 'Permission', array('class' => 'col-sm-2 control-label')) }}
 				<div class="col-sm-10">
-					<select id="permissions" multiple="multiple" size="10" name="permissions[]">
+					<select id="permissions" 
+							multiple="multiple" 
+							size="10" 
+							name="permissions[]" 
+							style="height: 500px">
 						@foreach($permissions as $id => $permission)
 							@if ($permission['permission_selected'])
 								<option value="{{ $permission['html_name'] }}" selected="selected">{{ $permission['name'] }}</option>
@@ -51,7 +55,8 @@
 		{{ Form::close() }}
 	</div>
 	<script type="text/javascript">
-		$('select[name="permissions[]"]').bootstrapDualListbox({
-		});
+		var listbox = $('select[name="permissions[]"]').bootstrapDualListbox();
+		listbox.setMoveOnSelect(false, 'refresh');
+		listbox.setPreserveSelectionOnMove(false, 'refresh');
 	</script>
 @endsection
