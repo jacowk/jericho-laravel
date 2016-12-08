@@ -8,6 +8,10 @@
 		<div class="row">
 			<table class="table table-bordered table-striped table-condensed">
 				<tr>
+					<th class="col-sm-3 text-right">ID</th>
+					<td>{{ $property->id }}</td>						
+				</tr>
+				<tr>
 					<th class="col-sm-3 text-right">Address</th>
 					<td>
 						{{ $property->address_line_1 }}<br>
