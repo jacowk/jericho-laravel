@@ -12,7 +12,7 @@
 
 @section('content')
 	<div class="container">
-		{{  Form::open(array('route' => 'do-link-contact-contractor', 'class' => 'form-horizontal')) }}
+		{{  Form::open(array('route' => 'do-link-contractor-contact', 'class' => 'form-horizontal')) }}
 			{{  Form::token() }}
 			{{  Form::hidden('property_flip_id', $property_flip_id) }}
 			
@@ -48,7 +48,7 @@
 		$(document).ready(function() {
 			$('#contractor_id').on('change', function() {
 				var contractor_id = $("#contractor_id").val();
-				var url = "{{ asset('ajax-contact-contractors') }}";
+				var url = "{{ asset('ajax-contractor-contacts') }}";
 				$.getJSON(url, {contractor_id: contractor_id, ajax: 'true'}, function(data) {
 					  //console.log(data);
 					  $("select#contact_id").empty();
@@ -61,7 +61,7 @@
 
 			$('#contractor_id').on('change', function() {
 				var contractor_id = $("#contractor_id").val();
-				var url = "{{ asset('ajax-contact-contractor-types') }}";
+				var url = "{{ asset('ajax-contractor-contact-types') }}";
 				$.getJSON(url, {contractor_id: contractor_id, ajax: 'true'}, function(data) {
 					  //console.log(data);
 					  $("select#lookup_contractor_type_id").empty();

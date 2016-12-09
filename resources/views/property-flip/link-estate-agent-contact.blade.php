@@ -12,7 +12,7 @@
 
 @section('content')
 	<div class="container">
-		{{  Form::open(array('route' => 'do-link-contact-estate-agent', 'class' => 'form-horizontal')) }}
+		{{  Form::open(array('route' => 'do-link-estate-agent-contact', 'class' => 'form-horizontal')) }}
 			{{  Form::token() }}
 			{{  Form::hidden('property_flip_id', $property_flip_id) }}
 			
@@ -48,7 +48,7 @@
 		$(document).ready(function() {
 			$('#estate_agent_id').on('change', function() {
 				var estate_agent_id = $("#estate_agent_id").val();
-				var url = "{{ asset('ajax-contact-estate-agents') }}";
+				var url = "{{ asset('ajax-estate-agent-contacts') }}";
 				$.getJSON(url, {estate_agent_id: estate_agent_id, ajax: 'true'}, function(data) {
 					  //console.log(data);
 					  $("select#contact_id").empty();

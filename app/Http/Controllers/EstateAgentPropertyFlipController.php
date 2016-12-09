@@ -45,7 +45,7 @@ class EstateAgentPropertyFlipController extends Controller
 		$lookup_estate_agent_types = (new EstateAgentTypeLookupRetriever())->execute();
 		$contacts = array();
 		$contacts['-1'] = "Select Estate Agent Contact";
-		return view ('property-flip.link-contact-estate-agent', [
+		return view ('property-flip.link-estate-agent-contact', [
 				'estate_agents' => $estate_agents,
 				'property_flip_id' => $property_flip_id,
 				'contacts' => $contacts,
@@ -70,7 +70,7 @@ class EstateAgentPropertyFlipController extends Controller
 		
 		if ($validator->fails()) {
 			return redirect()
-				->route('link-contact-estate-agent', ['property_flip_id' => $request->property_flip_id])
+				->route('link-estate-agent-contact', ['property_flip_id' => $request->property_flip_id])
 				->withErrors($validator)
 				->withInput()
 				->with('property_flip_id', $request->property_flip_id);

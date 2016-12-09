@@ -41,6 +41,13 @@
 						@endif
 						@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_CONTACT))
 							<td><a href="{{ route('view-contact', [ 'contact_id' => $attorney_contact->contact_id, 'model_name' => 'property_flip', 'model_id' => $property_flip->id ]) }}">View</a></td>
+							<td>
+								<button type="button" 
+										class="btn btn-info btn-sm" 
+										data-toggle="modal" 
+										data-target="#attorneyContactModal{{ $attorney_contact->contact_id }}">Contact Details</button>
+								@include('property-flip.attorney-contact-modal')
+							</td>
 						@endif
 					</tr>
 					@endforeach
@@ -107,4 +114,98 @@
 			}
 		}
 	</script>
+</div>
+
+<!-- Contact Modal -->
+<div id="contactModal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Seller Contact Details</h4>
+			</div>
+			<div class="modal-body">
+				<table class="table table-bordered table-striped table-condensed">
+					<tr>
+						<th class="col-sm-2 text-right">ID</th>
+						<td>{{ $property_flip->seller->id }}</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-2 text-right">Title</th>
+						<td>
+							@if ($property_flip->seller->title)
+								{{ $property_flip->seller->title->description }}
+							@endif
+						</td>
+					</tr>
+					<tr>
+						<th class="col-sm-2 text-right">Firstname</th>
+						<td>{{ $property_flip->seller->firstname }}</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-2 text-right">Surname</th>
+						<td>{{ $property_flip->seller->surname }}</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-2 text-right">Home Tel No</th>
+						<td>{{ $property_flip->seller->home_tel_no }}</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-2 text-right">Work Tel No</th>
+						<td>{{ $property_flip->seller->work_tel_no }}</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-2 text-right">Cell No</th>
+						<td>{{ $property_flip->seller->cell_no }}</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-2 text-right">Fax No</th>
+						<td>{{ $property_flip->seller->fax_no }}</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-2 text-right">Personal Email</th>
+						<td>{{ $property_flip->seller->personal_email }}</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-2 text-right">Work Email</th>
+						<td>{{ $property_flip->seller->work_email }}</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-2 text-right">ID Number</th>
+						<td>{{ $property_flip->seller->id_number }}</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-2 text-right">Passport Number</th>
+						<td>{{ $property_flip->seller->passport_number }}</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-2 text-right">Marital Status</th>
+						<td>
+							@if ($property_flip->seller->marital_status)
+								{{ $property_flip->seller->marital_status->description }}
+							@endif
+						</td>
+					</tr>
+					<tr>
+						<th class="col-sm-2 text-right">Tax Number</th>
+						<td>{{ $property_flip->seller->tax_number }}</td>						
+					</tr>
+					<tr>
+						<th class="col-sm-2 text-right">SA Citizen</th>
+						<td>
+							@if ($property_flip->seller->sa_citizen === 1)
+								{{ "Yes" }}
+							@else
+								{{ "No" }}
+							@endif
+						</td>						
+					</tr>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
 </div>

@@ -45,7 +45,7 @@ class ContractorPropertyFlipController extends Controller
 		$lookup_contractor_types['-1'] = "Select Contractor Type";
 		$contacts = array();
 		$contacts['-1'] = "Select Contractor Contact";
-		return view ('property-flip.link-contact-contractor', [
+		return view ('property-flip.link-contractor-contact', [
 				'contractors' => $contractors,
 				'property_flip_id' => $property_flip_id,
 				'contacts' => $contacts,
@@ -70,7 +70,7 @@ class ContractorPropertyFlipController extends Controller
 		
 		if ($validator->fails()) {
 			return redirect()
-				->route('link-contact-contractor', ['property_flip_id' => $request->property_flip_id])
+				->route('link-contractor-contact', ['property_flip_id' => $request->property_flip_id])
 				->withErrors($validator)
 				->withInput()
 				->with('property_flip_id', $request->property_flip_id);

@@ -40,7 +40,7 @@ class InvestorPropertyFlipController extends Controller
 		$request->session()->set(TabConstants::ACTIVE_TAB, TabConstants::INVESTORS_TAB);
 		$property_flip_id = Util::getNumericQueryParameter($request->property_flip_id);
 		$contacts = (new ContactLookupRetriever())->execute();
-		return view ('property-flip.link-contact-investor', [
+		return view ('property-flip.link-investor-contact', [
 				'property_flip_id' => $property_flip_id,
 				'contacts' => $contacts
 		]);
@@ -62,7 +62,7 @@ class InvestorPropertyFlipController extends Controller
 		
 		if ($validator->fails()) {
 			return redirect()
-				->route('link-contact-investor', ['property_flip_id' => $request->property_flip_id])
+				->route('link-investor-contact', ['property_flip_id' => $request->property_flip_id])
 				->withErrors($validator)
 				->withInput()
 				->with('property_flip_id', $request->property_flip_id);

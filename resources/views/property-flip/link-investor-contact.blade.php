@@ -12,7 +12,7 @@
 
 @section('content')
 	<div class="container">
-		{{  Form::open(array('route' => 'do-link-contact-investor', 'class' => 'form-horizontal')) }}
+		{{  Form::open(array('route' => 'do-link-investor-contact', 'class' => 'form-horizontal')) }}
 			{{  Form::token() }}
 			{{  Form::hidden('property_flip_id', $property_flip_id) }}
 			

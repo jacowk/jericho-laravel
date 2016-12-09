@@ -212,10 +212,10 @@ class PropertyFlipController extends Controller
 		(new ViewObjectValidator())->validate($property_flip, 'property flip', $property_flip_id);
 		$property = Property::find($property_flip->property_id);
 		$attorney_contacts = (new AttorneyContactRetriever($property_flip))->execute();
-		$contact_estate_agents = (new EstateAgentContactRetriever($property_flip))->execute();
-		$contact_contractors = (new ContractorContactRetriever($property_flip))->execute();
+		$estate_agent_contacts = (new EstateAgentContactRetriever($property_flip))->execute();
+		$contractor_contacts = (new ContractorContactRetriever($property_flip))->execute();
 		$bank_contacts = (new BankContactRetriever($property_flip))->execute();
-		$contact_investors = (new InvestorContactRetriever($property_flip))->execute();
+		$investor_contacts = (new InvestorContactRetriever($property_flip))->execute();
 		
 		$accountBalanceCalculator = new AccountBalanceCalculator();
 		$profit_loss_balance = $accountBalanceCalculator->calculate(AccountConstants::PROFIT_AND_LOSS_ACCOUNT, 
@@ -228,10 +228,10 @@ class PropertyFlipController extends Controller
 		return view('property-flip.view-property-flip', [
 			'property_flip' => $property_flip,
 			'attorney_contacts' => $attorney_contacts,
-			'contact_estate_agents' => $contact_estate_agents,
-			'contact_contractors' => $contact_contractors,
+			'estate_agent_contacts' => $estate_agent_contacts,
+			'contractor_contacts' => $contractor_contacts,
 			'bank_contacts' => $bank_contacts,
-			'contact_investors' => $contact_investors,
+			'investor_contacts' => $investor_contacts,
 			'property' => $property,
 			'profit_loss_balance' => $profit_loss_balance,
 			'account_transactions' => $account_transactions

@@ -39,6 +39,13 @@
 						@endif
 						@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_CONTACT))
 							<td><a href="{{ route('view-contact', [ 'contact_id' => $bank_contact->contact_id, 'model_name' => 'property_flip', 'model_id' => $property_flip->id ]) }}">View</a></td>
+							<td>
+								<button type="button" 
+										class="btn btn-info btn-sm" 
+										data-toggle="modal" 
+										data-target="#bankContactModal{{ $bank_contact->contact_id }}">Contact Details</button>
+								@include('property-flip.bank-contact-modal')
+							</td>
 						@endif
 					</tr>
 					@endforeach

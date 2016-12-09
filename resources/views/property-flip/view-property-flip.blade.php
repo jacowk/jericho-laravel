@@ -141,7 +141,7 @@
 			@else
 				<div role="tabpanel" class="tab-pane" id="estate-agents">
 			@endif
-				@include('property-flip.contact-estate-agents')
+				@include('property-flip.estate-agent-contacts')
 			</div>
 		@endif
 		
@@ -152,7 +152,7 @@
 			@else
 				<div role="tabpanel" class="tab-pane" id="contractors">
 			@endif
-				@include('property-flip.contact-contractors')
+				@include('property-flip.contractor-contacts')
 			</div>
 		@endif
 		
@@ -174,7 +174,7 @@
 			@else
 				<div role="tabpanel" class="tab-pane" id="investors">
 			@endif
-				@include('property-flip.contact-investors')
+				@include('property-flip.investor-contacts')
 			</div>
 		@endif
 			

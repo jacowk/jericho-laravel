@@ -28,12 +28,17 @@ class InvestorContactRetriever implements Component
 		$contact_investors = DB::table('investor_property_flip')
 						->leftJoin('contacts', 'contacts.id', '=' ,'investor_property_flip.contact_id')
 						->leftJoin('property_flips', 'property_flips.id', '=', 'investor_property_flip.property_flip_id')
+						->leftJoin('lookup_titles', 'lookup_titles.id', '=', 'contacts.title_id')
 						->where('investor_property_flip.property_flip_id', '=', $this->property_flip->id)
-						->select('contacts.firstname as contact_firstname',
+						->select('lookup_titles.description as contact_title',
+								'contacts.firstname as contact_firstname',
 								'contacts.surname as contact_surname',
-								'contacts.work_email as contact_work_email',
+								'contacts.home_tel_no as contact_home_tel_no',
 								'contacts.work_tel_no as contact_work_tel_no',
 								'contacts.cell_no as contact_cell_no',
+								'contacts.fax_no as contact_fax_no',
+								'contacts.personal_email as contact_personal_email',
+								'contacts.work_email as contact_work_email',
 								'contacts.id as contact_id',
 								'investor_property_flip.investment_amount')
 								->get();
