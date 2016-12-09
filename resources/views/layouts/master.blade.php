@@ -53,4 +53,9 @@
 		
 		@include('includes.footer')
 	</body>
+	<script>
+		$(':submit').on('click', function() {
+			$(this).addClass('disabled');
+		});
+	</script>
 </html>
