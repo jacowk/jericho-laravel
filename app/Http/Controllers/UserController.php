@@ -183,7 +183,7 @@ class UserController extends Controller
 	public function getViewUser(Request $request, $user_id)
 	{
 		$user = User::find($user_id);
-		(new ViewObjectValidator())->validate($update_user, 'user', $user_id);
+		(new ViewObjectValidator())->validate($user, 'user', $user_id);
 		return view('user.view-user', [
 				'user' => $user
 		]);

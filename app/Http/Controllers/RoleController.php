@@ -28,6 +28,12 @@ use jericho\Roles\RolePermissionCopier;
  * @author Jaco Koekemoer
  * Date: 2016-09-29
  *
+ *
+ * TODO:
+ * Unit tests for the following classes:
+ * ExcludedPermissionTypeFilter
+ * PermissionTypeFilter
+ * PermissionsByPermissionTypeForListboxRetriever
  */
 class RoleController extends Controller
 {
@@ -75,7 +81,6 @@ class RoleController extends Controller
 	 */
 	public function getAddRole()
 	{
-		$permissions = (new PermissionsForListboxRetriever())->execute();
 		$admin_permissions = (new PermissionsByPermissionTypeForListboxRetriever(PermissionTypeConstants::ADMIN_PERMISSIONS))->execute();
 		$report_permissions = (new PermissionsByPermissionTypeForListboxRetriever(PermissionTypeConstants::REPORT_PERMISSIONS))->execute();
 		$third_party_permissions = (new PermissionsByPermissionTypeForListboxRetriever(PermissionTypeConstants::THIRD_PARTY_PERMISSIONS))->execute();
@@ -83,7 +88,6 @@ class RoleController extends Controller
 		$property_permissions = (new PermissionsByPermissionTypeForListboxRetriever(PermissionTypeConstants::PROPERTY_PERMISSIONS))->execute();
 		$global_permissions = (new PermissionsByPermissionTypeForListboxRetriever(PermissionTypeConstants::GLOBAL_PERMISSIONS))->execute();
 		return view('role.add-role', [
-			'permissions' => $permissions,
 			'admin_permissions' => $admin_permissions,
 			'report_permissions' => $report_permissions,
 			'third_party_permissions' => $third_party_permissions,
@@ -132,7 +136,6 @@ class RoleController extends Controller
 	{
 		$role = Role::find($role_id);
 		(new UpdateObjectValidator())->validate($role, 'role', $role_id);
-		$permissions = (new PermissionsForListboxRetriever($role->permissions))->execute();
 		
 		/* Retrieve admin permissions */
 		$admin_permissions = (new PermissionsByPermissionTypeForListboxRetriever(
@@ -172,7 +175,6 @@ class RoleController extends Controller
 		
 		return view('role.update-role', [
 			'role' => $role, 
-			'permissions' => $permissions,
 			'admin_permissions' => $admin_permissions,
 			'report_permissions' => $report_permissions,
 			'third_party_permissions' => $third_party_permissions,

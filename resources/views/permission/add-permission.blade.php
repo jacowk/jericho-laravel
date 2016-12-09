@@ -22,6 +22,13 @@
 			</div>
 			
 			<div class="form-group">
+				{{  Form::label('permission_type_id', 'Permission Type', array('class' => 'col-sm-2 control-label')) }}
+				<div class="col-sm-10">
+					{{  Form::select('permission_type_id', $permission_types, null, ['class' => 'form-control']) }}
+				</div>
+			</div>
+			
+			<div class="form-group">
 				{{  Form::label('roles', 'Roles', array('class' => 'col-sm-2 control-label')) }}
 				<div class="col-sm-10">
 					@if ($roles)

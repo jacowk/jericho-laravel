@@ -27,21 +27,12 @@
 					<td>
 						<table class="table table-bordered table-striped table-condensed">
 							<tr>
-								<th>Admin Permissions</th>
 								<th>Excluded Admin Permissions</th>
-								<th>Report Permissions</th>
+								<th>Admin Permissions</th>
 								<th>Excluded Report Permissions</th>
+								<th>Report Permissions</th>
 							</tr>
 							<tr>
-								<td>
-									@if ($admin_permissions)
-										@foreach($admin_permissions as $permission)
-											{{ $permission->name }}<br>
-										@endforeach
-									@else
-										No admin permissions
-									@endif
-								</td>
 								<td>
 									@if ($excluded_admin_permissions)
 										@foreach($excluded_admin_permissions as $permission)
@@ -52,12 +43,12 @@
 									@endif
 								</td>
 								<td>
-									@if ($report_permissions)
-										@foreach($report_permissions as $permission)
+									@if ($admin_permissions)
+										@foreach($admin_permissions as $permission)
 											{{ $permission->name }}<br>
 										@endforeach
 									@else
-										No report permissions
+										No admin permissions
 									@endif
 								</td>
 								<td>
@@ -69,24 +60,24 @@
 										No excluded report permissions
 									@endif
 								</td>
-							</tr>
-							
-							<tr>
-								<th>Third Party Permissions</th>
-								<th>Excluded Third Party Permissions</th>
-								<th>Setup Permissions</th>
-								<th>Excluded Setup Permissions</th>
-							</tr>
-							<tr>
 								<td>
-									@if ($third_party_permissions)
-										@foreach($third_party_permissions as $permission)
+									@if ($report_permissions)
+										@foreach($report_permissions as $permission)
 											{{ $permission->name }}<br>
 										@endforeach
 									@else
-										No third permissions
+										No report permissions
 									@endif
 								</td>
+							</tr>
+							
+							<tr>
+								<th>Excluded Third Party Permissions</th>
+								<th>Third Party Permissions</th>
+								<th>Excluded Setup Permissions</th>
+								<th>Setup Permissions</th>
+							</tr>
+							<tr>
 								<td>
 									@if ($excluded_third_party_permissions)
 										@foreach($excluded_third_party_permissions as $permission)
@@ -97,12 +88,12 @@
 									@endif
 								</td>
 								<td>
-									@if ($lookup_permissions)
-										@foreach($lookup_permissions as $permission)
+									@if ($third_party_permissions)
+										@foreach($third_party_permissions as $permission)
 											{{ $permission->name }}<br>
 										@endforeach
 									@else
-										No setup permissions
+										No third permissions
 									@endif
 								</td>
 								<td>
@@ -114,24 +105,24 @@
 										No excluded setup permissions
 									@endif
 								</td>
-							</tr>
-							
-							<tr>
-								<th>Property Permissions</th>
-								<th>Excluded Property Permissions</th>
-								<th>Global Permissions</th>
-								<th>Excluded Global Permissions</th>
-							</tr>
-							<tr>
 								<td>
-									@if ($property_permissions)
-										@foreach($property_permissions as $permission)
+									@if ($lookup_permissions)
+										@foreach($lookup_permissions as $permission)
 											{{ $permission->name }}<br>
 										@endforeach
 									@else
-										No property permissions
+										No setup permissions
 									@endif
 								</td>
+							</tr>
+							
+							<tr>
+								<th>Excluded Property Permissions</th>
+								<th>Property Permissions</th>
+								<th>Excluded Global Permissions</th>
+								<th>Global Permissions</th>
+							</tr>
+							<tr>
 								<td>
 									@if ($excluded_property_permissions)
 										@foreach($excluded_property_permissions as $permission)
@@ -142,12 +133,12 @@
 									@endif
 								</td>
 								<td>
-									@if ($global_permissions)
-										@foreach($global_permissions as $permission)
+									@if ($property_permissions)
+										@foreach($property_permissions as $permission)
 											{{ $permission->name }}<br>
 										@endforeach
 									@else
-										No global permissions
+										No property permissions
 									@endif
 								</td>
 								<td>
@@ -157,6 +148,15 @@
 										@endforeach
 									@else
 										No excluded global permissions
+									@endif
+								</td>
+								<td>
+									@if ($global_permissions)
+										@foreach($global_permissions as $permission)
+											{{ $permission->name }}<br>
+										@endforeach
+									@else
+										No global permissions
 									@endif
 								</td>
 							</tr>

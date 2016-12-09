@@ -23,6 +23,14 @@
 					<td>{{ $permission->name }}</td>						
 				</tr>
 				<tr>
+					<th class="col-sm-3 text-right">Permission Type</th>
+					<td>
+						@if ($permission->permission_type)
+							{{ $permission->permission_type->description }}
+						@endif
+					</td>						
+				</tr>
+				<tr>
 					<th class="col-sm-3 text-right">Roles</th>
 					<td>
 						@if ($permission->roles)

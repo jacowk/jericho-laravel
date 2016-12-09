@@ -12,6 +12,7 @@ use jericho\Role;
 use jericho\Util\Util;
 use jericho\Audits\RoleToPermissionAuditor;
 use jericho\Lookup\RolesForCheckboxesRetriever;
+use jericho\Lookup\PermissionTypeLookupRetriever;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
 use jericho\Validation\UpdateObjectValidator;
 use jericho\Validation\ViewObjectValidator;
@@ -70,7 +71,11 @@ class PermissionController extends Controller
 	public function getAddPermission()
 	{
 		$roles = (new RolesForCheckboxesRetriever())->execute();
-		return view('permission.add-permission', [ 'roles' => $roles ]);
+		$permission_types = (new PermissionTypeLookupRetriever())->execute();
+		return view('permission.add-permission', [ 
+				'roles' => $roles, 
+				'permission_types' => $permission_types
+		]);
 	}
 	
 	/**
@@ -94,6 +99,7 @@ class PermissionController extends Controller
 		$user = (new AuthUserRetriever())->retrieveUser();
 		$permission = new Permission();
 		$permission->name = Util::getQueryParameter($request->name);
+		$permission->permission_type_id = Util::getQueryParameter($request->permission_type_id);
 		$permission->created_by_id = $user->id;
 		$permission->save();
 		$this->processRoles($request, $permission);
@@ -113,7 +119,12 @@ class PermissionController extends Controller
 		$permission = Permission::find($permission_id);
 		(new UpdateObjectValidator())->validate($permission, 'permission', $permission_id);
 		$roles = (new RolesForCheckboxesRetriever($permission->roles))->execute();
-		return view('permission.update-permission', ['permission' => $permission, 'roles' => $roles]);
+		$permission_types = (new PermissionTypeLookupRetriever())->execute();
+		return view('permission.update-permission', [
+				'permission' => $permission, 
+				'roles' => $roles,
+				'permission_types' => $permission_types
+		]);
 	}
 	
 	/**
@@ -139,6 +150,7 @@ class PermissionController extends Controller
 		$permission = Permission::find($permission_id);
 		(new UpdateObjectValidator())->validate($permission, 'permission', $permission_id);
 		$permission->name = Util::getQueryParameter($request->name);
+		$permission->permission_type_id = Util::getQueryParameter($request->permission_type_id);
 		$permission->updated_by_id = $user->id;
 		$permission->save();
 		$this->processRolesForUpdate($request, $permission);
