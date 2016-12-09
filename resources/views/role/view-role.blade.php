@@ -25,13 +25,142 @@
 				<tr>
 					<th class="col-sm-3 text-right">Permissions</th>
 					<td>
-						@if ($role->permissions)
-							@foreach($permissions as $permission)
-								{{ $permission->name }}<br>
-							@endforeach
-						@else
-							No permissions
-						@endif
+						<table class="table table-bordered table-striped table-condensed">
+							<tr>
+								<th>Admin Permissions</th>
+								<th>Excluded Admin Permissions</th>
+								<th>Report Permissions</th>
+								<th>Excluded Report Permissions</th>
+							</tr>
+							<tr>
+								<td>
+									@if ($admin_permissions)
+										@foreach($admin_permissions as $permission)
+											{{ $permission->name }}<br>
+										@endforeach
+									@else
+										No admin permissions
+									@endif
+								</td>
+								<td>
+									@if ($excluded_admin_permissions)
+										@foreach($excluded_admin_permissions as $permission)
+											{{ $permission->name }}<br>
+										@endforeach
+									@else
+										No excluded admin permissions
+									@endif
+								</td>
+								<td>
+									@if ($report_permissions)
+										@foreach($report_permissions as $permission)
+											{{ $permission->name }}<br>
+										@endforeach
+									@else
+										No report permissions
+									@endif
+								</td>
+								<td>
+									@if ($excluded_report_permissions)
+										@foreach($excluded_report_permissions as $permission)
+											{{ $permission->name }}<br>
+										@endforeach
+									@else
+										No excluded report permissions
+									@endif
+								</td>
+							</tr>
+							
+							<tr>
+								<th>Third Party Permissions</th>
+								<th>Excluded Third Party Permissions</th>
+								<th>Setup Permissions</th>
+								<th>Excluded Setup Permissions</th>
+							</tr>
+							<tr>
+								<td>
+									@if ($third_party_permissions)
+										@foreach($third_party_permissions as $permission)
+											{{ $permission->name }}<br>
+										@endforeach
+									@else
+										No third permissions
+									@endif
+								</td>
+								<td>
+									@if ($excluded_third_party_permissions)
+										@foreach($excluded_third_party_permissions as $permission)
+											{{ $permission->name }}<br>
+										@endforeach
+									@else
+										No excluded third party permissions
+									@endif
+								</td>
+								<td>
+									@if ($lookup_permissions)
+										@foreach($lookup_permissions as $permission)
+											{{ $permission->name }}<br>
+										@endforeach
+									@else
+										No setup permissions
+									@endif
+								</td>
+								<td>
+									@if ($excluded_lookup_permissions)
+										@foreach($excluded_lookup_permissions as $permission)
+											{{ $permission->name }}<br>
+										@endforeach
+									@else
+										No excluded setup permissions
+									@endif
+								</td>
+							</tr>
+							
+							<tr>
+								<th>Property Permissions</th>
+								<th>Excluded Property Permissions</th>
+								<th>Global Permissions</th>
+								<th>Excluded Global Permissions</th>
+							</tr>
+							<tr>
+								<td>
+									@if ($property_permissions)
+										@foreach($property_permissions as $permission)
+											{{ $permission->name }}<br>
+										@endforeach
+									@else
+										No property permissions
+									@endif
+								</td>
+								<td>
+									@if ($excluded_property_permissions)
+										@foreach($excluded_property_permissions as $permission)
+											{{ $permission->name }}<br>
+										@endforeach
+									@else
+										No excluded property permissions
+									@endif
+								</td>
+								<td>
+									@if ($global_permissions)
+										@foreach($global_permissions as $permission)
+											{{ $permission->name }}<br>
+										@endforeach
+									@else
+										No global permissions
+									@endif
+								</td>
+								<td>
+									@if ($excluded_global_permissions)
+										@foreach($excluded_global_permissions as $permission)
+											{{ $permission->name }}<br>
+										@endforeach
+									@else
+										No excluded global permissions
+									@endif
+								</td>
+							</tr>
+						</table>
 					</td>						
 				</tr>
 				@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_AUDIT_FIELDS))

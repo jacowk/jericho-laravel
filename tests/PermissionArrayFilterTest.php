@@ -29,8 +29,8 @@ class PermissionArrayFilterTest extends TestCase
     	array_push($array2, $permission1);
     	array_push($array2, $permission2);
     	
-    	$permission_array_filter = new PermissionArrayFilter();
-    	$filtered_array = $permission_array_filter->filter($array1, $array2);
+    	$permission_array_filter = new PermissionArrayFilter($array1, $array2);
+    	$filtered_array = $permission_array_filter->execute();
     	
     	/* Validate filtered array */
     	$this->assertNotNull($filtered_array);
@@ -58,8 +58,8 @@ class PermissionArrayFilterTest extends TestCase
     	array_push($array2, $permission1);
     	array_push($array2, $permission2);
     	
-    	$permission_array_filter = new PermissionArrayFilter();
-    	$filtered_array = $permission_array_filter->filter($array1, $array2);
+    	$permission_array_filter = new PermissionArrayFilter($array1, $array2);
+    	$filtered_array = $permission_array_filter->execute();
     	
     	/* Validate filtered array */
     	$this->assertEmpty($filtered_array);
@@ -77,8 +77,8 @@ class PermissionArrayFilterTest extends TestCase
     	 
     	$array2 = null;
     	 
-    	$permission_array_filter = new PermissionArrayFilter();
-    	$filtered_array = $permission_array_filter->filter($array1, $array2);
+    	$permission_array_filter = new PermissionArrayFilter($array1, $array2);
+    	$filtered_array = $permission_array_filter->execute();
     	 
     	/* Validate filtered array */
     	$this->assertNotNull($filtered_array);

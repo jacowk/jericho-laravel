@@ -61,7 +61,7 @@ class PermissionToRoleAuditor implements Auditor
 	{
 		if ($this->old_permissions)
 		{
-			$filtered_old_permissions = (new PermissionArrayFilter())->filter($this->old_permissions, $this->new_permissions);
+			$filtered_old_permissions = (new PermissionArrayFilter($this->old_permissions, $this->new_permissions))->execute();
 			if ($filtered_old_permissions)
 			{
 				$old_audit = 'Removed the following permissions from the role:<br/>' .
@@ -79,7 +79,7 @@ class PermissionToRoleAuditor implements Auditor
 	{
 		if ($this->new_permissions)
 		{
-			$filtered_new_permissions = (new PermissionArrayFilter())->filter($this->new_permissions, $this->old_permissions);
+			$filtered_new_permissions = (new PermissionArrayFilter($this->new_permissions, $this->old_permissions))->execute();
 			if ($filtered_new_permissions)
 			{
 				$new_audit = 'Added the following permissions to the role:<br/>' .

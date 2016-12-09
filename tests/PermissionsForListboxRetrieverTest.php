@@ -3,7 +3,7 @@
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use jericho\Lookup\PermissionsForCheckboxesRetriever;
+use jericho\Lookup\PermissionsForListboxRetriever;
 use jericho\Permission;
 
 /**
@@ -13,11 +13,11 @@ use jericho\Permission;
  * Date: 2016-11-03
  *
  */
-class PermissionsForCheckboxesRetrieverTest extends TestCase
+class PermissionsForListboxRetrieverTest extends TestCase
 {
     public function testExecute()
     {
-        $lookup_list = (new PermissionsForCheckboxesRetriever())->execute();
+        $lookup_list = (new PermissionsForListboxRetriever())->execute();
     	$this->assertNotNull($lookup_list);
     	$this->assertTrue(count($lookup_list) > 0);
     	foreach ($lookup_list as $key => $value)

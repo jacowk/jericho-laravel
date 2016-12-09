@@ -7,13 +7,17 @@ use jericho\Util\Util;
 use DB;
 
 /**
- * A component for retrieving permissions to be used for checkboxes in a view
+ * A component for retrieving permissions to be used for listboxes in a view.
+ * This class is to prepare permissions for the bootstrap duallistbox, a javascript component. 
+ * The constructor parameter, $existing_permissions, is used to pass in the existing permissions 
+ * for a role, if an existing role is updated. All existing permissions are indicated as being 
+ * "selected", for the purpose of the bootstrap duallistbox.
  *
  * @author Jaco Koekemoer
  * Date: 2016-11-03
  *
  */
-class PermissionsForCheckboxesRetriever implements Component
+class PermissionsForListboxRetriever implements Component
 {
 	public function __construct($existing_permissions = null)
 	{
@@ -22,12 +26,6 @@ class PermissionsForCheckboxesRetriever implements Component
 	
 	public function execute()
 	{
-		/* DB is used to ensure that the list is returned in ascending order */
-// 		$lookup_permissions = DB::table('permissions')
-// 								->select('id', 'name')
-// 								->orderBy('name', 'asc')
-// 								->get();
-		
 		$lookup_permissions = Permission::orderBy('name', 'asc')->get();
 								
 		$permissions = array();

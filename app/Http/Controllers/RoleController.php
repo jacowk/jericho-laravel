@@ -9,9 +9,13 @@ use Illuminate\Support\Facades\Validator;
 use jericho\Http\Requests;
 use jericho\Role;
 use jericho\Permission;
+use jericho\Permissions\PermissionTypeConstants;
+use jericho\Permissions\PermissionTypeFilter;
+use jericho\Permissions\ExcludedPermissionTypeFilter;
 use jericho\Util\Util;
 use jericho\Audits\PermissionToRoleAuditor;
-use jericho\Lookup\PermissionsForCheckboxesRetriever;
+use jericho\Lookup\PermissionsForListboxRetriever;
+use jericho\Lookup\PermissionsByPermissionTypeForListboxRetriever;
 use jericho\Http\Controllers\Auth\AuthUserRetriever;
 use jericho\Validation\UpdateObjectValidator;
 use jericho\Validation\ViewObjectValidator;
@@ -71,8 +75,22 @@ class RoleController extends Controller
 	 */
 	public function getAddRole()
 	{
-		$permissions = (new PermissionsForCheckboxesRetriever())->execute();
-		return view('role.add-role', ['permissions' => $permissions]);
+		$permissions = (new PermissionsForListboxRetriever())->execute();
+		$admin_permissions = (new PermissionsByPermissionTypeForListboxRetriever(PermissionTypeConstants::ADMIN_PERMISSIONS))->execute();
+		$report_permissions = (new PermissionsByPermissionTypeForListboxRetriever(PermissionTypeConstants::REPORT_PERMISSIONS))->execute();
+		$third_party_permissions = (new PermissionsByPermissionTypeForListboxRetriever(PermissionTypeConstants::THIRD_PARTY_PERMISSIONS))->execute();
+		$lookup_permissions = (new PermissionsByPermissionTypeForListboxRetriever(PermissionTypeConstants::LOOKUP_PERMISSIONS))->execute();
+		$property_permissions = (new PermissionsByPermissionTypeForListboxRetriever(PermissionTypeConstants::PROPERTY_PERMISSIONS))->execute();
+		$global_permissions = (new PermissionsByPermissionTypeForListboxRetriever(PermissionTypeConstants::GLOBAL_PERMISSIONS))->execute();
+		return view('role.add-role', [
+			'permissions' => $permissions,
+			'admin_permissions' => $admin_permissions,
+			'report_permissions' => $report_permissions,
+			'third_party_permissions' => $third_party_permissions,
+			'lookup_permissions' => $lookup_permissions,
+			'property_permissions' => $property_permissions,
+			'global_permissions' => $global_permissions
+		]);
 	}
 	
 	/**
@@ -98,9 +116,9 @@ class RoleController extends Controller
 		$role->name = Util::getQueryParameter($request->name);
 		$role->created_by_id = $user->id;
 		$role->save();
-		$this->processPermissions($request, $role);
+		$this->processPermissions($request, $this->consolidatePermissions($request), $role);
 		return redirect()->action('RoleController@getViewRole', ['role_Id' => $role->id])
-		->with(['message' => 'Role saved']);
+			->with(['message' => 'Role saved']);
 	}
 	
 	/**
@@ -114,8 +132,54 @@ class RoleController extends Controller
 	{
 		$role = Role::find($role_id);
 		(new UpdateObjectValidator())->validate($role, 'role', $role_id);
-		$permissions = (new PermissionsForCheckboxesRetriever($role->permissions))->execute();
-		return view('role.update-role', ['role' => $role, 'permissions' => $permissions]);
+		$permissions = (new PermissionsForListboxRetriever($role->permissions))->execute();
+		
+		/* Retrieve admin permissions */
+		$admin_permissions = (new PermissionsByPermissionTypeForListboxRetriever(
+				PermissionTypeConstants::ADMIN_PERMISSIONS,
+				(new PermissionTypeFilter($role->permissions, PermissionTypeConstants::ADMIN_PERMISSIONS))->execute()
+			))->execute();
+		
+		/* Retrieve report permissions */
+		$report_permissions = (new PermissionsByPermissionTypeForListboxRetriever(
+				PermissionTypeConstants::REPORT_PERMISSIONS,
+				(new PermissionTypeFilter($role->permissions, PermissionTypeConstants::REPORT_PERMISSIONS))->execute()
+			))->execute();
+		
+		/* Retrieve third party permissions */
+		$third_party_permissions = (new PermissionsByPermissionTypeForListboxRetriever(
+				PermissionTypeConstants::THIRD_PARTY_PERMISSIONS,
+				(new PermissionTypeFilter($role->permissions, PermissionTypeConstants::THIRD_PARTY_PERMISSIONS))->execute()
+			))->execute();
+		
+		/* Retrieve lookup permissions */
+		$lookup_permissions = (new PermissionsByPermissionTypeForListboxRetriever(
+				PermissionTypeConstants::LOOKUP_PERMISSIONS,
+				(new PermissionTypeFilter($role->permissions, PermissionTypeConstants::LOOKUP_PERMISSIONS))->execute()
+			))->execute();
+		
+		/* Retrieve property permissions */
+		$property_permissions = (new PermissionsByPermissionTypeForListboxRetriever(
+				PermissionTypeConstants::PROPERTY_PERMISSIONS,
+				(new PermissionTypeFilter($role->permissions, PermissionTypeConstants::PROPERTY_PERMISSIONS))->execute()
+			))->execute();
+		
+		/* Retrieve global permissions */
+		$global_permissions = (new PermissionsByPermissionTypeForListboxRetriever(
+				PermissionTypeConstants::GLOBAL_PERMISSIONS,
+				(new PermissionTypeFilter($role->permissions, PermissionTypeConstants::GLOBAL_PERMISSIONS))->execute()
+			))->execute();
+		
+		return view('role.update-role', [
+			'role' => $role, 
+			'permissions' => $permissions,
+			'admin_permissions' => $admin_permissions,
+			'report_permissions' => $report_permissions,
+			'third_party_permissions' => $third_party_permissions,
+			'lookup_permissions' => $lookup_permissions,
+			'property_permissions' => $property_permissions,
+			'global_permissions' => $global_permissions
+		]);
 	}
 	
 	/**
@@ -159,11 +223,96 @@ class RoleController extends Controller
 	{
 		$role = Role::find($role_id);
 		(new ViewObjectValidator())->validate($role, 'role', $role_id);
-		$permissions = $role->permissions()->orderBy('name', 'asc')->get();
+		$role_permissions = $role->permissions()->orderBy('name', 'asc')->get();
+		$all_permissions = Permission::all();
+		
+		/* Retrieve admin permissions */
+		$admin_permissions = (new PermissionTypeFilter($role_permissions, PermissionTypeConstants::ADMIN_PERMISSIONS))->execute();
+		$excluded_admin_permissions = (new ExcludedPermissionTypeFilter(
+				(new PermissionTypeFilter($all_permissions, PermissionTypeConstants::ADMIN_PERMISSIONS))->execute(),
+				$admin_permissions, PermissionTypeConstants::ADMIN_PERMISSIONS))->execute();
+		
+		/* Retrieve report permissions */
+		$report_permissions = (new PermissionTypeFilter($role_permissions, PermissionTypeConstants::REPORT_PERMISSIONS))->execute();
+		$excluded_report_permissions = (new ExcludedPermissionTypeFilter(
+				(new PermissionTypeFilter($all_permissions, PermissionTypeConstants::REPORT_PERMISSIONS))->execute(),
+				$report_permissions, PermissionTypeConstants::REPORT_PERMISSIONS))->execute();
+
+		/* Retrieve third party permissions */
+		$third_party_permissions = (new PermissionTypeFilter($role_permissions, PermissionTypeConstants::THIRD_PARTY_PERMISSIONS))->execute();
+		$excluded_third_party_permissions = (new ExcludedPermissionTypeFilter(
+				(new PermissionTypeFilter($all_permissions, PermissionTypeConstants::THIRD_PARTY_PERMISSIONS))->execute(),
+				$third_party_permissions, PermissionTypeConstants::THIRD_PARTY_PERMISSIONS))->execute();
+
+		/* Retrieve lookup permissions */
+		$lookup_permissions = (new PermissionTypeFilter($role_permissions, PermissionTypeConstants::LOOKUP_PERMISSIONS))->execute();
+		$excluded_lookup_permissions = (new ExcludedPermissionTypeFilter(
+				(new PermissionTypeFilter($all_permissions, PermissionTypeConstants::LOOKUP_PERMISSIONS))->execute(),
+				$lookup_permissions, PermissionTypeConstants::LOOKUP_PERMISSIONS))->execute();
+
+		/* Retrieve property permissions */
+		$property_permissions = (new PermissionTypeFilter($role_permissions, PermissionTypeConstants::PROPERTY_PERMISSIONS))->execute();
+		$excluded_property_permissions = (new ExcludedPermissionTypeFilter(
+				(new PermissionTypeFilter($all_permissions, PermissionTypeConstants::PROPERTY_PERMISSIONS))->execute(),
+				$property_permissions, PermissionTypeConstants::PROPERTY_PERMISSIONS))->execute();
+
+		/* Retrieve global permissions */
+		$global_permissions = (new PermissionTypeFilter($role_permissions, PermissionTypeConstants::GLOBAL_PERMISSIONS))->execute();
+		$excluded_global_permissions = (new ExcludedPermissionTypeFilter(
+				(new PermissionTypeFilter($all_permissions, PermissionTypeConstants::GLOBAL_PERMISSIONS))->execute(),
+				$global_permissions, PermissionTypeConstants::GLOBAL_PERMISSIONS))->execute();
+		
 		return view('role.view-role', [
 				'role' => $role,
-				'permissions' => $permissions
+				'admin_permissions' => $admin_permissions,
+				'report_permissions' => $report_permissions,
+				'third_party_permissions' => $third_party_permissions,
+				'lookup_permissions' => $lookup_permissions,
+				'property_permissions' => $property_permissions,
+				'global_permissions' => $global_permissions,
+				
+				'excluded_admin_permissions' => $excluded_admin_permissions,
+				'excluded_report_permissions' => $excluded_report_permissions,
+				'excluded_third_party_permissions' => $excluded_third_party_permissions,
+				'excluded_lookup_permissions' => $excluded_lookup_permissions,
+				'excluded_property_permissions' => $excluded_property_permissions,
+				'excluded_global_permissions' => $excluded_global_permissions
 		]);
+	}
+	
+	/**
+	 * Take all permissions arrays from the UI and consolidate them for processing
+	 * 
+	 * @param Request $request
+	 */
+	private function consolidatePermissions(Request $request)
+	{
+		$consolidated_permissions = array();
+		if ($request->admin_permissions) 
+		{
+			$consolidated_permissions = array_merge($consolidated_permissions, $request->admin_permissions);
+		}
+		if ($request->report_permissions)
+		{
+			$consolidated_permissions = array_merge($consolidated_permissions, $request->report_permissions);
+		}
+		if ($request->third_party_permissions)
+		{
+			$consolidated_permissions = array_merge($consolidated_permissions, $request->third_party_permissions);
+		}
+		if ($request->lookup_permissions)
+		{
+			$consolidated_permissions = array_merge($consolidated_permissions, $request->lookup_permissions);
+		}
+		if ($request->property_permissions)
+		{
+			$consolidated_permissions = array_merge($consolidated_permissions, $request->property_permissions);
+		}
+		if ($request->global_permissions)
+		{
+			$consolidated_permissions = array_merge($consolidated_permissions, $request->global_permissions);
+		}
+		return $consolidated_permissions;
 	}
 	
 	/**
@@ -172,11 +321,10 @@ class RoleController extends Controller
 	 * @param Request $request
 	 * @param unknown $new_user
 	 */
-	private function processPermissions(Request $request, $role, $old_permissions = null)
+	private function processPermissions($request, $request_permissions, $role, $old_permissions = null)
 	{
 		$new_permissions = array(); /* This is for auditing */
 		$all_permissions = Permission::all();
-		$request_permissions = $request->permissions;
 		if ($request_permissions)
 		{
 			foreach ($all_permissions as $permission)
@@ -210,7 +358,7 @@ class RoleController extends Controller
 		$role->permissions()->detach();
 		
 		/* Add new permissions */
-		$this->processPermissions($request, $role, $old_permissions);
+		$this->processPermissions($request, $this->consolidatePermissions($request), $role, $old_permissions);
 	}
 	
 	/**
