@@ -95,6 +95,10 @@
 								@if (MenuDisplayValidator::canDisplayTransactionTypesMenu())
 									<li><a href="{{ url('/search-transaction-type') }}">Transaction Types</a></li>
 								@endif
+								
+								@if (MenuDisplayValidator::canDisplayLeadTypesMenu())
+									<li><a href="{{ url('/search-lead-type') }}">Lead Types</a></li>
+								@endif
 								<!-- <li><a href="{{ url('/test') }}">Test</a></li> -->
 							</ul>
 						</li>

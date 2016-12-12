@@ -14,7 +14,16 @@ class ProductionLookupTransactionTypeTableSeeder extends Seeder
     {
     	LookupTransactionType::truncate();
     	
-    	$type_array = array('Renovations', 'Purchase Price', 'Legal Fees', 'Sourcing Fees');
+    	$type_array = array(
+    			'Renovations',
+    			'Purchase Price (Deposit + Balance)',
+    			'Legal Fees',
+    			'Sourcing Fees',
+    			'Ejection Costs',
+    			'Municipal Costs',
+    			'Estate Agent’s Commission',
+    			'Sheriff’s commission'
+    	);
     	foreach($type_array as $type)
     	{
     		$lookup_type = new LookupTransactionType();

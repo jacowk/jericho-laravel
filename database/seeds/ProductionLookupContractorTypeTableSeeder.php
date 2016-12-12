@@ -21,7 +21,19 @@ class ProductionLookupContractorTypeTableSeeder extends Seeder
     {
     	LookupContractorType::truncate();
     	 
-    	$contractor_type_array = array('Electrician', 'Tiler', 'Builder', 'Painter');
+    	$contractor_type_array = array(
+    			'Electrician', 
+    			'Tiler', 
+    			'Builder', 
+    			'Painter',
+    			'Plumber',
+				'Rubble Removal',
+				'Carpenter',
+				'Welder',
+				'Glazer',
+				'Tree Feller',
+				'Landscaper'
+    	);
     	foreach($contractor_type_array as $contractor_type)
     	{
     		$lookup_contractor_type = new LookupContractorType();

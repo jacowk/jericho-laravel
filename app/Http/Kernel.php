@@ -52,6 +52,7 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \jericho\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-    	'permission' => \jericho\Http\Middleware\ValidatePermissionMiddleware::class
+    	'permission' => \jericho\Http\Middleware\ValidatePermissionMiddleware::class,
+    	'breadcrumb' => \jericho\Http\Middleware\ProcessBreadcrumbMiddleware::class
     ];
 }

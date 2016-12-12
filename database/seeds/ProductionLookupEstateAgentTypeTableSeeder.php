@@ -21,7 +21,11 @@ class ProductionLookupEstateAgentTypeTableSeeder extends Seeder
     {
     	LookupEstateAgentType::truncate();
     	 
-    	$estate_agent_type_array = array('Selling Estate Agent', 'Purchasing Estate Agent');
+    	$estate_agent_type_array = array(
+    			'Selling Estate Agent',
+    			'Purchasing Estate Agent',
+    			'Sourcing Agent'
+    	);
     	foreach($estate_agent_type_array as $estate_agent_type)
     	{
     		$lookup_estate_agent_type = new LookupEstateAgentType();

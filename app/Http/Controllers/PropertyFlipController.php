@@ -22,6 +22,7 @@ use jericho\Lookup\ContactLookupRetriever;
 use jericho\Lookup\FinanceStatusLookupRetriever;
 use jericho\Lookup\SellerStatusLookupRetriever;
 use jericho\Lookup\PropertyStatusLookupRetriever;
+use jericho\Lookup\LeadTypeLookupRetriever;
 use jericho\Contacts\AttorneyContactRetriever;
 use jericho\Contacts\EstateAgentContactRetriever;
 use jericho\Contacts\BankContactRetriever;
@@ -83,13 +84,15 @@ class PropertyFlipController extends Controller
 		$finance_statuses = (new FinanceStatusLookupRetriever())->execute();
 		$seller_statuses = (new SellerStatusLookupRetriever())->execute();
 		$property_statuses = (new PropertyStatusLookupRetriever())->execute();
+		$lead_types = (new LeadTypeLookupRetriever())->execute();
 		
 		return view('property-flip.add-property-flip', [
 			'property' => $property,
 			'contacts' => $contacts,
 			'finance_statuses' => $finance_statuses,
 			'seller_statuses' => $seller_statuses,
-			'property_statuses' => $property_statuses
+			'property_statuses' => $property_statuses,
+			'lead_types' => $lead_types
 		]);
 	}
 	
@@ -125,6 +128,7 @@ class PropertyFlipController extends Controller
 		$property_flip->finance_status_id = Util::getNumericQueryParameter($request->finance_status_id);
 		$property_flip->seller_status_id = Util::getNumericQueryParameter($request->seller_status_id);
 		$property_flip->property_status_id = Util::getNumericQueryParameter($request->property_status_id);
+		$property_flip->lead_type_id = Util::getNumericQueryParameter($request->lead_type_id);
 		$property_flip->property_id = Util::getNumericQueryParameter($request->property_id);
 		$property_flip->created_by_id = $user->id;
 		$property_flip->save();
@@ -148,13 +152,15 @@ class PropertyFlipController extends Controller
 		$finance_statuses = (new FinanceStatusLookupRetriever())->execute();
 		$seller_statuses = (new SellerStatusLookupRetriever())->execute();
 		$property_statuses = (new PropertyStatusLookupRetriever())->execute();
+		$lead_types = (new LeadTypeLookupRetriever())->execute();
 		
 		return view('property-flip.update-property-flip', [
 			'property_flip' => $property_flip,
 			'contacts' => $contacts,
 			'finance_statuses' => $finance_statuses,
 			'seller_statuses' => $seller_statuses,
-			'property_statuses' => $property_statuses
+			'property_statuses' => $property_statuses,
+			'lead_types' => $lead_types
 		]);
 	}
 	
@@ -192,6 +198,7 @@ class PropertyFlipController extends Controller
 		$property_flip->finance_status_id = Util::getNumericQueryParameter($request->finance_status_id);
 		$property_flip->seller_status_id = Util::getNumericQueryParameter($request->seller_status_id);
 		$property_flip->property_status_id = Util::getNumericQueryParameter($request->property_status_id);
+		$property_flip->lead_type_id = Util::getNumericQueryParameter($request->lead_type_id);
 		$property_flip->property_id = Util::getNumericQueryParameter($request->property_id);
 		$property_flip->updated_by_id = $user->id;
 		$property_flip->save();

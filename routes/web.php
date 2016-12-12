@@ -75,3 +75,4 @@ include 'user-routes.php';
 include 'issue-routes.php';
 include 'issue-comment-routes.php';
 include 'report-routes.php';
+include 'lead-type-routes.php';

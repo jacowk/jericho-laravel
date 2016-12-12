@@ -13,42 +13,23 @@ class LookupTransactionTypeTableSeeder extends Seeder
     public function run()
     {
     	LookupTransactionType::truncate();
-    	
-        $lookup_transaction_type1 = new LookupTransactionType();
-        $lookup_transaction_type1->description = "Renovations";
-        $lookup_transaction_type1->created_by_id = 1;
-        $lookup_transaction_type1->save();
-        
-        $lookup_transaction_type2 = new LookupTransactionType();
-        $lookup_transaction_type2->description = "Purchase Price";
-        $lookup_transaction_type2->created_by_id = 1;
-        $lookup_transaction_type2->save();
-        
-        $lookup_transaction_type3 = new LookupTransactionType();
-        $lookup_transaction_type3->description = "Legal Fees";
-        $lookup_transaction_type3->created_by_id = 1;
-        $lookup_transaction_type3->save();
-        
-        $lookup_transaction_type4 = new LookupTransactionType();
-        $lookup_transaction_type4->description = "Sourcing Fees";
-        $lookup_transaction_type4->created_by_id = 1;
-        $lookup_transaction_type4->save();
-        
-//         for ($i = 0; $i < 25; $i++)
-//         {
-//         	LookupTransactionType::create([
-//         			'description' => 'Test Transaction Type ' . $i,
-//         			'created_by_id' => 1
-//         	]);
-//         }
-        
-//         $faker = Faker\Factory::create();
-//         foreach(range(1, 20) as $index)
-//         {
-//         	LookupTransactionType::create([
-//         			'description' => $faker->word,
-//         			'created_by_id' => 1
-//         	]);
-//         }
+    	 
+    	$type_array = array(
+    			'Renovations', 
+    			'Purchase Price (Deposit + Balance)', 
+    			'Legal Fees', 
+    			'Sourcing Fees',
+    			'Ejection Costs',
+				'Municipal Costs',
+				'Estate Agent’s Commission',
+				'Sheriff’s commission'
+    	);
+    	foreach($type_array as $type)
+    	{
+    		$lookup_type = new LookupTransactionType();
+    		$lookup_type->description = $type;
+    		$lookup_type->created_by_id = 1;
+    		$lookup_type->save();
+    	}
     }
 }

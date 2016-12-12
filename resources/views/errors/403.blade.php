@@ -12,7 +12,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<p class="text-danger">Click the button to see the technical error (Required by the software developer):</p>
+			<p class="text-danger">Click the button to see the technical error:</p>
 		</div>
 		
 		<div class="row">

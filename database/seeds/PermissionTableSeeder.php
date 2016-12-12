@@ -158,7 +158,7 @@ class PermissionTableSeeder extends Seeder
     			'CONTACT', 
     			'CONTRACTOR',
     			'CONTRACTOR_SERVICE',
-    			'ESTATE AGENT'
+    			'ESTATE_AGENT'
     	);
     	$permission_prefix_array = array('ADD', 'UPDATE', 'VIEW');
     	$this->saveMultiPermissions($permission_type, $permission_array, $permission_prefix_array);
@@ -173,18 +173,19 @@ class PermissionTableSeeder extends Seeder
     	
     	$permission_array = array(
     			'ACCOUNT',
-    			'GREATER AREA',
+    			'GREATER_AREA',
     			'AREA',
     			'SUBURB',
-    			'ATTORNEY TYPE',
-    			'CONTRACTOR TYPE',
-    			'DOCUMENT TYPE',
-    			'ESTATE AGENT TYPE',
-    			'MARITAL STATUS',
-    			'PROPERTY TYPE',
-    			'MILESTONE TYPE',
+    			'ATTORNEY_TYPE',
+    			'CONTRACTOR_TYPE',
+    			'DOCUMENT_TYPE',
+    			'ESTATE_AGENT_TYPE',
+    			'MARITAL_STATUS',
+    			'PROPERTY_TYPE',
+    			'MILESTONE_TYPE',
     			'TITLE',
-    			'TRANSACTION TYPE'
+    			'TRANSACTION_TYPE',
+    			'LEAD_TYPE'
     	);
     	$permission_prefix_array = array('ADD', 'UPDATE', 'VIEW');
     	$this->saveMultiPermissions($permission_type, $permission_array, $permission_prefix_array);
@@ -274,7 +275,6 @@ class PermissionTableSeeder extends Seeder
     			$permission_name = $permission_prefix . '_' . $permission_value;
     			$formatted_name = $this->formatName($permission_name);
     			$this->savePermission($permission_name, $formatted_name, $permission_type);
-    			
     		}
     	}
     }

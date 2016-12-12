@@ -14,7 +14,14 @@ class LookupPropertyTypeTableSeeder extends Seeder
     {
     	LookupPropertyType::truncate();
     	
-    	$property_type_array = array('Farm', 'Flat', 'Townhouse', 'Freehold', 'Other');
+    	$property_type_array = array(
+    		'Farm', 
+    		'Flat', 
+    		'Townhouse', 
+    		'Freehold',
+    		'Housing Estate',
+    		'Other'
+    	);
     	foreach($property_type_array as $property_type)
     	{
     		$lookup_property_type = new LookupPropertyType();

@@ -96,6 +96,15 @@
 				</div>
 			@endif
 			
+			@if (PermissionValidator::hasPermission(PermissionConstants::UPDATE_LEAD_TYPE))
+				<div class="form-group">
+					{{ Form::label('lead_type_id', 'Lead Type', array('class' => 'col-sm-2 control-label')) }}
+					<div class="col-sm-10">
+						{{  Form::select('lead_type_id', $lead_types, $property_flip->lead_type_id, ['class' => 'form-control']) }}
+					</div>
+				</div>
+			@endif
+			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					{{ Form::submit('Update Property Flip', array('class' => 'btn btn-default')) }}

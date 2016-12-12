@@ -20,7 +20,7 @@ class Util
 	 */
 	public static function writeToLog($value)
 	{
-		$filename = "storage/logs/jericho.log";
+		$filename = "/var/www/html/jericho/storage/logs/jericho.log";
 		$file = fopen( $filename, "a" );
 		 
 		if( $file == false )

@@ -35,7 +35,8 @@ class MenuDisplayValidator
 			MenuDisplayValidator::canDisplayPropertyTypesMenu() ||
 			MenuDisplayValidator::canDisplayMilestoneTypesMenu() ||
 			MenuDisplayValidator::canDisplayTitlesMenu() ||
-			MenuDisplayValidator::canDisplayTransactionTypesMenu();
+			MenuDisplayValidator::canDisplayTransactionTypesMenu() ||
+			MenuDisplayValidator::canDisplayLeadTypesMenu();
 	}
 	
 	/* Submenu of Lookups menu */
@@ -114,6 +115,12 @@ class MenuDisplayValidator
 	public static function canDisplayTransactionTypesMenu()
 	{
 		return PermissionValidator::hasPermission(PermissionConstants::VIEW_TRANSACTION_TYPE);
+	}
+	
+	/* Submenu of Lookups menu */
+	public static function canDisplayLeadTypesMenu()
+	{
+		return PermissionValidator::hasPermission(PermissionConstants::VIEW_LEAD_TYPE);
 	}
 	
 	/* Main Menu */

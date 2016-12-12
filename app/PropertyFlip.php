@@ -147,6 +147,11 @@ class PropertyFlip extends Model
     	return $this->hasMany('jericho\Transaction');
     }
     
+    public function lead_type()
+    {
+    	return $this->belongsTo('jericho\LookupLeadType');
+    }
+    
     public function created_by()
     {
     	return $this->belongsTo('jericho\User', 'created_by_id');

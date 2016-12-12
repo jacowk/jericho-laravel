@@ -14,26 +14,15 @@ class GreaterAreaTableSeeder extends Seeder
     {
     	GreaterArea::truncate();
     	
-        $greaterArea1 = new GreaterArea();
-        $greaterArea1->name = "North";
-        $greaterArea1->created_by_id = 1;
-        $greaterArea1->save();
-        
-        $greaterArea2 = new GreaterArea();
-        $greaterArea2->name = "South";
-        $greaterArea2->created_by_id = 1;
-        $greaterArea2->save();
-        
-        $greaterArea3 = new GreaterArea();
-        $greaterArea3->name = "East";
-        $greaterArea3->created_by_id = 1;
-        $greaterArea3->save();
-        
-        $greaterArea4 = new GreaterArea();
-        $greaterArea4->name = "West";
-        $greaterArea4->created_by_id = 1;
-        $greaterArea4->save();
-        
+    	$greater_area_array = array('North', 'South', 'East', 'West', 'Other');
+    	foreach($greater_area_array as $greater_area_value)
+    	{
+    		$greater_area = new GreaterArea();
+    		$greater_area->name = $greater_area_value;
+    		$greater_area->created_by_id = 1;
+    		$greater_area->save();
+    	}
+
 //         for ($i = 0; $i < 25; $i++)
 //         {
 //         	$greater_area = new GreaterArea();

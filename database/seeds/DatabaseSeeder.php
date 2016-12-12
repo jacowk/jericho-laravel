@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
 	    	$this->call(AuditsTableSeeder::class);
 	    	$this->call(UsersTableSeeder::class);
 	    	
+	    	$this->call(LookupLeadTypeTableSeeder::class);
 	        $this->call(ContactTableSeeder::class);
 	        $this->call(AccountTableSeeder::class);
 	    	$this->call(AttorneyTableSeeder::class);
@@ -80,6 +81,7 @@ class DatabaseSeeder extends Seeder
     	{
     		$this->call(ProductionPreparationSeeder::class);
     		$this->call(PostalDataSeeder::class);
+    		$this->call(ProductionLookupLeadTypeTableSeeder::class);
     		$this->call(ProductionUserTableSeeder::class);
     		$this->call(ProductionRoleTableSeeder::class);
     		$this->call(ProductionPermissionTableSeeder::class);

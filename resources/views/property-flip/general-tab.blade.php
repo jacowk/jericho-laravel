@@ -160,6 +160,16 @@
 					</td>
 				</tr>
 			@endif
+			<tr>
+				<th class="col-sm-3 text-right">Lead Type</th>
+				<td>
+					@if ($property_flip->lead_type)
+						{{ $property_flip->lead_type->description }}
+					@else
+						No lead type
+					@endif
+				</td>
+			</tr>
 			@if (PermissionValidator::hasPermission(PermissionConstants::VIEW_AUDIT_FIELDS))
 				<tr>
 					<th class="col-sm-3 text-right">Created By</th>

@@ -24,7 +24,8 @@ class ProductionGreaterAreaTableSeeder extends Seeder
     			'North',
     			'South',
     			'East',
-    			'West'
+    			'West',
+    			'Other'
     	);
     	foreach($greater_areas_array as $greater_area_value)
     	{

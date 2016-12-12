@@ -21,7 +21,12 @@ class LookupDocumentTypeTableSeeder extends Seeder
     {
     	LookupDocumentType::truncate();
     	
-    	$document_type_array = array('Lightstone Report', 'FNB Report', 'Flip Calculations');
+    	$document_type_array = array(
+    		'Lightstone Report',
+    		'Individual Profile',
+    		'FNB Report',
+    		'Flip Calculations'
+    	);
     	foreach($document_type_array as $document_type)
     	{
     		$lookup_document_type = new LookupDocumentType();
